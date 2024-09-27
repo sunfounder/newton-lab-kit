@@ -1,0 +1,139 @@
+.. note::
+
+    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+
+    **Why Join?**
+
+    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
+    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
+    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
+    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
+    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+
+    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+
+.. _ar_keypad:
+
+4.2 - 4x4 Keypad
+========================
+
+The 4x4 keyboard, also known as the matrix keyboard, is a matrix of 16 keys excluded in a single panel.
+
+The keypad can be found on devices that mainly require digital input, such as calculators, TV remote controls, push-button phones, vending machines, ATMs, combination locks, and digital door locks.
+
+In this project, we will learn how to determine which key is pressed and get the related key value.
+
+* :ref:`cpn_keypad`
+* `E.161 - Wikipedia <https://en.wikipedia.org/wiki/E.161>`_
+
+**Schematic**
+
+|sch_keypad|
+
+The rows of the keyboard (G2 ~ G5) are programmed to go high; if one of G6 ~ G9 is read high, then we know which key is pressed.
+
+For example, if G6 is read high, then numeric key 1 is pressed; this is because the control pins of numeric key 1 are G2 and G6, when numeric key 1 is pressed, G2 and G6 will be connected together and G6 is also high.
+
+
+**Wiring**
+
+|wiring_keypad|
+
+
+**Code**
+
+
+.. note::
+
+    * You can open the file ``4.2_4x4_keypad.ino`` under the path of ``newton-lab-kit/arduino/4.2_4x4_keypad``. 
+    * Or copy this code into **Arduino IDE**.
+    * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+    * The ``Adafruit Keypad`` library is used here, you can install it from the **Library Manager**.
+
+      .. image:: img/lib_ad_keypad.png
+
+.. raw:: html
+    
+    <iframe src=https://create.arduino.cc/editor/sunfounder01/6c776dfc-cb74-49d7-8906-f1382e0e7b7b/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+
+
+After the program runs, the Shell will print out the keys you pressed on the Keypad.
+
+
+**How it works**
+
+1. Including the Library
+
+   We start by including the ``Adafruit_Keypad`` library, which allows us to easily interface with the keypad.
+
+   .. code-block:: arduino
+
+     #include "Adafruit_Keypad.h"
+
+2. Keypad Configuration
+
+   .. code-block:: arduino
+
+     const byte ROWS = 4;
+     const byte COLS = 4;
+     char keys[ROWS][COLS] = {
+       { '1', '2', '3', 'A' },
+       { '4', '5', '6', 'B' },
+       { '7', '8', '9', 'C' },
+       { '*', '0', '#', 'D' }
+     };
+     byte rowPins[ROWS] = { 2, 3, 4, 5 };
+     byte colPins[COLS] = { 8, 9, 10, 11 };
+
+   - The ``ROWS`` and ``COLS`` constants define the dimensions of the keypad. 
+   - ``keys`` is a 2D array storing the label for each button on the keypad.
+   - ``rowPins`` and ``colPins`` are arrays that store the Arduino pins connected to the keypad rows and columns.
+
+   .. raw:: html
+
+      <br/>
+
+
+3. Initialize Keypad
+
+   Create an instance of ``Adafruit_Keypad`` called ``myKeypad`` and initialize it.
+
+   .. code-block:: arduino
+
+     Adafruit_Keypad myKeypad = Adafruit_Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+4. setup() Function
+
+   Initialize Serial communication and the custom keypad.
+
+   .. code-block:: arduino
+
+     void setup() {
+       Serial.begin(9600);
+       myKeypad.begin();
+     }
+
+5. Main Loop
+
+   Check for key events and display them in the Serial Monitor.
+
+   .. code-block:: arduino
+
+      // Main loop function
+      void loop() {
+        // Update the state of keys
+        myKeypad.tick();
+
+        // Check if there are new keypad events
+        while (myKeypad.available()) {
+          // Read the keypad event
+          keypadEvent e = myKeypad.read();
+          // Check if the event is a key press
+          if (e.bit.EVENT == KEY_JUST_PRESSED) {
+            // Print the key value only when the key is pressed
+            Serial.println((char)e.bit.KEY);
+          }
+        }
+
+        delay(10);
+      }

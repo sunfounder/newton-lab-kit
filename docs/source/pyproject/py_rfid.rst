@@ -1,0 +1,111 @@
+.. note::
+
+    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+
+    **Why Join?**
+
+    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
+    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
+    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
+    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
+    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+
+    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+
+.. _py_rfid:
+
+
+6.5 Radio Frequency Identification
+================================================
+
+Radio Frequency Identification (RFID) is a technology that uses wireless communication between an object (or tag) and an interrogating device (or reader) to track and identify it. The tag's transmission range is limited to several meters. Readers and tags do not necessarily require a line of sight.
+
+An integrated circuit (IC) and an antenna are usually present on most tags. 
+As well as storing information, the microchip manages communication with the reader via radio frequency (RF).
+In passive tags, there is no independent energy source and they rely on an external electromagnetic signal from the reader for power. 
+An active tag is powered by an independent energy source, such as a battery. As a result, they may be more powerful in terms of processing, transmission, and range.
+
+
+* :ref:`cpn_mfrc522`
+
+
+**Schematic**
+
+|sch_rfid|
+
+**Wiring**
+
+
+
+|wiring_rfid|
+
+**Code**
+
+.. note::
+
+    Here you need to use the libraries in ``mfrc522`` folder, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+
+
+The main function is divided into two:
+
+* ``6.5_rfid_write.py``: Used to write information to the card (or key).
+* ``6.5_rfid_read.py``: used to read the information in the card (or key)
+
+
+Open the ``6.5_rfid_write.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+
+After running you will be able to type message in the shell and then put the card (or key) close to the MFRC522 module to write the message in.
+
+.. code-block:: python
+
+    from mfrc522 import SimpleMFRC522
+
+    reader = SimpleMFRC522(spi_id=0,sck=18,miso=16,mosi=19,cs=17,rst=9)
+
+    def write():
+        to_write = input("Please enter the message: ")
+        print("Writing...Please place the card...")
+        id, text = reader.write(to_write)
+        print("ID: %s\nText: %s" % (id,text))
+
+    write()
+
+Open the ``6.5_rfid_read.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+
+After running, you will be able to read the message stored in the card (or key).
+
+.. code-block:: python
+
+    from mfrc522 import SimpleMFRC522
+
+    reader = SimpleMFRC522(spi_id=0,sck=18,miso=16,mosi=19,cs=17,rst=9)
+
+    def read():
+        print("Reading...Please place the card...")
+        id, text = reader.read()
+        print("ID: %s\nText: %s" % (id,text))
+
+    read()
+
+**How it works?**
+
+.. code-block:: python
+
+    from mfrc522 import SimpleMFRC522
+
+    reader = SimpleMFRC522(spi_id=0,sck=18,miso=16,mosi=19,cs=17,rst=9)
+
+Instantiate ``SimpleMFRC522()`` class.
+
+.. code-block:: python
+
+    id, text = reader.read()
+
+This function is used to read card data. If the reading is successful, id and text will be returned.
+
+.. code-block:: python
+
+    id, text = reader.write("text")
+
+This function is used to write information to the card, press **Enter** key to finish writing. 
+``text`` is the information to be written to the card.
