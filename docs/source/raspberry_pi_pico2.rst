@@ -12,14 +12,16 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-Introduction to Raspberry Pi Pico 2
+.. _cpn_pico_2:
+
+Raspberry Pi Pico 2
 ==============================================
 
 .. image:: img/pico-2.png
     :width: 200
     :align: center
 
-With a higher core clock speed, double the memory, more powerful Arm cores, optional RISC‑V cores, new security features, and upgraded interfacing capabilities, Raspberry Pi Pico 2 delivers a significant performance boost, while retaining compatibility with earlier members of the Raspberry Pi Pico series.
+With a higher core clock speed, double the memory, more powerful Arm cores, optional RISC‑V cores, new security features, and upgraded interfacing capabilities, Raspberry Pi Pico 2 delivers a significant performance boost, while retaining compatibility with earlier members of the Raspberry Pi Pico 2 series.
 
 Programmable in C / C++ and Python, and with detailed documentation, Raspberry Pi Pico 2 is the ideal microcontroller board for enthusiasts and professional developers alike.
 
@@ -88,7 +90,7 @@ Or you can click on the links below:
 
 * `Raspberry Pi Pico 2 product brief <https://datasheets.raspberrypi.com/pico/pico-2-product-brief.pdf>`_
 * `Raspberry Pi Pico 2 Datasheet <https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf?_gl=1*898c50*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMzI1NS4wLjAuMA..>`_
-* `Getting started with Raspberry Pi Pico-series Microcontrollers <https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf?_gl=1*1naoekg*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMzI1NS4wLjAuMA..>`_
+* `Getting started with Raspberry Pi Pico 2-series Microcontrollers <https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf?_gl=1*1naoekg*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMzI1NS4wLjAuMA..>`_
 * `Raspberry Pi Pico 2 C/C++ SDK <https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-c-sdk.pdf>`_
 * `Raspberry Pi Pico 2 MicroPython SDK <https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-python-sdk.pdf>`_
 * `Raspberry Pi RP2350 datasheet <https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf>`_

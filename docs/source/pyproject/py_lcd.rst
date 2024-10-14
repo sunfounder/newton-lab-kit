@@ -17,7 +17,7 @@
 3.4 Liquid Crystal Display (LCD1602)
 =====================================
 
-In this lesson, we will learn how to use a **1602 LCD** with the Raspberry Pi Pico to display text. The LCD1602 is a character-based liquid crystal display that can show 16 characters on 2 lines, making it ideal for projects that need to display information like messages, sensor readings, or status updates.
+In this lesson, we will learn how to use a **1602 LCD** with the Raspberry Pi Pico 2 to display text. The LCD1602 is a character-based liquid crystal display that can show 16 characters on 2 lines, making it ideal for projects that need to display information like messages, sensor readings, or status updates.
 
 Connecting an LCD directly to a microcontroller typically requires many GPIO pins, which can limit the functionality of your project. To solve this problem, we can use an LCD1602 module that has an **I2C interface**. The I2C protocol uses only two data lines (SDA and SCL), allowing you to control the LCD with just two GPIO pins, freeing up other pins for additional sensors or devices.
 
@@ -31,12 +31,54 @@ Here's a breakdown of the I2C-capable pins on the Pico 2:
 
 You can choose any matching pair of SDA and SCL pins for either I2C0 or I2C1. This flexibility allows you to avoid pin conflicts with other peripherals in your project.
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* LCD1602 display with I2C interface
-* Jumper wires
-* Breadboard
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_i2c_lcd`
+        - 1
+        - |link_i2clcd1602_buy|
 
 **Circuit Diagram**
 
@@ -52,12 +94,8 @@ Let's write a MicroPython program to display messages on the LCD1602.
 
 .. note::
 
-   * Open the ``3.4_liquid_crystal_display.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-   * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-   * For detailed tutorials, please refer to :ref:`open_run_code_py`. 
-      
+   * Open the ``3.4_liquid_crystal_display.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+   * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx.  
    * Here you need to use the library called ``lcd1602.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
 
 
@@ -186,4 +224,4 @@ When the code is running, you will see:
 
 **Conclusion**
 
-You've successfully learned how to control an LCD1602 display using the I2C interface with your Raspberry Pi Pico! This skill allows you to add visual output to your projects, making them more interactive and informative.
+You've successfully learned how to control an LCD1602 display using the I2C interface with your Raspberry Pi Pico 2! This skill allows you to add visual output to your projects, making them more interactive and informative.

@@ -14,29 +14,78 @@
 
 .. _ar_rfid:
 
+6.5 Interfacing RFID
+===========================================
 
-6.5 - Radio Frequency Identification
-================================================
+In this lesson, we'll explore how to use **Radio Frequency Identification (RFID)** technology with the Raspberry Pi Pico 2. RFID allows for wireless communication between a reader and tags, which can be used for identification, authentication, and data storage.
 
-Radio Frequency Identification (RFID) refers to technologies that involve using wireless communication between an object (or tag) and an interrogating device (or reader) to automatically track and identify such objects. The tag transmission range is limited to several meters from the reader. A clear line of sight between the reader and tag is not necessarily required.
+**What You'll Need**
 
-Most tags contain at least one integrated circuit (IC) and an antenna. 
-The microchip stores information and is responsible for managing the radio frequency (RF) communication with the reader. Passive tags do not have an independent energy source and depend on an external electromagnetic signal, provided by the reader, to power their operations. 
-Active tags contain an independent energy source, such as a battery. 
-Thus, they may have increased processing, transmission capabilities and range.
+In this project, we need the following components. 
 
-* :ref:`cpn_mfrc522`
+It's definitely convenient to buy a whole kit, here's the link: 
 
-**Schematic**
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_mfrc522`
+        - 1
+        - |link_rfid_buy|
+
+**Understanding RFID**
+
+RFID technology uses electromagnetic fields to automatically identify and track tags attached to objects. The tags contain electronically stored information, which can be read from a distance without direct line-of-sight.
+
+* **RFID Reader (MFRC522):** A device that emits radio waves to communicate with RFID tags.
+* **RFID Tag:** A small object, such as a card or key fob, that contains a microchip and antenna. It can be passive (no battery) or active (battery-powered).
+
+**Circuit Diagram**
 
 |sch_rfid|
 
-
-**Wiring**
+**Wiring Diagram**
 
 |wiring_rfid|
 
-**Code**
+
+**Writing the Code**
 
 .. note::
 
@@ -62,7 +111,7 @@ The main function is divided into two:
 
   After running, you will be able to read the message stored in the card (or key).
 
-**How it works?**
+**Understanding the Code**
 
 .. code-block:: arduino
 

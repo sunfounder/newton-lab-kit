@@ -17,7 +17,7 @@
 3.1 Make the Buzzer Beep!
 ==========================
 
-In this lesson, we will learn how to make a **buzzer** beep using the Raspberry Pi Pico. A buzzer is a digital output device, just like an LED, and it's very simple to control. We'll use an **active buzzer** for this project, which generates sound when it receives a signal.
+In this lesson, we will learn how to make a **buzzer** beep using the Raspberry Pi Pico 2. A buzzer is a digital output device, just like an LED, and it's very simple to control. We'll use an **active buzzer** for this project, which generates sound when it receives a signal.
 
 **What is an Active Buzzer?**
 
@@ -28,15 +28,64 @@ An active buzzer has an internal oscillator that makes it easier to use. You onl
 
 **What You'll Need**
 
-* Raspberry Pi Pico 2
-* Passive buzzer (the one with the exposed PCB on the back)
-* S8050 NPN Transistor
-* 1 kΩ resistor
-* Jumper wires
-* Breadboard
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-**Schematic Diagram**
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_transistor`
+        - 1(S8050)
+        - |link_transistor_buy|
+    *   - 6
+        - :ref:`cpn_resistor`
+        - 1(1KΩ)
+        - |link_resistor_buy|
+    *   - 7
+        - Active :ref:`cpn_buzzer`
+        - 1
+        - 
+
+
+**Circuit Diagram**
 
 |sch_buzzer|
 
@@ -63,9 +112,9 @@ Let's write a simple MicroPython program to control the buzzer.
 
 .. note::
 
-    * Open the ``3.1_beep.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``3.1_beep.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
@@ -110,4 +159,4 @@ When the code is running, you should hear:
 
 **Conclusion**
 
-In this lesson, you learned how to control an active buzzer using a transistor and the Raspberry Pi Pico. You now have a basic understanding of how to use a digital output device to create sound in your projects. The same principles can be applied to other output devices, like LEDs, motors, and more.
+In this lesson, you learned how to control an active buzzer using a transistor and the Raspberry Pi Pico 2. You now have a basic understanding of how to use a digital output device to create sound in your projects. The same principles can be applied to other output devices, like LEDs, motors, and more.

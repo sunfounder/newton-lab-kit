@@ -12,18 +12,18 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-.. _cpn_irrecv:
+.. _cpn_ir_receiver:
 
-Infrared-Receiver
-======================
+Infrared Receiver
+=================================
 
-IR Receiver Module
+IR Receiver
 ----------------------------
 
 |img_irrecv|
 
 * S: Signal output
-* +：VCC
+* +: VCC
 * -: GND
 
 An infrared-receiver is a component which receives infrared signals and can independently receive infrared rays and output signals compatible with TTL level. It is similar with a normal plastic-packaged transistor in size and is suitable for all kinds of infrared remote control and infrared transmission.
@@ -42,7 +42,7 @@ Remote Control
 
 |img_controller|
 
-This is a Mini thin infrared wireless remote control with 21 function buttons and a transmitting distance of up to 8 meters, which is suitable for operating a wide range of devices in a kid’s room.
+This is a Mini thin infrared wireless remote control with 21 function buttons and a transmitting distance of up to 8 meters, which is suitable for operating a wide range of devices in a kid's room.
 
 * Size: 85x39x6mm
 * Remote control range: 8-10m

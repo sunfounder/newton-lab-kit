@@ -19,8 +19,8 @@ Arduino
 ---------------------
 
 #. Code upload failed in Arduino IDE?
-    * Check that your Pico is correctly recognised by the Arduino IDE, the port should be COMXX (Raspberry Pi Pico), for instructions please refer to :ref:`setup_pico_arduino`.
-    * Check that the Board(Raspberry Pi Pico) or port（COMXX (Raspberry Pi Pico)）is selected correctly.
+    * Check that your Pico is correctly recognised by the Arduino IDE, the port should be COMXX (Raspberry Pi Pico 2), for instructions please refer to :ref:`setup_pico_arduino`.
+    * Check that the Board(Raspberry Pi Pico 2) or port（COMXX (Raspberry Pi Pico 2)）is selected correctly.
     * If your code is OK and you have selected the correct board and port, but the upload is still not successful. At this point you can click on the **Upload** icon again, when the progress below shows "Upload...", unplug the USB cable, then press and hold the **BOOTSEL** button to plug it in and the code will be uploaded successfully.
 
 
@@ -30,20 +30,20 @@ MicroPython
 #. How to open and run the code?
     For detailed tutorials, please refer to :ref:`open_run_code_py`.
 
-#. How to upload library to Raspberry Pi Pico？
+#. How to upload library to Raspberry Pi Pico 2？
     For detailed tutorials, please refer to :ref:`add_libraries_py`.
 
 #. NO MicroPython(Raspberry Pi Pico) Interpreter Option on Thonny IDE?
     * Check that your Pico is plugged into your computer via a USB cable.
     * Check that you have installed MicroPython for Pico (:ref:`install_micropython_on_pico`).
-    * The Raspberry Pi Pico interpreter is only available in version 3.3.3 or higher version of Thonny. If you are running an older version, please update (:ref:`thonny_ide`).
+    * The Raspberry Pi Pico 2 interpreter is only available in version 3.3.3 or higher version of Thonny. If you are running an older version, please update (:ref:`thonny_ide`).
     * Plug in/out the micro USB cable sveral times.
 
 #. Cannot open Pico code or save code to Pico via Thonny IDE?
     * Check that your Pico is plugged into your computer via a USB cable.
     * Check that you have selected the Interpreter as **MicroPython (Raspberry Pi Pico).COMxx**.
 
-#. Can Raspberry Pi Pico be used on Thonny and Arduino at the same time?
+#. Can Raspberry Pi Pico 2 be used on Thonny and Arduino at the same time?
     NO, you need to do some different operations.
 
     * If you used it on Arduino first, and now you want to use it on Thonny IDE, you need to :ref:`install_micropython_on_pico` on it.

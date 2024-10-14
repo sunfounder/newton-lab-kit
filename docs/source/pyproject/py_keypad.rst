@@ -14,19 +14,79 @@
 
 .. _py_keypad:
 
-4.2 4x4 Keypad
-========================
+4.2 Using a 4x4 Keypad
+=================================================
 
-The 4x4 keyboard, also known as the matrix keyboard, is a matrix of 16 keys excluded in a single panel.
+In this lesson, we'll learn how to interface a **4x4 matrix keypad** with the Raspberry Pi Pico 2 to detect which keys are pressed. Matrix keypads are commonly used in devices like calculators, telephones, vending machines, and security systems for numerical input.
 
-The keypad can be found on devices that mainly require digital input, such as calculators, TV remote controls, push-button phones, vending machines, ATMs, combination locks, and digital door locks.
+**What You'll Need**
 
-In this project, we will learn how to determine which key is pressed and get the related key value.
+In this project, we need the following components. 
 
-* :ref:`cpn_keypad`
-* `E.161 - Wikipedia <https://en.wikipedia.org/wiki/E.161>`_
+It's definitely convenient to buy a whole kit, here's the link: 
 
-**Schematic**
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 4(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_keypad`
+        - 1
+        - |link_keypad_buy|
+
+**Understanding the 4x4 Keypad**
+
+A 4x4 keypad consists of:
+
+* **16 keys** arranged in 4 rows and 4 columns.
+* **8 pins**: 4 connected to rows and 4 connected to columns.
+
+When you press a key, it connects a specific row and column, allowing us to identify the key based on the row and column numbers.
+
+Here's how the keys are arranged:
+
+|img_keypad|
+
+**Circuit Diagram**
 
 |sch_keypad|
 
@@ -36,168 +96,158 @@ The rows of the keyboard (G2 ~ G5) are programmed to go high; if one of G6 ~ G9 
 
 For example, if G6 is read high, then numeric key 1 is pressed; this is because the control pins of numeric key 1 are G2 and G6, when numeric key 1 is pressed, G2 and G6 will be connected together and G6 is also high.
 
-
 **Wiring**
 
 |wiring_keypad|
 
-To make the wiring easier, in the above diagram, the column row of the matrix keyboard and the 10K resistors are inserted into the holes where G6 ~ G9 are located at the same time.
+**Writing the Code**
 
-
-**Code**
+Let's write a MicroPython program to read which key is pressed.
 
 .. note::
 
-    * Open the ``4.2_4x4_keypad.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
-
+    * Open the ``4.2_4x4_keypad.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
     import machine
     import time
 
-    # Define the characters on the 4x4 keypad, where each row represents a different set of keys.
-    characters = [["1", "2", "3", "A"], ["4", "5", "6", "B"], ["7", "8", "9", "C"], ["*", "0", "#", "D"]]
+    # Define the characters on the keypad
+    keys = [
+        ['1', '2', '3', 'A'],
+        ['4', '5', '6', 'B'],
+        ['7', '8', '9', 'C'],
+        ['*', '0', '#', 'D']
+    ]
 
-    # Define the pin numbers connected to the row lines of the keypad.
-    row_pins = [2, 3, 4, 5]
-    row = []
+    # Define the GPIO pins connected to the rows and columns
+    row_pins = [2, 3, 4, 5]   # GP2-GP5
+    col_pins = [6, 7, 8, 9]   # GP6-GP9
 
-    # Initialize each row pin as an output, which will be used to scan the keypad rows.
-    for i in range(4):
-        row.append(None)  # Add a placeholder to the row list.
-        row[i] = machine.Pin(row_pins[i], machine.Pin.OUT)  # Set each row pin as output.
+    # Initialize row pins as outputs
+    rows = [machine.Pin(pin_num, machine.Pin.OUT) for pin_num in row_pins]
 
-    # Define the pin numbers connected to the column lines of the keypad.
-    col_pins = [6, 7, 8, 9]
-    col = []
+    # Initialize column pins as inputs with pull-down resistors
+    cols = [machine.Pin(pin_num, machine.Pin.IN, machine.Pin.PULL_DOWN) for pin_num in col_pins]
 
-    # Initialize each column pin as an input, which will detect key presses.
-    for i in range(4):
-        col.append(None)  # Add a placeholder to the column list.
-        col[i] = machine.Pin(col_pins[i], machine.Pin.IN)  # Set each column pin as input.
+    def scan_keypad():
+        for i, row in enumerate(rows):
+            # Set all rows low
+            for r in rows:
+                r.value(0)
+            # Set the current row high
+            row.value(1)
+            # Check columns for a high signal
+            for j, col in enumerate(cols):
+                if col.value() == 1:
+                    # Key detected
+                    return keys[i][j]
+        return None
 
-    def readKey():
-        """Scans the keypad and returns the key that was pressed."""
-        key = []  # List to store the detected key(s).
-        
-        # Iterate through the rows of the keypad.
-        for i in range(4):
-            row[i].high()  # Activate the current row.
-            
-            # Check the state of each column in the active row.
-            for j in range(4):
-                if col[j].value() == 1:  # If a key is pressed (column reads high), record the key.
-                    key.append(characters[i][j])  # Map the key from the character array.
-            
-            row[i].low()  # Deactivate the current row.
-        
-        # Return the detected key(s) or None if no key was pressed.
-        return None if key == [] else key
-
-    # Variable to store the last detected key for comparison.
     last_key = None
 
-    # Main loop to continuously check the keypad for key presses.
     while True:
-        current_key = readKey()  # Read the currently pressed key(s).
-        
-        # If the same key is being pressed, skip processing (debouncing).
-        if current_key == last_key:
-            continue
-        
-        # Update the last_key variable with the current key.
-        last_key = current_key
-        
-        # If a new key press is detected, print the key value(s).
-        if current_key is not None:
-            print(current_key)
-        
-        # Delay to prevent rapid polling and reduce CPU usage.
+        key = scan_keypad()
+        if key != last_key:
+            if key is not None:
+                print("Key pressed:", key)
+            last_key = key
         time.sleep(0.1)
 
+**Understanding the Code**
 
+#. Define Keypad Characters
 
-After the program runs, the Shell will print out the keys you pressed on the Keypad.
-
-**How it works**
-
-#. Keypad Layout:
-
-   The keypad's characters are defined in a 2D list, where each row in the array corresponds to a row on the keypad, and each element corresponds to the character of a specific key.
+   This 2D list represents the keypad layout, matching the physical arrangement.
 
    .. code-block:: python
 
-     characters = [["1", "2", "3", "A"], ["4", "5", "6", "B"], ["7", "8", "9", "C"], ["*", "0", "#", "D"]]
+        keys = [
+            ['1', '2', '3', 'A'],
+            ['4', '5', '6', 'B'],
+            ['7', '8', '9', 'C'],
+            ['*', '0', '#', 'D']
+        ]
 
-#. Pin Setup:
 
-   * The keypad’s rows and columns are connected to the microcontroller's GPIO pins.
-   * The row pins ([2, 3, 4, 5]) are configured as output pins.
-   * The column pins ([6, 7, 8, 9]) are configured as input pins.
-
-   .. code-block:: python
-
-      pin = [2, 3, 4, 5]
-      row = []
-      for i in range(4):
-          row.append(None)
-          row[i] = machine.Pin(pin[i], machine.Pin.OUT)
-      
-      pin = [6, 7, 8, 9]
-      col = []
-      for i in range(4):
-          col.append(None)
-          col[i] = machine.Pin(pin[i], machine.Pin.IN)
-      
-#. Key Detection Logic:
-
-   * **Row Scanning**: The code activates one row at a time by setting its corresponding GPIO pin high (``row[i].high()``).
-   * **Column Reading**: When a row is active, the code checks each of the column pins (``col[j].value() == 1``) to see if the column is receiving a high signal. If a column is high, it means a key on that row and column intersection is pressed.
-   * The pressed key is then appended to the key list.
+#. Initialize Pins:
 
    .. code-block:: python
 
-      def readKey():
-          key = []
-          for i in range(4):
-              row[i].high()  # Activate the current row
-              for j in range(4):
-                  if(col[j].value() == 1):  # Check if any column is pressed
-                      key.append(characters[i][j])  # Append the corresponding key
-              row[i].low()  # Deactivate the current row
-          return None if key == [] else key
-    
-   |img_keypad_pressed|
+        row_pins = [2, 3, 4, 5]   # GPIO pins for rows
+        col_pins = [6, 7, 8, 9]   # GPIO pins for columns
 
+        # Initialize rows as outputs
+        rows = [machine.Pin(pin_num, machine.Pin.OUT) for pin_num in row_pins]
 
-#. Debouncing:
+        # Initialize columns as inputs with pull-down resistors
+        cols = [machine.Pin(pin_num, machine.Pin.IN, machine.Pin.PULL_DOWN) for pin_num in col_pins]
 
-   * In hardware keypads, when a key is pressed, mechanical "bouncing" can occur, leading to multiple keypress detections for a single press. The program uses a debouncing technique by checking if the currently pressed key is the same as the last detected key.
-   * If the same key is being pressed (i.e., ``current_key == last_key``), the program skips printing the key, avoiding repeated outputs for a single press.
-   
+#. Define the Keypad Scanning Function:
+
+    The function scans each row by setting it high and checking if any column reads high, indicating a key press at that row and column.
+
    .. code-block:: python
 
-      if current_key == last_key:
-          continue
-    
-#. Printing Key Values:
+        def scan_keypad():
+            for i, row in enumerate(rows):
+                # Set all rows low
+                for r in rows:
+                    r.value(0)
+                # Set the current row high
+                row.value(1)
+                # Check columns for a key press
+                for j, col in enumerate(cols):
+                    if col.value() == 1:
+                        # Key is pressed
+                        return keys[i][j]
+            return None
 
-   If a key is pressed and it's different from the last detected key, the code prints the value to the console:
-   
+#. Main Loop to Detect Key Presses
+
+   * The loop continuously scans for key presses.
+   * It checks if the current key is different from the last key to prevent multiple detections of the same key press (debouncing).
+   * Prints the key when a new key press is detected.
+
    .. code-block:: python
 
-      if current_key != None:
-          print(current_key)
+        last_key = None
 
-#. Polling and Delay:
+        while True:
+            key = scan_keypad()
+            if key != last_key:
+                if key is not None:
+                    print("Key pressed:", key)
+                last_key = key
+            time.sleep(0.1)
 
-   The code continuously polls the keypad by looping indefinitely (``while True``). A short delay (``time.sleep(0.1)``) is added at the end of each loop to avoid excessive CPU usage and to allow for a readable pace of key detection.
-   
-   .. code-block:: python
+After running the program, Press different keys on the keypad. The corresponding key character should be printed in the Thonny Shell.
 
-      time.sleep(0.1)
+**Troubleshooting Tips**
+
+* No Output When Pressing Keys:
+
+  * Ensure all connections are correct.
+  * Verify that the pull-down resistors are properly connected between the column pins and GND.
+
+* Incorrect Key Detected:
+
+  * Double-check the keys array to ensure it matches your keypad's layout.
+  * Make sure the row and column pins in the code match the physical connections.
+
+* Multiple Keys Detected:
+
+  Mechanical keypads may sometimes detect ghosting (false key presses) if multiple keys are pressed simultaneously. For this basic setup, avoid pressing multiple keys at once.
+
+**Experimenting Further**
+
+* **Implement a Simple Password Lock**: Store a sequence of key presses and compare them to a preset password.
+* **Add an LCD Display**: Display the keys pressed on an LCD screen.
+* **Create a Calculator**: Use the keypad to input numbers and perform basic arithmetic operations.
+
+**Conclusion**
+
+In this lesson, you've learned how to connect and program a 4x4 matrix keypad with the Raspberry Pi Pico 2. You can now detect key presses and use them to interact with your projects, opening up possibilities for creating interactive devices like locks, calculators, and control interfaces.

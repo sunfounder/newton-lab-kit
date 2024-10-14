@@ -17,19 +17,65 @@
 3.7 Swinging Servo
 ===================
 
-In this kit, in addition to LED and passive buzzer, there is also a device controlled by PWM signal, Servo.
+In this lesson, we'll learn how to control a **servo motor** using the Raspberry Pi Pico 2. A servo motor is a device that can rotate to a specific angle between 0° and 180°. It's widely used in remote control toys, robots, and other applications that require precise position control.
 
-Servo is a position (angle) servo device, which is suitable for those control systems that require constant angle changes and can be maintained. It has been widely used in high-end remote control toys, such as airplanes, submarine models, and remote control robots.
+Let's get started and make the servo swing back and forth!
 
-Now, try to make the servo sway!
+**What You'll Need**
 
-* :ref:`cpn_servo`
+In this project, we need the following components. 
 
-**Schematic**
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_servo`
+        - 1
+        - |link_servo_buy|
+
+
+**Circuit Diagram**
 
 |sch_servo|
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_servo|
 
@@ -37,78 +83,141 @@ Now, try to make the servo sway!
 * Red wire is VCC and connected to VBUS(5V).
 * Brown wire is GND and connected to GND.
 
+Servos can draw significant current, especially under load. Since we're using a small servo and not putting it under heavy load, powering it from the Pico's VBUS pin is acceptable for this simple experiment. For larger servos or multiple servos, use an external power supply.
 
-.. 1. Press the Servo Arm into the Servo output shaft. If necessary, fix it with screws.
-.. #. Connect **VBUS** (not 3V3) and GND of Pico to the power bus of the breadboard.
-.. #. Connect the red lead of the servo to the positive power bus with a jumper.
-.. #. Connect the yellow lead of the servo to the GP15 pin with a jumper wire.
-.. #. Connect the brawn lead of the servo to the negative power bus with a jumper wire.
+**Setting Up the Servo Arm**
 
+* Attach the servo arm (also called a horn) to the servo's output shaft.
+* Secure it with the small screw provided with the servo if necessary.
 
-**Code**
+**Writing the Code**
+
+We'll write a MicroPython program to make the servo sweep back and forth between 0° and 180°.
 
 .. note::
 
-    * Open the ``3.7_swinging_servo.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
-
-
+    * Open the ``3.7_swinging_servo.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
     import machine
     import utime
 
+    # Initialize PWM on pin GP15
     servo = machine.PWM(machine.Pin(15))
-    servo.freq(50)
+    servo.freq(50)  # Set the frequency to 50Hz
 
-    def interval_mapping(x, in_min, in_max, out_min, out_max):
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-
-    def servo_write(pin,angle):
-        pulse_width=interval_mapping(angle, 0, 180, 0.5,2.5)
-        duty=int(interval_mapping(pulse_width, 0, 20, 0,65535))
-        pin.duty_u16(duty)
+    # Function to map angle to duty cycle
+    def angle_to_duty(angle):
+        min_duty = 1638  # Corresponds to 0.5ms pulse (0°)
+        max_duty = 8192  # Corresponds to 2.5ms pulse (180°)
+        duty = int(min_duty + (angle / 180) * (max_duty - min_duty))
+        return duty
 
     while True:
-        for angle in range(180):
-            servo_write(servo,angle)
+        # Move servo from 0° to 180°
+        for angle in range(0, 181, 1):
+            servo.duty_u16(angle_to_duty(angle))
             utime.sleep_ms(20)
-        for angle in range(180,-1,-1):
-            servo_write(servo,angle)
+        # Move servo from 180° back to 0°
+        for angle in range(180, -1, -1):
+            servo.duty_u16(angle_to_duty(angle))
             utime.sleep_ms(20)
 
+When the code is running, the servo should smoothly sweep back and forth between 0° and 180°.
 
-When the program is running, we can see the Servo Arm swinging back and forth from 0° to 180°. 
 
-The program will always run because of the ``while True`` loop, we need to press the Stop button to end the program.
+**Understanding the Code**
 
-**How it works?**
+#. Import Modules:
 
-We defined the ``servo_write()`` function to make the servo run.
+   * ``machine``: Provides access to hardware-related functions.
+   * ``utime``: Contains time-related functions for delays.
 
-This function has two parameters:
+#. Initialize PWM:
 
-* ``pin``, the GPIO pin that controls the servo.
-* ``Angle``, the angle of the shaft output.
+   We set up PWM on GP15.
+   The frequency is set to 50Hz, which is standard for servos.
 
-In this function, ``interval_mapping()`` is called to map the angle range 0 ~ 180 to the pulse width range 0.5 ~ 2.5ms.
+   .. code-block:: python
 
-.. code-block:: python
+      servo = machine.PWM(machine.Pin(15))
+      servo.freq(50)
 
-    pulse_width=interval_mapping(angle, 0, 180, 0.5,2.5)
+#. Define the ``angle_to_duty`` Function:
 
-Why is it 0.5~2.5? This is determined by the working mode of the Servo. 
+   * This function maps an angle (0° to 180°) to the corresponding duty cycle value for the servo.
+   * The ``min_duty`` and ``max_duty`` correspond to the minimum and maximum pulse widths for the servo control signal.
+   * The calculation scales the angle to the appropriate duty cycle.
 
-:ref:`Servo`
+   .. code-block:: python
 
-Next, convert the pulse width from period to duty. Since ``duty_u16()`` cannot have decimals when used (the value cannot be a float type), we used ``int()`` to force the duty to be converted to an int type.
+      def angle_to_duty(angle):
+          min_duty = 1638  # 0.5ms pulse width
+          max_duty = 8192  # 2.5ms pulse width
+          duty = int(min_duty + (angle / 180) * (max_duty - min_duty))
+          return duty
+    
+#. Main Loop to Move the Servo:
 
-.. code-block:: python
+   * The servo moves from 0° to 180°, increasing the angle by 1° each time.
+   * Then it moves back from 180° to 0°.
+   * ``utime.sleep_ms(20)`` adds a small delay to smooth the movement.
 
-    duty=int(interval_mapping(pulse_width, 0, 20, 0,65535))
+   .. code-block:: python
 
-Finally, write the duty value into ``duty_u16()``.
+      while True:
+          for angle in range(0, 181, 1):
+              servo.duty_u16(angle_to_duty(angle))
+              utime.sleep_ms(20)
+          for angle in range(180, -1, -1):
+              servo.duty_u16(angle_to_duty(angle))
+              utime.sleep_ms(20)
+
+**More about the Code**
+
+Servos are controlled by sending a PWM signal with a specific pulse width.
+A 50Hz PWM signal (period of 20ms) is standard for servos.
+The pulse width within each period determines the servo's angle:
+
+* 0.5ms pulse width corresponds to 0°.
+* 1.5ms pulse width corresponds to 90°.
+* 2.5ms pulse width corresponds to 180°.
+
+By adjusting the duty cycle of the PWM signal, we change the pulse width.
+
+The ``duty_u16()`` function accepts values from 0 to 65535.
+To calculate the duty cycle corresponding to a pulse width:
+
+.. code-block::
+
+  Duty cycle = (Pulse Width / Period) * 65535
+
+For example, for a 0.5ms pulse width:
+
+.. code-block::
+
+  Duty cycle = (0.5ms / 20ms) * 65535 ≈ 1638
+
+**Experimenting Further**
+
+* **Change the Speed**: Adjust the ``utime.sleep_ms(20)`` delay to make the servo move faster or slower.
+* **Set Specific Angles**: Modify the code to move the servo to specific angles.
+
+  .. code-block:: python
+
+    servo.duty_u16(angle_to_duty(90))  # Move to 90°
+
+* **Control with Input**: Connect a potentiometer or buttons to control the servo's angle interactively.
+
+**Important Notes**
+
+* **Power Supply**: Ensure the servo is powered adequately. If you notice jitter or erratic movement, consider using an external 5V power supply for the servo.
+* **Avoid Overloading**: Do not force the servo beyond its physical limits (usually 0° to 180°) to prevent damage.
+
+**Conclusion**
+
+In this lesson, you've learned how to control a servo motor using the Raspberry Pi Pico 2. You now understand how to generate PWM signals to set the servo's angle and make it move smoothly. This skill is fundamental for robotics and automation projects where precise movement is required.
+

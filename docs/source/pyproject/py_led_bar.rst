@@ -21,14 +21,60 @@ In this lesson, we'll learn how to control an LED Bar Graph using the Raspberry 
 
 |img_led_bar_pin|
 
-* :ref:`cpn_led_bar`
 
-**Components Needed**
+**What You'll Need**
 
-- Raspberry Pi Pico
-- LED Bar Graph
-- 10 x 220Ω resistors (color bands: red, red, black, black, brown)
-- Breadboard and jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 10(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_led_bar`
+        - 1
+        - 
 
 **Circuit Diagram**
 
@@ -46,7 +92,6 @@ In this project, each of the 10 LEDs in the LED Bar Graph is connected to the Ra
 
   * Open the ``2.2_display_the_level.py`` file under the path ``newton-lab-kit/micropython`` or copy the code below into Thonny. Then click "Run Current Script" or press **F5** to execute it.
   * Make sure the "MicroPython (Raspberry Pi Pico).COMxx" interpreter is selected in the bottom right corner of Thonny.
-  * For detailed instructions on running code, refer to :ref:`open_run_code_py`.
 
 .. code-block:: python
 
@@ -82,7 +127,7 @@ Let's break down the key parts of the code:
 
 1. Importing Modules:
 
-   * ``import machine``: Provides access to the Raspberry Pi Pico's hardware functionalities.
+   * ``import machine``: Provides access to the Raspberry Pi Pico 2's hardware functionalities.
    * ``import utime``: Allows us to use time-related functions like delays.
 
 2. Defining Pins and Initializing LEDs:
@@ -99,9 +144,9 @@ Let's break down the key parts of the code:
      
      .. code-block:: python
 
-       for pin_number in pins:
-         led = machine.Pin(pin_number, machine.Pin.OUT)
-         leds.append(led)
+        for pin_number in pins:
+            led = machine.Pin(pin_number, machine.Pin.OUT)
+            leds.append(led)
      
 3. Creating the Level Display Effect:
 
@@ -125,11 +170,11 @@ Let's break down the key parts of the code:
 
      .. code-block:: python
 
-      for led in leds:
-          led.value(0)
-          utime.sleep(0.2)
+        for led in leds:
+            led.value(0)
+            utime.sleep(0.2)
   
-**Modifying the Code**
+**Experimenting Further**
 
 Feel free to experiment with the code:
 
@@ -163,7 +208,7 @@ Feel free to experiment with the code:
     
 **Conclusion**
 
-By controlling each LED individually, we've created a simple yet effective level display using the Raspberry Pi Pico. This project demonstrates the power of lists and loops in Python, allowing us to manage multiple outputs efficiently.
+By controlling each LED individually, we've created a simple yet effective level display using the Raspberry Pi Pico 2. This project demonstrates the power of lists and loops in Python, allowing us to manage multiple outputs efficiently.
 
 Understanding how to work with multiple GPIO pins and using programming structures like lists and loops is essential for more complex projects, such as creating animations, controlling multiple sensors, or building interactive devices.
 

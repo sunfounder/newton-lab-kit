@@ -13,7 +13,7 @@ Quick Links:
 <a id="about_this_kit"></a>
 ## About this kit:
 
-This is an advanced learning kit based on the Raspberry Pi Pico. It contains a variety of components, including displays, sounds, drivers, controllers and sensors, which allows you to gain a comprehensive understanding of electronic devices.
+This is an advanced learning kit based on the Raspberry Pi Pico 2. It contains a variety of components, including displays, sounds, drivers, controllers and sensors, which allows you to gain a comprehensive understanding of electronic devices.
 
 For you, we have prepared a number of interesting and useful projects as well as a great deal of relevant and authoritative information. All you need to do is turn on your computer, and you can learn programming in no time at all.
 

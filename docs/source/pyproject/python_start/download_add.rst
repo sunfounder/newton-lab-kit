@@ -31,7 +31,7 @@ Download the relevant code from the link below.
 
 Upload the Libraries to Pico
 ----------------------------------
-In some projects, you will need additional libraries. Here, we will first upload these libraries to the Raspberry Pi Pico, and then we can run the code directly later.
+In some projects, you will need additional libraries. Here, we will first upload these libraries to the Raspberry Pi Pico 2, and then we can run the code directly later.
 
 #. Use a Micro USB cable to connect the Raspberry Pi Pico 2 to your computer. (Do not hold down **BOOTSEL**; you already dragged the MicroPython firmware to Pico 2 in the previous step, so just plug it in directly.)
 
@@ -51,6 +51,6 @@ In some projects, you will need additional libraries. Here, we will first upload
 
    .. image:: img/th_upload_libs.png
 
-#. Now you will see the files you just uploaded inside your drive labeled ``Raspberry Pi Pico``.
+#. Now you will see the files you just uploaded inside your drive labeled ``Raspberry Pi Pico 2``.
 
    .. image:: img/th_pico_libs.png

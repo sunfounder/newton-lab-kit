@@ -16,123 +16,280 @@
 
 .. _py_reversing_aid:
 
-7.10 Reversing Aid
-======================
+7.10 Building a Reversing Aid
+=================================
 
-This project uses an LED, a buzzer and an ultrasonic module to create a reversing assist system.
-We can put it on a remote control car to simulate the the actual process of reversing a car into a garage.
+In this project, we'll create a **Reversing Aid System** using the Raspberry Pi Pico 2, an ultrasonic sensor, an LED, and a buzzer. This system simulates how real-world parking sensors work by detecting the distance to an obstacle and providing audio and visual feedback that changes based on proximity. You can attach this setup to a remote-controlled car to mimic the experience of reversing into a garage.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-**Schematic**
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_transistor`
+        - 1(S8050)
+        - |link_transistor_buy|
+    *   - 6
+        - :ref:`cpn_resistor`
+        - 2(1KΩ, 220Ω)
+        - |link_resistor_buy|
+    *   - 7
+        - Active :ref:`cpn_buzzer`
+        - 1
+        -
+    *   - 8
+        - :ref:`cpn_led`
+        - 1
+        - |link_led_buy|
+    *   - 9
+        - :ref:`cpn_ultrasonic`
+        - 1
+        - |link_ultrasonic_buy|
+
+
+**Understanding the Components**
+
+* **Ultrasonic Sensor (HC-SR04):** Measures the distance to an object by sending out ultrasonic waves and measuring the time it takes for the echo to return.
+* **Buzzer:** Provides audio feedback; beeps more frequently as the object gets closer.
+* **LED:** Provides visual feedback; blinks more rapidly as the object gets closer.
+
+
+**Circuit Diagram**
 
 |sch_reversing_aid|
 
-
-
-**Wiring**
+**Wiring Diagram**
 
 |wiring_reversing_aid| 
 
 
-**Code**
+**Writing the Code**
+
+We'll write a MicroPython script that:
+
+* Measures the distance using the ultrasonic sensor.
+* Adjusts the beep frequency of the buzzer and the blink rate of the LED based on the distance.
+* Provides continuous feedback as the object moves closer or further away.
 
 .. note::
 
-    * Open the ``7.10_reversing_aid.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+    * Open the ``7.10_reversing_aid.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
 
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
-
-
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
     import machine
-    import time
+    import utime
 
-    # Initialize pins for the buzzer and LED
-    buzzer = machine.Pin(15, machine.Pin.OUT)  # Buzzer on pin 15
-    led = machine.Pin(14, machine.Pin.OUT)  # LED on pin 14
+    # Set up pins
+    trigger = machine.Pin(17, machine.Pin.OUT)
+    echo = machine.Pin(16, machine.Pin.IN)
+    buzzer = machine.Pin(15, machine.Pin.OUT)
+    led = machine.Pin(14, machine.Pin.OUT)
 
-    # Initialize pins for the ultrasonic sensor (HC-SR04)
-    TRIG = machine.Pin(17, machine.Pin.OUT)  # Trigger pin for the ultrasonic sensor
-    ECHO = machine.Pin(16, machine.Pin.IN)  # Echo pin for the ultrasonic sensor
+    # Function to measure distance
+    def measure_distance():
+        # Ensure trigger is low
+        trigger.low()
+        utime.sleep_us(2)
+        # Send 10us pulse to trigger
+        trigger.high()
+        utime.sleep_us(10)
+        trigger.low()
 
-    dis = 100  # Global variable to store the distance
+        # Measure the duration of the echo pulse
+        while echo.value() == 0:
+            signaloff = utime.ticks_us()
+        while echo.value() == 1:
+            signalon = utime.ticks_us()
 
-    # Function to measure distance using the ultrasonic sensor
-    def distance():
-        TRIG.low()
-        time.sleep_us(2)
-        TRIG.high()
-        time.sleep_us(10)
-        TRIG.low()
+        timepassed = utime.ticks_diff(signalon, signaloff)
+        distance = (timepassed * 0.0343) / 2  # Convert to cm
+        return distance
 
-        timeout_start = time.ticks_us()  # Use microseconds for more precision
-        
-        # Wait for ECHO pin to go high (start of echo pulse)
-        while not ECHO.value():
-            if time.ticks_diff(time.ticks_us(), timeout_start) > 30000:  # 30ms timeout
-                return -1  # Timeout, return -1 if no pulse is detected
-        
-        time1 = time.ticks_us()  # Start time for pulse width calculation
-        
-        # Wait for ECHO pin to go low (end of echo pulse)
-        while ECHO.value():
-            if time.ticks_diff(time.ticks_us(), time1) > 30000:  # 30ms timeout
-                return -1  # Timeout, return -1 if pulse is too long
-        
-        time2 = time.ticks_us()  # End time for pulse width calculation
-        
-        # Calculate the distance based on the duration of the echo pulse
-        during = time.ticks_diff(time2, time1)
-        distance_cm = during * 340 / 2 / 10000  # Convert time to distance in cm
-        return distance_cm
+    # Function to control buzzer and LED
+    def alert(interval):
+        buzzer.high()
+        led.high()
+        utime.sleep(0.1)
+        buzzer.low()
+        led.low()
+        utime.sleep(interval)
 
-    # Function to beep the buzzer and light up the LED
-    def beep():
-        buzzer.value(1)  # Turn on the buzzer
-        led.value(1)  # Turn on the LED
-        time.sleep(0.1)  # Beep duration
-        buzzer.value(0)  # Turn off the buzzer
-        led.value(0)  # Turn off the LED
-        time.sleep(0.1)  # Short pause between beeps
-
-    # Initialize variables for controlling beep intervals
-    intervals = 2000  # Default long initial interval
-    previousMillis = time.ticks_ms()  # Store the previous time to track beep intervals
-
-    # Main loop to handle distance-based beeping intervals
-    while True:
-        dis = distance()  # Measure the distance directly in the main loop
-
-        # Adjust beep intervals based on the distance
-        if dis > 0:  # Ensure valid distance is measured
-            if dis <= 10:
-                intervals = 300  # Close distance, faster beeps
-            elif dis <= 20:
-                intervals = 500  # Medium-close distance, moderate beeps
-            elif dis <= 50:
-                intervals = 1000  # Medium distance, slower beeps
+    # Main loop
+    try:
+        while True:
+            dist = measure_distance()
+            print("Distance: {:.2f} cm".format(dist))
+            if dist < 0:
+                print("Out of range")
+                utime.sleep(1)
+            elif dist <= 10:
+                alert(0.2)  # Very close, alert rapidly
+            elif dist <= 20:
+                alert(0.5)  # Close, alert moderately
+            elif dist <= 50:
+                alert(1)    # Not too close, alert slowly
             else:
-                intervals = 2000  # Far distance, much slower beeps
+                alert(2)    # Far away, alert infrequently
+    except KeyboardInterrupt:
+        print("Measurement stopped by User")
 
-            # Print the measured distance
-            print(f'Distance: {dis:.2f} cm')
-            
-            # Check if it's time to beep again based on the interval
-            currentMillis = time.ticks_ms()  # Get the current time
-            if time.ticks_diff(currentMillis, previousMillis) >= intervals:
-                beep()  # Beep the buzzer and blink the LED
-                previousMillis = currentMillis  # Update the time of the last beep
-            
-        time.sleep_ms(100)  # Small delay to avoid too frequent readings
+Once the code is running, place an object at varying distances from the ultrasonic sensor.
+Observe the changes in the beep frequency and LED blink rate.
+The console will display the measured distance.
+
+**Understanding the Code**
+
+#. Distance Measurement:
+
+   * The ``measure_distance()`` function sends a 10-microsecond pulse to the TRIG pin.
+   * It then measures the time until the ECHO pin goes high and then back low.
+   * Calculates the distance based on the time it takes for the ultrasonic pulse to return.
+
+   .. code-block:: python
+
+        def measure_distance():
+            # Ensure trigger is low
+            trigger.low()
+            utime.sleep_us(2)
+            # Send 10us pulse to trigger
+            trigger.high()
+            utime.sleep_us(10)
+            trigger.low()
+
+            # Measure the duration of the echo pulse
+            while echo.value() == 0:
+                signaloff = utime.ticks_us()
+            while echo.value() == 1:
+                signalon = utime.ticks_us()
+
+            timepassed = utime.ticks_diff(signalon, signaloff)
+            distance = (timepassed * 0.0343) / 2  # Convert to cm
+            return distance
 
 
+#. Alert Function:
+
+   * The ``alert(interval)`` function turns the buzzer and LED on for 0.1 seconds and then off.
+   * The interval parameter adjusts the pause between alerts based on the distance.
+
+   .. code-block:: python
+
+        def measure_distance():
+            # Ensure trigger is low
+            trigger.low()
+            utime.sleep_us(2)
+            # Send 10us pulse to trigger
+            trigger.high()
+            utime.sleep_us(10)
+            trigger.low()
+
+            # Measure the duration of the echo pulse
+            while echo.value() == 0:
+                signaloff = utime.ticks_us()
+            while echo.value() == 1:
+                signalon = utime.ticks_us()
+
+            timepassed = utime.ticks_diff(signalon, signaloff)
+            distance = (timepassed * 0.0343) / 2  # Convert to cm
+            return distance
+
+#. Main Loop:
+
+   * Continuously measures the distance.
+   * Adjusts the alert frequency according to predefined distance thresholds.
+
+   .. code-block:: python
+
+        try:
+            while True:
+                dist = measure_distance()
+                print("Distance: {:.2f} cm".format(dist))
+                if dist < 0:
+                    print("Out of range")
+                    utime.sleep(1)
+                elif dist <= 10:
+                    alert(0.2)  # Very close, alert rapidly
+                elif dist <= 20:
+                    alert(0.5)  # Close, alert moderately
+                elif dist <= 50:
+                    alert(1)    # Not too close, alert slowly
+                else:
+                    alert(2)    # Far away, alert infrequently
+        except KeyboardInterrupt:
+            print("Measurement stopped by User")
         
-* As soon as the program runs, the ultrasonic sensor will continuously read the distance to the obstacle in front of you, and you will be able to see the exact distance value on the shell.
-* The LED and buzzer will change the frequency of blinking and beeping depending on the distance value, thus indicating the approach of the obstacle.
-* The :ref:`py_ultrasonic` article mentioned that when the ultrasonic sensor works, the program will be paused.
-* To avoid interfering with the LED or buzzer timing, we created a separate thread for ranging in this example.
+**Safety Considerations**
+
+* Voltage Levels:
+
+  * Be cautious with the ECHO pin voltage from the ultrasonic sensor if using 5V.
+  * Use a voltage divider or level shifter to protect the Pico's GPIO pins.
+
+* Power Supply:
+
+  Ensure the power supply can handle the current requirements of all components.
+
+**Experimenting Further**
+
+* Visual Display:
+
+  Add an LCD or OLED display to show the distance visually.
+
+* Multiple Sensors:
+
+  Use additional ultrasonic sensors to cover more directions.
+
+* Advanced Alerts:
+
+  Implement different tones or patterns on the buzzer for different distances.
+
+**Conclusion**
+
+You've successfully built a Reversing Aid System using the Raspberry Pi Pico 2! This project demonstrates how sensors can be used to provide real-time feedback, a fundamental concept in robotics and automation.
+
+
 

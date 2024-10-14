@@ -14,27 +14,79 @@
 
 .. _py_74hc_4dig:
 
-5.3 Time Counter
-================================
+5.3 Creating a Time Counter with a 4-Digit 7-Segment Display
+============================================================
+
+In this lesson, we'll learn how to use a **4-digit 7-segment display** with the Raspberry Pi Pico 2 to create a simple time counter. The display will count up every second, showing the elapsed time in seconds.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-4-digit 7-segment display consists of four 7-segment displays working
-together.
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
 
-The 4-digtal 7-segment display works independently. It uses the
-principle of human visual persistence to quickly display the characters
-of each 7-segment in a loop to form continuous strings.
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
 
-For example, when "1234" is displayed on the display, "1" is displayed
-on the first 7-segment, and "234" is not displayed. After a period of
-time, the second 7-segment shows "2", the 1st 3th 4th of 7-segment does
-not show, and so on, the four digital display show in turn. This process
-is very short (typically 5ms), and because of the optical afterglow
-effect and the principle of visual residue, we can see four characters
-at the same time.
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 4(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_4_dit_7_segment`
+        - 1
+        - 
+    *   - 7
+        - :ref:`cpn_74hc595`
+        - 1
+        - |link_74hc595_buy|
 
 
-**Schematic**
+**Understanding the 4-Digit 7-Segment Display**
+
+A 4-digit 7-segment display consists of four individual 7-segment displays combined into a single module. Each digit shares the same segment control lines (**a** to **g** and **dp**), but each digit has its own **common cathode** control. This configuration allows us to control which digit is active at any given time.
+
+To display different numbers on each digit using shared segment lines, we use a technique called **multiplexing**. We rapidly switch between digits, updating one digit at a time, but so quickly that it appears as if all digits are displayed simultaneously due to the persistence of vision.
+
+|4digit_control_pins|
+
+**Circuit Diagram**
 
 |sch_4dig|
 
@@ -42,142 +94,273 @@ Here the wiring principle is basically the same as :ref:`py_74hc_led`, the only 
 
 Then G10 ~ G13 will select which 7-segment display to work.
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_4dig|
 
-**Code**
+* **Segment Connections (through 220 Ω resistors):**
+
+  * **Q0** → Segment **a**
+  * **Q1** → Segment **b**
+  * **Q2** → Segment **c**
+  * **Q3** → Segment **d**
+  * **Q4** → Segment **e**
+  * **Q5** → Segment **f**
+  * **Q6** → Segment **g**
+  * **Q7** → Segment **dp** (decimal point)
+
+* **Common Cathode Connections (Digit Select Pins):**
+
+  * **Digit 1 (Leftmost Digit):** Connect to **GP10** on the Pico
+  * **Digit 2:** Connect to **GP11**
+  * **Digit 3:** Connect to **GP12**
+  * **Digit 4 (Rightmost Digit):** Connect to **GP13**
+
+
+**Writing the Code**
+
+Let's write a MicroPython program to create a time counter that increments every second and displays the count on the 4-digit 7-segment display.
 
 .. note::
 
-    * Open the ``5.3_time_counter.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``5.3_time_counter.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
     import machine
-    import time
+    import utime
 
-    SEGCODE = [0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f]
+    # Define the binary codes for each digit (0-9)
+    SEGMENT_CODES = [
+        0x3F,  # 0
+        0x06,  # 1
+        0x5B,  # 2
+        0x4F,  # 3
+        0x66,  # 4
+        0x6D,  # 5
+        0x7D,  # 6
+        0x07,  # 7
+        0x7F,  # 8
+        0x6F   # 9
+    ]
 
-    sdi = machine.Pin(18,machine.Pin.OUT)
-    rclk = machine.Pin(19,machine.Pin.OUT)
-    srclk = machine.Pin(20,machine.Pin.OUT)
+    # Initialize the control pins for 74HC595
+    SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input (DS)
+    RCLK = machine.Pin(19, machine.Pin.OUT)  # Register Clock (STCP)
+    SRCLK = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SHCP)
 
-    placePin = []
-    pin = [10,13,12,11]
-    for i in range(4):
-        placePin.append(None)
-        placePin[i] = machine.Pin(pin[i], machine.Pin.OUT)
+    # Initialize digit select pins (common cathodes)
+    digit_pins = [
+        machine.Pin(10, machine.Pin.OUT),  # Digit 1
+        machine.Pin(11, machine.Pin.OUT),  # Digit 2
+        machine.Pin(12, machine.Pin.OUT),  # Digit 3
+        machine.Pin(13, machine.Pin.OUT)   # Digit 4
+    ]
 
-    timerStart=time.ticks_ms()
-
-    def timer1():
-        return int((time.ticks_ms()-timerStart)/1000)
-
-    def pickDigit(digit):
-        for i in range(4):
-            placePin[i].value(1)
-        placePin[digit].value(0)
-
-    def clearDisplay():
-        hc595_shift(0x00)
-
-    def hc595_shift(dat):
-        rclk.low()
-        time.sleep_us(200)
+    # Function to send data to 74HC595
+    def shift_out(data):
+        RCLK.low()
         for bit in range(7, -1, -1):
-            srclk.low()
-            time.sleep_us(200)
-            value = 1 & (dat >> bit)
-            sdi.value(value)
-            time.sleep_us(200)
-            srclk.high()
-            time.sleep_us(200)
-        time.sleep_us(200)
-        rclk.high()
-        time.sleep_us(200)
+            SRCLK.low()
+            bit_val = (data >> bit) & 0x01
+            SDI.value(bit_val)
+            SRCLK.high()
+        RCLK.high()
 
-    while True:
-        count = timer1()
-        #print(count)
-        
-        pickDigit(0)
-        hc595_shift(SEGCODE[count%10])
+    # Function to display a digit at a specific position
+    def display_digit(position, digit):
+        # Turn off all digits
+        for dp in digit_pins:
+            dp.high()
+        # Send segment data
+        shift_out(SEGMENT_CODES[digit])
+        # Activate the selected digit (common cathode is active low)
+        digit_pins[position].low()
+        # Small delay to allow the digit to be visible
+        utime.sleep_ms(5)
+        # Turn off the digit
+        digit_pins[position].high()
 
-        pickDigit(1)
-        hc595_shift(SEGCODE[count%100//10])
-        
-        pickDigit(2)
-        hc595_shift(SEGCODE[count%1000//100])
-        
-        pickDigit(3)
-        hc595_shift(SEGCODE[count%10000//1000])     
-
-After the program is run, you will see the 4-digit 7-segment display become a counter and the number increases by 1 per second.
-
-**How it works?**
-
-Writing signals to each 7-segment display is done in the same way as :ref:`py_74hc_7seg`, using the ``hc595_shift()`` function.
-The core point of the 4-digit 7-segment display is to selectively activate each 7-segment display. The code associated with this is as follows.
-
-.. code-block:: python
-
-    placePin = []
-    pin = [13,12,11,10]
-    for i in range(4):
-        placePin.append(None)
-        placePin[i] = machine.Pin(pin[i], machine.Pin.OUT)
-
-    def pickDigit(digit):
+    # Function to display a number on the 4-digit display
+    def display_number(number):
+        # Extract individual digits
+        digits = [
+            (number // 1000) % 10,
+            (number // 100) % 10,
+            (number // 10) % 10,
+            number % 10
+        ]
+        # Display each digit rapidly
         for i in range(4):
-            placePin[i].value(1)
-        placePin[digit].value(0)
+            display_digit(i, digits[i])
+
+    # Main loop
+    counter = 0
+    last_update = utime.ticks_ms()
 
     while True:
-        
-        hc595_shift(SEGCODE[count%10])
-        pickDigit(0)
+        # Update the counter every 1000 ms (1 second)
+        current_time = utime.ticks_ms()
+        if utime.ticks_diff(current_time, last_update) >= 1000:
+            counter += 1
+            if counter > 9999:
+                counter = 0
+            last_update = current_time
 
-        hc595_shift(SEGCODE[count%100//10])
-        pickDigit(1)
-        
-        hc595_shift(SEGCODE[count%1000//100])
-        pickDigit(2)    
-        
-        hc595_shift(SEGCODE[count%10000//1000])
-        pickDigit(3)   
+        # Continuously refresh the display
+        display_number(counter)
 
-Here, four pins (GP10, GP11, GP12, GP13) are used to control each bit of the 4-digit 7-segment display individually.
-When the state of these pins is ``0``, the corresponding 7-segment display is active; when the state is ``1``, the opposite is true.
+When you run this code, the 4-digit 7-segment display will function as a counter, incrementing the displayed number by 1 every second, starting from 0 up to 9999, then resetting to 0 and repeating the cycle continuously.
 
-Here the ``pickDigit(digit)`` function is used to unable all four digits and then enable a particular digit individually.
-After that, ``hc595_shift()`` is used to write the corresponding 8 bits code for the 7-segment display.
+**Writing the Code**
 
-The 4-digit 7-segment display needs to be continuously activated in turn so that we can see it display four digits, which means that the main program cannot easily add code that would affect the timing.
-However, we need to add a timing function to this example, and if we add a ``sleep(1)``, we will know that it has four digits.
-we will see through the illusion of 4-digit 7-segment display working at the same time, exposing the fact that only one 7-segment display is illuminated at a time.
-Then, using the ``time.ticks_ms()`` function in the ``time`` library is an excellent way to do this.
+#. Import Modules:
 
-.. code-block:: python
+   * ``machine``: Provides access to GPIO pins and hardware functions.
+   * ``utime``: Contains time-related functions for delays and timing.
 
-    import time
+#. Define Segment Codes:
 
-    timerStart=time.ticks_ms()
+   Each entry corresponds to the segments that need to be lit to display a digit. The values are in hexadecimal format.
 
-    def timer1():
-        return int((time.ticks_ms()-timerStart)/1000)
+   .. code-block:: python
 
-    while True:
-        count = timer1()
+        # Define the binary codes for each digit (0-9)
+        SEGMENT_CODES = [
+            0x3F,  # 0
+            0x06,  # 1
+            0x5B,  # 2
+            0x4F,  # 3
+            0x66,  # 4
+            0x6D,  # 5
+            0x7D,  # 6
+            0x07,  # 7
+            0x7F,  # 8
+            0x6F   # 9
+        ]
+
+#. Initialize Control Pins:
+   
+   Assigns the Pico's GPIO pins to control the 74HC595.
+
+   .. code-block:: python
+
+        SDI = machine.Pin(18, machine.Pin.OUT)
+        RCLK = machine.Pin(19, machine.Pin.OUT)
+        SRCLK = machine.Pin(20, machine.Pin.OUT)
 
 
-The ``time.ticks_ms()`` function gets a (non-explicit) time, and we record the first time value we get as ``timerStart``.
-Subsequently, when the time is needed, the ``time.ticks_ms()`` function is called again, and the value is subtracted from ``timerStart`` to get how long the program has been running (in milliseconds).
+#. Initialize Digit Select Pins:
 
-Finally, convert and output this time value to the 4-digit 7-segment display and you're done.
+   Controls which digit is active. Active low (common cathode).
 
-* `Time - MicroPython Docs <https://docs.micropython.org/en/latest/library/time.html>`_
+   .. code-block:: python
+
+        digit_pins = [
+            machine.Pin(10, machine.Pin.OUT),
+            machine.Pin(11, machine.Pin.OUT),
+            machine.Pin(12, machine.Pin.OUT),
+            machine.Pin(13, machine.Pin.OUT)
+        ]
+
+#. Define the ``shift_out`` Function:
+
+   * Sends 8 bits of data to the 74HC595.
+   * Shifts out the data starting from the most significant bit (MSB).
+   * Pulses the shift and register clocks appropriately.
+
+   .. code-block:: python
+
+        def shift_out(data):
+            RCLK.low()
+            for bit in range(7, -1, -1):
+                SRCLK.low()
+                bit_val = (data >> bit) & 0x01
+                SDI.value(bit_val)
+                SRCLK.high()
+            RCLK.high()
+
+#. Define the display_digit Function:
+
+   * Turns off all digits.
+   * Sends the segment code for the digit.
+   * Activates the specified digit by setting its pin low.
+   * Adds a small delay to make the digit visible.
+   * Turns off the digit after displaying.
+
+   .. code-block:: python
+
+        def display_digit(position, digit):
+            for dp in digit_pins:
+                dp.high()
+            shift_out(SEGMENT_CODES[digit])
+            digit_pins[position].low()
+            utime.sleep_ms(5)
+            digit_pins[position].high()
+
+
+#. Define the ``display_number`` Function:
+
+   * Extracts each digit from the number.
+   * Calls ``display_digit`` for each digit rapidly to create the multiplexing effect.
+
+   .. code-block:: python
+
+        def display_number(number):
+            digits = [ ... ]
+            for i in range(4):
+                display_digit(i, digits[i])
+
+#. Main Loop:
+
+   * Increments the counter every second.
+   * Resets the counter after reaching 9999.
+   * Continuously calls ``display_number`` to refresh the display.
+
+   .. code-block:: python
+
+        counter = 0
+        last_update = utime.ticks_ms()
+
+        while True:
+            current_time = utime.ticks_ms()
+            if utime.ticks_diff(current_time, last_update) >= 1000:
+                counter += 1
+                if counter > 9999:
+                    counter = 0
+                last_update = current_time
+
+            display_number(counter)
+
+
+**Understanding the Code**
+
+#. Multiplexing:
+
+   * The code rapidly cycles through each digit, updating one at a time.
+   * Because this happens quickly (each digit is displayed for about 5 milliseconds), our eyes perceive all digits as being displayed simultaneously.
+
+#. Timing with utime:
+
+   * ``utime.ticks_ms()`` provides the current time in milliseconds.
+   * We use ``utime.ticks_diff()`` to calculate the difference between the current time and the last update.
+   * When the difference reaches 1000 milliseconds (1 second), we increment the counter.
+
+#. Displaying Numbers:
+
+   * The number is broken down into individual digits.
+   * Each digit is displayed in its corresponding position.
+   * The ``SEGMENT_CODES`` array provides the segment patterns for each digit.
+
+**Experimenting Further**
+
+* **Add a Reset Button**: Connect a button to the Pico to reset the counter when pressed.
+* **Display Different Data**: Modify the code to display sensor readings, such as temperature or light levels.
+* **Adjust Display Brightness**: Change the utime.sleep_ms(5) delay in the display_digit function to adjust how long each digit is displayed, affecting brightness.
+* **Create a Stopwatch**:Implement start, stop, and reset functionality to use the display as a stopwatch.
+
+**Conclusion**
+
+In this lesson, you've learned how to use a 4-digit 7-segment display with a 74HC595 shift register to create a time counter using the Raspberry Pi Pico 2. By understanding multiplexing and efficient timing, you can display dynamic information on multi-digit displays using minimal GPIO pins.

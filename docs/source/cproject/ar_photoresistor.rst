@@ -14,52 +14,207 @@
 
 .. _ar_photoresistor:
 
+2.12 Feel the Light
+=====================
 
-2.12 - Feel the Light
-=================================
-The photoresistor is a typical device for analog inputs and it is used in a very similar way to a potentiometer. Its resistance value depends on the intensity of the light, the stronger the irradiated light, the smaller its resistance value; conversely, it increases.
+In this lesson, we'll learn how to use a **photoresistor** (also known as a light-dependent resistor or LDR) with the Raspberry Pi Pico 2 to measure light intensity. A photoresistor changes its resistance based on the amount of light it receives: the brighter the light, the lower the resistance. This makes it ideal for detecting changes in ambient light.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-* :ref:`cpn_light`
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_photoresistor`
+        - 1
+        - |link_photoresistor_buy|
 
 
-**Schematic**
+**Circuit Diagram**
 
 |sch_photoresistor|
 
-In this circuit, the 10K resistor and the photoresistor are connected in series, and the current passing through them is the same. The 10K resistor acts as a protection, and the GP28 reads the value after the voltage conversion of the photoresistor.
 
-When the light is enhanced, the resistance of the photoresistor decreases, then its voltage decreases, so the value from GP28 will decrease; if the light is strong enough, the resistance of the photoresistor will be close to 0, and the value of GP28 will be close to 0. At this time, the 10K resistor plays a protective role, so that 3.3V and GND are not connected together, resulting in a short circuit.
+In this circuit, a 10K resistor and a photoresistor are connected in series, forming a voltage divider. GP28 reads the voltage across the photoresistor, while the 10K resistor provides protection by limiting current.
 
-If you place the photoresistor in a dark situation, the value of GP28 will increase. In a dark enough situation, the resistance of the photoresistor will be infinite, and its voltage will be close to 3.3v (the 10K resistor is negligible), and the value of GP28 will be close to the maximum value of 65535.
-
+* **Bright Light**: The photoresistor's resistance decreases, lowering its voltage and the GP28 reading. In strong light, its resistance approaches zero, and GP28 reads close to 0. At this time, the 10K resistor plays a protective role, so that 3.3V and GND are not connected together, resulting in a short circuit.
+* **Darkness**: The photoresistor's resistance increases, raising its voltage and the GP28 value. In complete darkness, its resistance is nearly infinite (the 10K resistor is negligible), and GP28 reads close to 1023.
 
 The calculation formula is shown below.
 
-    (Vp/3.3V) x 65535 = Ap
+.. code-block::
+
+  Digital Value = (Analog Voltage/3.3V) * 1023
 
 
-
-**Wiring**
-
+**Wiring Diagram**
 
 |wiring_photoresistor|
 
-**code**
+
+**Writing the Code**
 
 
 .. note::
 
-   * You can open the file ``2.12_feel_the_light.ino`` under the path of ``newton-lab-kit/arduino/2.12_feel_the_light``. 
+   * You can open the file ``2.12_feel_the_light.ino`` from ``newton-lab-kit/arduino/2.12_feel_the_light``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+
+.. code-block:: Arduino
+
+   const int sensorPin = 28;   // Photoresistor connected to GP28 (ADC2)
+
+   void setup() {
+     Serial.begin(115200);    // Initialize Serial Monitor
+   }
+
+   void loop() {
+     // Read the analog value from the photoresistor
+     int sensorValue = analogRead(sensorPin);
+     // Print the sensor value to the Serial Monitor
+     Serial.println(sensorValue);
+     delay(500);  // Wait half a second before reading again
+   }
+
+When the code is running and the Serial Monitor is open:
+
+* Observing the Sensor Values:
+
+  You should see a stream of numbers representing the analog values from the photoresistor.
+
+* Interacting with the Photoresistor:
+
+  * Shine a flashlight or a lamp on the photoresistor. The sensor values should decrease (since resistance decreases with more light).
+  * Cover the photoresistor with your hand or place it in a dark area. The sensor values should increase (since resistance increases with less light).
+
+**Understanding the Code**
+
+#. Defining the Sensor Pin:
+
+   Assigns sensorPin to GPIO 28, which is connected to the analog input.
+
+   .. code-block:: arduino
+
+        const int sensorPin = 28;   // Photoresistor connected to GP28 (ADC2)
+
+#. Initializing Serial Communication:
+
+   Starts serial communication, allowing you to print messages to the Serial Monitor.
+
+   .. code-block:: arduino
+
+        Serial.begin(115200);
+
+#. Reading the Analog Value:
+
+   Reads the analog voltage at sensorPin and returns a value between 0 and 1023.
+
+   .. code-block:: arduino
+
+        int sensorValue = analogRead(sensorPin);
+
+#. Printing the Sensor Value:
+
+   Outputs the sensor value to the Serial Monitor.
+
+   .. code-block:: arduino
+
+        Serial.println(sensorValue);
+
+#. Adding a Delay:
+
+   Waits for 500 milliseconds before the next reading.
+
+   .. code-block:: arduino
+
+        delay(500);
+
+**Converting to Voltage**
+
+If you want to see the actual voltage value being read, you can modify the code:
+
+.. code-block:: arduino
+
+   const int sensorPin = 28;   // Photoresistor connected to GP28 (ADC2)
+
+   void setup() {
+     Serial.begin(115200);    // Initialize Serial Monitor
+   }
+
+    void loop() {
+      int sensorValue = analogRead(sensorPin);
+      // Convert the analog reading to voltage
+      float voltage = sensorValue * (3.3 / 1023.0);
+      Serial.print("Sensor Value: ");
+      Serial.print(sensorValue);
+      Serial.print("  Voltage: ");
+      Serial.print(voltage);
+      Serial.println(" V");
+      delay(500);
+    }
+
+**Further Exploration**
+
+* Control an LED Based on Light:
+
+  Use the photoresistor to control the brightness of an LED or turn it on/off based on light levels.
+
+* Data Logging:
+
+  Record the light intensity over time to monitor changes in the environment.
+
+* Build a Night Light:
+
+  Create a light that turns on automatically when it gets dark.
+
+**Conclusion**
+
+In this lesson, you've learned how to use a photoresistor with the Raspberry Pi Pico to measure light intensity. By reading the analog voltage from a voltage divider circuit, you can detect changes in light levels and use this information in your projects.
 
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
-
-
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/44074b9e-3e4e-475b-af37-689254f87ab2/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-
-After the program runs, the Serial Monitor prints out the photoresistor values. You can shine a flashlight on it or cover it up with your hand to see how the value will change.
 

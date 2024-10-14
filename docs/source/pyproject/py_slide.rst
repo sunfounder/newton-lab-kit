@@ -17,16 +17,66 @@
 2.7 Toggle Left and Right
 ============================
 
-In this lesson, we'll learn how to use a **slide switch** with the Raspberry Pi Pico to detect its position (left or right) and perform actions based on that. A slide switch is a simple mechanical device that connects the common (middle) pin to one of the two outer pins depending on its position.
+In this lesson, we'll learn how to use a **slide switch** with the Raspberry Pi Pico 2 to detect its position (left or right) and perform actions based on that. A slide switch is a simple mechanical device that connects the common (middle) pin to one of the two outer pins depending on its position.
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* Slide switch (3-pin)
-* 10 kΩ resistor (color bands: brown, black, orange, gold)
-* 0.1 µF ceramic capacitor (marked as 104)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_capacitor`
+        - 1(104)
+        - |link_capacitor_buy|
+    *   - 7
+        - :ref:`cpn_slide_switch`
+        - 1
+        - 
 
 **Understanding the Slide Switch**
 
@@ -69,7 +119,7 @@ When you toggle the switch, the mechanical contacts can cause rapid, noisy signa
 
 **Wiring**
 
-|wiring_slide|
+|wiring_slide|                                                                                                                                                                                                  
 
 
 
@@ -79,11 +129,11 @@ We'll write a MicroPython program that detects the position of the slide switch 
 
 .. note::
 
-  * Open the ``2.7_slide_switch.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+  * Open the ``2.7_slide_switch.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
 
-  * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
+  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
-  * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+  
 
 .. code-block:: python
 
@@ -131,7 +181,7 @@ When the code is running, you will observe the following phenomenon:
 
 **Alternative: Using an internal pull-down resistor**
 
-The Raspberry Pi Pico allows us to enable internal pull-down resistors, eliminating the need for an external resistor.
+The Raspberry Pi Pico 2 allows us to enable internal pull-down resistors, eliminating the need for an external resistor.
 
 * Modify the Circuit:
 
@@ -188,5 +238,5 @@ The Raspberry Pi Pico allows us to enable internal pull-down resistors, eliminat
 
 **Conclusion**
 
-Using a slide switch with the Raspberry Pi Pico allows you to add physical input controls to your projects. By understanding how to read the switch's state and handle potential issues like switch bounce, you can create more interactive and user-friendly applications.
+Using a slide switch with the Raspberry Pi Pico 2 allows you to add physical input controls to your projects. By understanding how to read the switch's state and handle potential issues like switch bounce, you can create more interactive and user-friendly applications.
 

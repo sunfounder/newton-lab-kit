@@ -17,9 +17,8 @@
 2.11 Turn the Knob
 ==========================
 
-In this lesson, we'll explore how to read analog input using the Raspberry Pi Pico's built-in Analog-to-Digital Converter (ADC) and use that input to control the brightness of an LED. Specifically, we'll use a potentiometer—a variable resistor—as an analog input device. By turning the knob of the potentiometer, we'll adjust the voltage level read by the Pico, which we'll then use to control the LED's brightness via Pulse Width Modulation (PWM).
+In this lesson, we'll explore how to read analog input using the Raspberry Pi Pico 2's built-in Analog-to-Digital Converter (ADC) and use that input to control the brightness of an LED. Specifically, we'll use a potentiometer—a variable resistor—as an analog input device. By turning the knob of the potentiometer, we'll adjust the voltage level read by the Pico, which we'll then use to control the LED's brightness via Pulse Width Modulation (PWM).
 
-* :ref:`cpn_pot`
 
 **Understanding Analog Input**
 
@@ -46,13 +45,63 @@ The Pico has three GPIO pins that can be used for analog input:
 
 In addition, there's a fourth ADC channel connected internally to a temperature sensor (ADC4), which we'll explore in later lessons.
 
-**Components Needed**
+**What You'll Need**
 
-- Raspberry Pi Pico
-- Potentiometer
-- LED
-- 220Ω resistor (color bands: red, red, black, black, brown)
-- Breadboard and jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_led`
+        - 1
+        - |link_led_buy|
+    *   - 7
+        - :ref:`cpn_potentiometer`
+        - 1
+        - |link_potentiometer_buy|
 
 **Circuit Diagram**
 

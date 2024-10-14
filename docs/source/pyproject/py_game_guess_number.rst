@@ -14,161 +14,364 @@
 
 .. _py_guess_number:
 
+7.7 Creating a "Guess the Number" Game
+=============================================================
 
-7.7 Guess Number
-==============================
+In this project, we'll build an interactive **Guess the Number** game using the Raspberry Pi Pico 2, a 4x4 matrix keypad, and an I2C LCD1602 display. The game generates a random number between 0 and 99, and players take turns guessing the number. After each guess, the game narrows down the range based on whether the guess was too high or too low, until someone guesses the correct number.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-Guessing Numbers is a fun party game where you and your friends input numbers (0-99). With each input of the number, the range will shrink until a player answers the riddle correctly. Then the player is defeated and punished. 
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
 
-As an example, if the lucky number is 51, which the players cannot see, and the player 1 inputs 50, the prompt changes to 50 - 99; if the player 2 inputs 70, the range changes to 50 - 70; if the player 3 inputs 51, the player is unlucky. In this case, numbers are inputted through the keypad, and outcomes are displayed on a LCD screen.
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
 
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 4(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_keypad`
+        - 1
+        - |link_keypad_buy|
+    *   - 7
+        - :ref:`cpn_i2c_lcd`
+        - 1
+        - |link_i2clcd1602_buy|
 
-**Schematic**
+**Understanding the Components**
 
+* **4x4 Matrix Keypad**: A keypad with 16 buttons arranged in a 4-row by 4-column matrix. We'll use it to input numbers and commands.
+* **I2C LCD1602 Display**: A 16x2 character LCD display with an I2C interface, simplifying wiring by using only two data lines (SDA and SCL).
+
+**Circuit Diagram**
 
 |sch_guess_number|
 
 This circuit is based on :ref:`py_keypad` with the addition of an I2C LCD1602 to display the pressed keys.
 
-
-**Wiring**
+**Wiring Diagram**
 
 |wiring_game_guess_number| 
 
 To make the wiring easier, in the above diagram, the column row of the matrix keyboard and the 10K resistors are inserted into the holes where G10 ~ G13 are located at the same time.
 
 
-**Code**
+**Writing the Code**
+
+We'll write a MicroPython program that:
+
+* Generates a random number between 0 and 99.
+* Reads input from the keypad.
+* Updates the LCD display with hints and player inputs.
+* Narrows down the range after each guess.
 
 .. note::
 
-    * Open the ``7.7_game_guess_number.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``7.7_game_guess_number.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Here you need to use the library called ``lcd1602.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
 
 .. code-block:: python
 
     from lcd1602 import LCD
     from machine import I2C, Pin
-    import time
+    import utime
     import urandom
 
     # Initialize I2C communication for the LCD1602 display
     i2c = I2C(1, sda=Pin(6), scl=Pin(7), freq=400000)
-
-    # Create an LCD object for controlling the LCD1602 display
     lcd = LCD(i2c)
 
     # Keypad character mapping for a 4x4 matrix keypad
-    characters = [["1", "2", "3", "A"], 
-                ["4", "5", "6", "B"], 
-                ["7", "8", "9", "C"], 
-                ["*", "0", "#", "D"]]
+    keypad_map = [
+        ["1", "2", "3", "A"],
+        ["4", "5", "6", "B"],
+        ["7", "8", "9", "C"],
+        ["*", "0", "#", "D"]
+    ]
 
-    # Define row pins for the keypad
-    pin = [21, 20, 19, 18]
-    row = []
-    for i in range(4):
-        row.append(None)
-        row[i] = machine.Pin(pin[i], machine.Pin.OUT)  # Set row pins as output
+    # Define row and column pins
+    row_pins = [Pin(pin_num, Pin.OUT) for pin_num in [21, 20, 19, 18]]  # R1-R4
+    col_pins = [Pin(pin_num, Pin.IN, Pin.PULL_DOWN) for pin_num in [13, 12, 11, 10]]  # C1-C4
 
-    # Define column pins for the keypad
-    pin = [13, 12, 11, 10]
-    col = []
-    for i in range(4):
-        col.append(None)
-        col[i] = machine.Pin(pin[i], machine.Pin.IN)  # Set column pins as input
+    # Function to scan the keypad
+    def read_keypad():
+        for row_num, row_pin in enumerate(row_pins):
+            row_pin.high()
+            for col_num, col_pin in enumerate(col_pins):
+                if col_pin.value() == 1:
+                    row_pin.low()
+                    return keypad_map[row_num][col_num]
+            row_pin.low()
+        return None
 
-    # Function to read a key from the keypad
-    def readKey():
-        key = []
-        for i in range(4):
-            row[i].high()  # Set the row pin high
-            for j in range(4):
-                if col[j].value() == 1:  # Check if any column is pressed
-                    key.append(characters[i][j])  # Record the corresponding key
-            row[i].low()  # Set the row pin low
-        if key == []:
-            return None  # Return None if no key is pressed
-        else:
-            return key  # Return the pressed key
+    # Initialize game variables
+    def init_game():
+        global target_number, lower_bound, upper_bound, guess
+        target_number = urandom.randint(0, 99)
+        lower_bound = 0
+        upper_bound = 99
+        guess = ""
+        lcd.clear()
+        lcd.puts("Press 'A' to Start")
 
-    # Initialize and reset the game variables (random pointValue, upper/lower limits)
-    def init_new_value():
-        global pointValue, upper, count, lower
-        pointValue = int(urandom.uniform(0, 99))  # Generate a random number between 0 and 99
-        print(pointValue)  # Print the target number (for debugging)
-        upper = 99  # Set initial upper bound
-        lower = 0  # Set initial lower bound
-        count = 0  # Reset the player's guess count
-        return False  # Indicate that the game has not ended
+    # Display function
+    def update_display(message):
+        lcd.clear()
+        lcd.puts(message)
 
-    # Function to display the game information on the LCD
-    # If the player has guessed correctly, show "GAME OVER"
-    # Otherwise, show the current guess and range
-    def lcd_show(result):
-        lcd.clear()  # Clear the LCD display
-        if result == True:  # If the player guessed correctly
-            string = "GAME OVER!\n"
-            string += "Point is " + str(pointValue)  # Display the correct number
-        else:
-            string = "Enter number: " + str(count) + "\n"  # Show the player's current guess
-            string += str(lower) + " < Point < " + str(upper)  # Show the range of possible values
-        lcd.message(string)  # Send the string to the LCD
-        return
+    # Main program
+    init_game()
+    game_started = False
 
-    # Process the player's guess and update the upper or lower bound
-    # If the guess matches the pointValue, return True to indicate the game is over
-    # Otherwise, update the bounds and return False
-    def number_processing():
-        global upper, count, lower
-        if count > pointValue:
-            if count < upper:
-                upper = count  # Update the upper bound if the guess is too high
-        elif count < pointValue:
-            if count > lower:
-                lower = count  # Update the lower bound if the guess is too low
-        elif count == pointValue:
-            return True  # Return True if the guess matches the pointValue
-        count = 0  # Reset the guess count for the next attempt
-        return False
-
-    ## Main game setup and loop
-    # Display a welcome message and prompt the user to press 'A' to start
-    string = "Press A to Start!"
-    lcd.message(string)
-    result = init_new_value()  # Initialize game variables
-
-    # Main loop to handle keypad input and update the display
-    last_key = None
     while True:
-        current_key = readKey()  # Read the current key pressed
-        if current_key == last_key:
-            continue  # Skip processing if the same key is still pressed
-        last_key = current_key  # Update the last pressed key
-        
-        if current_key != None:
-            # If 'A' is pressed, restart the game with a new target number
-            if current_key == ["A"]:
-                result = init_new_value()
-            # If 'D' is pressed, check if the current guess is correct
-            elif current_key == ["D"]:
-                result = number_processing()
-            # If a number is pressed and the count is less than 10 digits
-            elif current_key[0] in list("1234567890") and count < 10:
-                count = count * 10 + int(current_key[0])  # Add the digit to the current guess
-            lcd_show(result)  # Update the LCD with the current game state
-        time.sleep(0.1)  # Small delay for key debounce
+        key = read_keypad()
+        if key:
+            utime.sleep(0.2)  # Debounce delay
+
+            if not game_started:
+                if key == "A":
+                    game_started = True
+                    update_display("Enter your guess:")
+            else:
+                if key in "0123456789":
+                    if len(guess) < 2:
+                        guess += key
+                        update_display("Guess: {}\n{} < ? < {}".format(guess, lower_bound, upper_bound))
+                elif key == "D":
+                    if guess != "":
+                        guess_number = int(guess)
+                        if guess_number < lower_bound or guess_number > upper_bound:
+                            update_display("Out of range!\n{} < ? < {}".format(lower_bound, upper_bound))
+                        elif guess_number > target_number:
+                            upper_bound = guess_number - 1
+                            guess = ""
+                            update_display("Too High!\n{} < ? < {}".format(lower_bound, upper_bound))
+                        elif guess_number < target_number:
+                            lower_bound = guess_number + 1
+                            guess = ""
+                            update_display("Too Low!\n{} < ? < {}".format(lower_bound, upper_bound))
+                        else:
+                            update_display("Correct!\nNumber is {}".format(target_number))
+                            game_started = False
+                            utime.sleep(2)
+                            init_game()
+                    else:
+                        update_display("Enter a number")
+                elif key == "A":
+                    # Restart the game
+                    init_game()
+                    game_started = True
+                    update_display("Enter your guess:")
+                elif key == "B":
+                    # Clear current guess
+                    guess = ""
+                    update_display("Guess cleared")
+                elif key == "C":
+                    # Show hint or any other functionality
+                    update_display("Hint not available")
+        utime.sleep(0.1)
 
 
+After the code runs, follow these steps to play the game:
 
-* After the code runs, press ``A`` to start the game. A random number ``point`` is produced but not displayed on the LCD, and what you need to do is to guess it. 
-* The number you have typed appears at the end of the first line till the final calculation is finished. (Press ``D`` to start the comparation.)
-* The number range of ``point`` is displayed on the second line. And you must type the number within the range. 
-* When you type a number, the range narrows; if you got the lucky number luckily or unluckily, there will appear ``GAME OVER!``.
+* Start the Game:
 
-.. note:: 
-    If the code and wiring are fine, but the LCD still does not display content, you can turn the potentiometer on the back to increase the contrast.
+  Press the 'A' key on the keypad.
+
+* Enter Guesses:
+
+  * Use the number keys to input your guess (0-99).
+  * Press 'D' to submit your guess.
+
+* Receive Feedback:
+
+  * The LCD will indicate if your guess is too high, too low, or correct.
+  * The range will adjust accordingly.
+
+* Winning the Game:
+
+  * When you guess the correct number, the LCD will display "Correct! Number is XX".
+  * The game resets automatically after a short delay.
+
+**Understanding the Code**
+
+#. Imports and Initialization:
+
+   * ``lcd1602.LCD``: For controlling the LCD display.
+   * ``machine.Pin``: For interacting with GPIO pins.
+   * ``urandom``: For generating random numbers.
+   * Initialize I2C communication for the LCD1602 display.
+
+#. Keypad Scanning Function (``read_keypad``):
+
+   * Sets each row high one at a time.
+   * Checks if any column reads high, indicating a button press.
+   * Returns the character corresponding to the pressed key.
+
+   .. code-block:: python
+
+        def read_keypad():
+            for row_num, row_pin in enumerate(row_pins):
+                row_pin.high()
+                for col_num, col_pin in enumerate(col_pins):
+                    if col_pin.value() == 1:
+                        row_pin.low()
+                        return keypad_map[row_num][col_num]
+                row_pin.low()
+            return None
+
+#. Game Variables and Initialization (``init_game``):
+
+   * ``target_number``: Random number between 0 and 99.
+   * ``lower_bound and upper_bound``: Start at 0 and 99 respectively.
+   * ``guess``: String to store the current guess input.
+
+   .. code-block:: python
+
+        def init_game():
+            global target_number, lower_bound, upper_bound, guess
+            target_number = urandom.randint(0, 99)
+            lower_bound = 0
+            upper_bound = 99
+            guess = ""
+            lcd.clear()
+            lcd.puts("Press 'A' to Start")
+
+#. Display Update Function (``update_display``):
+
+   Clears the LCD and displays the provided message.
+
+   .. code-block:: python
+
+        # Display function
+        def update_display(message):
+            lcd.clear()
+            lcd.puts(message)
+
+#. Main Program Loop:
+
+   * Waits for key presses and handles game logic.
+   * Key ``A``: Starts or restarts the game.
+   * Digits ``0``-``9``: Builds the current guess number.
+   * Key ``D``: Submits the guess and updates the range.
+   * Checks if the guess is within the current bounds.
+   * Updates ``lower_bound`` or ``upper_bound`` based on the guess.
+   * Resets guess for the next input.
+   * If the guess is correct, displays a success message and resets the game.
+   * Key ``B``: Clears the current guess.
+   * Key ``C``: Reserved for additional functionality (e.g., hints).
+
+   .. code-block:: python
+
+        while True:
+            key = read_keypad()
+            if key:
+                utime.sleep(0.2)  # Debounce delay
+
+                if not game_started:
+                    if key == "A":
+                        game_started = True
+                        update_display("Enter your guess:")
+        ...
+        ...
+            utime.sleep(0.1)
+
+#. Debouncing and Delays:
+
+   * ``utime.sleep(0.2)``: Short delay after a key press to debounce.
+   * ``utime.sleep(0.1)``: Small delay in the main loop to reduce CPU usage.
+
+**Troubleshooting**
+
+* LCD Not Displaying Text:
+
+  * Verify SDA and SCL connections (GP6 and GP7).
+  * Check that the LCD is powered correctly.
+  * Adjust the contrast potentiometer on the back of the LCD module.
+
+* Keypad Not Responding:
+
+  * Check all row and column connections.
+  * Ensure that pull-down resistors are connected if not using internal pull-downs.
+  * Verify that the keypad is functioning properly.
+
+* Random Number Not Changing:
+
+  * Ensure that ``urandom`` is properly imported and used.
+  * The random seed may need to be initialized for better randomness.
+
+* Game Logic Issues:
+
+  * Double-check the conditions and bounds when processing guesses.
+  * Ensure that the upper and lower bounds are updated correctly.
+
+**Enhancements and Extensions**
+
+* Add Multiplayer Support:
+
+  * Keep track of the number of guesses each player makes.
+  * Rotate turns between players.
+
+* Implement Scoring System:
+
+  * Award points based on how quickly the number is guessed.
+  * Display scores on the LCD.
+
+* Provide Hints:
+
+  Use the 'C' key to give hints, such as "Number is even" or "Number is a multiple of 5".
+
+* Increase Range:
+
+  * Modify the game to guess numbers between 0 and 999.
+  * Adjust the display and input methods accordingly.
+
+* Visual and Audio Feedback:
+
+  Add LEDs or a buzzer to provide additional feedback.
+
+**Conclusion**
+
+You've successfully built an interactive Guess the Number game using the Raspberry Pi Pico 2! This project combines user input, random number generation, and display output to create a fun and engaging game. It's an excellent way to practice working with keypads, LCD displays, and game logic in MicroPython.
+
+Feel free to enhance the game further by adding new features or improving the interface. This project can serve as a foundation for more complex interactive applications.

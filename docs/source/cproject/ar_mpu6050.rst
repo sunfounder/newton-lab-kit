@@ -14,38 +14,84 @@
 
 .. _ar_mpu6050:
 
-6.3 - 6-axis Motion Tracking
-===================================
+6.3 Read from the MPU-6050
+===============================
 
-The MPU-6050 is a 6-axis(combines 3-axis Gyroscope, 3-axis Accelerometer) motion tracking devices.
+In this lesson, we'll explore how to interface the **MPU-6050** 6-axis motion tracking sensor with the Raspberry Pi Pico 2. The MPU-6050 combines a 3-axis gyroscope and a 3-axis accelerometer, providing raw sensor data over the I2C communication protocol.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-An accelerometer is a tool that measures proper acceleration.For example, an accelerometer at rest on the surface of the Earth will measure an acceleration due to Earth's gravity, straight upwards[3] (by definition) of g ≈ 9.81 m/s2.
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
 
-Accelerometers have many uses in industry and science. For example: inertial navigation systems for aircraft and missiles, for keeping images on tablets and digital cameras vertical, etc.
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
 
-Gyroscopes are used to measure orientation and angular velocity of a device or maintenance.
-Applications of gyroscopes include anti-rollover and airbag systems for automobiles, motion sensing systems for smart devices, attitude stabilization systems for drones, and more.
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_mpu6050`
+        - 1
+        - 
 
-* :ref:`cpn_mpu6050`
+**Understanding the MPU-6050 Sensor**
 
-**Schematic**
+The **MPU-6050** sensor is widely used in projects that require motion tracking and orientation detection, such as drones, robotics, and gaming devices.
+
+* **Accelerometer**: Measures acceleration forces along the X, Y, and Z axes. This includes gravitational acceleration, allowing you to determine the tilt or orientation of the sensor.
+* **Gyroscope**: Measures rotational velocity around the X, Y, and Z axes, providing information about how fast the sensor is spinning.
+
+**Circuit Diagram**
 
 |sch_mpu6050_ar|
 
 
-
-**Wiring**
+**Wiring Diagram**
 
 |wiring_mpu6050_ar|
 
-**Code**
+**Writing the Code**
 
 .. note::
 
-    * You can open the file ``6.3_6axis_motion_tracking.ino`` under the path of ``newton-lab-kit/arduino/6.3_6axis_motion_tracking``. 
+    * You can open the file ``6.3_6axis_motion_tracking.ino`` from ``newton-lab-kit/arduino/6.3_6axis_motion_tracking``. 
     * Or copy this code into **Arduino IDE**.
-    * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
     * The ``Adafruit MPU6050`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_mpu6050.png
@@ -61,7 +107,7 @@ At this point you rotate the MPU6050 at random, and these values will appear to 
 To make it easier to see the changes, you can comment out one of the print lines and concentrate on another set of data.
 
 
-**How it works?**
+**Understanding the Code**
 
 Instantiate an ``MPU6050`` object.
 

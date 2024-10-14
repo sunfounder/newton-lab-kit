@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-.. _cpn_7-seg:
+.. _cpn_7_segment:
 
 7-segment Display
 ======================

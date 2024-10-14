@@ -42,6 +42,7 @@ For inquiries or suggestions, contact us at: service@sunfounder.com.
 .. toctree::
     :maxdepth: 2
 
+    About this Kit<self> 
     raspberry_pi_pico2
     download_the_code
     bc_basic_circuit

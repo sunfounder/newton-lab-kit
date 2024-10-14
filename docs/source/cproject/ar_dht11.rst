@@ -14,44 +14,85 @@
 
 .. _ar_dht11:
 
+6.2 Measuring Temperature and Humidity with DHT11
+=======================================================
 
-6.2 - Temperature - Humidity
-=======================================
+In this lesson, we'll learn how to use a **DHT11 temperature and humidity sensor** with the Raspberry Pi Pico 2. The DHT11 is a basic, low-cost digital sensor that can measure ambient temperature and humidity, providing a calibrated digital output.
 
-Humidity and temperature are closely related from the physical quantity itself to the actual people's life.
-The temperature and humidity of human environment will directly affect the thermoregulatory function and heat transfer effect of human body.
-It will further affect the thinking activity and mental state, thus affecting the efficiency of our study and work.
+**What You'll Need**
 
-Temperature is one of the seven basic physical quantities in the International System of Units, which is used to measure the degree of hot and cold of an object.
-Celsius is one of the more widely used temperature scales in the world, expressed by the symbol "℃".
+In this project, we need the following components. 
 
-Humidity is the concentration of water vapor present in the air.
-The relative humidity of air is commonly used in life and is expressed in %RH. Relative humidity is closely related to temperature.
-For a certain volume of sealed gas, the higher the temperature, the lower the relative humidity, and the lower the temperature, the higher the relative humidity.
+It's definitely convenient to buy a whole kit, here's the link: 
 
-|img_Dht11|
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
 
-A basic digital temperature and humidity sensor, the **DHT11**, is provided in this kit.
-It uses a capacitive humidity sensor and thermistor to measure the surrounding air and outputs a digital signal on the data pins (no analog input pins are required).
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
 
-* :ref:`cpn_dht11`
+You can also buy them separately from the links below.
 
 
-**Schematic**
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_dht11`
+        - 1
+        - |link_dht22_buy|
+
+
+**Understanding the DHT11 Sensor**
+
+The **DHT11** sensor uses a capacitive humidity sensor and a thermistor to measure the surrounding air. It outputs a digital signal on the data pin, and it's fairly simple to use, but requires precise timing to read data.
+
+* Temperature Range: 0–50 °C with ±2 °C accuracy
+* Humidity Range: 20–80% RH with ±5% accuracy
+* Sampling Rate: 1 Hz (once every second)
+
+**Circuit Diagram**
 
 |sch_dht11|
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_dht11|
 
-**Code**
+**Writing the Code**
 
 .. note::
 
-    * You can open the file ``6.2_dht11.ino`` under the path of ``newton-lab-kit/arduino/6.2_dht11``. 
+    * You can open the file ``6.2_dht11.ino`` from ``newton-lab-kit/arduino/6.2_dht11``. 
     * Or copy this code into **Arduino IDE**.
-    * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
     * The ``DHT sensor library`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_dht.png
@@ -60,9 +101,9 @@ It uses a capacitive humidity sensor and thermistor to measure the surrounding a
     
     <iframe src=https://create.arduino.cc/editor/sunfounder01/b9e96e99-59d4-48ca-b41f-c03577acfb8f/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
 
-After the code is run, you will see the Serial Monitor continuously print out the temperature and humidity, and as the program runs steadily, these two values will become more and more accurate.
+Once the code is running, you will see the Serial Monitor continuously print out the temperature and humidity, and as the program runs steadily, these two values will become more and more accurate.
 
-**How it works?**
+**Understanding the Code**
 
 #. Inclusion of necessary libraries and definition of constants.
    This part of the code includes the DHT sensor library and defines the pin number and sensor type used in this project.
@@ -85,7 +126,7 @@ After the code is run, you will see the Serial Monitor continuously print out th
    .. code-block:: arduino
 
       void setup() {
-        Serial.begin(9600);
+        Serial.begin(115200);
         Serial.println(F("DHT11 test!"));
         dht.begin();  // Initialize the DHT sensor
       }

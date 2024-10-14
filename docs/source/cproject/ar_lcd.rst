@@ -14,187 +14,305 @@
 
 .. _ar_lcd:
 
-3.4 - Liquid Crystal Display
-===============================
+3.4 Liquid Crystal Display (LCD1602)
+=====================================
 
-LCD1602 is a character type liquid crystal display, which can display 32 (16*2) characters at the same time.
+In this lesson, we will learn how to use a **1602 LCD** with the Raspberry Pi Pico 2 to display text. The LCD1602 is a character-based liquid crystal display that can show 16 characters on 2 lines, making it ideal for projects that need to display information like messages, sensor readings, or status updates.
 
-As we all know, though LCD and some other displays greatly enrich the man-machine interaction, 
-they share a common weakness. When they are connected to a controller, 
-multiple IOs will be occupied of the controller which has no so many outer ports. 
-Also it restricts other functions of the controller. 
-Therefore, LCD1602 with an I2C bus is developed to solve the problem.
+Connecting an LCD directly to a microcontroller typically requires many GPIO pins, which can limit the functionality of your project. To solve this problem, we can use an LCD1602 module that has an **I2C interface**. The I2C protocol uses only two data lines (SDA and SCL), allowing you to control the LCD with just two GPIO pins, freeing up other pins for additional sensors or devices.
 
-* :ref:`cpn_lcd`
-* `Inter-Integrated Circuit - Wikipedia <https://en.wikipedia.org/wiki/I2C>`_
+**Understanding I2C on the Raspberry Pi Pico 2**
 
+The Raspberry Pi Pico 2 supports I2C communication through multiple GPIO pins, providing flexibility for your projects. It has two I2C buses, I2C0 and I2C1, and each can be mapped to several sets of pins.
+
+Here's a breakdown of the I2C-capable pins on the Pico 2:
 
 |pin_i2c|
 
-Here we will use the I2C0 interface to control the LCD1602 and display text.
+You can choose any matching pair of SDA and SCL pins for either I2C0 or I2C1. This flexibility allows you to avoid pin conflicts with other peripherals in your project.
 
-**Schematic**
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_i2c_lcd`
+        - 1
+        - |link_i2clcd1602_buy|
+
+**Circuit Diagram**
 
 |sch_lcd_ar|
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_lcd_ar|
 
-.. 1. Connect VCC of LCD to VBUS of Pico.
-.. #. Connect the GND of LCD to the GND of Pico.
-.. #. Connect SDA of LCD to GP0 of Pico, which is GP6(I2C1 SDA).
-.. #. Connect SCL of LCD to GP1 of Pico, which is GP7(I2C1 SCL).
-
-**Code**
+**Writing the Code**
 
 .. note::
 
-    * You can open the file ``3.4_liquid_crystal_display.ino`` under the path of ``newton-lab-kit/arduino/3.4_liquid_crystal_display``. 
+    * You can open the file ``3.4_liquid_crystal_display.ino`` from ``newton-lab-kit/arduino/3.4_liquid_crystal_display``. 
     * Or copy this code into **Arduino IDE**.
-    * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
     * The ``LiquidCrystal I2C`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_i2c_lcd.png
 
-.. raw:: html
+.. code-block:: arduino
+
+  #include <Wire.h>
+  #include <LiquidCrystal_I2C.h>
+
+  // Set the LCD I2C address (usually 0x27 or 0x3F)
+  #define LCD_ADDRESS 0x27
+  #define LCD_COLUMNS 16
+  #define LCD_ROWS    2
+
+  // Initialize the library with the I2C address and dimensions
+  LiquidCrystal_I2C lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
+
+  void setup() {
+    // Initialize the LCD
+    lcd.init();
+    lcd.backlight();  // Turn on the backlight
+
+    // Print messages to the LCD
+    lcd.setCursor(0, 0);  // Column 0, Row 0
+    lcd.print("Hello, World!");
+    lcd.setCursor(0, 1);  // Column 0, Row 1
+    lcd.print("LCD1602 with I2C");
+  }
+
+  void loop() {
+    // Nothing to do here
+  }
+
+
+After uploading the code to the Raspberry Pi Pico, the LCD should display the following:
+
+* On the first line: "Hello, World!"
+* On the second line: "LCD1602 with I2C"
+
+If nothing appears on the screen, try adjusting the contrast by turning the small potentiometer (knob) on the back of the LCD module until the text becomes visible. 
+
+**Understanding the Code**
+
+#. Including Libraries:
+
+   * ``Wire.h``: Handles I2C communication.
+   * ``LiquidCrystal_I2C.h``: Simplifies interaction with the I2C LCD.
+
+#. Defining the LCD Parameters:
+
+   * ``LCD_ADDRESS``: The I2C address of the LCD module. Common addresses are 0x27 or 0x3F. If you're unsure, you can use an I2C scanner sketch to find the address.
+
+   .. code-block:: arduino
+
+      #define LCD_ADDRESS 0x27
+      #define LCD_COLUMNS 16
+      #define LCD_ROWS    2
+
+#. Initializing the LCD:
+
+   .. code-block:: arduino
+
+      LiquidCrystal_I2C lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
+
+#. In ``setup()`` Function:
+
+   .. code-block:: arduino
+
+      lcd.init();         // Initializes the LCD
+      lcd.backlight();    // Turns on the backlight
+
+#. Displaying Text:
+
+   .. code-block:: arduino
+
+      lcd.setCursor(0, 0);  // Sets cursor to column 0, row 0
+      lcd.print("Hello, World!");
+
+      lcd.setCursor(0, 1);  // Sets cursor to column 0, row 1
+      lcd.print("LCD1602 with I2C");
+
+**Using Serial Input to Display Text on LCD**
+
+We can enhance the program to read input from the Serial Monitor and display it on the LCD.
+
+* Modified Code:
+
+  .. code-block:: arduino
+
+    #include <Wire.h>
+    #include <LiquidCrystal_I2C.h>
+
+    #define LCD_ADDRESS 0x27
+    #define LCD_COLUMNS 16
+    #define LCD_ROWS    2
+
+    LiquidCrystal_I2C lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
+
+    void setup() {
+      lcd.init();
+      lcd.backlight();
+
+      Serial.begin(115200);
+      lcd.setCursor(0, 0);
+      lcd.print("Enter text:");
+    }
+
+    void loop() {
+      if (Serial.available() > 0) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("You typed:");
+
+        String inputText = Serial.readStringUntil('\n');
+        lcd.setCursor(0, 1);
+        lcd.print(inputText);
+      }
+    }
+
+  After uploading the code, type a message and press ``Enter``. The message will be displayed on the LCD.
+
+* Explanation: 
+
+  * Reading Serial Input: Checks if data is available on the Serial port. Reads the input string until a newline character is encountered.
+
+
+   .. code-block:: arduino
+
+      if (Serial.available() > 0) {
+        String inputText = Serial.readStringUntil('\n');
+        // ...
+      }
     
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/1f464967-5937-473a-8a0d-8e4577c85e7d/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
 
-After the code is uploaded successfully, you will see “SunFounder”, “Hello World” on the I2C LCD1602.
+  * Displaying Serial Input on LCD:
 
-.. note:: 
-    If the code and wiring are fine, but the LCD still does not display content, you can turn the potentiometer on the back to increase the contrast.
+    .. code-block:: arduino
 
-**How it works?**
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("You typed:");
+      lcd.setCursor(0, 1);
+      lcd.print(inputText);
 
-By calling the library ``LiquidCrystal_I2C.h``, you can easily drive the LCD. 
+**Troubleshooting**
 
-.. code-block:: arduino
+* No Display on LCD:
 
-    #include "LiquidCrystal_I2C.h"
+  * Adjust the contrast potentiometer on the back of the LCD module.
+  * Verify the wiring connections.
+  * Make sure the correct I2C address is used. You can scan for devices on the I2C bus. If your I2C LCD1602 is connected correctly, the address will be displayed. The default address is usually 0x27, but in some cases, it could be 0x3F.
+  
+  .. code-block:: arduino
 
-**Library Functions:**
+      #include <Wire.h>
 
-.. code-block:: arduino
+      void setup() {
+          Wire.begin();
+          Serial.begin(9600);
+          while (!Serial); // Wait for the serial connection to be established
+          Serial.println("\nI2C Scanner");
+      }
 
-    LiquidCrystal_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t lcd_rows)
+      void loop() {
+          byte error, address;
+          int nDevices;
 
-Creates a new instance of the ``LiquidCrystal_I2C``  class that represents a particular LCD attached to your Arduino board.
+          Serial.println("Scanning...");
 
- **lcd_AddR**: The address of the LCD defaults to 0x27.
- **lcd_cols**: The LCD1602 has 16 columns.
- **lcd_rows**: The LCD1602 has 2 rows.
+          nDevices = 0;
+          for (address = 1; address < 127; address++) {
+              Wire.beginTransmission(address);
+              error = Wire.endTransmission();
 
+              if (error == 0) {
+                  Serial.print("I2C device found at address 0x");
+                  if (address < 16) {
+                      Serial.print("0");
+                  }
+                  Serial.println(address, HEX);
 
-.. code-block:: arduino
+                  nDevices++;
+              }else if (error == 4) {
+                  Serial.print("Unknown error at address 0x");
+                  if (address < 16) {
+                      Serial.print("0");
+                  }
+                  Serial.println(address, HEX);
+              }
+          }
+          if(nDevices == 0) {
+              Serial.println("No I2C devices found\n");
+          }else {
+              Serial.println("done\n");
+          }
+          delay(5000); // Wait 5 seconds before scanning again
+      }
 
-    void init()
+* Incorrect Characters Displayed:
 
-Initialize the lcd.
+  * Check for loose connections.
+  * Verify that the LCD is properly initialized.
 
-.. code-block:: arduino
+**Further Exploration**
 
-    void backlight()
+* Custom Characters:
 
-Turn the (optional) backlight on.
+  Create and display custom characters or symbols on the LCD.
 
-.. code-block:: arduino
+* Sensor Data Display:
 
-    void nobacklight()
+  Read data from sensors (e.g., temperature, humidity) and display the readings on the LCD.
 
-Turn the (optional) backlight off.
+* Multiple I2C Devices:
 
-.. code-block:: arduino
+  Connect multiple I2C devices to the Pico and manage them simultaneously.
 
-    void display()
+**Conclusion**
 
-Turn the LCD display on.
+In this lesson, you've learned how to use an I2C LCD1602 display with the Raspberry Pi Pico to display text. By utilizing the I2C interface, we've minimized the number of GPIO pins required, allowing for more complex projects with additional sensors and peripherals.
 
-.. code-block:: arduino
-
-    void nodisplay()
-
-Turn the LCD display off quickly.
-
-.. code-block:: arduino
-
-    void clear()
-
-Clear display, set cursor position to zero.
-
-.. code-block:: arduino
-
-    void setCursor(uint8_t col,uint8_t row)
-
-Set the cursor position to col,row.
-
-.. code-block:: arduino
-
-    void print(data,BASE)
-
-Prints text to the LCD.
-
-**data**: The data to print (char, byte, int, long, or string).
-
-**BASE (optional)**: The base in which to print numbers: BIN for binary (base 2), DEC for decimal (base 10), OCT for octal (base 8), HEX for hexadecimal (base 16).
-
-
-
-
-**Learn More**
-
-
-Upload the codes to the Pico, the content that you input in the serial monitor will be printed on the LCD.
-
-.. note::
-
-   * You can open the file ``3.4_liquid_crystal_display_2.ino`` under the path of ``newton-lab-kit/arduino/3.4_liquid_crystal_display_2``. 
-   * Or copy this code into **Arduino IDE**.
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
-    
-
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/631e0380-d594-4a8b-9bac-eb0688079b97/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-
-In addition to reading data from the electronic components, the Pico 
-can read the data input in the serial port monitor, and you can
-use ``Serial.read()`` as the controller of the circuit experiment. 
-
-Run the serial communication in ``setup()`` and set the data rate to 9600.
-
-.. code-block:: arduino
-
-    Serial.begin(9600);
-
-The state of serial port monitor is judged in ``loop()``, and the information processing will be carried out only when the data are received.
-
-.. code-block:: arduino
-
-    if (Serial.available() > 0){}
-
-Clear the screen.
-
-.. code-block:: arduino
-
-    lcd.clear();
-
-Reads the input value in the serial port monitor and stores it to the variable incomingByte.
-
-.. code-block:: arduino
-
-    char incomingByte = Serial.read();
-
-Display each character to the LCD and skip the line-feed character.
-
-.. code-block:: arduino
-
-    while (Serial.available() > 0) {
-        char incomingByte=Serial.read();
-        if(incomingByte==10){break;}// skip the line-feed character
-        lcd.print(incomingByte);// display each character to the LCD  
-    } 
-
-
-* `Serial Read <https://www.arduino.cc/reference/en/language/functions/communication/serial/read/>`_

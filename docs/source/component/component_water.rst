@@ -12,10 +12,10 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-.. _cpn_water:
+.. _cpn_water_level:
 
-Water Level Sensor
-=======================
+Water Level Sensor Module
+=================================
 
 |img_water_sensor|
 

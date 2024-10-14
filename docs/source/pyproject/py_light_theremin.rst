@@ -14,18 +14,87 @@
 
 .. _py_light_theremin:
 
-7.1 Light Theremin
-=========================
+7.1 Creating a Light Theremin
+====================================================
 
-Theremin is an electronic musical instrument that does not require physical contact. Based on the position of the player's hand, it produces different tones.
+In this exciting project, we'll build a **Light Theremin** using a Raspberry Pi Pico 2, a photoresistor, and a passive buzzer. A theremin is a unique musical instrument that is played without physical contact, producing different tones based on the position of the player's hands. While we can't replicate a traditional theremin entirely, we can simulate its functionality by using light intensity to control sound frequency.
 
-Its controlling section is usually made up of two metal antennas that sense the position of the thereminist's hands and control oscillators with one hand and volume with the other. The electric signals from the theremin are amplified and sent to a loudspeaker.
+**What You'll Need**
 
-We cannot reproduce the same instrument through Pico, but we can use photoresistor and passive buzzer to achieve similar gameplay.
+In this project, we need the following components. 
 
-* `Theremin - Wikipedia <https://en.wikipedia.org/wiki/Theremin>`_
+It's definitely convenient to buy a whole kit, here's the link: 
 
-**Schematic**
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_led`
+        - 1
+        - |link_led_buy|
+    *   - 6
+        - :ref:`cpn_transistor`
+        - 1(S8050)
+        - |link_transistor_buy|
+    *   - 7
+        - :ref:`cpn_resistor`
+        - 3(1KΩ, 220Ω, 10KΩ)
+        - |link_resistor_buy|
+    *   - 8
+        - Passive :ref:`cpn_buzzer`
+        - 1
+        - 
+    *   - 9
+        - :ref:`cpn_photoresistor`
+        - 1
+        - |link_photoresistor_buy|
+
+
+**Understanding the Concept**
+
+* **Photoresistor:** A sensor that changes its resistance based on light intensity. More light decreases resistance, less light increases it.
+* **Passive Buzzer:** Requires an external signal to produce sound. We can control its frequency using Pulse Width Modulation (PWM).
+* **Transistor (S8050):** Used to amplify the current, allowing the buzzer to be driven effectively by the Pico.
+
+By reading the values from the photoresistor, we can map light intensity to sound frequency. This means moving your hand over the photoresistor will change the pitch of the sound produced by the buzzer, similar to playing a theremin.
+
+**Circuit Diagram**
 
 |sch_light_theremin|
 
@@ -37,69 +106,220 @@ When the light is stronger, GP28's value is smaller; vice versa, it is larger wh
 By programming the value of the photoresistor to affect the frequency of the passive buzzer, a photosensitive device can be simulated.
 
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_light_theremin|
 
-**Code**
+**Writing the Code**
+
+Let's write a MicroPython program that reads the light intensity from the photoresistor, maps it to a frequency, and plays that frequency on the buzzer.
 
 .. note::
 
-    * Open the ``7.1_light_theremin.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+    * Open the ``7.1_light_theremin.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize LED, photoresistor, and buzzer
-    led = machine.Pin(16, machine.Pin.OUT)  # LED on pin 16
-    photoresistor = machine.ADC(28)  # Photoresistor on ADC pin 28
-    buzzer = machine.PWM(machine.Pin(15))  # Buzzer on pin 15 with PWM
+    # Initialize components
+    led = machine.Pin(16, machine.Pin.OUT)  # LED on GP16
+    photoresistor = machine.ADC(28)         # Photoresistor connected to ADC0 (GP28)
+    buzzer = machine.PWM(machine.Pin(15))   # Buzzer connected to GP15
 
-    # Variables to store the highest and lowest light readings for calibration
-    light_low = 65535 
-    light_high = 0 
+    # Variables for calibration
+    light_low = 65535
+    light_high = 0
 
-    # Function to map one range of values to another
+    # Function to map values from one range to another
     def interval_mapping(x, in_min, in_max, out_min, out_max):
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+        # Ensure in_min != in_max to avoid division by zero
+        if in_max - in_min == 0:
+            return out_min
+        return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
-    # Function to play a tone on the buzzer at a specified frequency for a set duration
-    def tone(pin, frequency, duration):
-        pin.freq(frequency)  # Set buzzer frequency
-        pin.duty_u16(30000)  # Set duty cycle to around 50%
-        utime.sleep_ms(duration)  # Play the tone for the specified duration
-        pin.duty_u16(0)  # Turn off the tone by setting duty cycle to 0
+    # Function to play a tone on the buzzer
+    def play_tone(pin, frequency):
+        if frequency <= 0:
+            pin.duty_u16(0)
+        else:
+            pin.freq(frequency)
+            pin.duty_u16(32768)  # 50% duty cycle
 
-    # Calibrate the photoresistor by finding the highest and lowest light values over 5 seconds
-    timer_init_start = utime.ticks_ms()  # Get the current time (start time)
-    led.value(1)  # Turn on LED to indicate calibration is in progress
-    while utime.ticks_diff(utime.ticks_ms(), timer_init_start) < 5000:  # Run calibration for 5 seconds
-        light_value = photoresistor.read_u16()  # Read the light value from the photoresistor
-        if light_value > light_high:  # Track the maximum light value
-            light_high = light_value
-        if light_value < light_low:  # Track the minimum light value
-            light_low = light_value
-    led.value(0)  # Turn off the LED after calibration
+    # Calibration process
+    def calibrate():
+        global light_low, light_high
+        print("Calibrating... Move your hand over the sensor.")
+        led.value(1)  # Turn on LED to indicate calibration
+        start_time = utime.ticks_ms()
+        while utime.ticks_diff(utime.ticks_ms(), start_time) < 5000:  # 5 seconds calibration
+            light_value = photoresistor.read_u16()
+            if light_value > light_high:
+                light_high = light_value
+            if light_value < light_low:
+                light_low = light_value
+            utime.sleep_ms(10)
+        led.value(0)  # Turn off LED after calibration
+        print("Calibration complete.")
+        print("Light Low:", light_low)
+        print("Light High:", light_high)
 
-    # Main loop to read light levels and play corresponding tones
-    while True:
-        light_value = photoresistor.read_u16()  # Read the current light value from the photoresistor
-        pitch = int(interval_mapping(light_value, light_low, light_high, 50, 6000))  # Map light value to a pitch range
-        if pitch > 50:  # Only play tones if the pitch is above a minimum threshold
-            tone(buzzer, pitch, 20)  # Play the corresponding pitch for 20ms
-        utime.sleep_ms(10)  # Small delay between readings
+    # Main function
+    def main():
+        calibrate()
+        try:
+            while True:
+                light_value = photoresistor.read_u16()
+                # Map the light value to a frequency range (e.g., 200 Hz to 2000 Hz)
+                frequency = interval_mapping(light_value, light_low, light_high, 200, 2000)
+                play_tone(buzzer, frequency)
+                utime.sleep_ms(20)
+        except KeyboardInterrupt:
+            buzzer.deinit()
+            print("Program stopped.")
+
+    # Run the main function
+    if __name__ == "__main__":
+        main()
+
+When the code is running, the LED will light up, indicating the calibration period.
+
+* Calibration:
+
+  * Move your hand over the photoresistor during the 5-second calibration.
+  * This helps the program understand the range of light conditions.
+
+* Playing the Theremin:
+
+  * After calibration, the LED turns off.
+  * Move your hand over the photoresistor.
+  * The buzzer will emit tones that change pitch based on the light intensity.
+  * Experiment with different hand positions and movements to create sounds.
 
 
+**Understanding the Code**
 
-As soon as the program runs, the LED will light up, and we will have five seconds to calibrate the photoresistor's detection range.
+#. Initialization:
 
-This is due to the different light environments we may have when we use it (e.g., different light intensities at noon and dusk), as well as our hands' height above the photoresistor. You need to set the maximum and minimum height of your hand from the photoresistor, which is also the height at which you play the instrument.
+   * **LED Indicator**: Used to signal when calibration is happening.
+   * **Photoresistor**: Reads analog values corresponding to light intensity.
+   * **Buzzer**: Controlled using PWM to generate tones at different frequencies.
 
-After five seconds, the LED will turn off, at which point we can wave our hands over the photoresistor and play.
+#. Calibration Function (``calibrate()``):
+
+   * Runs for 5 seconds, during which it records the minimum and maximum light values.
+   * Instructs the user to move their hand over the sensor to capture the range.
+   * Uses the LED as a visual indicator.
+
+   .. code-block:: python
+
+        # Calibration process
+        def calibrate():
+            global light_low, light_high
+            print("Calibrating... Move your hand over the sensor.")
+            led.value(1)  # Turn on LED to indicate calibration
+            start_time = utime.ticks_ms()
+            while utime.ticks_diff(utime.ticks_ms(), start_time) < 5000:  # 5 seconds calibration
+                light_value = photoresistor.read_u16()
+                if light_value > light_high:
+                    light_high = light_value
+                if light_value < light_low:
+                    light_low = light_value
+                utime.sleep_ms(10)
+            led.value(0)  # Turn off LED after calibration
+            print("Calibration complete.")
+            print("Light Low:", light_low)
+            print("Light High:", light_high)
+
+
+#. Interval Mapping Function (``interval_mapping()``):
+
+   * Maps the light sensor values to a frequency range suitable for the buzzer.
+   * Prevents division by zero errors.
+
+   .. code-block:: python
+
+        # Function to map values from one range to another
+        def interval_mapping(x, in_min, in_max, out_min, out_max):
+            # Ensure in_min != in_max to avoid division by zero
+            if in_max - in_min == 0:
+                return out_min
+            return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+
+#. Playing Tones (``play_tone()``):
+
+   * Sets the frequency of the buzzer using PWM.
+   * If the frequency is zero or negative, turns off the buzzer.
+
+   .. code-block:: python
+
+        # Function to play a tone on the buzzer
+        def play_tone(pin, frequency):
+            if frequency <= 0:
+                pin.duty_u16(0)
+            else:
+                pin.freq(frequency)
+                pin.duty_u16(32768)  # 50% duty cycle
+
+#. Main Loop:
+
+   * Continuously reads the light value from the photoresistor.
+   * Maps this value to a frequency.
+   * Plays the tone corresponding to the frequency.
+   * Includes error handling to clean up on exit.
+
+   .. code-block:: python
+
+        # Main function
+        def main():
+            calibrate()
+            try:
+                while True:
+                    light_value = photoresistor.read_u16()
+                    # Map the light value to a frequency range (e.g., 200 Hz to 2000 Hz)
+                    frequency = interval_mapping(light_value, light_low, light_high, 200, 2000)
+                    play_tone(buzzer, frequency)
+                    utime.sleep_ms(20)
+            except KeyboardInterrupt:
+                buzzer.deinit()
+                print("Program stopped.")
+
+**Experimenting Further**
+
+* Adjust Frequency Range:
+
+  Modify the values in ``interval_mapping()`` to change the pitch range. Example: Change 200, 2000 to 100, 5000 for a wider range.
+
+* Visual Feedback:
+
+  Use additional LEDs to provide visual cues corresponding to the pitch.
+
+* Add a Second Sensor:
+
+  Introduce another photoresistor to control volume or another parameter.
+
+* Create a Musical Instrument:
+
+  Combine with other sensors or inputs to build a more complex instrument.
+
+**Understanding Limitations**
+
+* Ambient Light:
+
+  Changes in ambient light can affect performance. Ensure consistent lighting or recalibrate as needed.
+
+* Sensor Sensitivity:
+
+  The photoresistor may not respond quickly to rapid hand movements.
+
+* Sound Quality:
+
+  Passive buzzers have limited sound quality. For better audio, consider using an active speaker with a DAC output.
+
+**Conclusion**
+
+You've successfully created a Light Theremin using the Raspberry Pi Pico 2! This project demonstrates how sensors and actuators can be combined to create interactive and fun experiments. Keep exploring and modifying the project to enhance your understanding and creativity.
 

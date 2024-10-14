@@ -27,6 +27,67 @@ In this lesson, we'll explore two types of transistors: the **S8050 (NPN)** and 
 
 While both transistors serve similar purposes, they behave oppositely when it comes to signal control. Let’s use these transistors to control an LED based on button input.
 
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 3(220Ω, 1KΩ, 10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_led`
+        - 1
+        - |link_led_buy|
+    *   - 7
+        - :ref:`cpn_button`
+        - 1
+        - |link_button_buy|
+    *   - 8
+        - :ref:`cpn_transistor`
+        - 1(S8050/S8550)
+        - |link_transistor_buy|
 
 **Wiring the NPN (S8050) Transistor**
 
@@ -50,9 +111,9 @@ Both the NPN and PNP transistors can be controlled with the same code. The butto
 
 .. note::
 
-    * Open the ``2.15_transistor.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``2.15_transistor.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 

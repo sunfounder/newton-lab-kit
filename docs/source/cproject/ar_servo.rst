@@ -14,22 +14,68 @@
 
 .. _ar_servo:
 
-3.7 - Swinging Servo
-=======================
+3.7 Swinging Servo
+===================
 
-In this kit, in addition to LED and passive buzzer, there is also a device controlled by PWM signal, Servo.
+In this lesson, we'll learn how to control a **servo motor** using the Raspberry Pi Pico 2. A servo motor is a device that can rotate to a specific angle between 0° and 180°. It's widely used in remote control toys, robots, and other applications that require precise position control.
 
-Servo is a position (angle) servo device, which is suitable for those control systems that require constant angle changes and can be maintained. It has been widely used in high-end remote control toys, such as airplanes, submarine models, and remote control robots.
+Let's get started and make the servo swing back and forth!
 
-Now, try to make the servo sway!
+**What You'll Need**
 
-* :ref:`cpn_servo`
+In this project, we need the following components. 
 
-**Schematic**
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_servo`
+        - 1
+        - |link_servo_buy|
+
+
+**Circuit Diagram**
 
 |sch_servo|
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_servo|
 
@@ -37,68 +83,113 @@ Now, try to make the servo sway!
 * Red wire is VCC and connected to VBUS(5V).
 * Brown wire is GND and connected to GND.
 
-**Code**
+Servos can draw significant current, especially under load. Since we're using a small servo and not putting it under heavy load, powering it from the Pico's VBUS pin is acceptable for this simple experiment. For larger servos or multiple servos, use an external power supply.
 
+**Setting Up the Servo Arm**
+
+* Attach the servo arm (also called a horn) to the servo's output shaft.
+* Secure it with the small screw provided with the servo if necessary.
+
+**Writing the Code**
 
 .. note::
 
-   * You can open the file ``3.7_swinging_servo.ino`` under the path of ``newton-lab-kit/arduino/3.7_swinging_servo``. 
+   * You can open the file ``3.7_swinging_servo.ino`` from ``newton-lab-kit/arduino/3.7_swinging_servo``. 
    * Or copy this code into **Arduino IDE**.
-
-
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
     
-
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/d52a67be-be6b-4cbf-b411-810160f56928/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-
-
-When the program is running, we can see the Servo Arm swinging back and forth from 0° to 180°. 
-
-
-**How it works?**
-
-By calling the library ``Servo.h``, you can drive the servo easily. 
-
 .. code-block:: arduino
 
-    #include <Servo.h> 
+    #include <Servo.h>
 
-**Library Functions：**
+    Servo myServo;  // Create a servo object
 
-.. code-block:: arduino
+    void setup() {
+      myServo.attach(15);  // Attach the servo to GPIO pin 15
+    }
 
-    Servo
+    void loop() {
+      // Move the servo from 0 to 180 degrees
+      for (int angle = 0; angle <= 180; angle += 1) {
+        myServo.write(angle);
+        delay(15);  // Wait 15 milliseconds for the servo to reach the position
+      }
+      // Move the servo from 180 to 0 degrees
+      for (int angle = 180; angle >= 0; angle -= 1) {
+        myServo.write(angle);
+        delay(15);
+      }
+    }
 
-Create **Servo** object to control a servo.
+After uploading the code, the servo arm should start swinging smoothly from 0° to 180° and back.
+If the servo doesn't move or behaves erratically:
 
-.. code-block:: arduino
+* Check your wiring connections.
+* Ensure the servo is properly powered.
+* Make sure the servo is not mechanically blocked.
 
-    uint8_t attach(int pin); 
+**Understanding the Code**
 
-Turn a pin into a servo driver. Calls pinMode. Returns 0 on failure.
+#. Including the ``Servo`` Library:
 
-.. code-block:: arduino
+   Includes the ``Servo`` library, which provides functions to control the servo motor.
 
-    void detach();
+   .. code-block:: arduino
 
-Release a pin from servo driving.
+        #include <Servo.h>
 
-.. code-block:: arduino
+#. Creating a ``Servo`` Object:
 
-    void write(int value); 
+   Creates a ``Servo`` object named ``myServo`` to control the servo.
 
-Set the angle of the servo in degrees, 0 to 180.
+   .. code-block:: arduino
 
-.. code-block:: arduino
+        Servo myServo;
 
-    int read();
+#. Attaching the Servo to a Pin:
 
-Return that value set with the last write().
+   Attaches the servo to GPIO pin 15 on the Pico.
 
-.. code-block:: arduino
+   .. code-block:: arduino
 
-    bool attached(); 
+        myServo.attach(15);
 
-Return 1 if the servo is currently attached.
+#. Moving the Servo:
+
+   * Moves the servo from 0° to 180° in 1-degree increments. The delay(15) provides a small delay to allow the servo to reach each position smoothly.
+   
+   .. code-block:: arduino
+
+        for (int angle = 0; angle <= 180; angle += 1) {
+          myServo.write(angle);
+          delay(15);
+        }
+
+   * Reversing the Movement: Moves the servo back from 180° to 0°, creating a back-and-forth swinging motion.
+
+   .. code-block:: arduino
+
+        for (int angle = 180; angle >= 0; angle -= 1) {
+          myServo.write(angle);
+          delay(15);
+        }
+
+**Further Exploration**
+
+* Adjusting Speed:
+
+  Change the ``delay()`` value in the loops to make the servo move faster or slower.
+
+* Controlling Position Directly:
+
+  Use ``myServo.write(angle);`` with a specific angle to set the servo to a fixed position.
+
+* Interactive Control:
+
+  Connect a potentiometer to control the servo angle interactively.
+
+**Conclusion**
+
+In this lesson, you've learned how to control a servo motor using the Raspberry Pi Pico and the Servo library. By adjusting the code, you can set the servo to any angle between 0° and 180°, allowing for precise control in your projects.
+
+

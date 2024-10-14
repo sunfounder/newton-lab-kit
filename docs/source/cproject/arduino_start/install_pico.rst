@@ -14,13 +14,13 @@
 
 .. _setup_pico_arduino:
 
-1.3 Setting Up the Raspberry Pi Pico (Important)
+1.3 Setting Up the Raspberry Pi Pico 2 (Important)
 ==================================================
 
 1. Installing the Board Package
 --------------------------------------
 
-To program the Raspberry Pi Pico, you need to install the appropriate board package in the Arduino IDE. Follow these steps to get started:
+To program the Raspberry Pi Pico 2, you need to install the appropriate board package in the Arduino IDE. Follow these steps to get started:
 
 #. Open the Arduino IDE and navigate to **File** -> **Preferences**.
 
@@ -30,7 +30,7 @@ To program the Raspberry Pi Pico, you need to install the appropriate board pack
 
    .. image:: img/arduino_pico_link.png
 
-#. Open the **Boards Manager** from the menu and search for **pico**. Click the **INSTALL** button to begin the installation. This will install the **Raspberry Pi Pico/RP2040** package, including support for Raspberry Pi Pico 2.
+#. Open the **Boards Manager** from the menu and search for **pico**. Click the **INSTALL** button to begin the installation. This will install the **Raspberry Pi Pico 2/RP2040** package, including support for Raspberry Pi Pico 2.
 
    .. image:: img/arduino_pico_install.png
 
@@ -43,7 +43,7 @@ To program the Raspberry Pi Pico, you need to install the appropriate board pack
 2. Selecting the Board and Port
 ------------------------------------------
 
-#. Hold down the **BOOTSEL** button, then unplug your Raspberry Pi Pico and quickly plug it back in.
+#. Hold down the **BOOTSEL** button, then unplug your Raspberry Pi Pico 2 and quickly plug it back in.
 
    .. image:: img/led_onboard.png
         :width: 500
@@ -54,7 +54,7 @@ To program the Raspberry Pi Pico, you need to install the appropriate board pack
       * This step is crucial, especially for first-time users on the Arduino IDE. Skipping this step will result in a failed upload.
       * Once you've successfully uploaded the code, your Pico will be recognized by the computer. For future uploads, simply plug it into the computer without holding the button.
 
-#. To select the appropriate board, go to **Tools** -> **Board** -> **Raspberry Pi Pico/RP2040** -> **Raspberry Pi Pico 2**.
+#. To select the appropriate board, go to **Tools** -> **Board** -> **Raspberry Pi Pico 2/RP2040** -> **Raspberry Pi Pico 2**.
 
    .. image:: img/arduino_pico_board.png
       :width: 800

@@ -14,25 +14,81 @@
 
 .. _py_traffic_light:
 
+7.6 Building a Traffic Light Controller
+==============================================================
 
-7.6 Traffic Light
-=================================
+In this project, we'll create a **Traffic Light Controller** using the Raspberry Pi Pico 2, three LEDs (red, yellow, green), and a 4-digit 7-segment display. This system will simulate a real traffic light sequence, displaying the remaining time for each light on the 7-segment display.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-`Traffic Light <https://en.wikipedia.org/wiki/Traffic_light>`_ is a signal device located at roadway intersections, crosswalks and other locations to control the flow of traffic.
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
 
-Traffic signals are standardized by the `Vienna Convention on Road Signs and Signals <https://en.wikipedia.org/wiki/Vienna_Convention_on_Road_Signs_and_Signals>`_.
-Provides users with the right-of-way by alternating LEDs in three standard colors.
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
 
-* **Red light**: Traffic should stop if it sees a flashing red light, equivalent to a stop sign.
-* **Yellow light**: A warning signal is about to turn red. Yellow lights are interpreted differently in different countries (regions).
-* **Green light**: Allows traffic to move in the indicated direction.
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 7(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_4_dit_7_segment`
+        - 1
+        - 
+    *   - 7
+        - :ref:`cpn_74hc595`
+        - 1
+        - |link_74hc595_buy|
+    *   - 8
+        - :ref:`cpn_led`
+        - 3
+        - |link_led_buy|
 
-In this project, we will use three colors of LEDs to implement traffic light changes and a 4-digit 7-segment display to show the time of each traffic state.
+**Understanding the Components**
+
+* **LEDs**: Represent the traffic lights. We'll control them to simulate the standard traffic light sequence.
+* **4-Digit 7-Segment Display**: Shows the countdown timer for each light.
+* **74HC595 Shift Register**: Allow us to control multiple outputs (segments and digits of the display) using fewer GPIO pins on the Pico.
 
 
-**Schematic**
-
+**Circuit Diagram**
 
 |sch_traffic_light|
 
@@ -40,121 +96,182 @@ In this project, we will use three colors of LEDs to implement traffic light cha
 * This circuit is based on the :ref:`py_74hc_4dig` with the addition of 3 LEDs.
 * The 3 red, yellow and green LEDs are connected to GP7~GP9 respectively.
 
-**Wiring**
-
+**Wiring Diagram**
 
 |wiring_traffic_light| 
 
+**Writing the Code**
 
-**Code**
+We'll write a MicroPython script that:
+
+* Controls the traffic light sequence.
+* Displays the countdown timer on the 7-segment display.
+* Uses shift registers to control the display.
 
 .. note::
 
-    * Open the ``7.6_traffic_light.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``7.6_traffic_light.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
     import machine
-    import time
+    import utime
     from machine import Timer
 
     # Define the duration for each traffic light color in seconds [Green, Yellow, Red]
-    lightTime = [30, 5, 30]
+    light_time = [30, 5, 30]  # [Green, Yellow, Red]
 
-    # 7-segment display codes for digits 0-9, using hexadecimal to represent LED segments
-    SEGCODE = [0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f]
+    # 7-segment display codes for digits 0-9 (common cathode)
+    SEGMENT_CODES = [0x3F,  # 0
+                    0x06,  # 1
+                    0x5B,  # 2
+                    0x4F,  # 3
+                    0x66,  # 4
+                    0x6D,  # 5
+                    0x7D,  # 6
+                    0x07,  # 7
+                    0x7F,  # 8
+                    0x6F]  # 9
 
-    # Initialize pins for shift register communication (74HC595)
-    sdi = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
-    rclk = machine.Pin(19, machine.Pin.OUT)  # Register Clock (Latch)
-    srclk = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock
+    # Initialize GPIO pins for shift registers
+    SDI = machine.Pin(18, machine.Pin.OUT)    # Serial Data Input
+    SRCLK = machine.Pin(19, machine.Pin.OUT)  # Shift Register Clock
+    RCLK = machine.Pin(20, machine.Pin.OUT)   # Storage Register Clock (Latch)
 
     # Initialize list to store 4 digit control pins for the 7-segment display
-    placePin = []
-    pin = [10, 13, 12, 11]  # Pin numbers for the 4-digit display
-    for i in range(4):
-        placePin.append(None)  # Reserve space in list
-        placePin[i] = machine.Pin(pin[i], machine.Pin.OUT)  # Initialize pins as output
+    digit_pins = [10, 13, 12, 11]  # Adjust according to your wiring
+    digit_controls = [machine.Pin(pin, machine.Pin.OUT) for pin in digit_pins]
 
-    # Function to select which digit (0-3) to display by controlling the common anode pins
-    def pickDigit(digit):
+    # Initialize LED pins
+    led_pins = [7, 8, 9]  # Red, Yellow, Green LEDs connected to GP7, GP8, GP9
+    leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
+
+    # Function to select which digit to display
+    def select_digit(digit):
         for i in range(4):
-            placePin[i].value(1)  # Turn off all digits
-        placePin[digit].value(0)  # Turn on the selected digit
+            digit_controls[i].value(1)  # Turn off all digits (assuming common cathode)
+        digit_controls[digit].value(0)  # Turn on the selected digit
 
-    # Function to clear the display by sending '0x00' to the shift register
-    def clearDisplay():
-        hc595_shift(0x00)
-
-    # Function to send data to the shift register (74HC595)
-    def hc595_shift(dat):
-        rclk.low()  # Pull latch low to prepare for data shifting
-        time.sleep_us(200)  # Small delay for timing stability
-        for bit in range(7, -1, -1):  # Loop through each bit (MSB first)
-            srclk.low()  # Prepare to send the next bit
-            time.sleep_us(200)
-            value = 1 & (dat >> bit)  # Extract the current bit from the data
-            sdi.value(value)  # Set the data line to the current bit value
-            time.sleep_us(200)
-            srclk.high()  # Pulse the shift clock to store the bit in the register
-            time.sleep_us(200)
-        time.sleep_us(200)
-        rclk.high()  # Pulse the register clock to move the data to the output
+    # Function to shift out data to the shift registers
+    def shift_out(data):
+        RCLK.value(0)  # Prepare for data shift
+        for bit in range(15, -1, -1):
+            SRCLK.value(0)
+            SDI.value((data >> bit) & 0x01)
+            SRCLK.value(1)
+        RCLK.value(1)  # Latch the data
 
     # Function to display a number on the 7-segment display
-    # This function breaks down the number into its individual digits and displays them
-    def display(num):
-        pickDigit(0)  # Select the units place
-        hc595_shift(SEGCODE[num % 10])  # Display units
+    def display_number(num):
+        digits = [
+            num // 1000 % 10,
+            num // 100 % 10,
+            num // 10 % 10,
+            num % 10
+        ]
+        for i in range(4):
+            select_digit(i)
+            segment_data = SEGMENT_CODES[digits[i]]
+            # Prepare data for both shift registers (segments and digit controls)
+            data = (segment_data << 8) | 0xFF  # Digit controls are managed separately
+            shift_out(data)
+            utime.sleep_ms(2)
 
-        pickDigit(1)  # Select the tens place
-        hc595_shift(SEGCODE[num % 100 // 10])  # Display tens
-
-        pickDigit(2)  # Select the hundreds place
-        hc595_shift(SEGCODE[num % 1000 // 100])  # Display hundreds
-
-        pickDigit(3)  # Select the thousands place
-        hc595_shift(SEGCODE[num % 10000 // 1000])  # Display thousands
-
-    # Setup for traffic light LEDs (Red, Yellow, Green)
-    # LEDs are connected to pins 9 (Green), 8 (Yellow), and 7 (Red)
-    pin = [7, 8, 9]  # LED pin numbers
-    led = []
-    for i in range(3):
-        led.append(None)  # Reserve space in list
-        led[i] = machine.Pin(pin[i], machine.Pin.OUT)  # Initialize each pin as output for LEDs
-
-    # Function to turn on the correct LED based on the current state
-    # 0 = Green, 1 = Yellow, 2 = Red
-    def lightup(state):
+    # Function to update the LEDs based on the current state
+    def update_leds(state):
+        # States: 0 = Green, 1 = Yellow, 2 = Red
         for i in range(3):
-            led[i].value(0)  # Turn off all LEDs
-        led[state].value(1)  # Turn on the selected LED (Green, Yellow, or Red)
+            leds[i].value(0)
+        leds[state].value(1)
 
-    # Timer-related variables
-    counter = 0  # Counter for the remaining time
-    color_state = 0  # Current state of the traffic light (0 = Green, 1 = Yellow, 2 = Red)
+    # Timer variables
+    counter = light_time[0]  # Start with green light duration
+    current_state = 0  # 0 = Green, 1 = Yellow, 2 = Red
 
     # Timer interrupt callback to update the traffic light state and counter
-    def time_count(ev):
-        global counter, color_state
-        counter -= 1  # Decrease the counter by 1 second
-        if counter <= 0:  # If the counter reaches zero, switch to the next light color
-            color_state = (color_state + 1) % 3  # Cycle through Green, Yellow, and Red
-            counter = lightTime[color_state]  # Reset counter based on the new color's duration
+    def timer_callback(t):
+        global counter, current_state
+        counter -= 1
+        if counter <= 0:
+            current_state = (current_state + 1) % 3  # Cycle through the states
+            counter = light_time[current_state]  # Reset counter for the new state
+            update_leds(current_state)
 
-    # Initialize a timer to call the time_count function every 1 second (1000ms)
-    tim = Timer(period=1000, mode=Timer.PERIODIC, callback=time_count)
+    # Initialize the timer
+    timer = Timer(period=1000, mode=Timer.PERIODIC, callback=timer_callback)
 
-    # Main loop to update the 7-segment display and traffic light LEDs
-    while True:
-        display(counter)  # Update the display with the remaining time
-        lightup(color_state)  # Update the traffic light LEDs based on the current color
+    # Initial LED state
+    update_leds(current_state)
 
+    # Main loop
+    try:
+        while True:
+            display_number(counter)
+    except KeyboardInterrupt:
+        timer.deinit()
+        print("Program stopped.")
 
+When the code runs, the green LED will light up first, and the display will show a countdown from 30.
+After 30 seconds, the yellow LED will light up, and the display will count down from 5.
+Then, the red LED will light up, and the display will count down from 30.
+The cycle repeats indefinitely.
 
-When the code runs, the green LED stays on for 30 seconds, the yellow LED stays on for 5 seconds, and the green LED stays on for 30 seconds.
+**Understanding the Code**
+
+#. Imports and Pin Definitions:
+
+   * ``machine, utime, Timer``: Modules for hardware control and timing.
+   * ``Define SDI, SRCLK, RCLK``: For controlling the shift registers.
+   * ``digit_controls``: List of pins controlling the digits of the display.
+   * ``leds``: List of pins controlling the LEDs.
+
+#. Segment Codes:
+
+   * ``SEGMENT_CODES``: Defines which segments to light up for digits 0-9.
+
+#. Display Functions:
+
+   * ``select_digit(digit)``: Activates a specific digit on the display.
+   * ``shift_out(data)``: Sends data to the shift registers.
+   * ``display_number(num)``: Breaks down the number into digits and displays them using multiplexing.
+
+#. LED Control:
+
+   * ``update_leds(state)``: Turns on the appropriate LED based on the current traffic light state.
+
+#. Timer and State Management:
+
+   * ``counter``: Tracks the remaining time for the current light.
+   * ``current_state``: Indicates the current traffic light state.
+   * ``timer_callback(t)``: Decrements the counter and switches states when necessary.
+   * ``timer``: Initializes a hardware timer to call timer_callback every second.
+
+#. Main Loop:
+
+   * Continuously updates the display to show the remaining time.
+   * Uses a try-except block to handle a KeyboardInterrupt gracefully.
+
+**Experimenting Further**
+
+* Adjust Timing:
+
+  Change the light_time list to adjust the durations for each light.
+
+* Add Pedestrian Crossing:
+
+  Implement buttons and additional LEDs to simulate pedestrian crossing signals.
+
+* Improve Display:
+
+  Modify the code to add features like blinking the LED when time is almost up.
+
+* Simulate Real Traffic Lights:
+
+  Add more complex sequences, such as left-turn signals or multiple intersections.
+
+**Conclusion**
+
+You've successfully built a Traffic Light Controller using the Raspberry Pi Pico 2! This project demonstrates how microcontrollers can be used to control hardware components like LEDs and displays, and how timers and interrupts can create real-time applications.
+
+Feel free to expand upon this project, adding new features or integrating it into a larger system.

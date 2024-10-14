@@ -15,38 +15,87 @@
 .. _py_irremote:
 
 
-6.4 IR Remote Control
-================================
+6.4 Using an Infrared Remote Control
+==========================================================
 
-In consumer electronics, remote controls are used to operate devices such as televisions and DVD players.
-In some cases, remote controls allow people to operate devices that are out of their reach, such as central air conditioners.
+In this lesson, we'll learn how to use an **infrared (IR) remote control** and an **IR receiver module** with the Raspberry Pi Pico 2. This will allow us to receive and decode signals from an IR remote, enabling us to control our projects wirelessly.
 
-IR Receiver is a component with photocell that is tuned to receive to infrared light. 
-It is almost always used for remote control detection - every TV and DVD player has one of these in the front to receive for the IR signal from the clicker. 
-Inside the remote control is a matching IR LED, which emits IR pulses to tell the TV to turn on, off or change channels.
+**What You'll Need**
 
-* :ref:`cpn_irrecv`
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-**Schematic**
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_ir_receiver`
+        - 1
+        - |link_receiver_buy|
+
+**Understanding Infrared Communication**
+
+Infrared communication involves transmitting data wirelessly using infrared light. Common household devices like TVs and DVD players use IR remote controls for operation.
+
+* **IR Transmitter (Remote Control):** Emits modulated infrared light when a button is pressed.
+* **IR Receiver Module:** Detects the modulated IR light and converts it into electrical signals that can be decoded.
+
+**Circuit Diagram**
 
 |sch_irrecv|
 
-**Wiring**
-
+**Wiring Diagram**
 
 |wiring_irrecv|
 
+**Writing the Code**
 
-**Code**
+Let's write a MicroPython script to receive and decode IR signals from the remote control.
 
 .. note::
 
-    * Open the ``6.4_ir_remote_control.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+    * Open the ``6.4_ir_remote_control.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
 
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`. 
+     
     
     * Here you need to use the libraries in ``ir_rx`` folder, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
 
@@ -54,175 +103,156 @@ Inside the remote control is a matching IR LED, which emits IR pulses to tell th
 .. code-block:: python
 
     import time
-    from machine import Pin, freq
+    from machine import Pin
+    from ir_rx.nec import NEC_8  # Adjust based on your remote's protocol
     from ir_rx.print_error import print_error
-    from ir_rx.nec import NEC_8
 
-    pin_ir = Pin(17, Pin.IN)
+    # Initialize the IR receiver pin
+    ir_pin = Pin(17, Pin.IN)
 
-    def decodeKeyValue(data):
-        if data == 0x16:
-            return "0"
-        if data == 0x0C:
-            return "1"
-        if data == 0x18:
-            return "2"
-        if data == 0x5E:
-            return "3"
-        if data == 0x08:
-            return "4"
-        if data == 0x1C:
-            return "5"
-        if data == 0x5A:
-            return "6"
-        if data == 0x42:
-            return "7"
-        if data == 0x52:
-            return "8"
-        if data == 0x4A:
-            return "9"
-        if data == 0x09:
-            return "+"
-        if data == 0x15:
-            return "-"
-        if data == 0x7:
-            return "EQ"
-        if data == 0x0D:
-            return "U/SD"
-        if data == 0x19:
-            return "CYCLE"
-        if data == 0x44:
-            return "PLAY/PAUSE"
-        if data == 0x43:
-            return "FORWARD"
-        if data == 0x40:
-            return "BACKWARD"
-        if data == 0x45:
-            return "POWER"
-        if data == 0x47:
-            return "MUTE"
-        if data == 0x46:
-            return "MODE" 
-        return "ERROR"
-
-    # User callback
-    def callback(data, addr, ctrl):
-        if data < 0:  # NEC protocol sends repeat codes.
+    # Callback function to handle received data
+    def ir_callback(data, addr, ctrl):
+        if data < 0:  # Repeat code or error
             pass
         else:
-            print(decodeKeyValue(data))
+            key = decode_key(data)
+            print("Received Key:", key)
 
-    ir = NEC_8(pin_ir, callback)  # Instantiate receiver
-    ir.error_function(print_error)  # Show debug information
+    # Function to decode the received data into key presses
+    def decode_key(data):
+        key_codes = {
+            0x45: "POWER",
+            0x46: "MENU",
+            0x47: "TEST",
+            0x44: "BACK",
+            0x40: "PLAY",
+            0x43: "FORWARD",
+            0x07: "0",
+            0x15: "UP",
+            0x09: "DOWN",
+            0x16: "OK",
+            0x19: "1",
+            0x0D: "2",
+            0x0C: "3",
+            0x18: "4",
+            0x5E: "5",
+            0x08: "6",
+            0x1C: "7",
+            0x5A: "8",
+            0x42: "9",
+            # Add more key codes based on your remote
+        }
+        return key_codes.get(data, "UNKNOWN")
+
+    # Instantiate the IR receiver
+    ir = NEC_8(ir_pin, ir_callback)
+    ir.error_function(print_error)  # Optional: to print errors
 
     try:
         while True:
-            pass
+            time.sleep(1)  # Keep the main thread alive
     except KeyboardInterrupt:
         ir.close()
+        print("Program terminated")
+
+When you run this code and press buttons on your infrared remote control, the Thonny Shell (or any other serial monitor) will display the name of the key you pressed. For example, if you press the "PLAY" button on the remote, the Shell will show "Received Key: PLAY".
+
+**Understanding the Code**
+
+#. Import Modules:
+
+   * ``ir_rx.nec.NEC_8``: The NEC protocol decoder for 8-bit addresses.
+   * ``print_error``: Function to print error messages.
+
+   .. code-block:: python
+
+        import time
+        from machine import Pin
+        from ir_rx.nec import NEC_8
+        from ir_rx.print_error import print_error
+
+#. Initialize IR Receiver Pin:
+
+   .. code-block:: python
+
+        ir_pin = Pin(17, Pin.IN)
+
+#. Define Callback Function:
+
+   This function is called automatically when data is received. The data parameter contains the key code.
+
+   .. code-block:: python
+
+        def ir_callback(data, addr, ctrl):
+            if data < 0:
+                pass  # Ignore repeat codes
+            else:
+                key = decode_key(data)
+                print("Received Key:", key)
+
+#. Decode Key Function:
+
+   Maps received key codes to human-readable labels.
+
+   .. code-block:: python
+
+        def decode_key(data):
+            key_codes = {
+                0x45: "POWER",
+                0x46: "MENU",
+                0x47: "TEST",
+                0x44: "BACK",
+                0x40: "PLAY",
+                0x43: "FORWARD",
+                0x07: "0",
+                0x15: "UP",
+                0x09: "DOWN",
+                0x16: "OK",
+                0x19: "1",
+                0x0D: "2",
+                0x0C: "3",
+                0x18: "4",
+                0x5E: "5",
+                0x08: "6",
+                0x1C: "7",
+                0x5A: "8",
+                0x42: "9",
+                # Add more key codes based on your remote
+            }
+            return key_codes.get(data, "UNKNOWN")
 
 
-The new remote control has a plastic piece at the end to isolate the battery inside. You need to pull out this plastic piece to power up the remote when you are using it.
-Once the program is running, when you press the remote control, the Shell will print out the key you pressed.
+#. Instantiate IR Receiver:
 
-**How it works?**
+   Sets up the IR receiver with the callback function.
 
-This program looks slightly complicated, but it actually does the basic functions of the IR receiver with just a few lines.
+   .. code-block:: python
 
-.. code-block:: python
+        ir = NEC_8(ir_pin, ir_callback)
+        ir.error_function(print_error)
 
-    import time
-    from machine import Pin, freq
-    from ir_rx.nec import NEC_8
 
-    pin_ir = Pin(17, Pin.IN)
+#. Main Loop:
 
-    # User callback
-    def callback(data, addr, ctrl):
-        if data < 0:  # NEC protocol sends repeat codes.
-            pass
-        else:
-            print(decodeKeyValue(data))
+   Keeps the program running to listen for IR signals. Gracefully handles program termination.
 
-    ir = NEC_8(pin_ir, callback)  # Instantiate receiver
+   .. code-block:: python
 
-Here an ``ir`` object is instantiated, which reads the signals acquired by the IR receiver at any time.
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            ir.close()
+            print("Program terminated")
 
-The result will be recorded in ``data`` of the callback function.
+**Applications**
+
+* **Control Projects Wirelessly**: Use the IR remote to control LEDs, motors, or other peripherals.
+* **Build a Universal Remote Decoder**: Expand the code to handle multiple protocols or remotes.
+
+**Conclusion**
+
+In this lesson, you've learned how to use an IR receiver with the Raspberry Pi Pico 2 to decode signals from an infrared remote control. This enables you to add wireless control to your projects using common household remotes.
 
 * `Callback Function - Wikipedia <https://en.wikipedia.org/wiki/Callback_(computer_programming)>`_
 
-If the IR receiver receives duplicate values (e.g. pressing a key and not releasing it), then data < 0 and this data needs to be filtered.
-
-Otherwise data would be a usable value, but some unspeakable code, and the ``decodeKeyValue(data)`` function is used to decode it.
-
-.. code-block:: python
-
-    def decodeKeyValue(data):
-        if data == 0x16:
-            return "0"
-        if data == 0x0C:
-            return "1"
-        if data == 0x18:
-            return "2"
-        if data == 0x5E:
-            return "3"
-        if data == 0x08:
-            return "4"
-        if data == 0x1C:
-            return "5"
-        if data == 0x5A:
-            return "6"
-        if data == 0x42:
-            return "7"
-        if data == 0x52:
-            return "8"
-        if data == 0x4A:
-            return "9"
-        if data == 0x09:
-            return "+"
-        if data == 0x15:
-            return "-"
-        if data == 0x7:
-            return "EQ"
-        if data == 0x0D:
-            return "U/SD"
-        if data == 0x19:
-            return "CYCLE"
-        if data == 0x44:
-            return "PLAY/PAUSE"
-        if data == 0x43:
-            return "FORWARD"
-        if data == 0x40:
-            return "BACKWARD"
-        if data == 0x45:
-            return "POWER"
-        if data == 0x47:
-            return "MUTE"
-        if data == 0x46:
-            return "MODE" 
-        return "ERROR"
-
-If we press key **1**, the IR receiver outputs a value like ``0x0C``, which needs to be decoded to correspond to the specific key.
-
-Next are some debug functions. They are important, but not related to the effect we need to achieve, so we just put them in the program.
-
-.. code-block:: python
-
-    from ir_rx.print_error import print_error
-
-    ir.error_function(print_error) # Show debug information
-
-Finally, we use an empty loop as the main program. And use try-except to make the program exit with the ``ir`` object terminated.
-
-.. code-block:: python
-
-    try:
-        while True:
-            pass
-    except KeyboardInterrupt:
-        ir.close()
-
-
-
-* `Try Statement - Python Docs <https://docs.python.org/3/reference/compound_stmts.html?#the-try-statement>`_

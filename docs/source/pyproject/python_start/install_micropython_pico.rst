@@ -38,7 +38,7 @@ You can program your Pico by connecting it to a computer via USB, then dragging 
 .. Now come to install MicroPython Firmware into Raspberry Pi Pico 2, Thonny IDE provides a very convenient way for you to install it with one click.
 
 .. .. note::
-..     If you do not wish to upgrade Thonny IDE, you can use the Raspberry Pi official |link_micropython_pi| by dragging and dropping an ``rp2_pico_xxxx.uf2`` file into Raspberry Pi Pico.
+..     If you do not wish to upgrade Thonny IDE, you can use the Raspberry Pi official |link_micropython_pi| by dragging and dropping an ``rp2_pico_xxxx.uf2`` file into Raspberry Pi Pico 2.
 
 .. #. Open Thonny IDE.
 
@@ -64,4 +64,4 @@ You can program your Pico by connecting it to a computer via USB, then dragging 
 ..     .. image:: img/set_pico4.png
 
 
-.. Congratulations, now your Raspberry Pi Pico is ready to go.
+.. Congratulations, now your Raspberry Pi Pico 2 is ready to go.

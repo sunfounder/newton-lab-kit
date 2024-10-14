@@ -14,66 +14,172 @@
 
 .. _ar_led_bar:
 
-2.2 - Display the Level
+2.2 Display the Level
 =============================
 
-
-The first project is simply to make the LED blink. In this project let's use the LED Bar Graph, which is made up of 10 LEDs packaged into a plastic case, generally used to display power or volume levels.
+In this lesson, we'll learn how to control an LED Bar Graph using the Raspberry Pi Pico 2. An LED Bar Graph consists of 10 LEDs arranged in a line, typically used to display levels such as volume, signal strength, or other measurements. We'll light up the LEDs sequentially to create a level display effect.
 
 |img_led_bar_pin|
 
-* :ref:`cpn_led_bar`
 
-**Schematic**
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 10(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_led_bar`
+        - 1
+        - 
+
+**Circuit Diagram**
 
 |sch_ledbar|
 
-The LED Bar Graph contains 10 LEDs, each of which is individually controllable. Here, the anode of each of the 10 LEDs is connected to GP6~GP15, and the cathode is connected to a 220ohm resistor, and then to GND.
+In this project, each of the 10 LEDs in the LED Bar Graph is connected to the Raspberry Pi Pico 2. The anodes (positive terminals) of the LEDs are connected to GPIO pins GP6 through GP15. The cathodes (negative terminals) are connected through 220Ω resistors to the GND (ground) pin.
 
-
-**Wiring**
+**Wiring Diagram**
 
 |wiring_ledbar|
 
-**Code**
+**Writing the Code**
 
 .. note::
 
-   * You can open the file ``2.2_display_the_level.ino`` under the path of ``newton-lab-kit/arduino/2.2_display_the_level``. 
+   * You can open the file ``2.2_display_the_level.ino`` from ``newton-lab-kit/arduino/2.2_display_the_level``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
 
+.. code-block:: Arduino
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+    // Define the GPIO pins connected to the LED Bar Graph
+    const int ledPins[] = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 
-
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/ae60e723-430e-4a58-ac39-566b9d1828e8/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-    
-
-When the program is running, you will see the LEDs on the LED Bar Graph light up and then turn off in sequence.
-
-**How it works?**
-
-Each of the ten LEDs on the LED Bar needs to be controlled by a pin, which means that we define these ten pins.
-
-The codes in ``setup()`` use the for loop to initialize pins 6~15 to output mode in turn.
-
-.. code-block:: C
-
-    for(int i=6;i<=15;i++)
-    {
-        pinMode(i,OUTPUT);
-    }   
-
-The for loop is used in ``loop()`` to make the LED flash(turn on 0.5s, then turn off 0.5s) in sequence.
-
-.. code-block:: C
-
-    for(int i=6;i<=15;i++)
-    {
-        digitalWrite(i,HIGH);
-        delay(500);
-        digitalWrite(i,LOW);
-        delay(500);    
+    void setup() {
+      // Initialize each pin as an output
+      for (int i = 0; i < 10; i++) {
+        pinMode(ledPins[i], OUTPUT);
+      }
     }
+
+    void loop() {
+      // Turn on LEDs sequentially
+      for (int i = 0; i < 10; i++) {
+        digitalWrite(ledPins[i], HIGH); // Turn on LED
+        delay(500);                     // Wait 500 milliseconds
+        digitalWrite(ledPins[i], LOW);  // Turn off LED
+        delay(500);                     // Wait 500 milliseconds
+      }
+    }    
+
+After uploading the code, the LEDs on the bar graph should light up one after another, creating a level display effect. Each LED turns on for half a second and then turns off before the next one lights up.
+
+**Understanding the Code**
+
+#. Defining the LED Pins:
+
+   Create an array ``ledPins`` that holds the GPIO pin numbers connected to each LED on the bar graph.
+
+   .. code-block:: Arduino
+
+      const int ledPins[] = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+
+#. Initializing the Pins:
+
+   In the ``setup()`` function, we set each pin in the ``ledPins`` array as an output.
+
+   .. code-block:: Arduino
+
+      void setup() {
+        for (int i = 0; i < 10; i++) {
+          pinMode(ledPins[i], OUTPUT);
+        }
+      }
+
+#. Controlling the LEDs:
+
+   In the ``loop()`` function, we use a ``for`` loop to iterate through each LED. We turn it on, wait for 500 milliseconds, turn it off, and then wait another 500 milliseconds before moving to the next LED.
+
+   .. code-block:: Arduino
+
+      void loop() {
+        for (int i = 0; i < 10; i++) {
+          digitalWrite(ledPins[i], HIGH);
+          delay(500);
+          digitalWrite(ledPins[i], LOW);
+          delay(500);
+        }
+      }
+
+**Experimenting Further**
+
+* **Reverse the Order**: Modify the code to light up the LEDs in reverse order.
+
+* **Create a Bounce Effect**: After reaching the last LED, make the sequence reverse back to the first LED.
+
+  .. code-block:: Arduino
+    
+      void loop() {
+        // Ascending sequence
+        for (int i = 0; i < 10; i++) {
+          digitalWrite(ledPins[i], HIGH);
+          delay(200);
+          digitalWrite(ledPins[i], LOW);
+        }
+        // Descending sequence
+        for (int i = 8; i >= 0; i--) {
+          digitalWrite(ledPins[i], HIGH);
+          delay(200);
+          digitalWrite(ledPins[i], LOW);
+        }
+      }
+
+* **Adjust the Speed**: Change the delay times to make the LEDs light up faster or slower.
+
+**Conclusion**
+
+In this lesson, you've learned how to control multiple LEDs using the Raspberry Pi Pico and how to create visual effects using simple programming constructs like loops and delays. This foundational knowledge is essential for more advanced projects involving LED displays and indicators.

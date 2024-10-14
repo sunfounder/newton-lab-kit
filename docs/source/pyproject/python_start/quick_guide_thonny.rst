@@ -50,7 +50,7 @@ However, you must first download the package and upload the library, as describe
 
    .. code-block::
       
-      MicroPython v1.24.0-preview.201.g269a0e0e1 on 2024-08-09; Raspberry Pi Pico2 with RP2350
+      MicroPython v1.24.0-preview.201.g269a0e0e1 on 2024-08-09; Raspberry Pi Pico 22 with RP2350
       Type "help()" for more information.
       >>> %Run -c $EDITOR_CONTENT
 
@@ -69,15 +69,15 @@ However, you must first download the package and upload the library, as describe
 
    You can save changes made to the open example by pressing **Ctrl+S** or clicking the **Save** button on Thonny.
    
-   * The code can be saved as a separate file within the Raspberry Pi Pico by clicking on **File** -> **Save As**.
+   * The code can be saved as a separate file within the Raspberry Pi Pico 2 by clicking on **File** -> **Save As**.
 
      .. image:: img/save_as.png
 
-   * Select **Raspberry Pi Pico**.
+   * Select **Raspberry Pi Pico 2**.
 
      .. image:: img/sec_pico.png
 
-   * Then click **OK** after entering the file name and extension **.py**. On the Raspberry Pi Pico drive, you will see your saved file.
+   * Then click **OK** after entering the file name and extension **.py**. On the Raspberry Pi Pico 2 drive, you will see your saved file.
 
      .. image:: img/sec_name.png
 
@@ -112,12 +112,12 @@ The code is shown directly in the code section. You can copy it to Thonny and ru
 
 #. Run and Save the Code
 
-   You need click **Run Current Script** or simply press F5 to run it. If your code has not been saved, a window will pop up asking to save to **This computer** or **Raspberry Pi Pico**.
+   You need click **Run Current Script** or simply press F5 to run it. If your code has not been saved, a window will pop up asking to save to **This computer** or **Raspberry Pi Pico 2**.
 
    .. image:: img/where_save.png
 
    .. note::
-        Thonny saves your program on the Raspberry Pi Pico when you tell him to, so if you unplug the Pico and plug it into someone else's computer, your program remains intact.
+        Thonny saves your program on the Raspberry Pi Pico 2 when you tell him to, so if you unplug the Pico and plug it into someone else's computer, your program remains intact.
 
    * Click OK after selecting the location, naming the file and adding the extension **.py**.
 
@@ -134,7 +134,7 @@ The code is shown directly in the code section. You can copy it to Thonny and ru
 
      .. code-block::
 
-        MicroPython v1.24.0-preview.201.g269a0e0e1 on 2024-08-09; Raspberry Pi Pico2 with RP2350
+        MicroPython v1.24.0-preview.201.g269a0e0e1 on 2024-08-09; Raspberry Pi Pico 22 with RP2350
 
         Type "help()" for more information.
         >>> %Run -c $EDITOR_CONTENT
@@ -156,6 +156,6 @@ The code is shown directly in the code section. You can copy it to Thonny and ru
 
    Here are two ways to open a saved code file.
 
-   * The first method is to click the open icon on the Thonny toolbar, just like when you save a program, you will be asked if you want to open it from **this computer** or **Raspberry Pi Pico**, for example, click **Raspberry Pi Pico** and you will see a list of all the programs you have saved on the Pico.
-   * The second is to open the file preview directly by clicking **View**->**File**-> and then double-clicking on the corresponding ``.py`` file to open it.
+   * The first method is to click the open icon on the Thonny toolbar, just like when you save a program, you will be asked if you want to open it from **this computer** or **Raspberry Pi Pico 2**, for example, click **Raspberry Pi Pico 2** and you will see a list of all the programs you have saved on the Pico.
+   * The second is to open the file preview directly by clicking **View**-> **File** -> and then double-clicking on the corresponding ``.py`` file to open it.
 

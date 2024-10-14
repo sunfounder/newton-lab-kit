@@ -17,16 +17,62 @@
 2.6 Tilt It!
 =======================
 
-In this lesson, we'll learn how to use a tilt switch with the Raspberry Pi Pico to detect changes in orientation. A tilt switch is a simple device that can sense whether it is upright or tilted, making it useful for applications like motion detection, orientation sensing, or as a trigger based on position.
+In this lesson, we'll learn how to use a tilt switch with the Raspberry Pi Pico 2 to detect changes in orientation. A tilt switch is a simple device that can sense whether it is upright or tilted, making it useful for applications like motion detection, orientation sensing, or as a trigger based on position.
 
 **What You'll Need**
 
-* Raspberry Pi Pico 2
-* Tilt switch (also known as a ball switch)
-* 10 kΩ resistor (color bands: brown, black, orange, gold)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
 
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_tilt`
+        - 1
+        - 
 
 **Circuit Diagram**
 
@@ -53,9 +99,9 @@ We'll write a simple MicroPython program that detects the state of the tilt swit
 
 .. note::
 
-    * Open the ``2.6_tilt_switch.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``2.6_tilt_switch.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
@@ -147,4 +193,4 @@ Connect an LED to another GPIO pin (e.g., GP15) with a suitable resistor. Modify
 
 **Conclusion**
 
-By incorporating a tilt switch into your Raspberry Pi Pico projects, you can add a new dimension of interactivity based on orientation and movement. Understanding how to read digital inputs from sensors like the tilt switch expands your ability to create dynamic and responsive electronics.
+By incorporating a tilt switch into your Raspberry Pi Pico 2 projects, you can add a new dimension of interactivity based on orientation and movement. Understanding how to read digital inputs from sensors like the tilt switch expands your ability to create dynamic and responsive electronics.

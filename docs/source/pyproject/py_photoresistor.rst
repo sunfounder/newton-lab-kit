@@ -17,15 +17,62 @@
 2.12 Feel the Light
 =====================
 
-In this lesson, we'll learn how to use a **photoresistor** (also known as a light-dependent resistor or LDR) with the Raspberry Pi Pico to measure light intensity. A photoresistor changes its resistance based on the amount of light it receives: the brighter the light, the lower the resistance. This makes it ideal for detecting changes in ambient light.
+In this lesson, we'll learn how to use a **photoresistor** (also known as a light-dependent resistor or LDR) with the Raspberry Pi Pico 2 to measure light intensity. A photoresistor changes its resistance based on the amount of light it receives: the brighter the light, the lower the resistance. This makes it ideal for detecting changes in ambient light.
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* Photoresistor (LDR)
-* 10 kΩ resistor (color bands: brown, black, orange, gold)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_photoresistor`
+        - 1
+        - |link_photoresistor_buy|
+
 
 **Circuit Diagram**
 
@@ -139,6 +186,6 @@ When the code is running, observe the values printed in the console.
 
 **Conclusion**
 
-By using a photoresistor with the Raspberry Pi Pico, you've learned how to read analog inputs and respond to changes in environmental light. This knowledge can be applied to various projects, such as automatic lighting systems, light-following robots, or security devices that react to changes in lighting.
+By using a photoresistor with the Raspberry Pi Pico 2, you've learned how to read analog inputs and respond to changes in environmental light. This knowledge can be applied to various projects, such as automatic lighting systems, light-following robots, or security devices that react to changes in lighting.
 
 

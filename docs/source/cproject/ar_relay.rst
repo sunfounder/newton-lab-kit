@@ -15,85 +15,246 @@
 .. _ar_relay:
 
 
-2.16 - Control Another Circuit
-=================================
+2.16 Control Another Circuit with a Relay
+=========================================
 
-In our daily life, we can press the switch to light up or turn off the lamp.
-But what if you want to control the lamp with Pico so that it can turn off automatically after ten minutes?
+In this lesson, we will learn how to control another circuit using a **relay** and the Raspberry Pi Pico 2. A relay acts like a switch controlled by a low-voltage circuit (like Pico) to operate a high-voltage circuit. For example, you can use a relay to turn on a lamp or any other device, making it possible to automate electrical appliances.
 
-A relay can help you accomplish this idea.
 
-A relay is actually a special kind of switch that is controlled by one side of the circuit (usually a low-voltage circuit) and used to control the other side of the circuit (usually a high-voltage circuit).
-This makes it practical to modify our home appliances to be controlled by a program, to become smart devices, or even to access the Internet.
+**What You'll Need**
 
-.. warning::
-    Modification of electrical appliances comes with great danger, do not try it lightly, please do it under the guidance of professionals.
+In this project, we need the following components. 
 
-* :ref:`cpn_relay`
+It's definitely convenient to buy a whole kit, here's the link: 
 
-Here we only use a simple circuit powered by a breadboard power module as an example to show how to control it using relay.
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
 
-* :ref:`cpn_power_module`
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
 
-**Wiring**
+You can also buy them separately from the links below.
 
-First, build a low-voltage circuit for controlling a relay.
-Driving the relay requires a high current, so a transistor is needed, and here we use the S8050.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(220Ω), 1(1KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_transistor`
+        - 1(S8050)
+        - |link_transistor_buy|
+    *   - 7
+        - :ref:`cpn_diode`
+        - 1
+        - 
+    *   - 8
+        - :ref:`cpn_relay`
+        - 1
+        - |link_relay_buy|
+    *   - 9
+        - :ref:`cpn_led`
+        - 1
+        - |link_led_buy|
+    *   - 10
+        - :ref:`cpn_power_module`
+        - 1
+        -  
+    *   - 11
+        - 9V Battery
+        - 1
+        -
+
+    
+**Circuit Diagram**
 
 |sch_relay_1|
+
+* Relay Activation:
+
+  * The relay's coil is energized by the transistor when the Pico outputs a **high signal** (3.3V) to GP15.
+  * The transistor allows current to flow through the relay, activating the switch inside.
+  * The relay makes a "click" sound when switching, indicating the control of the load circuit.
+
+* Flyback Diode:
+
+  * The diode is placed across the relay coil to protect the transistor from voltage spikes that occur when the relay is turned off.
+
+**Wiring Diagram**
 
 |wiring_relay_1|
 
 
-
-A diode (continuity diode) is used here to protect the circuit. The cathode is the end with the silver ribbon connected to the power supply, and the anode is connected to the transistor.
-
-When the voltage input changes from High (5V) to Low (0V), the transistor changes from saturation (amplification, saturation, and cutoff) to cutoff, and there is suddenly no way for current to flow through the coil. 
-
-At this point, if this freewheeling diode does not exist, the coil will produce a self-induced electric potential at both ends that is several times higher than the supply voltage, and this voltage plus the voltage from the transistor power supply is enough to burn it.  
-
-After adding the diode, the coil and the diode instantly form a new circuit powered by the energy stored in the coil to discharge, thus avoiding the excessive voltage will damage devices such as transistors on the circuit.
-
-* :ref:`cpn_diode`    
-* `Flyback Diode - Wikipedia <https://en.wikipedia.org/wiki/Flyback_diode>`_
-
-At this point the program is ready to run, and after running you will hear the "tik tok" sound, which is the sound of the contactor coil inside the relay sucking and breaking.
-
-Then we connect the two ends of the load circuit to pins 3 and 6 of the relay respectively.
-
-..(Take the simple circuit powered by the breadboard power module described in the previous article as an example.)
-
-|sch_relay_2|
-
-|wiring_relay_2|
-
-At this point, the relay will be able to control the load circuit on and off.
-
-
-**Code**
+**Writing the Code**
 
 
 .. note::
 
-   * You can open the file ``2.16_relay.ino`` under the path of ``newton-lab-kit/arduino/2.16_relay``. 
+   * You can open the file ``2.16_relay.ino`` from ``newton-lab-kit/arduino/2.16_relay``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
 
+.. code-block:: arduino
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+   const int relayPin = 15;  // GPIO pin connected to the transistor base
 
+   void setup() {
+     pinMode(relayPin, OUTPUT);
+     digitalWrite(relayPin, LOW);  // Ensure the relay is off at startup
+   }
 
-.. raw:: html
+   void loop() {
+     // Turn the relay on
+     digitalWrite(relayPin, HIGH);
+     Serial.println("Relay ON");
+     delay(2000);  // Wait for 2 seconds
+
+     // Turn the relay off
+     digitalWrite(relayPin, LOW);
+     Serial.println("Relay OFF");
+     delay(2000);  // Wait for 2 seconds
+   }
+
+After uploading the code, you should hear a "click" sound from the relay every 2 seconds as it switches on and off.
+
+**Understanding the Code**
+
+#. Defining the Relay Pin:
+
+   Assigns ``relayPin`` to GPIO 15, which controls the transistor and thus the relay.
+
+   .. code-block:: arduino
+
+        const int relayPin = 15;  // GPIO pin connected to the transistor base
+
+#. Setting Up the Pin Modes:
+
+   Sets ``relayPin`` as an output. Initializes the relay in the OFF state.
+
+   .. code-block:: arduino
+
+        void setup() {
+          pinMode(relayPin, OUTPUT);
+          digitalWrite(relayPin, LOW);  // Ensure the relay is off at startup
+        }
+
+#. Controlling the Relay:
+
+   * Sets ``relayPin`` ``HIGH`` to turn on the transistor, energizing the relay coil.
+   * Waits for 2 seconds.
+   * Sets ``relayPin`` ``LOW`` to turn off the transistor, de-energizing the relay coil.
+   * Waits for another 2 seconds.
+   * Repeats the cycle indefinitely.
+
+   .. code-block:: arduino
+
+        // Turn the relay on
+        digitalWrite(relayPin, HIGH);
+        Serial.println("Relay ON");
+        delay(2000);  // Wait for 2 seconds
+
+        // Turn the relay off
+        digitalWrite(relayPin, LOW);
+        Serial.println("Relay OFF");
+        delay(2000);  // Wait for 2 seconds
+
+**Experimenting Further**
+
+* **Set a Timer**: Modify the code to turn the relay on for 10 minutes and then automatically turn it off.
+* **Control Home Appliances**: With appropriate guidance, you can connect high-voltage devices to the relay for automation tasks such as turning lights or fans on and off.
+
+  * The circuit should look like this: To demonstrate controlling an external circuit safely, we'll add an external 5V power supply (through a breadboard power module) to power an LED. This simulates how you could control higher voltage devices (like home appliances) using the relay. Here's how to modify the circuit:
+
+    |sch_relay_2|
+  
+    |wiring_relay_2|
+
+  * Code to Control the Relay:
+
+    .. code-block:: arduino
     
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/3be98f10-8223-49f2-8238-2acc53ebbf80/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+       const int relayPin = 15;  // GPIO pin connected to the transistor base
+
+       void setup() {
+         pinMode(relayPin, OUTPUT);
+         digitalWrite(relayPin, LOW);  // Ensure the relay is off at startup
+       }
+
+       void loop() {
+         // Turn the relay on
+         digitalWrite(relayPin, HIGH);
+         Serial.println("Relay ON");
+         delay(2000);  // Wait for 2 seconds
+
+         // Turn the relay off
+         digitalWrite(relayPin, LOW);
+         Serial.println("Relay OFF");
+         delay(2000);  // Wait for 2 seconds
+       }
+
+    When the relay is activated (GP15 outputs high), the Normally Open (NO) and Common (C) pins of the relay connect, allowing the external 5V power to flow through the LED. The LED will light up, simulating how a relay can control an external appliance.
+
+    When the relay is deactivated (GP15 outputs low), the Normally Open (NO) pin disconnects from the Common (C) pin, cutting off the external power, and the LED turns off.
 
 
-When the code is run, the relay will switch the operating state of the controlled circuit every two seconds.
-You can manually comment out one of the lines to further clarify the correspondence between the relay circuit and the load circuit.
+**Safety Considerations for Controlling Real Appliances**
 
+This example uses an LED and a 5V power source to demonstrate relay control. If you are controlling higher voltage devices (like household appliances), ensure:
 
-**Learn More**
+* **Proper Voltage Rating**: Use a relay rated for the appropriate voltage and current for your appliance.
+* **Isolation**: For safety, ensure proper isolation between the low-voltage control circuit (like the Pico) and the high-voltage appliance circuit.
+* **Fuse Protection**: Consider adding fuses or circuit breakers to protect against short circuits or overloads.
+* **Professional Guidance**: When working with high-voltage circuits, always seek professional guidance to ensure safe operation.
 
-Pin 3 of the relay is normally open and only turns on when the contactor coil is operating; pin 4 is normally closed and turns on when the contactor coil is energized.
-Pin 1 is connected to pin 6 and is the common terminal of the load circuit.
+This project can serve as the basis for home automation, such as controlling lamps, fans, or other devices based on timers or sensors connected to the Raspberry Pi Pico 2.
 
-By switching one end of the load circuit from pin 3 to pin 4, you will be able to get exactly the opposite operating state.
+**Using the NC Terminal**
+
+* If you connect your controlled circuit between COM and NC:
+
+  * The circuit will be closed (ON) when the relay is not energized.
+  * The circuit will be open (OFF) when the relay is energized.
+  * Example: Controlling an External Device
+  * Warning: Do not attempt to control high-voltage devices without proper knowledge and safety precautions.
+
+* If you want to control a small DC motor or another device:
+
+  * Replace the LED with the device you want to control.
+  * Ensure the device's voltage and current requirements are compatible.
+  * Provide an appropriate power supply for the device.
+  * Connect the device in series with the relay's COM and NO (or NC) terminals.
+
+**Conclusion**
+
+In this lesson, you've learned how to control another circuit using a relay and the Raspberry Pi Pico. By using a transistor to switch the relay coil, you've safely controlled a higher-current circuit without overloading the Pico's GPIO pins. Understanding how to use relays opens up many possibilities for controlling various devices and appliances in your projects.
+

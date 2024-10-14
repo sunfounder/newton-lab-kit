@@ -14,113 +14,248 @@
 
 .. _ar_temp:
 
-2.13 - Thermometer
+2.13 Thermometer
 ===========================
 
-A thermometer is a device that measures temperature or a temperature gradient (the degree of hotness or coldness of an object). 
-A thermometer has two important elements: (1) a temperature sensor (e.g. the bulb of a mercury-in-glass thermometer or the pyrometric sensor in an infrared thermometer) in which some change occurs with a change in temperature; 
-and (2) some means of converting this change into a numerical value (e.g. the visible scale that is marked on a mercury-in-glass thermometer or the digital readout on an infrared model). 
-Thermometers are widely used in technology and industry to monitor processes, in meteorology, in medicine, and in scientific research.
+In this lesson, we'll learn how to use a **thermistor** with the Raspberry Pi Pico 2 to measure temperature. A thermistor is a type of resistor whose resistance varies significantly with temperature. Specifically, we'll use a Negative Temperature Coefficient (NTC) thermistor, which decreases its resistance as the temperature increases.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-A thermistor is a type of temperature sensor whose resistance is strongly dependent on temperature, and it has two types: 
-Negative Temperature Coefficient (NTC) and Positive Temperature Coefficient (PTC), 
-also known as NTC and PTC. The resistance of PTC thermistor increases with temperature, while the condition of NTC is opposite to the former.
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
 
-In this experiment we use an **NTC thermistor** to make a thermometer.
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
 
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_thermistor`
+        - 1
+        - |link_thermistor_buy|
 
-* :ref:`cpn_temp`
+**Understanding the Thermistor**
 
-**Schematic**
+An NTC thermistor is a temperature-sensitive resistor. Its resistance decreases as the temperature rises. By incorporating it into a voltage divider circuit, we can measure the voltage across it, which changes with temperature. Using the Raspberry Pi Pico 2's analog-to-digital converter (ADC), we can read this voltage and calculate the corresponding temperature.
+
+**Circuit Diagram**
 
 |sch_temp|
 
-In this circuit, the 10K resistor and the thermistor are connected in series, and the current passing through them is the same. The 10K resistor acts as a protection, and the GP28 reads the value after the voltage conversion of the thermistor.
+In this circuit, a 10K resistor and an NTC thermistor form a voltage divider, with GP28 reading the voltage across the thermistor. The 10K resistor also provides protection by limiting current.
 
-When the temperature increases, the resistance value of NTC thermistor decreases, then its voltage decreases, so the value from GP28 will decrease; If the temperature is high enough, the resistance of the thermistor will be close to 0, and the value of GP28 will be close to 0. At this time, the 10K resistor plays a protective role, so that 3.3V and GND are not connected together, resulting in a short circuit.
+* **High Temperature**: The thermistor's resistance decreases, lowering its voltage and the GP28 reading. At high enough temperatures, resistance approaches zero, and GP28 reads close to 0.
+* **Low Temperature**: The thermistor's resistance increases, raising its voltage and the GP28 value. In extreme cold, resistance becomes nearly infinite, and GP28 reads close to 1023.
 
-When the temperature drops, the value of GP28 will increase. When the temperature is low enough, the resistance of the thermistor will be infinite, and its voltage will be close to 3.3v (the 10K resistor is negligible), and the value of GP28 will be close to the maximum value of 65535.
+The 10K resistor ensures 3.3V and GND are not directly connected, preventing a short circuit.
 
-
-The calculation formula is shown below.
-
-    (Vp/3.3V) x 65535 = Ap
-
-
-**Wiring**
-
+**Wiring Diagram**
 
 |wiring_temp|
- 
-.. #. Connect 3V3 and GND of Pico to the power bus of the breadboard.
-.. #. Connect one lead of the thermistor to the GP28 pin, then connect the same lead to the positive power bus with a 10K ohm resistor.
-.. #. Connect another lead of thermistor to the negative power bus.
 
-.. note::
-    * The thermistor is black and marked 103.
-    * The color ring of the 10K ohm resistor is red, black, black, red and brown.
 
-**Code**
+
+**Writing the Code**
 
 .. note::
 
-   * You can open the file ``2.13_thermometer.ino`` under the path of ``newton-lab-kit/arduino/2.13_thermometer``. 
+   * You can open the file ``2.13_thermometer.ino`` from ``newton-lab-kit/arduino/2.13_thermometer``. 
    * Or copy this code into **Arduino IDE**.
-
-
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
-
-
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/1ae1a028-2647-4e4c-b647-0d4759f6fd03/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-    
-
-
-After the program runs, the Serial Monitor will print out the Celsius and Fahrenheit temperatures.
-
-**How it works?**
-
-Each thermistor has a normal resistance. 
-Here it is 10k ohm, which is measured under 25 degree Celsius. 
-
-When the temperature gets higher, the resistance of the thermistor decreases. 
-Then the voltage data is converted to digital quantities by the A/D adapter. 
-
-The temperature in Celsius or Fahrenheit is output via programming. 
-
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
 
 .. code-block:: arduino
 
-    long a = analogRead(analogPin);
+    // Define the pins
+    const int thermistorPin = 28;  // Thermistor connected to GP28 (ADC2)
 
-This line is used to read the value of the thermistor. 
+    // Constants for the thermistor and calculations
+    const float BETA = 3950;       // Beta value of the thermistor (provided by manufacturer)
+    const float SERIES_RESISTOR = 10000; // 10KΩ resistor
+    const float NOMINAL_RESISTANCE = 10000; // Resistance at 25°C (provided by manufacturer)
+    const float NOMINAL_TEMPERATURE = 25.0; // 25°C in Celsius
 
-.. code-block:: arduino
+    void setup() {
+      Serial.begin(115200);  // Initialize Serial Monitor
+    }
 
-    float tempC = beta / (log((1025.0 * 10 / a - 10) / 10) + beta / 298.0) - 273.0;
-    float tempF = 1.8 * tempC + 32.0;
+    void loop() {
+      // Read the analog value from the thermistor
+      int adcValue = analogRead(thermistorPin);
+      // Convert the ADC value to voltage
+      float voltage = adcValue * (3.3 / 1023.0);
+      // Calculate the resistance of the thermistor
+      float resistance = (voltage * SERIES_RESISTOR) / (3.3-voltage);
+      // Calculate the temperature in Kelvin using the Beta formula
+      float temperatureK = 1 / ( (1 / (NOMINAL_TEMPERATURE + 273.15)) + (1 / BETA) * log(resistance / NOMINAL_RESISTANCE) );
+      // Convert Kelvin to Celsius
+      float temperatureC = temperatureK - 273.15;
+      // Convert Celsius to Fahrenheit
+      float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
 
-These calculations convert the thermistor values into centigrade degree and Fahrenheit degree. 
+      // Print the temperature readings
+      Serial.print("Temperature: ");
+      Serial.print(temperatureC);
+      Serial.print(" °C, ");
+      Serial.print(temperatureF);
+      Serial.println(" °F");
 
+      delay(1000);  // Wait a second before the next reading
+    }
 
-.. note::
-    Here is the relation between the resistance and temperature: 
+When the code is running and the Serial Monitor is open:
 
-    **RT =RN expB(1/TK – 1/TN)** 
+* You should see the temperature readings in Celsius and Fahrenheit.
+* Gently hold the thermistor between your fingers. The temperature reading should increase as the thermistor warms up.
+* Blow cool air over the thermistor or place a cold object near it. The temperature reading should decrease.
 
-    * RT is the resistance of the NTC thermistor when the temperature is TK. 
-    * RN is the resistance of the NTC thermistor under the rated temperature TN. Here, the numerical value of RN is 10k. 
-    * TK is a Kelvin temperature and the unit is K. Here, the numerical value of TK is 273.15 + degree Celsius. 
-    * TN is a rated Kelvin temperature; the unit is K too. Here, the numerical value of TN is 273.15+25.
-    * And B(beta), the material constant of NTC thermistor, is also called heat sensitivity index with a numerical value 3950. 
-    * exp is the abbreviation of exponential, and the base number e is a natural number and equals 2.7 approximately. 
+**Understanding the Code**
 
-    Convert this formula TK=1/(ln(RT/RN)/B+1/TN) to get Kelvin temperature that minus 273.15 equals degree Celsius. 
+#. Defining the Pins and Constants:
 
-    This relation is an empirical formula. It is accurate only when the temperature and resistance are within the effective range.
+   Assigns the GPIO pin used for reading the thermistor.
 
-This code refers to plugging Rt into the formula TK=1/(ln(RT/RN)/B+1/TN) to get Kelvin temperature. 
+   .. code-block:: arduino
+
+        const int thermistorPin = 28;  // Thermistor connected to GP28 (ADC2)
+
+#. Constants for Calculations:
+
+   These constants are used in the calculations to determine the temperature.
+
+   .. code-block:: arduino
+
+        const float BETA = 3950;       // Beta value of the thermistor
+        const float SERIES_RESISTOR = 10000; // 10KΩ resistor
+        const float NOMINAL_RESISTANCE = 10000; // Resistance at 25°C
+        const float NOMINAL_TEMPERATURE = 25.0; // 25°C in Celsius
+
+#. Reading the Analog Value:
+
+   Reads the analog voltage at thermistorPin and returns a value between 0 and 1023.
+
+   .. code-block:: arduino
+
+        int adcValue = analogRead(thermistorPin);
+
+#. Calculating the Voltage:
+
+   Converts the ADC value to the actual voltage.
+
+   .. code-block:: arduino
+
+        float voltage = adcValue * (3.3 / 1023.0);
+
+#. Calculating the Thermistor Resistance:
+
+   Uses the voltage divider formula to calculate the resistance of the thermistor.
+
+   .. code-block:: arduino
+
+        float resistance = (voltage * SERIES_RESISTOR) / (3.3-voltage);
+
+#. Calculating the Temperature:
+
+   .. code-block:: arduino
+
+        float temperatureK = 1 / ( (1 / (NOMINAL_TEMPERATURE + 273.15)) + (1 / BETA) * log(resistance / NOMINAL_RESISTANCE) );
+        float temperatureC = temperatureK - 273.15;
+        float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
+
+#. Printing the Temperature:
+
+   Outputs the temperature in Celsius and Fahrenheit to the Serial Monitor.
+
+   .. code-block:: arduino
+
+        Serial.print("Temperature: ");
+        Serial.print(temperatureC);
+        Serial.print(" °C, ");
+        Serial.print(temperatureF);
+        Serial.println(" °F");
+
+#. Delay:
+
+   Waits for one second before taking the next reading.
+
+   .. code-block:: arduino
+
+        delay(1000);
+
+**Understanding the Temperature Calculation**
+
+* Steinhart-Hart Equation:
+
+The Steinhart-Hart equation provides a model of the thermistor's resistance as a function of temperature:
+
+|temp_format|
+
+* ``T`` is the temperature of the thermistor in Kelvin.
+* ``T0`` is a reference temperature, usually at 25°C (which is 273.15 + 25 in Kelvin).
+* ``B`` is the beta parameter of the material, the beta coefficient of the NTC thermistor used in this kit is 3950.
+* ``R`` is the resistance we measure.
+* ``R0`` is the resistance at the reference temperature T0, the resistance of the NTC thermistor in this kit at 25°C is 10 kilohms.
+
+**Note on Accuracy**
+
+* Thermistors are nonlinear devices, and the Beta equation provides an approximation.
+* For more accurate temperature measurements over a wider range, the Steinhart-Hart equation can be used.
+* Calibration may be necessary for precise applications.
+
+**Further Exploration**
+
+* Display Temperature on an LCD:
+
+  Connect an LCD display to show the temperature readings without a computer.
+
+* Data Logging:
+
+  Record temperature readings over time to monitor environmental changes.
+
+* Temperature-Controlled Devices:
+
+  Use the temperature readings to control a fan or heater.
+
+**Conclusion**
+
+In this lesson, you've learned how to use a thermistor with the Raspberry Pi Pico to measure temperature. By creating a voltage divider and using the Beta equation, you've been able to read analog values, calculate resistance, and determine the temperature in both Celsius and Fahrenheit.
 
 

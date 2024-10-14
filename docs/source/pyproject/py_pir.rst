@@ -18,16 +18,59 @@
 2.10 Detect Human Movement
 ==========================
 
-In this lesson, we'll learn how to use a Passive Infrared (PIR) sensor with the Raspberry Pi Pico to detect human movement. PIR sensors are commonly used in security systems, automatic lighting, and other applications where motion detection is required. They detect infrared radiation emitted by warm objects, such as humans or animals, in their field of view.
+In this lesson, we'll learn how to use a Passive Infrared (PIR) sensor with the Raspberry Pi Pico 2 to detect human movement. PIR sensors are commonly used in security systems, automatic lighting, and other applications where motion detection is required. They detect infrared radiation emitted by warm objects, such as humans or animals, in their field of view.
 
-:ref:`PIR Motion Sensor`
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* PIR Motion Sensor
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_pir`
+        - 1
+        - |link_pir_buy|
+      
 
 **Circuit Diagram**
 
@@ -58,11 +101,11 @@ We'll write a MicroPython program that uses an interrupt to detect motion and pr
 
 .. note::
 
-    * Open the ``2.10_detect_human_movement.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+    * Open the ``2.10_detect_human_movement.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
 
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    
 
 .. code-block:: python
 
@@ -172,6 +215,6 @@ You can modify the code to measure the duration of motion detection and the inte
 
 **Conclusion**
 
-By integrating a PIR sensor with the Raspberry Pi Pico, you've added motion detection capabilities to your projects. Understanding how to read sensor inputs and handle interrupts allows you to create responsive and efficient programs.
+By integrating a PIR sensor with the Raspberry Pi Pico 2, you've added motion detection capabilities to your projects. Understanding how to read sensor inputs and handle interrupts allows you to create responsive and efficient programs.
 
 

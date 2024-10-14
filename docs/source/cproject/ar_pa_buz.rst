@@ -14,88 +14,225 @@
 
 .. _ar_pa_buz:
 
+3.2 Play Custom Tones with a Passive Buzzer
+===========================================
 
-3.2 - Custom Tone
-==========================================
+In this lesson, we'll learn how to use a **passive buzzer** with the Raspberry Pi Pico 2 to play different tones and even simple melodies! Unlike an active buzzer, a passive buzzer needs a changing electrical signal to produce sound, which means we can control the pitch of the sound by changing the signal's frequency.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-We have used active buzzer in the previous project, this time we will use passive buzzer.
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
 
-Like the active buzzer, the passive buzzer also uses the phenomenon of electromagnetic induction to work. The difference is that a passive buzzer does not have oscillating source, so it will not beep if DC signals are used.
-But this allows the passive buzzer to adjust its own oscillation frequency and can emit different notes such as "doh, re, mi, fa, sol, la, ti".
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
 
-Let the passive buzzer emit a melody!
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_transistor`
+        - 1(S8050)
+        - |link_transistor_buy|
+    *   - 6
+        - :ref:`cpn_resistor`
+        - 1(1KΩ)
+        - |link_resistor_buy|
+    *   - 7
+        - Passive :ref:`cpn_buzzer`
+        - 1
+        - |link_passive_buzzer_buy|
 
-* :ref:`Buzzer`
+**Understanding the Passive Buzzer**
 
-**Schematic**
-
-|sch_buzzer|
-
-When the GP15 output is high, after the 1K current limiting resistor (to protect the transistor), the S8050 (NPN transistor) will conduct, so that the buzzer will sound.
-
-The role of S8050 (NPN transistor) is to amplify the current and make the buzzer sound louder. In fact, you can also connect the buzzer directly to GP15, but you will find that the buzzer sound is smaller.
-
-
-**Wiring**
+A passive buzzer works like a tiny speaker. It doesn't produce sound on its own; instead, it needs an oscillating signal to make sound. By providing signals of different frequencies, we can make the buzzer produce different pitches, allowing us to play notes and melodies.
 
 |img_buzzer|
 
-Two buzzers are included in the kit, we use a passive buzzer (one with an exposed PCB on the back).
+**Circuit Diagram**
 
-The buzzer needs a transistor to work, here we use S8050.
+|sch_buzzer|
+
+In this circuit, the passive buzzer is powered through a transistor (**S8050** NPN). The transistor amplifies the current, making the buzzer sound louder than if it were connected directly to the Pico. 
+
+Here's what happens:
+
+* **GP15** outputs a high signal to control the transistor.
+* When the transistor is activated, it allows current to flow through the buzzer, making it beep.
+
+A **1kΩ resistor** is used to limit the current to protect the transistor.
+
+**Wiring Diagram**
+
+Make sure you are using the **passive buzzer**. You can tell it's the correct one by looking for the exposed PCB (as opposed to the sealed back, which is a active buzzer).
+
+|img_buzzer|
 
 |wiring_buzzer|
 
-**Code**
+**Writing the Code**
 
 
 .. note::
 
-   * You can open the file ``3.2_custom_tone.ino`` under the path of ``newton-lab-kit/arduino/3.2_custom_tone``. 
+   * You can open the file ``3.2_custom_tone.ino`` from ``newton-lab-kit/arduino/3.2_custom_tone``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+
+.. code-block:: arduino
+
+    const int buzzerPin = 15;  // GPIO pin connected to the transistor base
+
+    void setup() {
+      pinMode(buzzerPin, OUTPUT);
+    }
+
+    void loop() {
+      // Play a tone at 440 Hz (A4 note) for 1 second
+      tone(buzzerPin, 440, 1000);
+      delay(1000);  // Wait for the tone to finish
+      // Wait for 1 second before playing again
+      delay(1000);
+    }
+
+The code plays a 440 Hz tone (standard A note) for 1 second, waits for 1 second, and repeats.
+
+* ``tone(pin, frequency, duration)``:
+
+  * ``pin``: The GPIO pin connected to the buzzer (through the transistor).
+  * ``frequency``: The frequency of the tone in hertz (Hz). Higher frequencies produce higher pitches.
+  * ``duration (optional)``: The duration to play the tone in milliseconds.
 
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+**Playing a Melody**
 
+Let's expand the code to play a simple melody by defining the notes and their corresponding frequencies.
 
+* An array ``melody[]`` holds the sequence of notes to play.
+* An array ``noteDurations[]`` defines the duration of each note. A duration of 4 represents a quarter note.
+* The ``for`` loop iterates through each note in the melody.
 
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/69c55e56-9eeb-46bb-b3a8-b354c500cc17/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+  * Calculates the note duration in milliseconds.
+  * Uses ``tone()`` to play each note.
+  * Uses ``delay()`` to pause between notes.
+  * Calls ``noTone()`` to stop the tone before moving to the next note.
 
+.. code-block:: arduino
 
+        // Define the buzzer pin
+        const int buzzerPin = 15;
 
-**How it works?**
+        // Define note frequencies
+        #define NOTE_C4  262
+        #define NOTE_D4  294
+        #define NOTE_E4  330
+        #define NOTE_F4  349
+        #define NOTE_G4  392
+        #define NOTE_A4  440
+        #define NOTE_B4  494
+        #define NOTE_C5  523
 
-If the passive buzzer given a digital signal, it can only keep pushing the diaphragm without producing sound.
+        // Melody notes
+        int melody[] = {
+          NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4,
+          NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5
+        };
 
-Therefore, we use the ``tone()`` function to generate the PWM signal to make the passive buzzer sound.
+        // Note durations: 4 = quarter note, 8 = eighth note, etc.
+        int noteDurations[] = {
+          4, 4, 4, 4,
+          4, 4, 4, 4
+        };
 
-This function has three parameters:
+        void setup() {
+          pinMode(buzzerPin, OUTPUT);
+        }
 
-  * **pin**, the GPIO pin that controls the buzzer.
-  * **frequency**, the pitch of the buzzer is determined by the frequency, the higher the frequency, the higher the pitch.
-  * **Duration**, the duration of the tone.
+        void loop() {
+          // Iterate over the notes of the melody
+          for (int thisNote = 0; thisNote < 8; thisNote++) {
+            int noteDuration = 1000 / noteDurations[thisNote];
+            tone(buzzerPin, melody[thisNote], noteDuration);
+            // Pause between notes
+            int pauseBetweenNotes = noteDuration * 1.30;
+            delay(pauseBetweenNotes);
+            // Stop the tone playing
+            noTone(buzzerPin);
+          }
+          // Add a delay before repeating the melody
+          delay(2000);
+        }
 
+After uploading the code, you should hear the buzzer play the melody. If the sound is too quiet, ensure all connections are secure. Remember that passive buzzers may not produce very loud sounds.
 
-* `tone <https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/>`_
 
 **Learn More**
 
-We can simulate the specific tone according to the fundamental frequency of the piano, so as to play a complete piece of music.
+* Creating Your Own Melodies:
 
-* `Piano key frequencies - Wikipedia <https://en.wikipedia.org/wiki/Piano_key_frequencies>`_
+  You can create your own melodies by changing the ``melody[]`` and ``noteDurations[]`` arrays.
 
-.. note::
+* Using the ``pitches.h`` Library:
 
-   * You can open the file ``3.2_custom_tone_2.ino`` under the path of ``newton-lab-kit/arduino/3.2_custom_tone_2``. 
-   * Or copy this code into **Arduino IDE**.
+  For convenience, you can include a library file ``pitches.h`` that contains definitions for many notes.
+  Create a file named ``pitches.h`` and include it in your sketch.
+  
+  .. code-block:: arduino
+
+    #include "pitches.h"
+
+**Further Exploration**
+
+* Compose a Song:
+
+  Try composing your own song by defining a new sequence of notes and durations.
+
+* Interactive Music:
+
+  Add buttons or sensors to control the playback of the melody.
+
+* Visual Feedback:
+
+  Integrate LEDs to light up in sync with the notes played.
+
+**Conclusion**
+
+In this lesson, you've learned how to use a passive buzzer with the Raspberry Pi Pico to play different tones and melodies. By controlling the frequency of the signal sent to the buzzer, you can produce various pitches and create music in your projects.
 
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
 
 
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/f934c785-7204-4972-aae5-01edde3c79cc/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>

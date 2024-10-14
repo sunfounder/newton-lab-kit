@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-.. _cpn_pot:
+.. _cpn_potentiometer:
 
 Potentiometer
 ===============
@@ -51,8 +51,8 @@ If you want to know more about potentiometer, refer to: `Potentiometer - Wikiped
 .. Example
 .. -------------------
 
-.. * :ref:`Turn the Knob` (For MicroPython User）
-.. * :ref:`Table Lamp` (For C/C++(Arduino) User）
+.. * :ref:`Turn the Knob` (For MicroPython User)
+.. * :ref:`Table Lamp` (For C/C++(Arduino) User)
 
 
 **Example**

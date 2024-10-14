@@ -19,8 +19,6 @@
 
 In this lesson, we'll learn how to control the brightness of an LED using Pulse Width Modulation (PWM) on the Raspberry Pi Pico 2. This is a fundamental technique in electronics that allows us to control devices like LEDs and motors with varying intensities.
 
-* :ref:`cpn_led`
-
 **What is PWM?**
 
 **Pulse Width Modulation (PWM)** is a method of controlling the amount of power delivered to an electronic device by cycling the power on and off at a high frequency. The "width" of the pulse (the duration it stays on) determines how much power the device receives.
@@ -48,13 +46,59 @@ The Raspberry Pi Pico 2 has PWM capabilities on all its GPIO pins, but it actual
      Pins sharing the same PWM slice (like GP0 and GP16) cannot have different frequencies but can have different duty cycles.
 
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico
-* Breadboard
-* LED
-* 220Ω resistor (color bands: Red, Red, Black, Black, Brown)
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_led`
+        - 1
+        - |link_led_buy|
 
 **Circuit Diagram**
 
@@ -68,9 +112,9 @@ The Raspberry Pi Pico 2 has PWM capabilities on all its GPIO pins, but it actual
 
 .. note::
 
-  * Open the ``2.3_fading_led.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-  * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-  * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+  * Open the ``2.3_fading_led.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+  
 
 .. code-block:: python
 
@@ -124,7 +168,7 @@ When the code is running, the LED connected to pin GP15 will gradually increase 
 
 PWM is a powerful technique for controlling devices that require analog-like inputs using digital outputs. Understanding PWM opens up possibilities for more complex projects like motor control, audio signal generation, and more.
 
-By mastering the basics of PWM on the Raspberry Pi Pico, you're well on your way to creating more advanced electronics projects.
+By mastering the basics of PWM on the Raspberry Pi Pico 2, you're well on your way to creating more advanced electronics projects.
 
 **References**
 

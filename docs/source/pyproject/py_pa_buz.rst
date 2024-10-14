@@ -17,16 +17,65 @@
 3.2 Play Custom Tones with a Passive Buzzer
 ===========================================
 
-In this lesson, we'll learn how to use a **passive buzzer** with the Raspberry Pi Pico to play different tones and even simple melodies! Unlike an active buzzer, a passive buzzer needs a changing electrical signal to produce sound, which means we can control the pitch of the sound by changing the signal's frequency.
+In this lesson, we'll learn how to use a **passive buzzer** with the Raspberry Pi Pico 2 to play different tones and even simple melodies! Unlike an active buzzer, a passive buzzer needs a changing electrical signal to produce sound, which means we can control the pitch of the sound by changing the signal's frequency.
 
 **What You'll Need**
 
-* Raspberry Pi Pico 2
-* Passive buzzer (the one with the exposed PCB on the back)
-* S8050 NPN Transistor
-* 1 kΩ resistor
-* Jumper wires
-* Breadboard
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_transistor`
+        - 1(S8050)
+        - |link_transistor_buy|
+    *   - 6
+        - :ref:`cpn_resistor`
+        - 1(1KΩ)
+        - |link_resistor_buy|
+    *   - 7
+        - Passive :ref:`cpn_buzzer`
+        - 1
+        - |link_passive_buzzer_buy|
 
 **Understanding the Passive Buzzer**
 
@@ -61,9 +110,9 @@ Now, let's write some code to make the buzzer play different tones.
 
 .. note::
 
-    * Open the ``3.2_custom_tone.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``3.2_custom_tone.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
@@ -181,4 +230,4 @@ When you run this code, the buzzer will play a simple melody by sounding each no
 
 **Conclusion**
 
-In this lesson, you've learned how to use a passive buzzer to play tones and melodies with the Raspberry Pi Pico. By controlling the frequency of the PWM signal, you can create a variety of sounds and even play simple songs. This is a great way to add audio feedback or fun musical elements to your projects.
+In this lesson, you've learned how to use a passive buzzer to play tones and melodies with the Raspberry Pi Pico 2. By controlling the frequency of the PWM signal, you can create a variety of sounds and even play simple songs. This is a great way to add audio feedback or fun musical elements to your projects.

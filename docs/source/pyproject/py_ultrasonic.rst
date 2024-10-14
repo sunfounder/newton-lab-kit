@@ -14,116 +14,211 @@
 
 .. _py_ultrasonic:
 
-6.1 Measuring Distance
-======================================
+6.1 Measuring Distance with an Ultrasonic Sensor
+================================================
 
-The ultrasonic sensor module works on the principle of sonar and radar systems for determining the distance to an object.
+In this lesson, we'll learn how to use an **ultrasonic sensor module** with the Raspberry Pi Pico 2 to measure the distance to an object. Ultrasonic sensors are commonly used in robotics and automation systems for object detection and distance measurement.
 
-* :ref:`cpn_ultrasonic`
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-**Schematic**
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_ultrasonic`
+        - 1
+        - |link_ultrasonic_buy|
+
+**Understanding the Ultrasonic Sensor**
+
+The ultrasonic sensor works by emitting a short ultrasonic pulse from the **Trig** pin and listening for the echo on the **Echo** pin. By measuring the time it takes for the echo to return, we can calculate the distance to an object using the speed of sound.
+
+|ultrasonic_prin|
+
+* **Trigger Pulse**: A 10-microsecond high pulse on the Trig pin initiates the measurement.
+* **Ultrasonic Burst**: The sensor emits an 8-cycle ultrasonic burst at 40 kHz.
+* **Echo Reception**: The Echo pin goes high, and stays high until the echo is received back.
+* **Time Measurement**: By measuring the time the Echo pin stays high, we can calculate the distance.
+
+
+**Circuit Diagram**
 
 |sch_ultrasonic|
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_ultrasonic|
 
-**Code**
+
+**Writing the Code**
+
+Let's write a MicroPython program to measure distance using the ultrasonic sensor.
 
 .. note::
 
-    * Open the ``6.1_measuring_distance.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``6.1_measuring_distance.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+     
 
 .. code-block:: python
 
     import machine
-    import time
+    import utime
 
-    TRIG = machine.Pin(17,machine.Pin.OUT)
-    ECHO = machine.Pin(16,machine.Pin.IN)
+    # Define the pins connected to the sensor
+    TRIG = machine.Pin(17, machine.Pin.OUT)
+    ECHO = machine.Pin(16, machine.Pin.IN)
 
-    def distance():
+    def measure_distance():
+        # Ensure the trigger pin is low
         TRIG.low()
-        time.sleep_us(2)
+        utime.sleep_us(2)
+        # Send a 10µs pulse to trigger the measurement
         TRIG.high()
-        time.sleep_us(10)
+        utime.sleep_us(10)
         TRIG.low()
-        while not ECHO.value():
+        
+        # Wait for the echo pin to go high (start of echo pulse)
+        while ECHO.value() == 0:
             pass
-        time1 = time.ticks_us()
-        while ECHO.value():
+        start_time = utime.ticks_us()
+        
+        # Wait for the echo pin to go low (end of echo pulse)
+        while ECHO.value() == 1:
             pass
-        time2 = time.ticks_us()
-        during = time.ticks_diff(time2,time1)
-        return during * 340 / 2 / 10000
+        end_time = utime.ticks_us()
+        
+        # Calculate the duration of the echo pulse
+        duration = utime.ticks_diff(end_time, start_time)
+        
+        # Calculate the distance (speed of sound is 34300 cm/s)
+        distance = (duration * 0.0343) / 2
+        return distance
 
     while True:
-        dis = distance()
-        print ('Distance: %.2f' % dis)
-        time.sleep_ms(300)
+        dist = measure_distance()
+        print("Distance: {:.2f} cm".format(dist))
+        utime.sleep(0.5)
 
-Once the program is running, the Shell will print out the distance of the ultrasonic sensor from the obstacle ahead.
+Once the code is running, the Thonny Shell should display the distance readings in centimeters. Move an object closer or farther from the sensor to see the readings change.
 
-**How it works?**
+**Understanding the Code**
 
-Ultrasonic sensors produce high frequency sound waves (ultrasonic waves) emitted by the transmitting probe. When this ultrasonic wave hits an object, it is reflected as an echo, which is detected by the receiving probe. By calculating the time from transmission to reception, the distance can be calculated.
-Based on this principle, the function ``distance()`` can be derived.
+#. Import necessary modules and set up the trigger and echo pins:
 
-.. code-block:: python
+   .. code-block:: python
+   
+       import machine
+       import utime
+   
+       TRIG = machine.Pin(17, machine.Pin.OUT)
+       ECHO = machine.Pin(16, machine.Pin.IN)
 
-    def distance():
-        TRIG.low()
-        time.sleep_us(2)
-        TRIG.high()
-        time.sleep_us(10)
-        TRIG.low()
-        while not ECHO.value():
-            pass
-        time1 = time.ticks_us()
-        while ECHO.value():
-            pass
-        time2 = time.ticks_us()
-        during = time.ticks_diff(time2,time1)
-        return during * 340 / 2 / 10000
 
-* Among them, the first few lines are used to transmit a 10us ultrasonic wave.
+#. Measuring Distance:
 
-.. code-block:: python
+   * Sends a trigger pulse to initiate measurement.
+   * Waits for the echo response.
+   * Calculates the duration of the echo pulse.
+   * Computes the distance using the speed of sound.
 
-    TRIG.low()
-    time.sleep_us(2)
-    TRIG.high()
-    time.sleep_us(10)
-    TRIG.low()
+   .. code-block:: python
 
-* Then, the program is paused and the current time is recorded when the ultrasonic wave has been emitted.
+       def measure_distance():
+           # Ensure trigger is low
+           TRIG.low()
+           utime.sleep_us(2)
+           # Trigger a 10µs pulse
+           TRIG.high()
+           utime.sleep_us(10)
+           TRIG.low()
+           
+           # Wait for echo to start
+           while ECHO.value() == 0:
+               pass
+           start_time = utime.ticks_us()
+           
+           # Wait for echo to end
+           while ECHO.value() == 1:
+               pass
+           end_time = utime.ticks_us()
+           
+           # Calculate duration
+           duration = utime.ticks_diff(end_time, start_time)
+           # Calculate distance
+           distance = (duration * 0.0343) / 2
+           return distance
 
-.. code-block:: python
 
-        while not ECHO.value():
-            pass
-        time1 = time.ticks_us()
+#. Main Loop:
 
-* Subsequently, the program is suspended again. After the echo is received, the current time is recorded once again.
+   * Continuously measures and prints the distance.
+   * Pauses for half a second between measurements.
 
-.. code-block:: python
+   .. code-block:: python
+   
+       while True:
+           dist = measure_distance()
+           print("Distance: {:.2f} cm".format(dist))
+           utime.sleep(0.5)
 
-        while ECHO.value():
-            pass
-        time2 = time.ticks_us()
+**Understanding Limitations**
 
-* Finally, based on the time difference between the two recordings, the speed of sound (340m/s) is multiplied by the time to obtain double the distance between the ultrasonic module and the obstacle (i.e., one round trip of the ultrasonic waves from the module to the obstacle). Converting the units to centimeters gives us the return value we need.
+* Blocking Code:
 
-.. code-block:: python
+  * The while loops used to wait for the echo can block other code from running.
+  * For more advanced applications, consider using interrupts or asynchronous programming to avoid blocking.
 
-        during = time.ticks_diff(time2,time1)
-        return during * 340 / 2 / 10000
+* Measurement Range:
 
-Note that the ultrasonic sensor will pause the program when it is working, which may cause some lagging when writing complex projects.
+  * The HC-SR04 sensor typically has a range of 2 cm to 400 cm.
+  * Objects closer than 2 cm or farther than 400 cm may not be detected accurately.
 
+* Environmental Factors:
+
+  * Temperature and humidity can affect the speed of sound.
+  * For precise measurements, adjust the speed of sound based on ambient conditions.
+
+**Conclusion**
+
+You've successfully used an ultrasonic sensor to measure distance with the Raspberry Pi Pico 2. This fundamental skill is widely applicable in robotics, automation, and interactive projects.

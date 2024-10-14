@@ -18,18 +18,66 @@
 2.16 Control Another Circuit with a Relay
 =========================================
 
-In this lesson, we will learn how to control another circuit using a **relay** and the Raspberry Pi Pico. A relay acts like a switch controlled by a low-voltage circuit (like Pico) to operate a high-voltage circuit. For example, you can use a relay to turn on a lamp or any other device, making it possible to automate electrical appliances.
+In this lesson, we will learn how to control another circuit using a **relay** and the Raspberry Pi Pico 2. A relay acts like a switch controlled by a low-voltage circuit (like Pico) to operate a high-voltage circuit. For example, you can use a relay to turn on a lamp or any other device, making it possible to automate electrical appliances.
 
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* Relay module
-* S8050 NPN Transistor
-* Diode (for circuit protection)
-* Breadboard and power supply
-* Jumper wires
+In this project, we need the following components. 
 
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_transistor`
+        - 1(S8050)
+        - |link_transistor_buy|
+    *   - 6
+        - :ref:`cpn_diode`
+        - 1
+        - 
+    *   - 7
+        - :ref:`cpn_relay`
+        - 1
+        - |link_relay_buy|
 
 **Circuit Diagram**
 
@@ -55,12 +103,8 @@ The following code will control the relay, switching the connected circuit on an
 
 .. note::
 
-    * Open the ``2.16_control_another_circuit.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
-
+    * Open the ``2.16_control_another_circuit.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
@@ -118,7 +162,23 @@ This example uses an LED and a 5V power source to demonstrate relay control. If 
 * **Fuse Protection**: Consider adding fuses or circuit breakers to protect against short circuits or overloads.
 * **Professional Guidance**: When working with high-voltage circuits, always seek professional guidance to ensure safe operation.
 
-This project can serve as the basis for home automation, such as controlling lamps, fans, or other devices based on timers or sensors connected to the Raspberry Pi Pico.
+This project can serve as the basis for home automation, such as controlling lamps, fans, or other devices based on timers or sensors connected to the Raspberry Pi Pico 2.
+
+**Using the NC Terminal**
+
+* If you connect your controlled circuit between COM and NC:
+
+  * The circuit will be closed (ON) when the relay is not energized.
+  * The circuit will be open (OFF) when the relay is energized.
+  * Example: Controlling an External Device
+  * Warning: Do not attempt to control high-voltage devices without proper knowledge and safety precautions.
+
+* If you want to control a small DC motor or another device:
+
+  * Replace the LED with the device you want to control.
+  * Ensure the device's voltage and current requirements are compatible.
+  * Provide an appropriate power supply for the device.
+  * Connect the device in series with the relay's COM and NO (or NC) terminals.
 
 
 **Conclusion**

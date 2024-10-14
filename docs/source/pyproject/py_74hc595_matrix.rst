@@ -14,35 +14,85 @@
 
 .. _py_74hc_788bs:
 
-5.4 8x8 Pixel Graphics
-=============================
+5.4 Displaying Graphics on an 8x8 LED Matrix
+===================================================================
 
-LED matrix is a low-resolution dot-matrix display. it uses an array of light-emitting diodes as pixels for patterned displays.
+In this lesson, we'll learn how to control an **8x8 LED matrix** using the Raspberry Pi Pico 2 and two **74HC595 shift registers**. We'll display patterns and simple graphics by controlling individual LEDs on the matrix.
 
-They are bright enough to be visible in outdoor sunlight, and you can see them on some stores, billboards, signs, and variable message displays (such as those on public transit vehicles).
+**What You'll Need**
 
-Used in this kit is an 8x8 dot matrix with 16 pins. Their anodes are connected in rows and their cathodes are connected in columns (at the circuit level), which together control these 64 LEDs.
+In this project, we need the following components. 
 
-To light the first LED, you should provide a high level for Row1 and a low level for Col1. To light the second LED, it should provide a high level for Row1, a low level for Col2, and so on.
-By controlling the current through each pair of rows and columns, each LED can be controlled individually to display characters or pictures.
+It's definitely convenient to buy a whole kit, here's the link: 
 
-* :ref:`cpn_788bs`
-* :ref:`cpn_74hc595`
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
 
-**Schematic**
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_dot_matrix`
+        - 1
+        - 
+    *   - 6
+        - :ref:`cpn_74hc595`
+        - 2
+        - |link_74hc595_buy|
+
+**Understanding the 8x8 LED Matrix**
+
+An 8x8 LED matrix consists of 64 LEDs arranged in 8 rows and 8 columns. Each LED can be individually controlled by applying voltage across its row and column. By controlling the current through each pair of rows and columns, we can control each LED to display characters or patterns.
+
+In this setup, we'll use two 74HC595 shift registers to control the rows and columns of the LED matrix, effectively expanding the number of outputs from the Raspberry Pi Pico 2 while using only a few GPIO pins.
+
+**Circuit Diagram**
 
 |sch_ledmatrix|
 
-The 8x8 dot matrix is controlled by two 74HC595 chips, one controlling the rows and one controlling the columns, while these two chips share G18~G20, which can greatly save the I/O ports of the Pico board. 
+The 8x8 LED dot matrix is controlled by two **74HC595** shift registers: one controls the rows, and the other controls the columns. These two chips share the Pico's GPIO pins **GP18**, **GP19**, and **GP20**, greatly conserving the Pico's I/O ports.
 
-Pico needs to output a 16-bit binary number at a time, the first 8 bits are given to the 74HC595 which controls the rows, and the last 8 bits are given to the 75HC595 which controls the columns, so that the dot matrix can display a specific pattern.
+The Pico outputs a 16-bit binary number at a time. The first 8 bits are sent to the 74HC595 controlling the rows, and the last 8 bits are sent to the 74HC595 controlling the columns. This allows the dot matrix to display specific patterns.
 
-Q7': Series output pin, connected to DS of another 74HC595 to connect multiple 74HC595s in series.
+**Q7' (Pin 9)**: This serial data output pin of the first 74HC595 connects to the **DS (Pin 14)** of the second 74HC595, enabling you to chain multiple 74HC595 chips together.
 
-**Wiring**
+**Wiring Diagram**
 
-Build the circuit. Since the wiring is complicated, let's
-make it step by step.
+Building the circuit can be complex, so let's proceed step by step.
+
 
 **Step 1:**  First, insert the pico, the LED dot matrix
 and two 74HC595 chips into breadboard. Connect the 3.3V and GND of the
@@ -87,101 +137,181 @@ pin 9, 14, 8, 12, 1, 7, 2, and 5 respectively.
 
 |wiring_ledmatrix_1|
 
-**Code**
+
+**Writing the Code**
+
+We'll write a MicroPython program to display a pattern on the LED matrix.
 
 .. note::
 
-    * Open the ``5.4_8x8_pixel_graphics.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
-
+    * Open the ``5.4_8x8_pixel_graphics.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
     import machine
-    import time
+    import utime
 
-    sdi = machine.Pin(18,machine.Pin.OUT)
-    rclk = machine.Pin(19,machine.Pin.OUT)
-    srclk = machine.Pin(20,machine.Pin.OUT)
+    # Define the GPIO pins connected to the shift registers
+    SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
+    SRCLK = machine.Pin(19, machine.Pin.OUT) # Shift Register Clock
+    RCLK = machine.Pin(20, machine.Pin.OUT)  # Storage Register Clock (Latch)
 
+    # Function to send data to the shift registers
+    def shift_out(data1, data2):
+        data = (data1 << 8) | data2  # Combine two bytes of data
+        for bit in range(16):
+            SRCLK.low()
+            SDI.value((data >> (15 - bit)) & 0x01)
+            SRCLK.high()
+        RCLK.high()
+        utime.sleep_us(10)
+        RCLK.low()
 
-    glyph = [0xFF,0xBB,0xD7,0xEF,0xD7,0xBB,0xFF,0xFF]
-
-    # Shift the data to 74HC595
-    def hc595_in(dat):
-        for bit in range(7,-1, -1):
-            srclk.low()
-            time.sleep_us(30)
-            sdi.value(1 & (dat >> bit))
-            time.sleep_us(30)
-            srclk.high()
-
-    def hc595_out():
-        rclk.high()
-        time.sleep_us(200)
-        rclk.low()
-
-    while True:
-        for i in range(0,8):
-            hc595_in(glyph[i])
-            hc595_in(0x80>>i)
-            hc595_out()
-
-Once the program is running, you will see a **x** graphic displayed on the 8x8 dot matrix.
-
-**How it works?**
-
-Here we use two 74HC595s to provide signals for the rows and columns of the dot matrix.
-The method of providing signals is the same as ``hc595_shift(dat)`` in the previous chapters, but the difference is that here we need to write a 16-bit binary number at a time.
-So we split ``hc595_shift(dat)`` into two functions ``hc595_in(dat)`` and ``hc595_out()``.
-
-.. code-block:: python
-
-    def hc595_in(dat):
-        for bit in range(7,-1, -1):
-            srclk.low()
-            time.sleep_us(30)
-            sdi.value(1 & (dat >> bit))
-            time.sleep_us(30)
-            srclk.high()
-
-    def hc595_out():
-        rclk.high()
-        time.sleep_us(200)
-        rclk.low()
-
-Then, call ``hc595_in(dat)`` twice in the main loop, write two 8-bit binary numbers and then call ``hc595_out()`` so that a pattern can be displayed.
-
-However, since the LEDs in the dot matrix use common poles, controlling multiple rows/multiple columns at the same time will interfere with each other (e.g., if you light up (1,1) and (2,2) at the same time, (1,2) and (2,1) will inevitably be lit up together).
-Therefore, it is necessary to activate one column (or one row) at a time, cycle 8 times, and use the residual image principle to make the human eye merge 8 patterns, so as to get a pair of patterns containing 8x8 amount of information.
-
-.. code-block:: python
+    # Define the pattern to display (an 'X' shape)
+    pattern = [
+        0b10000001,  # Row 0
+        0b01000010,  # Row 1
+        0b00100100,  # Row 2
+        0b00011000,  # Row 3
+        0b00011000,  # Row 4
+        0b00100100,  # Row 5
+        0b01000010,  # Row 6
+        0b10000001   # Row 7
+    ]
 
     while True:
-        for i in range(0,8):
-            hc595_in(glyph[i])
-            hc595_in(0x80>>i)
-            hc595_out()
+        for row in range(8):
+            # Activate one row at a time
+            row_data = 1 << row
+            # The columns data is the pattern for that row
+            col_data = pattern[row]
+            # Send data to shift registers
+            shift_out(~col_data & 0xFF, row_data)
+            # Small delay to create persistence of vision
+            utime.sleep_us(1000)
 
-In this example, the main function nests a ``for`` loop, and when ``i`` is 1, only the first line is activated (the chip in the control line gets the value ``0x80`` ) and the image of the first line is written. 
-When ``i`` is 2, the second line is activated (the chip of the control line gets the value ``0x40``) and the image of the second line is written. And so on, completing 8 outputs.
+When you run this code, the 8x8 LED matrix will display an 'X' shape, with the LEDs lighting up to form the pattern of the letter 'X' across the matrix.
 
-Incidentally, like the 4-digit 7-segment display, it has to maintain the refresh rate to prevent flickering by the human eye, so the extra ``sleep()`` in the main loop should be avoided as much as possible.
+**Understanding the Code**
 
-**Learn More**
+#. Initialize Control Pins:
 
-Try replacing ``glyph`` with the following array and see what comes up!
+   .. code-block:: python
 
-.. code-block:: python
+        SDI = machine.Pin(18, machine.Pin.OUT)
+        SRCLK = machine.Pin(19, machine.Pin.OUT)
+        RCLK = machine.Pin(20, machine.Pin.OUT)
 
-    glyph1 = [0xFF,0xEF,0xC7,0xAB,0xEF,0xEF,0xEF,0xFF]
-    glyph2 = [0xFF,0xEF,0xEF,0xEF,0xAB,0xC7,0xEF,0xFF]
-    glyph3 = [0xFF,0xEF,0xDF,0x81,0xDF,0xEF,0xFF,0xFF]
-    glyph4 = [0xFF,0xF7,0xFB,0x81,0xFB,0xF7,0xFF,0xFF]
-    glyph5 = [0xFF,0xBB,0xD7,0xEF,0xD7,0xBB,0xFF,0xFF]
-    glyph6 = [0xFF,0xFF,0xF7,0xEB,0xDF,0xBF,0xFF,0xFF]
+#. Shift Out Function:
 
-Or, you can try drawing your own graphics.
+   * Combines two bytes of data (data1 and data2) into a 16-bit integer.
+   * Shifts out the data bit by bit, starting from the most significant bit.
+   * Uses SRCLK to clock in the data and RCLK to latch the data to the outputs.
+
+   .. code-block:: python
+
+        def shift_out(data1, data2):
+            data = (data1 << 8) | data2
+            for bit in range(16):
+                SRCLK.low()
+                SDI.value((data >> (15 - bit)) & 0x01)
+                SRCLK.high()
+            RCLK.high()
+            utime.sleep_us(10)
+            RCLK.low()
+
+
+#. Define the Pattern:
+
+   * Each element in the pattern list represents a row in the LED matrix.
+   * Each bit in a byte represents a column in that row.
+   * The pattern creates an 'X' shape on the matrix.
+
+   .. code-block:: python
+
+        pattern = [
+            0b10000001,
+            0b01000010,
+            0b00100100,
+            0b00011000,
+            0b00011000,
+            0b00100100,
+            0b01000010,
+            0b10000001
+        ]
+
+#. Main Loop:
+
+   * Loops through each row to refresh the display.
+   * Activates one row at a time by setting the corresponding bit in ``row_data``.
+   * Sends the column data (``col_data``) for that row.
+   * Uses a short delay to allow the human eye to perceive the image due to persistence of vision.
+
+   .. code-block:: python
+
+        while True:
+            for row in range(8):
+                row_data = 1 << row
+                col_data = pattern[row]
+                shift_out(~col_data & 0xFF, row_data)
+                utime.sleep_us(1000)
+
+**Experimenting Further**
+
+* Changing the Pattern
+
+  Try replacing the pattern list with the following arrays to display different graphics. Replace pattern in your code with ``pattern_heart`` or ``pattern_smile`` to see different images.
+
+  .. code-block:: python
+
+        # Heart shape
+        pattern_heart = [
+            0b00000000,
+            0b01100110,
+            0b11111111,
+            0b11111111,
+            0b11111111,
+            0b01111110,
+            0b00111100,
+            0b00011000
+        ]
+
+        # Smile face
+        pattern_smile = [
+            0b00111100,
+            0b01000010,
+            0b10100101,
+            0b10000001,
+            0b10100101,
+            0b10011001,
+            0b01000010,
+            0b00111100
+        ]
+
+
+* Animating the Display
+
+  Create multiple patterns and cycle through them to create animations:
+
+  .. code-block:: python
+
+        patterns = [pattern1, pattern2, pattern3, pattern4]
+
+        while True:
+            for pattern in patterns:
+                for _ in range(50):  # Display each pattern for a short time
+                    for row in range(8):
+                        row_data = 1 << row
+                        col_data = pattern[row]
+                        shift_out(~col_data & 0xFF, row_data)
+                        utime.sleep_us(1000)
+
+* Design Your Own Patterns
+
+  Each byte represents a row; bits set to 1 turn on the LED in that column. Create custom patterns by defining your own pattern list.
+
+**Conclusion**
+
+In this lesson, you've learned how to control an 8x8 LED matrix using the Raspberry Pi Pico 2 and two 74HC595 shift registers. By understanding how to manipulate bits and use shift registers, you can display patterns and graphics on the LED matrix.

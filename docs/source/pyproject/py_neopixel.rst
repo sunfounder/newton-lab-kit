@@ -14,20 +14,62 @@
 
 .. _py_neopixel:
 
-3.3 Controlling an RGB LED Strip with the Raspberry Pi Pico
+3.3 Controlling an RGB LED Strip
 ===========================================================
 
-In this lesson, we'll learn how to control an **RGB LED strip** (specifically the WS2812 type) using the Raspberry Pi Pico and MicroPython.
+In this lesson, we'll learn how to control an **RGB LED strip** (specifically the WS2812 type) using the Raspberry Pi Pico 2 and MicroPython.
 
 The WS2812 is a smart LED that integrates a control circuit and an RGB chip into a 5050-sized LED package. Each LED has its own built-in controller, which allows us to control each LED individually using a single data line. This means we can change the color and brightness of each LED on the strip independently.
 
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico
-* WS2812 RGB LED Strip (with 8 LEDs)
-* Jumper wires
-* Breadboard (optional)
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_ws2812`
+        - 1
+        - |link_ws2812_buy|
 
 **Circuit Diagram**
 
@@ -44,11 +86,11 @@ Be cautious with the current draw. While the Pico's VBUS pin can supply power fo
 
 .. note::
 
-    * Open the ``3.3_rgb_led_strip.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+    * Open the ``3.3_rgb_led_strip.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
 
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`. 
+     
     
     * Here you need to use the library called ``ws2812.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
 
@@ -169,7 +211,7 @@ When the code runs, the LED strip displays a flowing dynamic effect with random 
 
 **Conclusion**
 
-You've successfully learned how to control an RGB LED strip using the Raspberry Pi Pico and MicroPython! This opens up a world of possibilities for creating stunning light displays, mood lighting, or even interactive art projects.
+You've successfully learned how to control an RGB LED strip using the Raspberry Pi Pico 2 and MicroPython! This opens up a world of possibilities for creating stunning light displays, mood lighting, or even interactive art projects.
 
 
 

@@ -14,30 +14,90 @@
 
 .. _ar_ultrasonic:
 
-6.1 - Measuring Distance
-======================================
+6.1 Measuring Distance with an Ultrasonic Sensor
+================================================
 
-The ultrasonic sensor module works on the principle of sonar and radar systems for determining the distance to an object.
+In this lesson, we'll learn how to use an **ultrasonic sensor module** with the Raspberry Pi Pico 2 to measure the distance to an object. Ultrasonic sensors are commonly used in robotics and automation systems for object detection and distance measurement.
 
-* :ref:`cpn_ultrasonic`
+**What You'll Need**
 
-**Schematic**
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_ultrasonic`
+        - 1
+        - |link_ultrasonic_buy|
+
+**Understanding the Ultrasonic Sensor**
+
+The ultrasonic sensor works by emitting a short ultrasonic pulse from the **Trig** pin and listening for the echo on the **Echo** pin. By measuring the time it takes for the echo to return, we can calculate the distance to an object using the speed of sound.
+
+|ultrasonic_prin|
+
+* **Trigger Pulse**: A 10-microsecond high pulse on the Trig pin initiates the measurement.
+* **Ultrasonic Burst**: The sensor emits an 8-cycle ultrasonic burst at 40 kHz.
+* **Echo Reception**: The Echo pin goes high, and stays high until the echo is received back.
+* **Time Measurement**: By measuring the time the Echo pin stays high, we can calculate the distance.
+
+
+**Circuit Diagram**
 
 |sch_ultrasonic|
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_ultrasonic|
 
-**Code**
+**Writing the Code**
 
 .. note::
 
-   * You can open the file ``6.1_ultrasonic.ino`` under the path of ``newton-lab-kit/arduino/6.1_ultrasonic``. 
+   * You can open the file ``6.1_ultrasonic.ino`` from ``newton-lab-kit/arduino/6.1_ultrasonic``. 
    * Or copy this code into **Arduino IDE**.
 
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
 
 .. raw:: html
     
@@ -47,7 +107,7 @@ The ultrasonic sensor module works on the principle of sonar and radar systems f
 Once the program is running, the Serial Monitor will print out the distance of the ultrasonic sensor from the obstacle ahead.
 
 
-**How it works?**
+**Understanding the Code**
 
 About the application of ultrasonic sensor, we can directly check the
 subfunction.

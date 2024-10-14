@@ -14,48 +14,204 @@
 
 .. _ar_joystick:
 
-4.1 - Toggle the Joystick
-================================
+4.1 Reading Values from a Joystick
+==================================
 
-If you play a lot of video games, then you should be very familiar with the Joystick.
-It is usually used to move the character around, rotate the screen, etc.
+In this lesson, we'll learn how to use a **joystick** with the Raspberry Pi Pico 2 to read analog values and detect button presses. A joystick is a common input device that allows you to control movement along two axes (X and Y) and often includes a button when pressed down (Z-axis).
 
-The principle behind Joystick's ability to allow the computer to read our actions is very simple.
-It can be thought of as consisting of two potentiometers that are perpendicular to each other.
-These two potentiometers measure the analog value of the joystick vertically and horizontally, resulting in a value (x,y) in a planar right-angle coordinate system.
+**What You'll Need**
 
+In this project, we need the following components. 
 
-The joystick of this kit also has a digital input, which is activated when the joystick is pressed.
+It's definitely convenient to buy a whole kit, here's the link: 
 
-* :ref:`cpn_joystick`
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
 
-**Schematic**
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_joystick`
+        - 1
+        - 
+
+**Understanding the Joystick**
+
+A typical joystick module consists of two potentiometers positioned at right angles to each other:
+
+* **X-axis potentiometer**: Measures left-right movement.
+* **Y-axis potentiometer**: Measures up-down movement.
+* **Z-axis (Switch)**: A digital button activated when you press down on the joystick.
+
+By reading the analog values from the X and Y axes, you can determine the position of the joystick. The Z-axis button allows you to detect when the joystick is pressed down.
+
+**Circuit Diagram**
 
 |sch_joystick|
 
 The SW pin is connected to a 10K pull-up resistor, the reason is to be able to get a stable high level on the SW pin (Z axis) when the joystick is not pressed; otherwise the SW is in a suspended state and the output value may vary between 0/1.
 
-
-**Wiring**
+**Wiring Diagram**
 
 |wiring_joystick|
 
-**Code**
+**Writing the Code**
 
 .. note::
 
-   * You can open the file ``4.1_toggle_the_joyostick.ino`` under the path of ``newton-lab-kit/arduino/4.1_toggle_the_joyostick``. 
+   * You can open the file ``4.1_toggle_the_joyostick.ino`` from ``newton-lab-kit/arduino/4.1_toggle_the_joyostick``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+
+.. code-block:: arduino
+
+   // Define the pins
+   const int joystickX = 26;  // GP26 (ADC0) connected to VRx
+   const int joystickY = 27;  // GP27 (ADC1) connected to VRy
+   const int joystickSW = 28; // GP28 connected to SW (button)
+
+   void setup() {
+     // Initialize serial communication at 115200 baud
+     Serial.begin(115200);
+
+     // Initialize the joystick switch pin as input
+     pinMode(joystickSW, INPUT_PULLUP);
+
+   }
+
+   void loop() {
+     // Read analog values from the joystick
+     int xValue = analogRead(joystickX);
+     int yValue = analogRead(joystickY);
+
+     // Read the joystick button state
+     int buttonState = digitalRead(joystickSW);
+
+     // Print the joystick values to the Serial Monitor
+     Serial.print("X: ");
+     Serial.print(xValue);
+     Serial.print(" | Y: ");
+     Serial.print(yValue);
+     Serial.print(" | Button: ");
+     Serial.println(buttonState == LOW ? "Pressed" : "Released");
+
+     delay(500); // Wait for half a second before the next reading
+   }
+
+When the code is running and the Serial Monitor is open:
+
+* Move the joystick in different directions (left, right, up, down) and observe the X and Y values changing accordingly in the Serial Monitor.
+* Press the joystick button (Z-axis) and observe the button state changing from "Released" to "Pressed".
 
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
-    
+**Understanding the Code**
 
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/dfe53878-7cb4-4543-bb97-7f5ef5aad15a/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+#. Defining Pins:
 
-After the program runs, the Shell prints out the x,y,z values of joystick.
+   * ``joystickX`` and ``joystickY``: Analog pins connected to the joystick's X and Y axes.
+   * ``joystickSW``: Digital pin connected to the joystick's button (Z-axis).
 
-* The x-axis and y-axis values are analog values that vary from 0 to 65535.
-* The Z-axis is a digital value with a status of 1 or 0.
+#. Setup Function:
+
+   * Initializes serial communication for debugging and monitoring.
+   * Sets the joystick button pin as input with an internal pull-up resistor to stabilize the input.
+
+   .. code-block:: arduino
+
+        void setup() {
+          Serial.begin(115200); // Initialize serial communication at 115200 baud
+          pinMode(joystickSW, INPUT_PULLUP); // Set joystick button as input with pull-up resistor
+        }
+  
+#. ``loop()`` Function:
+
+   * Reading Analog Values:
+       
+     Reads the current position of the joystick along the X and Y axes. The values range from 0 to 1023, corresponding to the analog voltage levels.
+   
+     .. code-block:: arduino
+   
+           int xValue = analogRead(joystickX);
+           int yValue = analogRead(joystickY);
+       
+   * Reading Button State:
+       
+     Reads the state of the joystick's button. ``LOW`` indicates pressed, and ``HIGH`` indicates released.
+   
+     .. code-block:: arduino
+   
+           int buttonState = digitalRead(joystickSW);
+       
+   * Printing to Serial Monitor:
+       
+     Outputs the current joystick position and button state to the Serial Monitor for debugging and monitoring.
+   
+     .. code-block:: arduino
+   
+       Serial.print("X: ");
+       Serial.print(xValue);
+       Serial.print(" | Y: ");
+       Serial.print(yValue);
+       Serial.print(" | Button: ");
+       Serial.println(buttonState == LOW ? "Pressed" : "Released");
+
+**Further Exploration**
+
+* Mapping Analog Values to Actions:
+  
+  * Use the joystick's position to control servos, LEDs, or other actuators based on movement direction and magnitude.
+
+* Dead Zone Implementation:
+  
+  * Implement a dead zone around the center position to prevent unintentional movements due to slight joystick fluctuations.
+
+* Combining with Other Sensors:
+  
+  * Integrate the joystick with other sensors (e.g., accelerometers, distance sensors) to create more complex interactions.
+
+* Creating a Game Controller:
+  
+  * Use multiple joysticks and buttons to build a custom game controller for simple games or robotic control.
+
+**Conclusion**
+
+In this lesson, you've learned how to interface a joystick with the Raspberry Pi Pico to read analog values from the X and Y axes and detect button presses on the Z-axis. This setup can be used as an input method for various projects, including remote controls, robotics, and interactive installations. By understanding how to read and interpret the joystick's values, you can create responsive and dynamic applications.
+
+

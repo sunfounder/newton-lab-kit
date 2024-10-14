@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-.. _cpn_limit_sw:
+.. _cpn_micro_switch:
 
 Micro Switch
 ========================

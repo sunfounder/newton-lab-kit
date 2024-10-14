@@ -17,19 +17,65 @@
 2.13 Thermometer
 ===========================
 
-In this lesson, we'll learn how to use a **thermistor** with the Raspberry Pi Pico to measure temperature. A thermistor is a type of resistor whose resistance varies significantly with temperature. Specifically, we'll use a Negative Temperature Coefficient (NTC) thermistor, which decreases its resistance as the temperature increases.
+In this lesson, we'll learn how to use a **thermistor** with the Raspberry Pi Pico 2 to measure temperature. A thermistor is a type of resistor whose resistance varies significantly with temperature. Specifically, we'll use a Negative Temperature Coefficient (NTC) thermistor, which decreases its resistance as the temperature increases.
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* NTC Thermistor (marked as 10 kΩ, often labeled "103")
-* 10 kΩ resistor (color bands: brown, black, orange, gold)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_thermistor`
+        - 1
+        - |link_thermistor_buy|
 
 **Understanding the Thermistor**
 
-An NTC thermistor is a temperature-sensitive resistor. Its resistance decreases as the temperature rises. By incorporating it into a voltage divider circuit, we can measure the voltage across it, which changes with temperature. Using the Raspberry Pi Pico's analog-to-digital converter (ADC), we can read this voltage and calculate the corresponding temperature.
+An NTC thermistor is a temperature-sensitive resistor. Its resistance decreases as the temperature rises. By incorporating it into a voltage divider circuit, we can measure the voltage across it, which changes with temperature. Using the Raspberry Pi Pico 2's analog-to-digital converter (ADC), we can read this voltage and calculate the corresponding temperature.
 
 **Circuit Diagram**
 
@@ -52,11 +98,11 @@ We'll write a MicroPython program to read the analog value from the thermistor, 
 
 .. note::
 
-    * Open the ``2.13_thermometer.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+    * Open the ``2.13_thermometer.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
 
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    
 
 
 .. code-block:: python
@@ -154,7 +200,7 @@ The Steinhart-Hart equation provides a model of the thermistor's resistance as a
 
 **Safety Note**
 
-Be careful when applying heat to the thermistor. Do not expose it to high temperatures that could damage it or the Raspberry Pi Pico.
+Be careful when applying heat to the thermistor. Do not expose it to high temperatures that could damage it or the Raspberry Pi Pico 2.
 
 **Experimenting Further**
 
@@ -164,7 +210,7 @@ Be careful when applying heat to the thermistor. Do not expose it to high temper
 
 **Conclusion**
 
-By using a thermistor with the Raspberry Pi Pico, you've created a basic thermometer capable of measuring temperature changes. This project demonstrates how to read analog inputs, perform calculations, and interpret sensor data to derive meaningful information.
+By using a thermistor with the Raspberry Pi Pico 2, you've created a basic thermometer capable of measuring temperature changes. This project demonstrates how to read analog inputs, perform calculations, and interpret sensor data to derive meaningful information.
 
 
 

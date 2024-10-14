@@ -14,8 +14,8 @@
 
 .. _bc_bb:
 
-Electronic Circuits
-======================
+Basic Electronic Circuits
+===========================
 
 Many everyday devices are powered by electricity, such as the lights in your home and the computer you're using right now.
 
@@ -122,7 +122,7 @@ Let's conduct a simple experiment to understand Ohm's Law:
 By changing the power supply from 3.3V to 5V (i.e., connecting to VBUS, the 40th pin of the Pico), the LED will become brighter. If you replace the 220Ω resistor with a 1kΩ resistor (color bands: brown, black, black, brown, and brown), you'll notice the LED becomes dimmer. The larger the resistance, the dimmer the LED.
 
 .. note::
-    For an introduction to resistors and how to calculate resistance values, see :ref:`cpn_res`.
+    For an introduction to resistors and how to calculate resistance values, see :ref:`cpn_resistor`.
 
 Most pre-packaged modules only require the correct voltage (usually 3.3V or 5V), such as an ultrasonic module.
 

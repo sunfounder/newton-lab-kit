@@ -14,22 +14,71 @@
 
 .. _py_somato_controller:
 
+7.11 Building a Somatosensory Controller
+===========================================
 
-7.11 Somatosensory Controller
-=============================
+In this exciting project, we'll create a **Somatosensory Controller** using the Raspberry Pi Pico 2, an MPU6050 accelerometer and gyroscope module, and a servo motor. This device captures human motion—specifically the tilt of your hand—and translates it into movement of the servo motor. This technology is similar to that used in robotics and remote operation systems, such as surgical robots or robotic arms.
 
-If you watch a lot of robot movies, you've probably seen images like this.
-The protagonist turned his wrist and the giant robot followed; the protagonist shakes his fist, and the robot follows, which is very cool.
+**What You'll Need**
 
-The use of this technology is already common in universities and research institutes, and the arrival of 5G will greatly expand its application areas.
-"Surgical robot da Vinci" remote surgery medical is a typical example.
+In this project, we need the following components. 
 
-A robotic system of this type is typically composed of two modules: a human motion capture module and a robotic arm actuation module (some application scenarios also include a data communication module).
+It's definitely convenient to buy a whole kit, here's the link: 
 
-The MPU6050 is used here to implement human motion capture (by mounting it on a glove) and the servo is used to represent robotic arm motion.
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
 
-**Schematic**
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
 
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_mpu6050`
+        - 1
+        - 
+    *   - 6
+        - :ref:`cpn_servo`
+        - 1
+        - |link_servo_buy|
+
+**Understanding the Components**
+
+* **MPU6050 Accelerometer and Gyroscope**: A 6-axis motion tracking device that measures acceleration and angular velocity along the X, Y, and Z axes. We'll use it to detect the tilt of your hand.
+* **Servo Motor**: A motor that can be controlled to move to a specific angle. We'll use it to mimic the movement detected by the MPU6050.
+
+**Circuit Diagram**
 
 |sch_somato|
 
@@ -37,81 +86,173 @@ The MPU6050 calculates the attitude angle based on the acceleration values in ea
 
 The program will control the servo to make the corresponding deflection angle as the attitude angle changes.
 
-**Wiring**
+**Wiring Diagram**
 
 |wiring_somatosensory_controller| 
 
+**Writing the Code**
 
-**Code**
+We'll write a MicroPython script that:
 
+* Reads accelerometer data from the MPU6050.
+* Calculates the tilt angle of your hand.
+* Controls the servo motor to mimic the tilt.
 
 .. note::
 
-    * Open the ``7.11_somatosensory_controller.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``7.11_somatosensory_controller.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
     * Here you need to use the ``imu.py`` and ``vector3d.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
-
 
 .. code-block:: python
 
     from imu import MPU6050
-    from machine import I2C, Pin
-    import time
+    from machine import I2C, Pin, PWM
+    import utime
     import math
 
-    # Initialize I2C communication for MPU6050 accelerometer
-    i2c = I2C(1, sda=Pin(6), scl=Pin(7), freq=400000)
+    # Initialize I2C communication for MPU6050
+    i2c = I2C(1, scl=Pin(7), sda=Pin(6))
     mpu = MPU6050(i2c)
 
-    # Initialize PWM for the servo on pin 16 with a frequency of 50Hz
-    servo = machine.PWM(machine.Pin(16))
-    servo.freq(50)
+    # Initialize PWM for the servo motor on GP15
+    servo = PWM(Pin(15))
+    servo.freq(50)  # Set frequency to 50Hz for servo
 
-    # Function to map a value from one range to another
-    def interval_mapping(x, in_min, in_max, out_min, out_max):
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+    # Function to map angle to PWM duty cycle
+    def angle_to_duty(angle):
+        # Convert angle (0-180) to duty cycle (0.5ms - 2.5ms pulse width)
+        # Duty cycle range is from 2% to 12% for 0.5ms to 2.5ms at 50Hz
+        duty_cycle = (angle / 18) + 2
+        duty_u16 = int(duty_cycle / 100 * 65535)
+        return duty_u16
 
-    # Function to calculate the Euclidean distance between two points
-    def dist(a, b):
-        return math.sqrt((a * a) + (b * b))
-
-    # Function to calculate the rotation along the y-axis
-    def get_y_rotation(x, y, z):
-        radians = math.atan2(x, dist(y, z))
-        return -math.degrees(radians)
-
-    # Function to calculate the rotation along the x-axis
-    def get_x_rotation(x, y, z):
-        radians = math.atan2(y, dist(x, z))
-        return math.degrees(radians)
-
-    # Function to control the servo based on the angle
-    # Maps the angle (0-180) to the PWM duty cycle for servo control
-    def servo_write(pin, angle):
-        pulse_width = interval_mapping(angle, 0, 180, 0.5, 2.5)  # Map angle to pulse width in ms (0.5ms to 2.5ms)
-        duty = int(interval_mapping(pulse_width, 0, 20, 0, 65535))  # Convert pulse width to PWM duty cycle (0-65535)
-        pin.duty_u16(duty)  # Set the duty cycle for the servo PWM
-
-    # Define the number of readings to average for smoother motion
-    times = 25
+    # Function to get the tilt angle from accelerometer data
+    def get_tilt_angle():
+        accel = mpu.accel
+        x = accel.x
+        y = accel.y
+        z = accel.z
+        angle = math.atan2(y, z) * (180 / math.pi)
+        return angle + 90  # Adjust angle to range from 0 to 180
 
     # Main loop
-    while True:
-        total = 0
-        # Take multiple readings to average the angle for smoothness
-        for i in range(times):
-            angle = get_y_rotation(mpu.accel.x, mpu.accel.y, mpu.accel.z)  # Get the y-axis rotation value from the accelerometer
-            total += angle  # Accumulate the readings
+    try:
+        while True:
+            angle = get_tilt_angle()
+            if angle < 0:
+                angle = 0
+            elif angle > 180:
+                angle = 180
+            duty = angle_to_duty(angle)
+            servo.duty_u16(duty)
+            utime.sleep(0.1)
+    except KeyboardInterrupt:
+        servo.deinit()
+        print("Program stopped.")
 
-        average_angle = int(total / times)  # Calculate the average angle
-        # Map the average angle (-90 to 90) to the servo's movement range (0 to 180 degrees)
-        servo_write(servo, interval_mapping(average_angle, -90, 90, 0, 180))
+After the program starts, tilt your hand up and down.
+The servo motor should mimic the tilt by moving correspondingly.
+Observe how the servo responds to your hand movements.
 
-        time.sleep(0.1)  # Add a small delay to reduce jitter in the servo movement
+**Understanding the Code**
 
+#. Initialization:
 
+   * **I2C Communication**: Set up to read data from the MPU6050.
+   * **Servo Motor PWM**: Initialized on GP15 with a frequency of 50Hz.
 
+#. Angle Calculation:
 
-As soon as the program runs, the servo will turn left and right as you tilt the MPU6050 (or turn your wrist if it is mounted on a glove).
+   * ``get_tilt_angle()``: Calculates the tilt angle based on accelerometer readings. The angle is adjusted to be between 0 and 180 degrees.
+
+   .. code-block:: python
+
+        def get_tilt_angle():
+            accel = mpu.accel
+            x = accel.x
+            y = accel.y
+            z = accel.z
+            angle = math.atan2(y, z) * (180 / math.pi)
+            return angle + 90  # Adjust angle to range from 0 to 180
+
+#. Servo Control:
+
+   * ``angle_to_duty(angle)``: Converts the angle to the appropriate PWM duty cycle for the servo motor.
+   * Duty Cycle Calculation: The servo expects pulses between 0.5ms (0 degrees) and 2.5ms (180 degrees) at 50Hz.
+
+   .. code-block:: python
+
+        def angle_to_duty(angle):
+            # Convert angle (0-180) to duty cycle (0.5ms - 2.5ms pulse width)
+            # Duty cycle range is from 2% to 12% for 0.5ms to 2.5ms at 50Hz
+            duty_cycle = (angle / 18) + 2
+            duty_u16 = int(duty_cycle / 100 * 65535)
+            return duty_u16
+
+#. Main Loop:
+
+   * Reads the tilt angle.
+   * Adjusts the angle to ensure it's within 0 to 180 degrees.
+   * Sets the servo position accordingly.
+   * Includes a short delay to prevent jitter.
+   * Captures a keyboard interrupt to deinitialize the servo safely.
+
+   .. code-block:: python
+
+        try:
+            while True:
+                angle = get_tilt_angle()
+                if angle < 0:
+                    angle = 0
+                elif angle > 180:
+                    angle = 180
+                duty = angle_to_duty(angle)
+                servo.duty_u16(duty)
+                utime.sleep(0.1)
+        except KeyboardInterrupt:
+            servo.deinit()
+            print("Program stopped.")
+
+**Troubleshooting**
+
+* Servo Not Moving:
+
+  * Check that the servo is powered correctly.
+  * Ensure the signal wire is connected to GP15.
+  * Verify that the grounds are connected between the Pico and the servo.
+
+* Inaccurate Movements:
+
+  * Make sure the MPU6050 is securely attached and not shaking excessively.
+  * Adjust the angle calculations if needed.
+
+* Program Errors:
+
+  * Ensure that imu.py and vector3d.py are correctly uploaded.
+  * Check for typos or indentation errors in the code.
+
+**Extensions and Enhancements**
+
+* Control Multiple Servos:
+
+  * Add more servos to control additional axes of movement.
+  * Expand the code to handle rotation around other axes.
+
+* Wireless Communication:
+
+  Use Bluetooth or Wi-Fi modules to transmit sensor data to another device controlling the servos.
+
+* Data Smoothing:
+
+  Implement filters (e.g., Kalman filter) to smooth out sensor readings.
+
+* Visual Feedback:
+
+  Add an OLED or LCD display to show real-time angle data.
+
+**Conclusion**
+
+You've successfully built a Somatosensory Controller that captures human motion and translates it into mechanical movement. This project demonstrates how sensors and actuators can work together to create interactive systems, similar to those used in robotics and remote operations.
+
+Feel free to enhance this project by adding more features or integrating it into larger systems.

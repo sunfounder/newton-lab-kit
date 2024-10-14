@@ -14,127 +14,274 @@
 
 .. _ar_neopixel:
 
-3.3 - RGB LED Strip
-======================
+3.3 Controlling an RGB LED Strip
+===========================================================
 
-WS2812 is a intelligent control LED light source that the control circuit and RGB chip are integrated in a package of 5050 components. 
-It internal include intelligent digital port data latch and signal reshaping amplification drive circuit. 
-Also include a precision internal oscillator and a programmable constant current control part, 
-effectively ensuring the pixel point light color height consistent.
+In this lesson, we'll learn how to control an **RGB LED strip** (specifically the WS2812 type) using the Raspberry Pi Pico 2 and MicroPython.
 
-The data transfer protocol use single NZR communication mode. 
-After the pixel power-on reset, the DIN port receive data from controller, the first pixel collect initial 24bit data then sent to the internal data latch, the other data which reshaping by the internal signal reshaping amplification circuit sent to the next cascade pixel through the DO port. After transmission for each pixel，the signal to reduce 24bit. 
-pixel adopt auto reshaping transmit technology, making the pixel cascade number is not limited the signal transmission, only depend on the speed of signal transmission.
+The WS2812 is a smart LED that integrates a control circuit and an RGB chip into a 5050-sized LED package. Each LED has its own built-in controller, which allows us to control each LED individually using a single data line. This means we can change the color and brightness of each LED on the strip independently.
 
 
-* :ref:`cpn_ws2812`
+**What You'll Need**
 
-**Schematic**
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_ws2812`
+        - 1
+        - |link_ws2812_buy|
+
+**Circuit Diagram**
 
 |sch_ws2812|
 
-**Wiring**
+
+**Wiring Diagram**
 
 |wiring_ws2812|
 
-.. 1. Connect the +5V of the LED Strip to the VBUS of the Pico.
-.. #. Connect the GND of the LED Strip to the GND of the Pico.
-.. #. Connect the DIN of the LED Strip to the GP0 of Pico.
+Be cautious with the current draw. While the Pico's VBUS pin can supply power for a small number of LEDs (like 8), using more LEDs may require an external power supply to prevent overloading the Pico.
 
-.. warning::
-    One thing you need to pay attention to is current.
 
-    Although the LED Strip with any number of LEDs can be used in Pico, the power of its VBUS pin is limited.
-    Here, we will use eight LEDs, which are safe.
-    But if you want to use more LEDs, you need to add a separate power supply.
-    
-
-**Code**
+**Writing the Code**
 
 .. note::
 
-    * You can open the file ``3.3_rgb_led_strip.ino`` under the path of ``newton-lab-kit/arduino/3.3_rgb_led_strip``. 
+    * You can open the file ``3.3_rgb_led_strip.ino`` from ``newton-lab-kit/arduino/3.3_rgb_led_strip``. 
     * Or copy this code into **Arduino IDE**.
-    * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
     * The ``Adafruit_NeoPixel`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_neopixel.png
 
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/efe5d60f-ea0f-4446-bc5b-30c76197fedf/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-
-
-Let's select some favorite colors and display them on the RGB LED Strip!
-
-**How it works?**
-
-Declare a Adafruit_NeoPixel type object,  it is connected to ``PIXEL_PIN``, 
-there are ``PIXEL_COUNT`` RGB LEDs on the strip.
-
 .. code-block:: arduino
 
-    #define PIXEL_PIN    0
-    #define PIXEL_COUNT 8
+  #include <Adafruit_NeoPixel.h>
 
-    // Declare our NeoPixel strip object:
-    Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
-    // Argument 1 = Number of pixels in NeoPixel strip
-    // Argument 2 = Arduino pin number (most are valid)
-    // Argument 3 = Pixel type flags, add together as needed:
-    //   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
-    //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
-    //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
-    //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-    //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
+  #define PIXEL_PIN    0    // Digital IO pin connected to the NeoPixels
+  #define PIXEL_COUNT  8    // Number of NeoPixels
 
-Initialize strip object and initialize all pixels to 'off'.
+  // Declare our NeoPixel strip object
+  Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
-Function
-    * ``strip.begin()`` : Initialize NeoPixel strip object (REQUIRED).
-    * ``strip.setPixelColor(index, color)`` : Set pixel's color (in RAM), the ``color`` must be a single 'packed' 32-bit value.
-    * ``strip.Color(red, green, blue)`` : Color as a single 'packed' 32-bit value.
-    * ``strip.show()`` : Update strip with new contents.
-  
-**Learn More**
+  void setup() {
+    strip.begin();           // Initialize the NeoPixel library
+    strip.show();            // Turn OFF all pixels ASAP
+  }
 
-We can randomly generate colors and make a colorful flowing light.
+  void loop() {
+    // Set the color of each pixel
+    strip.setPixelColor(0, strip.Color(255, 0, 0));   // Red
+    strip.setPixelColor(1, strip.Color(0, 255, 0));   // Green
+    strip.setPixelColor(2, strip.Color(0, 0, 255));   // Blue
+    strip.setPixelColor(3, strip.Color(255, 255, 0)); // Yellow
+    strip.setPixelColor(4, strip.Color(0, 255, 255)); // Cyan
+    strip.setPixelColor(5, strip.Color(255, 0, 255)); // Magenta
+    strip.setPixelColor(6, strip.Color(255, 255, 255)); // White
+    strip.setPixelColor(7, strip.Color(0, 0, 0));     // Off
 
-.. note::
+    strip.show();  // Update the strip with new contents
+    delay(1000);   // Wait for a second
 
-   * You can open the file ``3.3_rgb_led_strip_flowing.ino`` under the path of ``newton-lab-kit/arduino/3.3_rgb_led_strip_flowing``. 
-   * Or copy this code into **Arduino IDE**.
+    // Turn off all pixels
+    strip.clear();
+    strip.show();
+    delay(1000);   // Wait for a second
+  }
 
-   
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+After uploading the code, you should see the LEDs light up with different colors, stay on for a second, then turn off for a second.
+
+**Understanding the Code**
+
+#. Include the Library:
+
+   .. code-block:: arduino
     
+      #include <Adafruit_NeoPixel.h>
 
-.. raw:: html
+#. Define Constants:
+
+   * ``PIXEL_PIN``: The GPIO pin connected to the data input of the LED strip (GP0).
+   * ``PIXEL_COUNT``: The number of LEDs on the strip.
+
+#. Initialize the Strip:
+
+   ``NEO_GRB + NEO_KHZ800``: Specifies the color order and communication speed.
+
+   .. code-block:: arduino
     
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/a3d7c520-b4f8-4445-9454-5fe7d2a24fd9/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+      Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
+      
+#. In ``setup()`` function:
 
+   * ``strip.begin()``: Initializes the NeoPixel library.
+   * ``strip.show()``: Ensures all pixels are off.
 
-Or have this WS2812 LED Strip rainbow cycle around the color wheel (range 65535).
+#. In ``loop()`` function:
 
-.. note::
+   * ``strip.setPixelColor(index, color)``: Sets the color of a specific pixel.
+   * ``strip.Color(r, g, b)``: Creates a 24-bit color value from red, green, and blue components (0-255).
+   * ``strip.show()``: Sends the updated color data to the strip.
+   * ``strip.clear()``: Clears the pixel data in memory (turns off the pixels on the next ``show()``).
 
-   * You can open the file ``3.3_rgb_led_strip_rainbow.ino`` under the path of ``newton-lab-kit/arduino/3.3_rgb_led_strip_rainbow``. 
-   * Or copy this code into **Arduino IDE**.
+**Advanced Example: Color Wipe Animation**
 
-   
-   Don't forget to select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+Let's create a simple animation where each LED lights up in sequence.
+
+* ``colorWipe()``: Lights up each pixel in sequence with the specified color.
+* Calls ``colorWipe()`` with different colors to create an animation.
+
+.. code-block:: arduino
     
+  #include <Adafruit_NeoPixel.h>
 
-.. raw:: html
+  #define PIXEL_PIN    0
+  #define PIXEL_COUNT  8
+
+  Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
+
+  void setup() {
+    strip.begin();
+    strip.show(); // Initialize all pixels to 'off'
+  }
+
+  void loop() {
+    colorWipe(strip.Color(255, 0, 0), 50); // Red
+    colorWipe(strip.Color(0, 255, 0), 50); // Green
+    colorWipe(strip.Color(0, 0, 255), 50); // Blue
+  }
+
+  void colorWipe(uint32_t color, int wait) {
+    for(int i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, color);
+      strip.show();
+      delay(wait);
+    }
+  }
+
+After uploading the code, you should see the LEDs light up one by one in red, then green, then blue.
+
+**Advanced Example: Rainbow Cycle Animation**
+
+* ``rainbowCycle()`` Function: Cycles through the colors of the rainbow across all pixels.
+* The nested loops create a smooth transition of colors.
+* ``Wheel()`` Function: Generates rainbow colors across 0-255 positions.
+
+.. code-block:: arduino
     
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/47d84804-3560-48fa-86df-49f8e2f6ad63/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>   
+  #include <Adafruit_NeoPixel.h>
 
+  #define PIXEL_PIN    0
+  #define PIXEL_COUNT  8
 
-* ``strip.getPixelColor(index)`` : Query the color of a previously-set pixel.
-* ``strip.ColorHSV(pixelHue)`` : Convert hue, saturation and value into a packed 32-bit RGB color that can be passed to ``setPixelColor()`` or other RGB-compatible functions.
-* ``strip.gamma32()`` : Provides a "truer" color before assigning to each pixel.
+  Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
+  void setup() {
+    strip.begin();
+    strip.show(); // Initialize all pixels to 'off'
+  }
 
+  void loop() {
+    rainbowCycle(20); // Rainbow cycle with 20ms delay per step
+  }
 
+  void rainbowCycle(int wait) {
+    uint16_t i, j;
 
+    for(j=0; j<256*5; j++) { // 5 cycles of all colors on the wheel
+      for(i=0; i< strip.numPixels(); i++) {
+        strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+      }
+      strip.show();
+      delay(wait);
+    }
+  }
+
+  // Input a value 0 to 255 to get a color value.
+  // The colors are a transition r - g - b - back to r.
+  uint32_t Wheel(byte WheelPos) {
+    if(WheelPos < 85) {
+      return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+    } else if(WheelPos < 170) {
+      WheelPos -= 85;
+      return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+    } else {
+      WheelPos -= 170;
+      return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+    }
+  }
+
+After uploading the code, the LED strip should display a rainbow of colors cycling smoothly.
+
+**Further Exploration**
+
+* Create Custom Animations:
+
+  * Experiment with different colors and animations.
+  * Combine multiple animation functions.
+
+* Respond to Sensors:
+
+  Use input from sensors to change the LED colors or patterns.
+
+* Build a Visualizer:
+
+  Create a music visualizer that changes the LEDs based on sound input.
+
+**Power Considerations**
+
+* Current Draw:
+
+  * Each LED can draw up to 60mA at full brightness.
+  * For 8 LEDs, that's up to 480mA.
+  * Ensure your power source can supply the required current.
+
+* External Power Supply:
+
+  * For larger strips or higher brightness, use an external 5V power supply.
+  * Connect the ground of the external power supply to the Pico's ground.
+
+**Conclusion**
+
+In this lesson, you've learned how to control a WS2812 RGB LED strip using the Raspberry Pi Pico and the Adafruit NeoPixel library. By manipulating individual pixels, you can create stunning visual effects for your projects.
 

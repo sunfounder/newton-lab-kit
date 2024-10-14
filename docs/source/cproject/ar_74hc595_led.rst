@@ -14,92 +14,284 @@
 
 .. _ar_74hc_led:
 
-5.1 -  Microchip - 74HC595
-===========================
+5.1 Using the 74HC595 Shift Register
+===========================================================
 
-Integrated circuit (integrated circuit) is a kind of miniature electronic device or component, which is represented by the letter "IC" in the circuit.
+In this lesson, we'll learn how to use the **74HC595 shift register** to control multiple LEDs with just a few GPIO pins on the Raspberry Pi Pico 2. The 74HC595 is an integrated circuit (IC) that allows you to expand the number of digital outputs using a serial input. This is incredibly useful when you want to control many outputs but have limited GPIO pins available.
 
-A certain process is used to interconnect the transistors, resistors, capacitors, inductors and other components and wiring required in a circuit, fabricate on a small or several small semiconductor wafers or dielectric substrates, and then package them in a package , it has become a micro-structure with the required circuit functions; all of the components have been structured as a whole, making electronic components a big step towards micro-miniaturization, low power consumption, intelligence and high reliability.
+**What You'll Need**
 
-The inventors of integrated circuits are Jack Kilby (integrated circuits based on germanium (Ge)) and Robert Norton Noyce (integrated circuits based on silicon (Si)).
+In this project, we need the following components. 
 
-This kit is equipped with an IC, 74HC595, which can greatly save the use of GPIO pins.
-Specifically, it can replace 8 pins for digital signal output by writing an 8-bit binary number.
+It's definitely convenient to buy a whole kit, here's the link: 
 
-* `Binary number - Wikipedia <https://en.wikipedia.org/wiki/Binary_number>`_
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
 
-* :ref:`74HC595`
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
 
-**Schematic**
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 8(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_led`
+        - 8
+        - |link_led_buy|
+    *   - 7
+        - :ref:`cpn_74hc595`
+        - 1
+        - |link_74hc595_buy|
+
+
+
+**Understanding the 74HC595 Shift Register**
+
+The **74HC595** is an 8-bit serial-in, parallel-out shift register with output latches. It has the ability to take serial data input and convert it into parallel output, allowing you to control 8 outputs using only 3 GPIO pins from the Pico.
+
+**Key Pins on the 74HC595:**
+
+|img_74jc595_pin|
+
+* **DS (Pin 14)**: Serial Data Input
+* **SHCP (Pin 11)**: Shift Register Clock Input
+* **STCP (Pin 12)**: Storage Register Clock Input (Latch Pin)
+* **OE (Pin 13)**: Output Enable (Active Low, connect to GND)
+* **MR (Pin 10)**: Master Reset (Active Low, connect to 3.3V)
+* **Q0-Q7 (Pins 15, 1-7)**: Parallel Outputs
+* **VCC (Pin 16)**: Connect to 3.3V
+* **GND (Pin 8)**: Connect to GND
+
+**Circuit Diagram**
 
 |sch_74hc_led|
 
-* When MR (pin10) is high level and OE (pin13) is low level, data is input in the rising edge of SHcp and goes to the memory register through the rising edge of SHcp. 
-* If the two clocks are connected together, the shift register is always one pulse earlier than the memory register. 
-* There is a serial shift input pin (Ds), a serial output pin (Q) and an asynchronous reset button (low level) in the memory register. 
-* The memory register outputs a Bus with a parallel 8-bit and in three states. 
-* When OE is enabled (low level), the data in memory register is output to the bus(Q0 ~ Q7).
-
-
-**Wiring**
-
+**Wiring Diagram**
 
 |wiring_74hc_led|
 
-.. 1. Connect 3V3 and GND of Pico to the power bus of the breadboard.
-.. #. Insert 74HC595 across the middle gap into the breadboard.
-.. #. Connect the GP0 pin of Pico to the DS pin (pin 14) of 74HC595 with a jumper wire.
-.. #. Connect the GP1 pin of Pico to the STcp pin (12-pin) of 74HC595.
-.. #. Connect the GP2 pin of Pico to the SHcp pin (pin 11) of 74HC595.
-.. #. Connect the VCC pin (16 pin) and MR pin (10 pin) on the 74HC595 to the positive power bus.
-.. #. Connect the GND pin (8-pin) and CE pin (13-pin) on the 74HC595 to the negative power bus.
-.. #. Insert 8 LEDs on the breadboard, and their anode leads are respectively connected to the Q0~Q1 pins (15, 1, 2, 3, 4, 5, 6, 7) of 74HC595.
-.. #. Connect the cathode leads of the LEDs with a 220Ω resistor in series to the negative power bus.
+**Writing the Code**
 
-
-**Code**
-
+We'll write a program that controls the LEDs connected to the 74HC595 shift register by sending serial data from the Pico. The LEDs will light up one after another in a sequence.
 
 .. note::
 
-   * You can open the file ``5.1_microchip_74hc595.ino`` under the path of ``newton-lab-kit/arduino/5.1_microchip_74hc595``. 
+   * You can open the file ``5.1_microchip_74hc595.ino`` from ``newton-lab-kit/arduino/5.1_microchip_74hc595``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
 
+// Define the pins connected to the 74HC595
+const int DS = 0;   // GPIO 0 -> DS (Pin 14)
+const int SHCP = 1; // GPIO 1 -> SHCP (Pin 11)
+const int STCP = 2; // GPIO 2 -> STCP (Pin 12)
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+// Array of binary patterns to control LEDs
+int datArray[] = {
+  0b00000000, // All LEDs off
+  0b00000001, // LED 0 on
+  0b00000011, // LEDs 0 and 1 on
+  0b00000111, // LEDs 0, 1, and 2 on
+  0b00001111, // LEDs 0, 1, 2, and 3 on
+  0b00011111, // LEDs 0 to 4 on
+  0b00111111, // LEDs 0 to 5 on
+  0b01111111, // LEDs 0 to 6 on
+  0b11111111  // All LEDs on
+};
 
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/71854882-0c1b-4d09-b3e7-5ef7272f7293/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+void setup() {
+  // Initialize the control pins as outputs
+  pinMode(DS, OUTPUT);
+  pinMode(SHCP, OUTPUT);
+  pinMode(STCP, OUTPUT);
+}
 
+void loop() {
+  // Iterate through each pattern in datArray
+  for (int num = 0; num < 9; num++) {
+    // Set STCP to LOW to prepare for data
+    digitalWrite(STCP, LOW);
 
+    // Shift out the data to the shift register
+    shiftOut(DS, SHCP, MSBFIRST, datArray[num]);
 
-When the program is running, you can see the LEDs turning on one after another.
+    // Set STCP to HIGH to latch the data to the output pins
+    digitalWrite(STCP, HIGH);
 
-**How it works?**
+    delay(500); // Wait for half a second before the next pattern
+  }
 
-Declare an array, store several 8 bit binary numbers that are used to change the working state of the eight LEDs controlled by 74HC595. 
+  // Optional: Turn off all LEDs after the sequence
+  digitalWrite(STCP, LOW);
+  shiftOut(DS, SHCP, MSBFIRST, 0b00000000);
+  digitalWrite(STCP, HIGH);
+  delay(500);
+}
+Uploading the Code
+Connect your Pico to your computer using the micro USB cable.
+Open the Arduino IDE.
+Copy and paste the above code into a new sketch.
+Select the Raspberry Pi Pico board and the correct port under the Tools menu.
+Click the Upload button to program the Pico.
+Understanding the Code
+Defining Control Pins:
 
-.. code-block:: arduino
+cpp
+Copy code
+const int DS = 0;   // GPIO 0 -> DS (Pin 14)
+const int SHCP = 1; // GPIO 1 -> SHCP (Pin 11)
+const int STCP = 2; // GPIO 2 -> STCP (Pin 12)
+DS (Data Serial Input): Receives the serial data.
+SHCP (Shift Register Clock Input): Controls the shifting of data into the register.
+STCP (Storage Register Clock Input): Controls the latching of data to the output pins.
+Creating Data Patterns:
 
-    int datArray[] = {0b00000000, 0b00000001, 0b00000011, 0b00000111, 0b00001111, 0b00011111, 0b00111111, 0b01111111, 0b11111111};
+cpp
+Copy code
+int datArray[] = {
+  0b00000000, // All LEDs off
+  0b00000001, // LED 0 on
+  0b00000011, // LEDs 0 and 1 on
+  0b00000111, // LEDs 0, 1, and 2 on
+  0b00001111, // LEDs 0, 1, 2, and 3 on
+  0b00011111, // LEDs 0 to 4 on
+  0b00111111, // LEDs 0 to 5 on
+  0b01111111, // LEDs 0 to 6 on
+  0b11111111  // All LEDs on
+};
+An array datArray holds different binary patterns to control the LEDs.
+Each bit represents the state of an LED (1 for on, 0 for off).
+Setup Function:
 
-Set ``STcp`` to low level first and then high level. It will generate a rising edge pulse of ``STcp``.
+cpp
+Copy code
+void setup() {
+  // Initialize the control pins as outputs
+  pinMode(DS, OUTPUT);
+  pinMode(SHCP, OUTPUT);
+  pinMode(STCP, OUTPUT);
+}
+Sets the DS, SHCP, and STCP pins as outputs to send data to the shift register.
+Loop Function:
 
-.. code-block:: arduino
+cpp
+Copy code
+void loop() {
+  // Iterate through each pattern in datArray
+  for (int num = 0; num < 9; num++) {
+    // Set STCP to LOW to prepare for data
+    digitalWrite(STCP, LOW);
 
-    digitalWrite(STcp,LOW); 
+    // Shift out the data to the shift register
+    shiftOut(DS, SHCP, MSBFIRST, datArray[num]);
 
-``shiftOut()`` is used to shift out a byte of data one bit at a time, which means to shift a byte of data in datArray[num] to the shifting register with the DS pin. MSBFIRST means to move from high bits.
+    // Set STCP to HIGH to latch the data to the output pins
+    digitalWrite(STCP, HIGH);
 
-.. code-block:: arduino
+    delay(500); // Wait for half a second before the next pattern
+  }
 
-    shiftOut(DS,SHcp,MSBFIRST,datArray[num]);
+  // Optional: Turn off all LEDs after the sequence
+  digitalWrite(STCP, LOW);
+  shiftOut(DS, SHCP, MSBFIRST, 0b00000000);
+  digitalWrite(STCP, HIGH);
+  delay(500);
+}
+Iterating Through Patterns:
 
-After ``digitalWrite(STcp,HIGH)`` is run, the STcp will be at the rising edge. At this time, the data in the shift register will be moved to the memory register. 
+The for loop cycles through each pattern in the datArray array.
 
-.. code-block:: arduino
+Shifting Out Data:
 
-    digitalWrite(STcp,HIGH);
+cpp
+Copy code
+shiftOut(DS, SHCP, MSBFIRST, datArray[num]);
+shiftOut sends the byte of data one bit at a time.
+MSBFIRST indicates that the most significant bit is sent first.
+Latching Data:
 
-A byte of data will be transferred into the memory register after 8 times. Then the data of memory register are output to the bus (Q0-Q7). For example, shiftout ``B00000001`` will light up the LED controlled by Q0 and turn off the LED controlled by Q1~Q7. 
+cpp
+Copy code
+digitalWrite(STCP, LOW);
+// shiftOut(...)
+digitalWrite(STCP, HIGH);
+Setting STCP LOW prepares the shift register for new data.
+After shifting out the data, setting STCP HIGH latches the data to the output pins, updating the LED states.
+Delay:
+
+delay(500); adds a half-second pause between each pattern for visibility.
+
+Turning Off LEDs:
+
+After cycling through all patterns, the code optionally turns off all LEDs by sending 0b00000000.
+
+Testing the Circuit
+Power Up the Circuit:
+
+Ensure all connections are secure.
+Power the Raspberry Pi Pico via the micro USB cable.
+Observe the LEDs:
+
+The LEDs connected to the 74HC595 should light up one after another, following the patterns defined in datArray.
+After all LEDs are turned on, they will turn off in sequence.
+Troubleshooting:
+
+No LEDs Lighting Up:
+Check all wiring connections.
+Ensure the 74HC595 is properly powered.
+Verify that the GPIO pins on the Pico are correctly connected to the shift register.
+Incorrect LED Behavior:
+Double-check the binary patterns in datArray.
+Ensure that the resistors are correctly placed to limit current to the LEDs.
+Conclusion
+In this lesson, you've learned how to use the 74HC595 shift register with the Raspberry Pi Pico to control multiple LEDs using just three GPIO pins. This technique allows you to expand the number of digital outputs, enabling more complex and interactive projects without the need for additional GPIO resources. By understanding how to send serial data and latch it into parallel outputs, you can efficiently manage multiple actuators, displays, or other peripherals in your electronics projects.
+
+Further Exploration
+Controlling Other Devices:
+
+Use the 74HC595 to control relays, motors, or other high-power devices.
+Chaining Shift Registers:
+
+Connect multiple 74HC595s in series to control even more outputs with the same three GPIO pins.
+Creating LED Patterns:
+
+Design and implement more complex LED animations and patterns by modifying the datArray.
+Integrating with Sensors:
+
+Combine the shift register with various sensors to create responsive and interactive systems.
+Building a LED Matrix Display:
+
+Use multiple shift registers to build a larger LED matrix for displays or signage.

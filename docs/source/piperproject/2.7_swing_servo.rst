@@ -20,10 +20,58 @@
 
 In this project, we use a servo and a potentiometer to simulate a steering wheel. Rotating the potentiometer will drive the servo to turn together.
 
-* :ref:`cpn_bb`
-* :ref:`cpn_pot`
-* :ref:`cpn_servo`
+**Required Components**
 
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_servo`
+        - 1
+        - |link_servo_buy|
+    *   - 6
+        - :ref:`cpn_potentiometer`
+        - 1
+        - |link_potentiometer_buy|
 
 **Wiring**
 
@@ -33,25 +81,25 @@ In this project, we use a servo and a potentiometer to simulate a steering wheel
 * The orange wire (signal) of the servo is connected to GP15, the red wire (power) is connected to VBUS, and the brown wire (ground) is connected to GND. 
 * Potentiometer is a resistive element with 3 terminals, the 2 side pins are connected to 5V and GND, and the middle pin is connected to GP26(A0).
 
-**Code**
+**Writing the Code**
 
 .. note::
 
     * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.7_swing_servo.png`` from the path of ``euler-kit\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * Import ``2.7_swing_servo.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
 
 |controllable_servo|
 
-* After connecting Pico, click the **Start** button and the code starts to run.
+* After connecting Pico W, click the **Start** button and the code starts to run.
 * Turn the potentiometer and the servo will follow. To see it clearly, you can insert a rocker arm in the servo shaft.
 
-**How it Works?**
+**Understanding the Code**
 
 |controllable_servo1|
 
 Set the rotation speed of pin15 (servo) to 15%.
 
-* [servo pin() set speed to ()%]：Used to set the rotation speed of the servo pin, the range is 0%~100%.
+* [servo pin() set speed to ()%]: Used to set the rotation speed of the servo pin, the range is 0%~100%.
 
 |controllable_servo2|
 

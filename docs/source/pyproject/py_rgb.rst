@@ -30,14 +30,60 @@ Additive color mixing involves combining different colors of light to produce ne
 
 |img_rgb_mix|
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* RGB LED (common cathode)
-* 1 x 330Ω resistor (for red pin)
-* 2 x 220Ω resistors (for green and blue pins)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 3(1-330Ω, 2-220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_rgb`
+        - 1
+        - |link_rgb_led_buy|
+
 
 **Circuit Diagram**
 
@@ -62,9 +108,9 @@ We'll write a MicroPython program that controls the intensity of each color usin
 
 .. note::
 
-    * Open the ``2.4_colorful_light.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``2.4_colorful_light.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
@@ -119,7 +165,7 @@ When the code is running, the RGB LED will emit an orange light.
         green.freq(1000)
         blue.freq(1000)
 
-#. Define map_value Function:
+#. Define ``map_value`` Function:
 
    * Since the ``duty_u16`` method accepts values from 0 to 65535, but color values are typically in the range 0 to 255, we need to map the 0-255 range to 0-65535.
    * The ``map_value`` function scales the input value accordingly.
@@ -127,20 +173,20 @@ When the code is running, the RGB LED will emit an orange light.
    .. code-block:: python
 
         def map_value(x, in_min, in_max, out_min, out_max):
-        # Map a value from one range to another
-        return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+            # Map a value from one range to another
+            return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
-#. Define set_color Function:
+#. Define ``set_color`` Function:
 
    This function takes RGB values (each from 0 to 255) and sets the duty cycle for each color channel after mapping.
 
    .. code-block:: python
 
         def set_color(r, g, b):
-        # Set the color by adjusting duty cycles
-        red.duty_u16(map_value(r, 0, 255, 0, 65535))
-        green.duty_u16(map_value(g, 0, 255, 0, 65535))
-        blue.duty_u16(map_value(b, 0, 255, 0, 65535))
+            # Set the color by adjusting duty cycles
+            red.duty_u16(map_value(r, 0, 255, 0, 65535))
+            green.duty_u16(map_value(g, 0, 255, 0, 65535))
+            blue.duty_u16(map_value(b, 0, 255, 0, 65535))
     
 #. Set the Desired Color:
 

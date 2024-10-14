@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-.. _cpn_4dit:
+.. _cpn_4_dit_7_segment:
 
 4-Digit 7-Segment Display
 ==================================

@@ -14,7 +14,7 @@
 
 .. _cpn_keypad:
 
-Keypad
+4x4 Keypad
 ========================
 
 

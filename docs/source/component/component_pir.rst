@@ -14,8 +14,8 @@
 
 .. _cpn_pir:
 
-PIR Motion Sensor
-==================
+PIR Motion Sensor Module
+==================================
 
 |img_pir|
 

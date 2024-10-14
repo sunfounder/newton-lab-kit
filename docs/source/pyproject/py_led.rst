@@ -19,15 +19,60 @@
 
 Welcome to your first hardware project with the Raspberry Pi Pico 2! In this lesson, we'll learn how to make an LED blink using MicroPython. This simple project is a great way to get started with physical computing and understand how to control hardware with code.
 
-* :ref:`cpn_led`
 
 **What You'll Need**
 
-* Raspberry Pi Pico 2 2
-* LED (any color)
-* 220Ω resistor (red, red, black, black, brown color bands)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_led`
+        - 1
+        - |link_led_buy|
 
 **Circuit Diagram**
 
@@ -44,9 +89,9 @@ By setting the GPIO pin high or low, you're controlling the voltage output of th
 
 .. note::
 
-    * Open the ``2.1_hello_led.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+    * Open the ``2.1_hello_led.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    
 
 .. code-block:: python
 
@@ -72,7 +117,7 @@ When the code is running, the LED is turn on for 1 second and turn off for 1 sec
 
 #. Setting Up the LED Pin:
 
-   * ``led = machine.Pin(15, machine.Pin.OUT)``: Initializes GP15 as an output pin and assigns it to the variable led.
+   * ``led = machine.Pin(15, machine.Pin.OUT)``: Initializes GP15 as an output pin and assigns it to the variable ``led``.
 
 
 #. Creating an Infinite Loop:

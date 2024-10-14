@@ -14,37 +14,88 @@
 
 .. _ar_74hc_7seg:
 
-5.2 - Number Display
-=======================
+5.2 Displaying Numbers
+===========================================================
 
-LED Segment Display can be seen everywhere in life.
-For example, on an air conditioner, it can be used to display temperature; on a traffic indicator, it can be used to display a timer.
+In this lesson, we'll learn how to use a **7-segment display** to show numbers using the Raspberry Pi Pico 2 and a **74HC595 shift register**. The 7-segment display is a common electronic component used in devices like digital clocks, calculators, and appliances to display numerical information.
 
-The LED Segment Display is essentially a device packaged by 8 LEDs, of which 7 strip-shaped LEDs form an "8" shape, and there is a slightly smaller dotted LED as a decimal point. These LEDs are marked as a, b, c, d, e, f, g, and dp. They have their own anode pins and share cathodes. Their pin locations are shown in the figure below.
+By combining the 74HC595 shift register with the 7-segment display, we can control all the segments using only a few GPIO pins on the Pico, saving valuable I/O resources for other components.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(220Ω)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_7_segment`
+        - 1
+        - |link_7segment_buy|
+    *   - 7
+        - :ref:`cpn_74hc595`
+        - 1
+        - |link_74hc595_buy|
+
+**Understanding the 7-Segment Display**
+
+A 7-segment display consists of 7 LEDs (segments) arranged in a figure-eight pattern to display digits from 0 to 9. There's also an eighth LED for the decimal point. Each segment is labeled from **a** to **g**, and the decimal point is labeled **dp**.
+
+Here's the segment labeling:
 
 |img_7seg_cathode|
 
-This means that it needs to be controlled by 8 digital signals at the same time to fully work and the 74HC595 can do this.
+In a **common cathode** 7-segment display, all the cathodes (negative sides) of the LEDs are connected together to a common ground.
 
-* :ref:`cpn_7-seg`
 
-**Schematic**
+
+**Circuit Diagram**
 
 |sch_74hc_7seg|
 
-**Wiring**
-
-|wiring_74hc_7seg|
-
-.. 1. Connect 3V3 and GND of Pico to the power bus of the breadboard.
-.. #. Insert 74HC595 across the middle gap into the breadboard.
-.. #. Connect the GP0 pin of Pico to the DS pin (pin 14) of 74HC595 with a jumper wire.
-.. #. Connect the GP1 pin of Pico to the STcp pin (12-pin) of 74HC595.
-.. #. Connect the GP2 pin of Pico to the SHcp pin (pin 11) of 74HC595.
-.. #. Connect the VCC pin (16 pin) and MR pin (10 pin) on the 74HC595 to the positive power bus.
-.. #. Connect the GND pin (8-pin) and CE pin (13-pin) on the 74HC595 to the negative power bus.
-.. #. Insert the LED Segment Display into the breadboard, and connect a 220Ω resistor in series with the GND pin to the negative power bus.
-.. #. Follow the table below to connect the 74hc595 and LED Segment Display.
+Here the wiring principle is basically the same as :ref:`py_74hc_led`, the only difference is that Q0-Q7 are connected to the a ~ g pins of the 7 Segment Display.
 
 .. list-table:: Wiring
     :widths: 15 25
@@ -69,73 +120,189 @@ This means that it needs to be controlled by 8 digital signals at the same time 
     *   - Q7
         - dp
 
+**Wiring Diagram**
 
-**Code**
+
+|wiring_74hc_7seg|
+
+**Writing the Code**
+
+We'll write a program that controls the 7-segment display by sending serial data to the 74HC595 shift register. The display will cycle through the numbers 0 to 9 in sequence.
 
 .. note::
 
-   * You can open the file ``5.2_number_display.ino`` under the path of ``newton-lab-kit/arduino/5.2_number_display``. 
+   * You can open the file ``5.2_number_display.ino`` from ``newton-lab-kit/arduino/5.2_number_display``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
 
+// Define the pins connected to the 74HC595
+const int DS = 0;    // GPIO 0 -> DS (Pin 14)
+const int SHCP = 1;  // GPIO 1 -> SHCP (Pin 11)
+const int STCP = 2;  // GPIO 2 -> STCP (Pin 12)
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+// Array of hexadecimal codes for digits 0-9 on a common cathode 7-segment display
+const byte numArray[] = {
+  0x3F, // 0: 00111111
+  0x06, // 1: 00000110
+  0x5B, // 2: 01011011
+  0x4F, // 3: 01001111
+  0x66, // 4: 01100110
+  0x6D, // 5: 01101101
+  0x7D, // 6: 01111101
+  0x07, // 7: 00000111
+  0x7F, // 8: 01111111
+  0x6F  // 9: 01101111
+};
 
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/a237801f-40d7-4920-80fb-a349307b1e05/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-    
-When the program is running, you will be able to see the LED Segment Display display 0~9 in sequence.
+void setup() {
+  // Initialize the control pins as outputs
+  pinMode(DS, OUTPUT);
+  pinMode(SHCP, OUTPUT);
+  pinMode(STCP, OUTPUT);
+}
 
-**How it works?**
+void loop() {
+  // Iterate through each number 0-9
+  for (int num = 0; num < 10; num++) {
+    // Set STCP to LOW to prepare for data
+    digitalWrite(STCP, LOW);
 
-``shiftOut()`` will make 74HC595 output 8 digital signals.
-It outputs the last bit of the binary number to Q0, and the output of the first bit to Q7. In other words, writing the binary number "00000001" will make Q0 output high level and Q1~Q7 output low level.
+    // Shift out the data to the shift register
+    shiftOut(DS, SHCP, MSBFIRST, numArray[num]);
 
-Suppose that the 7-segment Display display the number "1", we need to write a high level for b, c, and write a low level for a, d, e, f, g, and dg.
-That is, the binary number "00000110" needs to be written. For readability, we will use hexadecimal notation as "0x06".
+    // Set STCP to HIGH to latch the data to the output pins
+    digitalWrite(STCP, HIGH);
 
-* `Hexadecimal <https://en.wikipedia.org/wiki/Hexadecimal>`_
+    delay(1000); // Wait for one second before displaying the next number
+  }
 
-* `BinaryHex Converter <https://www.binaryhexconverter.com/binary-to-hex-converter>`_
+  // Optional: Turn off all segments after displaying 0-9
+  digitalWrite(STCP, LOW);
+  shiftOut(DS, SHCP, MSBFIRST, 0x00);
+  digitalWrite(STCP, HIGH);
+  delay(1000);
+}
+Uploading the Code
+Connect your Pico to your computer using the micro USB cable.
+Open the Arduino IDE.
+Copy and paste the above code into a new sketch.
+Select the Raspberry Pi Pico board and the correct port under the Tools menu.
+Click the Upload button to program the Pico.
+Understanding the Code
+Defining Control Pins
 
-Similarly, we can also make the LED Segment Display display other numbers in the same way. The following table shows the codes corresponding to these numbers.
+cpp
+Copy code
+const int DS = 0;    // GPIO 0 -> DS (Pin 14)
+const int SHCP = 1;  // GPIO 1 -> SHCP (Pin 11)
+const int STCP = 2;  // GPIO 2 -> STCP (Pin 12)
+DS (Data Serial Input): Receives serial data to be shifted into the register.
+SHCP (Shift Register Clock Input): Controls the shifting of data into the register.
+STCP (Storage Register Clock Input): Controls the latching of data from the shift register to the output pins.
+Creating Data Patterns
 
-.. list-table:: Glyph Code
-    :widths: 20 20 20
-    :header-rows: 1
+cpp
+Copy code
+const byte numArray[] = {
+  0x3F, // 0: 00111111
+  0x06, // 1: 00000110
+  0x5B, // 2: 01011011
+  0x4F, // 3: 01001111
+  0x66, // 4: 01100110
+  0x6D, // 5: 01101101
+  0x7D, // 6: 01111101
+  0x07, // 7: 00000111
+  0x7F, // 8: 01111111
+  0x6F  // 9: 01101111
+};
+numArray: An array holding the hexadecimal codes for displaying numbers 0-9 on a common cathode 7-segment display.
+Each hexadecimal value corresponds to the segments that need to be lit to display a particular number.
+Setup Function
 
-    *   - Numbers	
-        - Binary Code
-        - Hex Code  
-    *   - 0	
-        - 00111111	
-        - 0x3f
-    *   - 1	
-        - 00000110	
-        - 0x06
-    *   - 2	
-        - 01011011	
-        - 0x5b
-    *   - 3	
-        - 01001111	
-        - 0x4f
-    *   - 4	
-        - 01100110	
-        - 0x66
-    *   - 5	
-        - 01101101	
-        - 0x6d
-    *   - 6	
-        - 01111101	
-        - 0x7d
-    *   - 7	
-        - 00000111	
-        - 0x07
-    *   - 8	
-        - 01111111	
-        - 0x7f
-    *   - 9	
-        - 01101111	
-        - 0x6f
+cpp
+Copy code
+void setup() {
+  // Initialize the control pins as outputs
+  pinMode(DS, OUTPUT);
+  pinMode(SHCP, OUTPUT);
+  pinMode(STCP, OUTPUT);
+}
+Sets the DS, SHCP, and STCP pins as outputs to send data to the shift register.
+Loop Function
 
-Write these codes into ``shiftOut()`` to make the LED Segment Display display the corresponding numbers.
+cpp
+Copy code
+void loop() {
+  // Iterate through each number 0-9
+  for (int num = 0; num < 10; num++) {
+    // Set STCP to LOW to prepare for data
+    digitalWrite(STCP, LOW);
+
+    // Shift out the data to the shift register
+    shiftOut(DS, SHCP, MSBFIRST, numArray[num]);
+
+    // Set STCP to HIGH to latch the data to the output pins
+    digitalWrite(STCP, HIGH);
+
+    delay(1000); // Wait for one second before displaying the next number
+  }
+
+  // Optional: Turn off all segments after displaying 0-9
+  digitalWrite(STCP, LOW);
+  shiftOut(DS, SHCP, MSBFIRST, 0x00);
+  digitalWrite(STCP, HIGH);
+  delay(1000);
+}
+Displaying Numbers:
+
+The for loop cycles through numbers 0 to 9.
+For each number, it sends the corresponding binary pattern to the shift register using shiftOut().
+MSBFIRST ensures that the most significant bit is sent first.
+After sending the data, STCP is set to HIGH to latch the data to the output pins, updating the 7-segment display.
+The display holds each number for one second (delay(1000)).
+Turning Off All Segments (Optional):
+
+After displaying numbers 0-9, the code sends 0x00 to turn off all segments.
+The display remains off for one second before the loop repeats.
+Testing the Circuit
+Power Up the Circuit:
+
+Ensure all connections are secure.
+Power the Raspberry Pi Pico via the micro USB cable.
+Observe the 7-Segment Display:
+
+The display should cycle through the numbers 0 to 9, showing each number for one second.
+After reaching 9, all segments should turn off for one second before starting the sequence again.
+Troubleshooting:
+
+No Numbers Displayed:
+Check all wiring connections.
+Ensure the 74HC595 is properly powered.
+Verify that the GPIO pins on the Pico are correctly connected to the shift register.
+Make sure the 7-segment display is connected correctly, with each segment connected through a resistor.
+Incorrect Numbers Displayed:
+Double-check the hexadecimal codes in numArray.
+Ensure that the shift register outputs are correctly connected to the corresponding segments.
+Flickering or Unstable Display:
+Verify that the power connections are stable.
+Ensure that the resistors are properly connected to limit the current to each segment.
+Conclusion
+In this lesson, you've learned how to use the 74HC595 shift register with the Raspberry Pi Pico to control a 7-segment display. By sending serial data to the shift register, you can efficiently manage multiple outputs using just a few GPIO pins. This technique not only conserves valuable I/O resources but also opens up possibilities for expanding your projects with more LEDs, displays, or other peripherals.
+
+Further Exploration
+Controlling Multiple 7-Segment Displays:
+
+Chain multiple 74HC595 shift registers to control additional 7-segment displays, enabling multi-digit displays.
+Implementing LED Animations:
+
+Create dynamic animations or scrolling text by modifying the data patterns sent to the shift register.
+Integrating with Sensors:
+
+Combine the 7-segment display with sensors (e.g., temperature, light) to display real-time data.
+Building a Digital Clock:
+
+Use multiple 7-segment displays and real-time clock modules to create a functional digital clock.
+Adding Decimal Points and Indicators:
+
+Utilize the decimal point (dp) and additional indicators (e.g., colons) for more complex displays.
+

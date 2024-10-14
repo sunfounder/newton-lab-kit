@@ -17,16 +17,66 @@
 2.8 Press Gently
 ==========================
 
-In this lesson, we'll learn how to use a **micro switch** (also known as a limit switch) with the Raspberry Pi Pico to detect when it's pressed or released. Micro switches are commonly used in devices like microwave oven doors, printer covers, or as end stops in 3D printers because they are reliable and can handle frequent activation.
+In this lesson, we'll learn how to use a **micro switch** (also known as a limit switch) with the Raspberry Pi Pico 2 to detect when it's pressed or released. Micro switches are commonly used in devices like microwave oven doors, printer covers, or as end stops in 3D printers because they are reliable and can handle frequent activation.
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* Micro switch (3-pin)
-* 10 kΩ resistor (color bands: brown, black, orange, gold)
-* 0.1 µF ceramic capacitor (marked as 104)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_capacitor`
+        - 1(104)
+        - |link_capacitor_buy|
+    *   - 7
+        - :ref:`cpn_micro_switch`
+        - 1
+        - 
 
 **Understanding the Micro Switch**
 
@@ -71,11 +121,11 @@ We'll write a MicroPython program that detects when the micro switch is pressed 
 
 .. note::
 
-  * Open the ``2.8_micro_switch.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
+  * Open the ``2.8_micro_switch.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
 
-  * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
+  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
-  * For detailed tutorials, please refer to :ref:`open_run_code_py`.
+  
 
 .. code-block:: python
 
@@ -120,7 +170,12 @@ If you prefer to simplify the wiring even further, you can rely solely on the in
 
 * Modify the Circuit:
 
-  Remove the external 10 kΩ resistor and 0.1 µF capacitor.
+  * Remove the external 10 kΩ resistor and 0.1 µF capacitor.
+  * Micro Switch Connections:
+
+    * **Common (C) Terminal**: Connect to GP14 on the Pico.
+    * **Normally Open (NO) Terminal**: Connect to 3.3V on the Pico.
+    * **Normally Closed (NC) Terminal**: Leave unconnected.
 
 * Modified Code:
 
@@ -188,5 +243,5 @@ If you prefer to simplify the wiring even further, you can rely solely on the in
 
 **Conclusion**
 
-Using a micro switch with the Raspberry Pi Pico allows you to detect physical interactions reliably. Understanding how to wire the switch and read its state in your code is essential for creating responsive and interactive projects.
+Using a micro switch with the Raspberry Pi Pico 2 allows you to detect physical interactions reliably. Understanding how to wire the switch and read its state in your code is essential for creating responsive and interactive projects.
 

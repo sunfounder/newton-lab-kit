@@ -14,173 +14,270 @@
 
 .. _py_mpu6050:
 
-6.3 6-axis Motion Tracking
-=====================================
+6.3 Read from the MPU-6050
+===============================
+
+In this lesson, we'll explore how to interface the **MPU-6050** 6-axis motion tracking sensor with the Raspberry Pi Pico 2. The MPU-6050 combines a 3-axis gyroscope and a 3-axis accelerometer, providing raw sensor data over the I2C communication protocol.
+
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
 
 
-The MPU-6050 is a 6-axis(combines 3-axis Gyroscope, 3-axis Accelerometer) motion tracking devices.
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
 
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
 
-An accelerometer is a tool that measures proper acceleration.For example, an accelerometer at rest on the surface of the Earth will measure an acceleration due to Earth's gravity, straight upwards[3] (by definition) of g ≈ 9.81 m/s2.
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_mpu6050`
+        - 1
+        - 
 
-Accelerometers have many uses in industry and science. For example: inertial navigation systems for aircraft and missiles, for keeping images on tablets and digital cameras vertical, etc.
+**Understanding the MPU-6050 Sensor**
 
-Gyroscopes are used to measure orientation and angular velocity of a device or maintenance.
-Applications of gyroscopes include anti-rollover and airbag systems for automobiles, motion sensing systems for smart devices, attitude stabilization systems for drones, and more.
+The **MPU-6050** sensor is widely used in projects that require motion tracking and orientation detection, such as drones, robotics, and gaming devices.
 
-* :ref:`cpn_mpu6050`
+* **Accelerometer**: Measures acceleration forces along the X, Y, and Z axes. This includes gravitational acceleration, allowing you to determine the tilt or orientation of the sensor.
+* **Gyroscope**: Measures rotational velocity around the X, Y, and Z axes, providing information about how fast the sensor is spinning.
 
-**Schematic**
+**Circuit Diagram**
 
 |sch_mpu6050_ar|
 
 
-**Wiring**
-
+**Wiring Diagram**
 
 |wiring_mpu6050_ar|
 
-**Code**
+**Writing the Code**
 
+Let's write a MicroPython script to read accelerometer and gyroscope data from the MPU-6050 sensor.
 
 .. note::
 
-    * Open the ``6.3_6axis_motion_tracking.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-    * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-    * For detailed tutorials, please refer to :ref:`open_run_code_py`. 
-    
+    * Open the ``6.3_6axis_motion_tracking.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+     
     * Here you need to use the ``imu.py`` and ``vector3d.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
 
 
 .. code-block:: python
 
-    from imu import MPU6050
-    from machine import I2C, Pin
-    import time
+   from machine import I2C, Pin
+   import utime
+   from imu import MPU6050
 
-    # Initialize the I2C interface (SDA: Pin 4, SCL: Pin 5) with a frequency of 400kHz
-    i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
+   # Initialize I2C interface (I2C0) with SDA on GP4 and SCL on GP5
+   i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
 
-    # Initialize the MPU6050 sensor using the I2C interface
-    mpu = MPU6050(i2c)
+   # Initialize the MPU-6050 sensor
+   mpu = MPU6050(i2c)
 
-    def read_accel():
-        """Reads and returns accelerometer values (x, y, z)."""
-        return mpu.accel.x, mpu.accel.y, mpu.accel.z
+   def read_accelerometer():
+      """Reads accelerometer data and returns it as a tuple (x, y, z)."""
+      accel = mpu.accel
+      return accel.x, accel.y, accel.z
 
-    def read_gyro():
-        """Reads and returns gyroscope values (x, y, z)."""
-        return mpu.gyro.x, mpu.gyro.y, mpu.gyro.z
+   def read_gyroscope():
+      """Reads gyroscope data and returns it as a tuple (x, y, z)."""
+      gyro = mpu.gyro
+      return gyro.x, gyro.y, gyro.z
 
-    def main():
-        """Main loop that continuously reads and prints accelerometer and gyroscope data."""
-        while True:
-            # Read accelerometer data
-            accel_x, accel_y, accel_z = read_accel()
-            print("Accelerometer - X: {:.6f}, Y: {:.6f}, Z: {:.6f}".format(accel_x, accel_y, accel_z))
-            
-            # Wait for 0.5 seconds before reading gyroscope data
-            time.sleep(0.5)
+   def main():
+      """Main loop to read and print sensor data."""
+      while True:
+         # Read accelerometer data
+         ax, ay, az = read_accelerometer()
+         print("Accelerometer (g) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(ax, ay, az))
+         
+         # Pause for readability
+         utime.sleep(0.5)
+         
+         # Read gyroscope data
+         gx, gy, gz = read_gyroscope()
+         print("Gyroscope (°/s) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(gx, gy, gz))
+         
+         # Pause before the next set of readings
+         utime.sleep(0.5)
 
-            # Read gyroscope data
-            gyro_x, gyro_y, gyro_z = read_gyro()
-            print("Gyroscope - X: {:.6f}, Y: {:.6f}, Z: {:.6f}".format(gyro_x, gyro_y, gyro_z))
-            
-            # Wait for 0.5 seconds before the next loop
-            time.sleep(0.5)
-
-    # Entry point of the script
-    if __name__ == "__main__":
-        main()
+   # Run the main function
+   if __name__ == "__main__":
+      main()
 
 
-After running the program, you can see the 3-axis accelerometer values and 3-axis gyroscope values cycling through the output.
-At this point you rotate the MPU6050 at random, and these values will appear to change accordingly.
-To make it easier to see the changes, you can comment out one of the print lines and concentrate on another set of data.
+The script prints accelerometer and gyroscope readings alternately every 0.5 seconds.
 
-**How it works?**
+* Accelerometer Output:
 
-### Code Analysis
+  .. code-block::
 
-#. **Imports and Setup**: The code starts by importing the required modules.
+     Accelerometer (g) - X: 0.000, Y: 0.000, Z: 1.000
 
-   .. code-block:: python
+  At rest, you should see values close to 0 g on X and Y axes, and approximately 1 g on the Z-axis due to gravity.
 
-      from imu import MPU6050
-      from machine import I2C, Pin
-      import time
+* Gyroscope Output:
 
-   * ``MPU6050`` is imported from the ``imu`` module, which handles communication with the MPU6050 sensor.
-   * ``I2C`` and ``Pin`` are imported from the ``machine`` module for interfacing with hardware pins on the microcontroller.
-   * ``time`` is imported to control timing and delays between sensor readings.
+  .. code-block::
 
-#. **I2C Initialization**: The I2C interface is initialized.
+     Gyroscope (°/s) - X: 0.000, Y: 0.000, Z: 0.000
+
+  When stationary, the gyroscope readings should be close to 0 °/s on all axes.
+  Rotating the sensor will change these values, reflecting the angular velocity.
+
+**Understanding the Code**
+
+#. Imports and Setup:
+
+
+   * ``machine.I2C and machine.Pin``: For hardware interface.
+   * ``utime``: For timing functions.
+   * ``MPU6050``: The sensor class from the imu.py library.
+
+#. I2C Initialization:
+
+   Sets up I2C bus 0 with SDA on GP4 and SCL on GP5. The frequency is set to 400 kHz for fast communication.
 
    .. code-block:: python
 
       i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
 
-   * The I2C bus is set up on bus 0 using GPIO pins 4 (``SDA``) and 5 (``SCL``), with a clock frequency of 400 kHz.
-   * This interface allows communication with the MPU6050 sensor over I2C protocol.
 
-#. **MPU6050 Sensor Initialization**: The MPU6050 object is instantiated.
+#. Sensor Initialization:
+
+   Creates an instance of the MPU-6050 sensor using the I2C interface.
 
    .. code-block:: python
 
       mpu = MPU6050(i2c)
 
-   * The MPU6050 is initialized using the I2C interface, making it ready for reading accelerometer and gyroscope data.
+#. Reading Accelerometer Data:
 
-#. **Function Definitions**: Two functions are defined for reading data from the accelerometer and gyroscope.
-
-   .. code-block:: python
-
-      def read_accel():
-          return mpu.accel.x, mpu.accel.y, mpu.accel.z
-
-   * `read_accel()` reads the current values from the accelerometer's x, y, and z axes.
-   * Similarly, `read_gyro()` returns the gyroscope data:
+   Accesses the accelerometer data and returns the X, Y, Z values.
 
    .. code-block:: python
 
-      def read_gyro():
-          return mpu.gyro.x, mpu.gyro.y, mpu.gyro.z
+      def read_accelerometer():
+         accel = mpu.accel
+         return accel.x, accel.y, accel.z
 
-   * Both functions return the respective x, y, and z-axis data as a tuple for easy handling later.
 
-#. **Main Loop**: The ``main()`` function is responsible for continuously reading and printing the sensor data.
+#. Reading Gyroscope Data:
+   
+   Accesses the gyroscope data and returns the X, Y, Z values.
+
+   .. code-block:: python
+
+      def read_gyroscope():
+         gyro = mpu.gyro
+         return gyro.x, gyro.y, gyro.z
+
+
+#. Main Loop:
+
+   * Reads and prints accelerometer data.
+   * Waits for 0.5 seconds.
+   * Reads and prints gyroscope data.
+   * Waits for another 0.5 seconds before repeating.
 
    .. code-block:: python
 
       def main():
-          while True:
+         while True:
+            # Read and print accelerometer data
+            ax, ay, az = read_accelerometer()
+            print("Accelerometer (g) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(ax, ay, az))
+            
+            utime.sleep(0.5)
+            
+            # Read and print gyroscope data
+            gx, gy, gz = read_gyroscope()
+            print("Gyroscope (°/s) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(gx, gy, gz))
+            
+            utime.sleep(0.5)
 
-   * The ``while True`` loop ensures that the sensor data is read continuously.
-   * The accelerometer values are fetched, formatted, and printed:
-  
-   .. code-block:: python
 
-        accel_x, accel_y, accel_z = read_accel()
-        print("Accelerometer - X: {:.6f}, Y: {:.6f}, Z: {:.6f}".format(accel_x, accel_y, accel_z))
+#. Program Entry Point:
 
-   * The values are printed with 6 decimal places using the ``"{:.6f}"`` format string, which provides precision and consistency in the output.
-   * After a short delay (``time.sleep(0.5)``), the gyroscope values are fetched and printed in the same manner.
-
-#. **Sleep Delay**: After reading and printing each set of values (accelerometer and gyroscope), the code waits for 0.5 seconds using ``time.sleep(0.5)``.
-
-   .. code-block:: python
-
-      time.sleep(0.5)
-
-   * This introduces a pause between each sensor reading to avoid overwhelming the system and to provide periodic sensor updates.
-
-#. **Main Function Entry**: The script is executed by calling ``main()`` in the typical Pythonic style.
+   Ensures that ``main()`` is called when the script is executed directly.
 
    .. code-block:: python
 
       if __name__ == "__main__":
-          main()
+         main()
 
-   * This ensures that the main loop is only started when the script is run directly, allowing for better flexibility if the script were to be imported as a module in another program.
+
+**Experimenting Further**
+
+* **Focus on One Sensor**: To concentrate on either accelerometer or gyroscope data, you can comment out the print statements for the other sensor.
+* **Data Visualization**: Use tools or software to plot the sensor data in real-time for better visualization.
+* **Calculating Orientation**: Implement algorithms to calculate pitch and roll from the accelerometer data.
+* **Motion Detection**: Create a program that performs actions when certain motion thresholds are exceeded.
+
+**Understanding Sensor Data**
+
+* Accelerometer:
+
+  * Measures acceleration forces in g (gravitational force).
+  * Useful for detecting orientation, tilt, and linear motion.
+
+* Gyroscope:
+
+  * Measures rotational velocity in degrees per second (°/s).
+  * Useful for detecting rotation and angular motion.
+
+**Troubleshooting Tips**
+
+* No Output or Errors:
+
+  * Verify the wiring connections, especially SDA and SCL lines.
+  * Ensure that the sensor is powered correctly.
+
+* Static Readings:
+
+  * If the readings don't change when moving the sensor, check for loose connections.
+  * Make sure the correct I2C address is being used.
+
+* Inconsistent Data:
+
+  * Environmental vibrations can affect sensor readings.
+  * Place the sensor on a stable surface when testing.
+
+**Conclusion**
+
+In this lesson, you've learned how to interface the MPU-6050 accelerometer and gyroscope sensor with the Raspberry Pi Pico 2. By reading the raw sensor data, you can explore a wide range of applications involving motion detection, orientation tracking, and more.

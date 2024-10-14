@@ -12,10 +12,10 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-.. _cpn_788bs:
+.. _cpn_dot_matrix:
 
-LED Matrix
-==========
+LED Dot Matrix
+==========================
 
 |img_led_matrix|
 

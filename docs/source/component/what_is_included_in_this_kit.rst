@@ -19,10 +19,7 @@ The following is a list of this kit so you can check the contents of the kit onc
 
 There are some components in the kit that are very small and look the same, and staff may miss or send them by mistake when packing the kit. You are welcome to send us the name of the missing or incorrect component if you find one.
 
-Here is the email: cs@sunfounder.com.
-
-|euler_list|
-
+Here is the email: service@sunfounder.com.
 
 **Basic**
 
@@ -35,6 +32,7 @@ Here is the email: cs@sunfounder.com.
     component_transistor
     component_capacitor
     component_diode
+    component_power_module
 
 
 **Chip**
@@ -75,7 +73,7 @@ Here is the email: cs@sunfounder.com.
     component_servo
     component_pump
     component_relay
-    component_power_module
+
 
 
 **Controller**
@@ -108,13 +106,6 @@ Here is the email: cs@sunfounder.com.
     component_humiture
     component_mpu6050
     
-
-.. **Communication**
-
-.. .. toctree::
-..     :maxdepth: 1
-
-..     component_esp8266
 
 
 

@@ -14,81 +14,182 @@
 
 .. _ar_pir:
 
-2.10 - Detect Human Movement
-=========================================
+2.10 Detect Human Movement
+==========================
 
-Passive infrared sensor (PIR sensor) is a common sensor that can measure infrared (IR) light emitted by objects in its field of view.
-Simply put, it will receive infrared radiation emitted from the body, thereby detecting the movement of people and other animals.
-More specifically, it tells the main control board that someone has entered your room.
+In this lesson, we'll learn how to use a Passive Infrared (PIR) sensor with the Raspberry Pi Pico 2 to detect human movement. PIR sensors are commonly used in security systems, automatic lighting, and other applications where motion detection is required. They detect infrared radiation emitted by warm objects, such as humans or animals, in their field of view.
 
-:ref:`PIR Motion Sensor`
 
-**Schematic**
+**What You'll Need**
+
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_pir`
+        - 1
+        - |link_pir_buy|
+      
+
+**Circuit Diagram**
 
 |sch_pir|
 
 When the PIR module detects someone passing by, GP14 will be high, otherwise it will be low.
 
+.. note::
+
+    The PIR sensor have two potentiometers:
+
+    * **Sensitivity Adjustment**: Controls the range of detection.
+    * **Time Delay Adjustment**: Controls how long the output remains HIGH after motion is detected.
+
+    For initial testing, turn both potentiometers counterclockwise to their minimum positions. This sets the sensor to its most sensitive and shortest delay settings, allowing you to observe immediate responses.
 
 
-**Wiring**
+    |img_PIR_TTE|
+
+**Wiring Diagram**
 
 |wiring_pir|
 
-**Code**
+
+**Writing the Code**
 
 .. note::
 
-   * You can open the file ``2.10_detect_human_movement.ino`` under the path of ``newton-lab-kit/arduino/2.10_detect_human_movement``. 
+   * You can open the file ``2.10_detect_human_movement.ino`` from ``newton-lab-kit/arduino/2.10_detect_human_movement``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+
+.. code-block:: python
+
+   const int pirPin = 14;     // PIR sensor output pin connected to GP14
+   int pirState = LOW;        // Current state of PIR sensor
+   int val = 0;               // Variable to store the PIR reading
+
+   void setup() {
+     Serial.begin(115200);    // Initialize Serial Monitor
+     pinMode(pirPin, INPUT);  // Set the PIR pin as input
+     Serial.println("PIR Sensor Test");
+     delay(2000);             // Allow the PIR sensor to stabilize
+   }
+
+   void loop() {
+     val = digitalRead(pirPin);  // Read the PIR sensor
+
+     if (val == HIGH) {
+       if (pirState == LOW) {
+         Serial.println("Motion detected!");
+         pirState = HIGH;
+       }
+     } else {
+       if (pirState == HIGH) {
+         Serial.println("Motion ended!");
+         pirState = LOW;
+       }
+     }
+     delay(500);  // Wait half a second before checking again
+   }
+
+When the code is running and the Serial Monitor is open:
+
+* Move in front of the PIR sensor. The Serial Monitor should display "Motion detected!"
+* Stop moving or move out of the sensor's range. After a short delay, the Serial Monitor should display "Motion ended!"
+
+**Understanding the Code**
+
+#. Reading the PIR Sensor:
+
+   Reads the current state of the PIR sensor. It will be HIGH when motion is detected and LOW when no motion is detected.
+
+   .. code-block:: Arduino
+
+      val = digitalRead(pirPin);
+
+#. Detecting Motion:
+
+   * When motion is detected, and it's the first detection, it prints "Motion detected!" and updates pirState.
+   * When motion ends, it prints "Motion ended!" and updates pirState.
+  
+   .. code-block:: Arduino
+
+      if (val == HIGH) {
+        if (pirState == LOW) {
+          Serial.println("Motion detected!");
+          pirState = HIGH;
+        }
+      } else {
+        if (pirState == HIGH) {
+          Serial.println("Motion ended!");
+          pirState = LOW;
+        }
+      }
 
 
-   * Then select the Raspberry Pi Pico board and the correct port before clicking the Upload button.
+**Practical Applications**
 
+* **Security Systems**: Detect intruders or unauthorized movement.
+* **Automatic Lighting**: Turn lights on when motion is detected.
+* **Energy Saving**: Power down devices when no movement is detected for a period.
 
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/bb3ff9f1-127d-4279-84b9-cba28b9667e8/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-    
+**Troubleshooting Tips**
 
-After the program runs, if the PIR module detects someone nearby, the Serial Monitor will print out "Somebody here!" 
+* False Triggers:
 
+  * PIR sensors can be sensitive to environmental factors like temperature changes or sunlight.
+  * Avoid pointing the sensor directly at heat sources or windows.
 
-**Learn More**
+* Sensor Not Detecting Motion:
 
-PIR is a very sensitive sensor. In order to adapt it to the environment of use, 
-it needs to be adjusted. Let the side with the 2 potentiometers facing you, 
-turn both potentiometers counterclockwise to the end and insert the jumper cap on the pin with L and the middle pin.
+  * Ensure the sensor has had time to initialize (some sensors require up to 60 seconds).
+  * Adjust the sensitivity potentiometer.
 
+* Interference: 
 
+  * Keep the sensor away from electronics that may cause electromagnetic interference.
 
-|img_pir_back|
+**Conclusion**
 
-1. Trigger Mode
+In this lesson, you've learned how to use a PIR sensor with the Raspberry Pi Pico to detect human movement. You've set up the hardware, written code to read the sensor's output, and tested it to respond to motion. Understanding how to adjust the PIR sensor's settings allows you to tailor it to your specific application, whether it's for security, automation, or interactive projects.
 
-    Let's take a look at the pins with jumper cap at the corner.
-    It allows PIR to enter Repeatable trigger mode or Non-repeatable trigger mode
-
-    At present, our jumper cap connects the middle Pin and L Pin, which makes the PIR in non-repeatable trigger mode.
-    In this mode, when the PIR detects the movement of the organism, it will send a high-level signal for about 2.8 seconds to the main control board.
-    .. We can see in the printed data that the duration of work will always be around 2800ms.
-
-    Next, we modify the position of the lower jumper cap and connect it to the middle Pin and H Pin to make the PIR in repeatable trigger mode.
-    In this mode, when the PIR detects the movement of the organism (note that it is movement, not static in front of the sensor), as long as the organism keeps moving within the detection range, the PIR will continue to send a high-level signal to the main control board.
-    .. We can see in the printed data that the duration of work is an uncertain value.
-
-#. Delay Adjustment
-
-    The potentiometer on the left is used to adjust the interval between two jobs.
-    
-    At present, we screw it counterclockwise to the end, which makes the PIR need to enter a sleep time of about 5 seconds after finishing sending the high level work. During this time, the PIR will no longer detect the infrared radiation in the target area.
-    .. We can see in the printed data that the dormancy duration is always no less than 5000ms.
-
-    If we turn the potentiometer clockwise, the sleep time will also increase. When it is turned clockwise to the end, the sleep time will be as high as 300s.
-
-#. Distance Adjustment
-
-    The centered potentiometer is used to adjust the sensing distance range of the PIR.
-
-    Turn the knob of the distance adjustment potentiometer **clockwise** to increase the sensing distance range, and the maximum sensing distance range is about 0-7 meters.
-    If it rotates **counterclockwise**, the sensing distance range is reduced, and the minimum sensing distance range is about 0-3 meters.

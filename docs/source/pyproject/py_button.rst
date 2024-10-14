@@ -17,15 +17,61 @@
 2.5 Reading Button Value
 =============================
 
-In this lesson, we'll learn how to read input from a pushbutton using the Raspberry Pi Pico. So far, we've used the GPIO pins mainly for output, like lighting up LEDs. Now, we'll use a GPIO pin as an input to detect when a button is pressed. This is a fundamental skill for creating interactive projects.
+In this lesson, we'll learn how to read input from a pushbutton using the Raspberry Pi Pico 2. So far, we've used the GPIO pins mainly for output, like lighting up LEDs. Now, we'll use a GPIO pin as an input to detect when a button is pressed. This is a fundamental skill for creating interactive projects.
 
-**Components Needed**
+**What You'll Need**
 
-* Raspberry Pi Pico 2
-* Pushbutton
-* 10 kΩ resistor (color bands: brown, black, orange, gold)
-* Breadboard
-* Jumper wires
+In this project, we need the following components. 
+
+It's definitely convenient to buy a whole kit, here's the link: 
+
+.. list-table::
+    :widths: 20 20 20
+    :header-rows: 1
+
+    *   - Name	
+        - ITEMS IN THIS KIT
+        - LINK
+    *   - Newton Lab Kit	
+        - 450+
+        - |link_newton_lab_kit|
+
+You can also buy them separately from the links below.
+
+
+.. list-table::
+    :widths: 5 20 5 20
+    :header-rows: 1
+
+    *   - SN
+        - COMPONENT	
+        - QUANTITY
+        - LINK
+
+    *   - 1
+        - :ref:`cpn_pico_2`
+        - 1
+        - |link_pico2_buy|
+    *   - 2
+        - Micro USB Cable
+        - 1
+        - 
+    *   - 3
+        - :ref:`cpn_breadboard`
+        - 1
+        - |link_breadboard_buy|
+    *   - 4
+        - :ref:`cpn_wire`
+        - Several
+        - |link_wires_buy|
+    *   - 5
+        - :ref:`cpn_resistor`
+        - 1(10KΩ)
+        - |link_resistor_buy|
+    *   - 6
+        - :ref:`cpn_button`
+        - 1
+        - |link_button_buy|
 
 
 **Circuit Diagram**
@@ -52,12 +98,8 @@ We'll write a simple program that prints a message when the button is pressed.
 
 .. note::
 
-  * Open the ``2.5_read_button_value.py`` file under the path of ``newton-lab-kit/micropython`` or copy this code into Thonny IDE, then click "Run Current Script" or simply press F5 to run it.
-
-  * Don't forget to click on the "MicroPython (Raspberry Pi Pico).COMxx" interpreter in the bottom right corner. 
-
-  * For detailed tutorials, please refer to :ref:`open_run_code_py`.
-
+  * Open the ``2.5_read_button_value.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 

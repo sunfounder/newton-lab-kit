@@ -1,23 +1,9 @@
-.. note::
-
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
-
-    **Why Join?**
-
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
-    
 .. _per_setup_pico:
 
 1.1 Set up the Pico
-=======================
+----------------------
 
-First, visit Piper Make through the following link：
+First, visit Piper Make through the following link: 
 
 https://make.playpiper.com/
 
@@ -35,30 +21,30 @@ Find the ``SETUP MY PICO`` button, click it, and follow the prompts to configure
 |media2-s|
 
 
-Click **Next** to start configuring your Pico, even if you have set it up before, these are the same steps you will use to update your Pico firmware.
+Click **Next** to start configuring your Pico W, even if you have set it up before, these are the same steps you will use to update your Pico W firmware.
 
 |media3|
 
-In this step, you need to make sure that your Pico is unplugged from your computer, as it needs to be plugged in in a specific way in the next step. Make sure your cable can handle power and data, as many micro USB cables only have power.
+In this step, you need to make sure that your Pico W is unplugged from your computer, as it needs to be plugged in in a specific way in the next step. Make sure your cable can handle power and data, as many micro USB cables only have power.
 
 |media4|
 
-Now, press and hold the RST (white) button on the Pico and plug the Pico into your computer. Once plugged in, you can release the button.
+Now, press and hold the RST (white) button on the Pico W and plug the Pico W into your computer. Once plugged in, you can release the button.
 
 |media5|
 
-Your Pico will appear as a USB drive, click **Next** after that select **RP2350** drive.
+Your Pico W will appear as a USB drive, click **Next** after that select **RPI-RP2** drive.
 
 .. note::
-    After select **RP2350** drive, there will be a pop up window at the top that you need to allow the web page to view files.
+    After select **RPI-RP2** drive, there will be a pop up window at the top that you need to allow the web page to view files.
 
 |media6|
 
-Now Piper Make will load the firmware to your Pico, again you need to allow save changes to the hard drive where the Pico is located.
+Now Piper Make will load the firmware to your Pico W, again you need to allow save changes to the hard drive where the Pico W is located.
 
 |media7|
 
-When this prompt appears, it means your Pico is set up and you can start using it.
+When this prompt appears, it means your Pico W is set up and you can start using it.
 
 
 |media8|
