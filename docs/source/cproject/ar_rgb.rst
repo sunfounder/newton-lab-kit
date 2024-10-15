@@ -111,7 +111,7 @@ Here, we can choose our favorite color in drawing software (such as paint) and d
 
    * You can open the file ``2.4_colorful_light.ino`` from ``newton-lab-kit/arduino/2.4_colorful_light``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

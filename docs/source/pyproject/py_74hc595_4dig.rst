@@ -214,7 +214,7 @@ Let's write a MicroPython program to create a time counter that increments every
 
 When you run this code, the 4-digit 7-segment display will function as a counter, incrementing the displayed number by 1 every second, starting from 0 up to 9999, then resetting to 0 and repeating the cycle continuously.
 
-**Writing the Code**
+**Understanding the Code**
 
 #. Import Modules:
 
@@ -335,31 +335,23 @@ When you run this code, the 4-digit 7-segment display will function as a counter
             display_number(counter)
 
 
-**Understanding the Code**
-
-#. Multiplexing:
-
-   * The code rapidly cycles through each digit, updating one at a time.
-   * Because this happens quickly (each digit is displayed for about 5 milliseconds), our eyes perceive all digits as being displayed simultaneously.
-
-#. Timing with utime:
-
-   * ``utime.ticks_ms()`` provides the current time in milliseconds.
-   * We use ``utime.ticks_diff()`` to calculate the difference between the current time and the last update.
-   * When the difference reaches 1000 milliseconds (1 second), we increment the counter.
-
-#. Displaying Numbers:
-
-   * The number is broken down into individual digits.
-   * Each digit is displayed in its corresponding position.
-   * The ``SEGMENT_CODES`` array provides the segment patterns for each digit.
-
 **Experimenting Further**
 
-* **Add a Reset Button**: Connect a button to the Pico to reset the counter when pressed.
-* **Display Different Data**: Modify the code to display sensor readings, such as temperature or light levels.
-* **Adjust Display Brightness**: Change the utime.sleep_ms(5) delay in the display_digit function to adjust how long each digit is displayed, affecting brightness.
-* **Create a Stopwatch**:Implement start, stop, and reset functionality to use the display as a stopwatch.
+* Add a Reset Button:
+
+  Connect a button to the Pico to reset the counter when pressed.
+
+* Display Different Data: 
+
+  Modify the code to display sensor readings, such as temperature or light levels.
+
+* Adjust Display Brightness: 
+
+  Change the ``utime.sleep_ms(5)`` delay in the ``display_digit`` function to adjust how long each digit is displayed, affecting brightness.
+
+* Create a Stopwatch:
+
+  Implement start, stop, and reset functionality to use the display as a stopwatch.
 
 **Conclusion**
 

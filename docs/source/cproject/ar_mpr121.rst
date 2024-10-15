@@ -94,7 +94,7 @@ The MPR121 sensor detects changes in capacitance on its electrodes. When you tou
 
     * You can open the file ``4.3_electrode_keyboard.ino`` from ``newton-lab-kit/arduino/4.3_electrode_keyboard``. 
     * Or copy this code into **Arduino IDE**.
-    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
     * The ``Adafruit MPR121`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_mpr121.png

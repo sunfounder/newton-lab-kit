@@ -88,78 +88,218 @@ The **DHT11** sensor uses a capacitive humidity sensor and a thermistor to measu
 
 **Writing the Code**
 
+We'll write a program that reads temperature and humidity data from the DHT11 sensor and prints the values to the Serial Monitor.
+
 .. note::
 
     * You can open the file ``6.2_dht11.ino`` from ``newton-lab-kit/arduino/6.2_dht11``. 
     * Or copy this code into **Arduino IDE**.
-    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
     * The ``DHT sensor library`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_dht.png
 
-.. raw:: html
+
+.. code-block:: arduino
+
+    #include <DHT.h>
+
+    // Define the connection pins
+    #define DHTPIN 16       // GPIO 16 -> Data pin of DHT11
+    #define DHTTYPE DHT11    // Define the sensor type
+
+    // Create a DHT object
+    DHT dht(DHTPIN, DHTTYPE);
+
+    unsigned long previousMillis = 0; // Stores the last time the display was updated
+    const long interval = 2000;        // Interval at which to read sensor (milliseconds)
+
+    void setup() {
+      // Initialize serial communication at 115200 baud
+      Serial.begin(115200);
+      Serial.println(F("DHT11 Sensor Test!"));
     
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/b9e96e99-59d4-48ca-b41f-c03577acfb8f/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+      // Initialize the DHT sensor
+      dht.begin();
+   
+    }
 
-Once the code is running, you will see the Serial Monitor continuously print out the temperature and humidity, and as the program runs steadily, these two values will become more and more accurate.
+    void loop() {
+      unsigned long currentMillis = millis();
 
-**Understanding the Code**
+      // Update the sensor reading every 'interval' milliseconds
+      if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
 
-#. Inclusion of necessary libraries and definition of constants.
-   This part of the code includes the DHT sensor library and defines the pin number and sensor type used in this project.
+        // Read humidity and temperature
+        float humidity = dht.readHumidity();
+        float temperatureC = dht.readTemperature();
+        float temperatureF = dht.readTemperature(true);
 
-   .. code-block:: arduino
-    
-      #include <DHT.h>
-      #define DHTPIN 16       // Define the pin used to connect the sensor
-      #define DHTTYPE DHT11  // Define the sensor type
-
-#. Creation of DHT object.
-   Here we create a DHT object using the defined pin number and sensor type.
-
-   .. code-block:: arduino
-
-      DHT dht(DHTPIN, DHTTYPE);  // Create a DHT object
-
-#. This function is executed once when the Arduino starts. We initialize the serial communication and the DHT sensor in this function.
-
-   .. code-block:: arduino
-
-      void setup() {
-        Serial.begin(115200);
-        Serial.println(F("DHT11 test!"));
-        dht.begin();  // Initialize the DHT sensor
-      }
-
-#. Main loop.
-   The ``loop()`` function runs continuously after the setup function. Here, we read the humidity and temperature values, calculate the heat index, and print these values to the serial monitor.  If the sensor read fails (returns NaN), it prints an error message.
-
-   .. note::
-    
-      The |link_heat_index| is a way to measure how hot it feels outside by combining the air temperature and the humidity. It is also called the "felt air temperature" or "apparent temperature".
-
-   .. code-block:: arduino
-
-      void loop() {
-        delay(2000);
-        float h = dht.readHumidity();
-        float t = dht.readTemperature();
-        float f = dht.readTemperature(true);
-        if (isnan(h) || isnan(t) || isnan(f)) {
+        // Check if any reads failed
+        if (isnan(humidity) || isnan(temperatureC) || isnan(temperatureF)) {
           Serial.println(F("Failed to read from DHT sensor!"));
           return;
         }
-        float hif = dht.computeHeatIndex(f, h);
-        float hic = dht.computeHeatIndex(t, h, false);
+
+        // Calculate heat index
+        float heatIndexC = dht.computeHeatIndex(temperatureC, humidity, false);
+        float heatIndexF = dht.computeHeatIndex(temperatureF, humidity);
+
+        // Print the results to the Serial Monitor
         Serial.print(F("Humidity: "));
-        Serial.print(h);
+        Serial.print(humidity);
         Serial.print(F("%  Temperature: "));
-        Serial.print(t);
+        Serial.print(temperatureC);
         Serial.print(F("°C "));
-        Serial.print(f);
+        Serial.print(temperatureF);
         Serial.print(F("°F  Heat index: "));
-        Serial.print(hic);
+        Serial.print(heatIndexC);
         Serial.print(F("°C "));
-        Serial.print(hif);
+        Serial.print(heatIndexF);
         Serial.println(F("°F"));
       }
+    }
+
+After uploading the code, the Serial Monitor should display the temperature and humidity readings every two seconds.
+
+.. code-block::
+
+    DHT11 Sensor Test!
+    Humidity: 45.00%  Temperature: 25.00°C 77.00°F  Heat index: 25.00°C 77.00°F
+    Humidity: 46.00%  Temperature: 25.50°C 78.00°F  Heat index: 25.50°C 78.00°F
+    Humidity: 47.00%  Temperature: 26.00°C 79.00°F  Heat index: 26.00°C 79.00°F
+
+* **Humidity**: Expose the sensor to different humidity levels to see changes in readings.
+* **Temperature**: Change the temperature around the sensor to observe temperature measurements.
+
+**Understanding the Code**
+
+#. Including Libraries and Defining Constants:
+
+   * ``DHT.h``: Includes the DHT sensor library to simplify interactions with the sensor.
+   * ``DHTPIN``: Specifies the GPIO pin connected to the DHT11 data pin.
+   * ``DHTTYPE``: Defines the type of DHT sensor being used (DHT11 in this case).
+
+   .. code-block:: arduino
+
+        #include <DHT.h>
+        #define DHTPIN 16       // GPIO 16 -> Data pin of DHT11
+        #define DHTTYPE DHT11    // Define the sensor type
+
+#. Creating the ``DHT`` Object:
+
+   Initializes a ``DHT`` object with the specified data pin and sensor type.
+
+   .. code-block:: arduino
+
+        DHT dht(DHTPIN, DHTTYPE);
+
+#. Setup Function:
+
+   * **Serial Communication**: Starts serial communication for debugging and data display.
+   * **DHT Sensor Initialization**: Prepares the DHT11 sensor for data reading.
+
+   .. code-block:: arduino
+
+        void setup() {
+          // Initialize serial communication at 115200 baud
+          Serial.begin(115200);
+          Serial.println(F("DHT11 Sensor Test!"));
+
+          // Initialize the DHT sensor
+          dht.begin();
+        }
+
+#. Loop Function:
+
+   * Timing with ``millis()``: 
+   
+     Uses non-blocking timing to read the sensor every 2 seconds (interval = 2000 milliseconds).
+   
+     .. code-block:: arduino
+   
+        if (currentMillis - previousMillis >= interval) {
+          previousMillis = currentMillis;
+          ...
+        }
+   
+   * Reading Sensor Data:
+   
+     * ``dht.readHumidity()``: Reads the current humidity.
+     * ``dht.readTemperature()``: Reads the current temperature in Celsius.
+     * ``dht.readTemperature(true)``: Reads the current temperature in Fahrenheit.
+   
+   * Error Handling:
+   
+     Checks if any of the readings failed (returned NaN) and prints an error message if so.
+   
+     .. code-block:: arduino
+   
+        if (isnan(humidity) || isnan(temperatureC) || isnan(temperatureF)) {
+          Serial.println(F("Failed to read from DHT sensor!"));
+          return;
+        }
+   
+   * Calculating Heat Index:
+   
+     * ``dht.computeHeatIndex(temperatureC, humidity, false)``: Calculates the heat index in Celsius.
+     * ``dht.computeHeatIndex(temperatureF, humidity)``: Calculates the heat index in Fahrenheit.
+   
+   * Displaying Data:
+   
+     Prints humidity, temperature in Celsius and Fahrenheit, and heat index to the Serial Monitor.
+   
+     .. code-block:: arduino
+   
+        Serial.print(F("Humidity: "));
+        Serial.print(humidity);
+        Serial.print(F("%  Temperature: "));
+        Serial.print(temperatureC);
+        Serial.print(F("°C "));
+        Serial.print(temperatureF);
+        Serial.print(F("°F  Heat index: "));
+        Serial.print(heatIndexC);
+        Serial.print(F("°C "));
+        Serial.print(heatIndexF);
+        Serial.println(F("°F"));
+
+**Troubleshooting**
+
+* No Readings Displayed:
+
+  * Check all wiring connections.
+  * Ensure the DHT11 sensor is receiving power.
+  * Verify that the correct GPIO pins are defined in the code.
+
+* Incorrect Readings:
+
+  * Verify that the DHT11 sensor is not damaged.
+  * Check the sensor's datasheet for proper timing and signal requirements.
+
+* Sensor Interference:
+
+  * Avoid placing the sensor near other electronic devices that might cause interference.
+  * Ensure there are no obstacles blocking the sensor's line of sight.
+
+**Further Exploration**
+
+* Integrating with Displays:
+
+  Connect an LCD or OLED display to show temperature and humidity readings without using the Serial Monitor.
+
+* Creating Alerts:
+
+  Implement buzzer or notification systems that trigger when temperature or humidity exceeds certain thresholds.
+
+* Combining with Other Sensors:
+
+  Pair the DHT11 with motion sensors, light sensors, or other environmental sensors to create comprehensive monitoring systems.
+
+* Building a Weather Station:
+
+  Expand the project by adding additional sensors like barometric pressure sensors, rain gauges, and wind speed sensors to build a full-fledged weather station.
+
+**Conclusion**
+
+In this lesson, you've learned how to use a DHT11 temperature and humidity sensor with the Raspberry Pi Pico to measure and display ambient temperature and humidity levels. By leveraging the DHT library, you can easily integrate environmental sensing into your projects. The optional LED indicator provides a simple way to add visual feedback based on sensor readings, enhancing the interactivity of your system.

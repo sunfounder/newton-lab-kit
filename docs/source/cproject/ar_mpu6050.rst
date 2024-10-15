@@ -87,90 +87,300 @@ The **MPU-6050** sensor is widely used in projects that require motion tracking 
 
 **Writing the Code**
 
+We'll write a program that initializes the MPU-6050 sensor, reads acceleration and gyroscope data, and prints the values to the Serial Monitor.
+
 .. note::
 
     * You can open the file ``6.3_6axis_motion_tracking.ino`` from ``newton-lab-kit/arduino/6.3_6axis_motion_tracking``. 
     * Or copy this code into **Arduino IDE**.
-    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
     * The ``Adafruit MPU6050`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_mpu6050.png
-
-
-.. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/318f62d3-1d7b-4ee6-a1a2-97e783cf2d5e/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
-    
-
-After running the program, you can see the 3-axis accelerometer values and 3-axis gyroscope values cycling through the output.
-At this point you rotate the MPU6050 at random, and these values will appear to change accordingly.
-To make it easier to see the changes, you can comment out one of the print lines and concentrate on another set of data.
-
-
-**Understanding the Code**
-
-Instantiate an ``MPU6050`` object.
 
 .. code-block:: arduino
 
     #include <Adafruit_MPU6050.h>
     #include <Wire.h>
 
+    // Create an MPU6050 object
     Adafruit_MPU6050 mpu;
 
-
-Initialize the MPU6050 and set its accuracy.
-
-.. code-block:: arduino
-
     void setup(void) {
-        Serial.begin(115200);
-        while (!Serial)
-            delay(10); // will pause Zero, Leonardo, etc until serial console opens
+      // Initialize Serial Communication
+      Serial.begin(115200);
 
-        Serial.println("Adafruit MPU6050 test!");
+      Serial.println("Adafruit MPU6050 test!");
 
-        // Try to initialize!
-        if (!mpu.begin()) {
-            Serial.println("Failed to find MPU6050 chip");
-            while (1) {
-            delay(10);
-            }
+      // Try to initialize the MPU6050
+      if (!mpu.begin()) {
+        Serial.println("Failed to find MPU6050 chip");
+        while (1) {
+          delay(10);
         }
-        Serial.println("MPU6050 Found!");
+      }
+      Serial.println("MPU6050 Found!");
 
-        // Set range
-        mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
-        mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-        mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+      // Set accelerometer range
+      mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+      Serial.print("Accelerometer range set to: ");
+      switch (mpu.getAccelerometerRange()) {
+        case MPU6050_RANGE_2_G:
+          Serial.println("+-2G");
+          break;
+        case MPU6050_RANGE_4_G:
+          Serial.println("+-4G");
+          break;
+        case MPU6050_RANGE_8_G:
+          Serial.println("+-8G");
+          break;
+        case MPU6050_RANGE_16_G:
+          Serial.println("+-16G");
+          break;
+      }
 
-        Serial.println("");
-        delay(100);
+      // Set gyroscope range
+      mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+      Serial.print("Gyro range set to: ");
+      switch (mpu.getGyroRange()) {
+        case MPU6050_RANGE_250_DEG:
+          Serial.println("+-250 deg/s");
+          break;
+        case MPU6050_RANGE_500_DEG:
+          Serial.println("+-500 deg/s");
+          break;
+        case MPU6050_RANGE_1000_DEG:
+          Serial.println("+-1000 deg/s");
+          break;
+        case MPU6050_RANGE_2000_DEG:
+          Serial.println("+-2000 deg/s");
+          break;
+      }
+
+      // Set filter bandwidth
+      mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+      Serial.print("Filter bandwidth set to: ");
+      switch (mpu.getFilterBandwidth()) {
+        case MPU6050_BAND_260_HZ:
+          Serial.println("260 Hz");
+          break;
+        case MPU6050_BAND_184_HZ:
+          Serial.println("184 Hz");
+          break;
+        case MPU6050_BAND_94_HZ:
+          Serial.println("94 Hz");
+          break;
+        case MPU6050_BAND_44_HZ:
+          Serial.println("44 Hz");
+          break;
+        case MPU6050_BAND_21_HZ:
+          Serial.println("21 Hz");
+          break;
+        case MPU6050_BAND_10_HZ:
+          Serial.println("10 Hz");
+          break;
+        case MPU6050_BAND_5_HZ:
+          Serial.println("5 Hz");
+          break;
+      }
+
+      Serial.println("");
+      delay(100);
     }
 
-Get new sensor events with the readings.
+    void loop() {
+      // Get new sensor events with the readings
+      sensors_event_t a, g, temp;
+      mpu.getEvent(&a, &g, &temp);
 
-.. code-block:: arduino
+      // Print acceleration values
+      Serial.print("Acceleration X: ");
+      Serial.print(a.acceleration.x);
+      Serial.print(" m/s^2, Y: ");
+      Serial.print(a.acceleration.y);
+      Serial.print(" m/s^2, Z: ");
+      Serial.print(a.acceleration.z);
+      Serial.println(" m/s^2");
 
-    sensors_event_t a, g, temp;
-    mpu.getEvent(&a, &g, &temp);
+      // Print gyroscope values
+      Serial.print("Rotation X: ");
+      Serial.print(g.gyro.x);
+      Serial.print(" rad/s, Y: ");
+      Serial.print(g.gyro.y);
+      Serial.print(" rad/s, Z: ");
+      Serial.print(g.gyro.z);
+      Serial.println(" rad/s");
 
-Subsequently, you will be able to get real-time acceleration and angular velocity values in the data ``a.acceleration.x``, ``a.acceleration.y``, ``a.acceleration.z``, ``g.gyro.x``, ``g.gyro.y``, ``g.gyro.z``.
+      delay(500); // Adjust delay as needed
+    }
 
-.. code-block:: arduino
 
-    Serial.print("Acceleration X: ");
-    Serial.print(a.acceleration.x);
-    Serial.print(", Y: ");
-    Serial.print(a.acceleration.y);
-    Serial.print(", Z: ");
-    Serial.print(a.acceleration.z);
-    Serial.println(" m/s^2");
+After uploading the code, the Serial Monitor should display the acceleration and rotation values continuously.
 
-    Serial.print("Rotation X: ");
-    Serial.print(g.gyro.x);
-    Serial.print(", Y: ");
-    Serial.print(g.gyro.y);
-    Serial.print(", Z: ");
-    Serial.print(g.gyro.z);
-    Serial.println(" rad/s");
+.. code-block::
+
+    Adafruit MPU6050 test!
+    MPU6050 Found!
+    Accelerometer range set to: +-8G
+    Gyro range set to: +-500 deg/s
+    Filter bandwidth set to: 21 Hz
+
+    Acceleration X: 0.00 m/s^2, Y: 0.00 m/s^2, Z: 9.81 m/s^2
+    Rotation X: 0.02 rad/s, Y: -0.01 rad/s, Z: 0.00 rad/s
+    Acceleration X: 0.10 m/s^2, Y: 0.05 m/s^2, Z: 9.76 m/s^2
+    Rotation X: 0.15 rad/s, Y: -0.05 rad/s, Z: 0.02 rad/s
+
+Gently rotate or move the MPU-6050 sensor module.
+Observe changes in the acceleration and rotation values corresponding to the movement.
+
+**Understanding the Code**
+
+#. Including Libraries and Defining Constants:
+
+
+   * ``Adafruit_MPU6050.h``: Includes the MPU6050 library for easier interfacing.
+   * ``Wire.h``: Includes the I2C communication library.
+   * ``mpu``: Creates an MPU6050 object to interact with the sensor.
+
+#. Setup Function:
+
+   * MPU6050 Initialization: 
+   
+     Attempts to initialize the MPU6050 sensor. If unsuccessful, it prints an error message and halts the program.
+   
+     .. code-block:: arduino
+   
+         Serial.println("Adafruit MPU6050 test!");
+   
+         // Try to initialize the MPU6050
+         if (!mpu.begin()) {
+           Serial.println("Failed to find MPU6050 chip");
+           while (1) {
+             delay(10);
+           }
+         }
+         Serial.println("MPU6050 Found!");
+
+   * Accelerometer Range: 
+   
+     Sets the accelerometer range to ±8G and prints the current range.
+   
+     .. code-block:: arduino
+   
+         mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+         Serial.print("Accelerometer range set to: ");
+         switch (mpu.getAccelerometerRange()) {
+           case MPU6050_RANGE_2_G:
+             Serial.println("+-2G");
+             break;
+            ...
+           case MPU6050_RANGE_16_G:
+             Serial.println("+-16G");
+             break;
+         }
+   
+   * Gyroscope Range: 
+   
+     Sets the gyroscope range to ±500 degrees per second and prints the current range.
+   
+     .. code-block:: arduino
+   
+         mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+         Serial.print("Gyro range set to: ");
+         switch (mpu.getGyroRange()) {
+           case MPU6050_RANGE_250_DEG:
+             Serial.println("+-250 deg/s");
+             break;
+            ...
+           case MPU6050_RANGE_2000_DEG:
+             Serial.println("+-2000 deg/s");
+             break;
+         }
+   
+   * Setting Filter Bandwidth: 
+   
+     Configures the filter bandwidth to 21 Hz to reduce noise and prints the current setting.
+   
+     .. code-block:: arduino
+   
+         mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+         Serial.print("Filter bandwidth set to: ");
+         switch (mpu.getFilterBandwidth()) {
+           case MPU6050_BAND_260_HZ:
+             Serial.println("260 Hz");
+             break;
+            ...
+           case MPU6050_BAND_5_HZ:
+             Serial.println("5 Hz");
+             break;
+         }
+
+#. Loop Function:
+
+   * Reading Sensor Data:
+   
+     * ``sensors_event_t a, g, temp;``: Creates event objects to store accelerometer, gyroscope, and temperature data.
+     * ``mpu.getEvent(&a, &g, &temp);``: Retrieves the latest sensor data.
+   
+     .. code-block:: arduino
+   
+         sensors_event_t a, g, temp;
+         mpu.getEvent(&a, &g, &temp);
+   
+   * Printing Sensor Data:
+   
+     * **Acceleration**: Prints acceleration values along the X, Y, and Z axes in meters per second squared (m/s²).
+     * **Rotation**: Prints gyroscope values (rotational velocity) around the X, Y, and Z axes in radians per second (rad/s).
+   
+     .. code-block:: Arduino
+   
+       // Print acceleration values
+       Serial.print("Acceleration X: ");
+       Serial.print(a.acceleration.x);
+       ...
+       Serial.print(g.gyro.y);
+       Serial.print(" rad/s, Z: ");
+       Serial.print(g.gyro.z);
+       Serial.println(" rad/s");
+
+
+**Troubleshooting**
+
+* No Readings Displayed:
+
+  * Check all wiring connections, especially the I2C lines (SCL and SDA).
+  * Ensure the MPU-6050 sensor is receiving power (VCC and GND connections).
+  * Verify that the correct GPIO pins are defined in the code.
+
+* Incorrect Readings:
+
+  * Ensure that the MPU-6050 sensor is properly seated in the breadboard.
+  * Verify that the sensor's range and filter settings match the desired application.
+  * Check for any loose connections or shorts in the wiring.
+
+* Sensor Interference:
+
+  * Avoid placing the sensor near other electronic devices that might cause interference.
+  * Ensure there are no physical obstructions blocking the sensor's movement.
+
+**Further Exploration**
+
+* Combining with Other Sensors:
+
+  Integrate the MPU-6050 with GPS modules, magnetometers, or other sensors to create comprehensive tracking systems.
+
+* Building a Motion-Based Game Controller:
+
+  Use the MPU-6050 to detect movement and orientation, allowing for the creation of motion-controlled gaming devices.
+
+* Creating a Self-Balancing Robot:
+
+  Utilize the accelerometer and gyroscope data to maintain balance and stability in robotic applications.
+
+* Implementing Sensor Fusion Algorithms:
+
+  Combine accelerometer and gyroscope data to calculate orientation angles using algorithms like the Kalman filter or complementary filter.
+
+**Conclusion**
+
+In this lesson, you've learned how to interface the MPU-6050 6-axis motion tracking sensor with the Raspberry Pi Pico. By leveraging the Adafruit MPU6050 library, you can easily retrieve and interpret accelerometer and gyroscope data, enabling a wide range of motion and orientation-based applications. The optional LED indicator adds a simple way to provide visual feedback based on sensor readings, enhancing the interactivity of your projects.

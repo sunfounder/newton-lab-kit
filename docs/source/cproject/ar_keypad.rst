@@ -103,7 +103,7 @@ For example, if G6 is read high, then numeric key 1 is pressed; this is because 
 
     * You can open the file ``4.2_4x4_keypad.ino`` from ``newton-lab-kit/arduino/4.2_4x4_keypad``. 
     * Or copy this code into **Arduino IDE**.
-    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
     * The ``Adafruit Keypad`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_ad_keypad.png

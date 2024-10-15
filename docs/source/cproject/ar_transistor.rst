@@ -111,7 +111,7 @@ For the PNP transistor circuit, the button starts with a low signal on GP14 and 
 
    * You can open the file ``2.15_transistor.ino`` from ``newton-lab-kit/arduino/2.15_transistor``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: arduino
 

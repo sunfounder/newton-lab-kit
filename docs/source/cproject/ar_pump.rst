@@ -109,7 +109,7 @@ In this circuit, you will see that the button is connected to the RUN pin. This 
 
    * You can open the file ``3.6_pumping.ino`` from ``newton-lab-kit/arduino/3.6_pumping``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: arduino
 

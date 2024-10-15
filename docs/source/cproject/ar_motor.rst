@@ -105,7 +105,7 @@ Since DC motors require a high current, we use a power supply module to power th
 
    * You can open the file ``3.5_small_fan.ino`` from ``newton-lab-kit/arduino/3.5_small_fan``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: arduino
 

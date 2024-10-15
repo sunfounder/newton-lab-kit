@@ -91,59 +91,158 @@ The ultrasonic sensor works by emitting a short ultrasonic pulse from the **Trig
 
 **Writing the Code**
 
+We'll write a program that triggers the ultrasonic sensor, measures the echo time, and calculates the distance to an object. The distance will be printed to the Serial Monitor.
+
 .. note::
 
    * You can open the file ``6.1_ultrasonic.ino`` from ``newton-lab-kit/arduino/6.1_ultrasonic``. 
    * Or copy this code into **Arduino IDE**.
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
+.. code-block:: arduino
 
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+    // Define the connection pins
+    const int trigPin = 17;  // GPIO 17 -> Trig
+    const int echoPin = 16;  // GPIO 16 -> Echo
 
-.. raw:: html
+    void setup() {
+      // Initialize serial communication at 9600 baud
+      Serial.begin(9600);
     
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/631a1663-ce45-4d46-b8f0-7d10f32097a9/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+      // Initialize the sensor pins
+      pinMode(trigPin, OUTPUT);
+      pinMode(echoPin, INPUT);
+    }
 
+    void loop() {
+      long duration;
+      float distance;
 
-Once the program is running, the Serial Monitor will print out the distance of the ultrasonic sensor from the obstacle ahead.
+      // Trigger the sensor by setting Trig HIGH for 10 microseconds
+      digitalWrite(trigPin, HIGH);
+      delayMicroseconds(10);
+      digitalWrite(trigPin, LOW);
+    
+      // Read the Echo pin, returns the duration in microseconds
+      duration = pulseIn(echoPin, HIGH);
+    
+      // Calculate the distance in centimeters
+      distance = duration * 0.034 / 2;
+    
+      // Print the distance to the Serial Monitor
+      Serial.print("Distance: ");
+      Serial.print(distance);
+      Serial.println(" cm");
+    
+      delay(500); // Wait for half a second before the next measurement
+    }
 
+After uploading the code, the Serial Monitor should display the distance measurements in centimeters.
+
+.. code-block::
+
+    Distance: 25.3 cm
+    Distance: 24.8 cm
+    Distance: 24.5 cm
+
+Place an object at varying distances from the sensor.
+Move the object closer and farther to observe changes in the distance readings.
 
 **Understanding the Code**
 
-About the application of ultrasonic sensor, we can directly check the
-subfunction.
+#. Defining Connection Pins:
 
-.. code-block:: arduino
+   * ``trigPin``: Sends the ultrasonic pulse.
+   * ``echoPin``: Receives the echo of the ultrasonic pulse.
 
-    float readSensorData(){// ...}
+   .. code-block:: arduino
 
-``PING`` is triggered by a HIGH pulse of 2 or more microseconds. (Give a
-short ``LOW`` pulse beforehand to ensure a clean ``HIGH`` pulse.)
+        const int trigPin = 17;  // GPIO 17 -> Trig
+        const int echoPin = 16;  // GPIO 16 -> Echo
 
-.. code-block:: arduino
+#. Setup Function:
 
-    digitalWrite(trigPin, LOW); 
-    delayMicroseconds(2);
-    digitalWrite(trigPin, HIGH); 
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW); 
+   * **Serial Communication**: Enables communication between the Pico and the computer for debugging.
+   * **Pin Modes**: Sets the ``Trig`` pin as ``OUTPUT`` and the ``Echo`` pin as ``INPUT``.
 
-The echo pin is used to read signal from PING, a ``HIGH`` pulse whose
-duration is the time (in microseconds) from the sending of the ping to
-the reception of echo of the object.
+   .. code-block:: arduino
 
-.. code-block:: arduino
+        void setup() {
+          // Initialize serial communication at 9600 baud
+          Serial.begin(9600);
 
-    microsecond=pulseIn(echoPin, HIGH);
+          // Initialize the sensor pins
+          pinMode(trigPin, OUTPUT);
+          pinMode(echoPin, INPUT);
+        }
 
-The speed of sound is 340 m/s or 29 microseconds per centimeter.
+#. Loop Function:
 
-This gives the distance travelled by the ping, outbound and return, so
-we divide by 2 to get the distance of the obstacle.
+   * **Triggering the Sensor**: Sets the ``Trig`` pin ``HIGH`` for 10 microseconds to send the ultrasonic pulse. Sets the ``Trig`` pin ``LOW`` to end the pulse.
 
-.. code-block:: arduino
+     .. code-block:: arduino
 
-    float distance = microsecond / 29.00 / 2;  
+        digitalWrite(trigPin, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(trigPin, LOW);
+
+   * **Reading the Echo**: Measures the duration (in microseconds) that the ``Echo`` pin stays ``HIGH``, indicating the time taken for the echo to return.
+
+     .. code-block:: arduino
+
+        duration = pulseIn(echoPin, HIGH);
+
+   * **Calculating Distance**: Converts the time to distance (cm/microsecond). Divides by 2 to account for the round-trip of the pulse.
+
+     .. code-block:: arduino
+
+        distance = duration * 0.034 / 2;
+
+   * **Serial Output**: Prints the calculated distance to the Serial Monitor for real-time monitoring.
+
+     .. code-block:: arduino
+
+        Serial.print("Distance: ");
+        Serial.print(distance);
+        Serial.println(" cm");
+
+   * **Delay**: Adds a 500-millisecond delay to prevent flooding the Serial Monitor and to allow time between measurements.
+
+**Troubleshooting**
+
+* No Readings Displayed:
+
+  * Ensure the Trig and Echo pins are correctly connected.
+  * Verify that the sensor is receiving power (VCC and GND connections).
+  * Check that the Serial Monitor is set to the correct baud rate.
+
+* Incorrect Readings:
+
+  * Ensure that the calculations in the code are correct.
+  * Verify that the speed of sound constant (0.034) is appropriate for your environment (humidity and temperature can affect sound speed).
 
 
-Note that the ultrasonic sensor will pause the program when it is working, which may cause some lagging when writing complex projects.
+* Sensor Interference:
 
+  * Make sure there are no obstructions or reflective surfaces that might interfere with the ultrasonic pulses.
+  * Avoid placing the sensor near other ultrasonic devices that could cause false readings.
+
+
+**Further Exploration**
+
+* Integrating with LEDs or Displays:
+
+  * Use multiple LEDs to create a visual distance indicator.
+  * Integrate with a 7-segment or LCD display to show the distance numerically.
+
+* Creating a Proximity Alert System:
+
+  Set thresholds to trigger alerts (e.g., sound alarms when objects are too close).
+
+* Building a Simple Obstacle-Avoiding Robot:
+
+  Utilize the ultrasonic sensor to detect obstacles and navigate around them.
+
+**Conclusion**
+
+In this lesson, you've learned how to use an ultrasonic sensor module with the Raspberry Pi Pico to measure the distance to an object. By triggering ultrasonic pulses and measuring the echo time, you can accurately determine the distance of nearby objects. This project serves as a foundation for more complex applications in robotics, automation, and interactive systems.

@@ -96,7 +96,7 @@ Servos can draw significant current, especially under load. Since we're using a 
 
    * You can open the file ``3.7_swinging_servo.ino`` from ``newton-lab-kit/arduino/3.7_swinging_servo``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
     
 .. code-block:: arduino
 

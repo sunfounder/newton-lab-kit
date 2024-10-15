@@ -100,7 +100,7 @@ The 10K resistor ensures 3.3V and GND are not directly connected, preventing a s
 
    * You can open the file ``2.13_thermometer.ino`` from ``newton-lab-kit/arduino/2.13_thermometer``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: arduino
 

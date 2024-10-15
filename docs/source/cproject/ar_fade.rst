@@ -114,7 +114,7 @@ You can also buy them separately from the links below.
 
    * You can open the file ``2.3_fading_led.ino`` from ``newton-lab-kit/arduino/2.3_fading_led``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

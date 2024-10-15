@@ -115,7 +115,7 @@ The purpose of the 10K resistor is to keep the GP14 at a steady low level when n
 
    * You can open the file ``2.9_feel_the_magnetism.ino`` from ``newton-lab-kit/arduino/2.9_feel_the_magnetism``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

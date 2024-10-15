@@ -89,7 +89,7 @@ Be cautious with the current draw. While the Pico's VBUS pin can supply power fo
 
     * You can open the file ``3.3_rgb_led_strip.ino`` from ``newton-lab-kit/arduino/3.3_rgb_led_strip``. 
     * Or copy this code into **Arduino IDE**.
-    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
     * The ``Adafruit_NeoPixel`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_neopixel.png

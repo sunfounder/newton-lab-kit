@@ -92,7 +92,7 @@ In this project, each of the 10 LEDs in the LED Bar Graph is connected to the Ra
 
    * You can open the file ``2.2_display_the_level.ino`` from ``newton-lab-kit/arduino/2.2_display_the_level``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

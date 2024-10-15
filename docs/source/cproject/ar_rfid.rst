@@ -87,55 +87,239 @@ RFID technology uses electromagnetic fields to automatically identify and track 
 
 **Writing the Code**
 
+We'll write two programs that initializes the MFRC522 RFID reader, listens for RFID tags, and reads their unique identifiers (UID).
+
 .. note::
 
    * The ``MFRC522`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_mfrc522.png
 
-The main function is divided into two:
 
-* ``6.5_rfid_write`` to write information to the card (or key).
+1. Writing Information to RFID Tags:
 
-  .. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/b4f9156a-711a-442c-8271-329847e808dc/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+   .. note::
+   
+      * You can open the file ``6.5_rfid_read.ino`` from ``newton-lab-kit/arduino/6.5_rfid_read``. 
+      * Or copy this code into **Arduino IDE**.
+      * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   
+   .. code-block:: arduino
+   
+       #include <SPI.h>
+       #include <MFRC522.h>
+   
+       // Define the connection pins for the RFID module
+       #define SS_PIN 17    // SDA pin connected to GPIO 17 (SPI SS)
+       #define RST_PIN 9    // RST pin connected to GPIO 9
+   
+       MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
+   
+       void setup() {
+         // Initialize serial communication
+         Serial.begin(115200);
+         while (!Serial); // Wait for serial port to connect
+   
+         // Initialize SPI bus
+         SPI.begin();
+   
+         // Initialize RFID reader
+         mfrc522.PCD_Init();
+         Serial.println("RFID Writer Initialized!");
+   
+       }
+   
+       void loop() {
+         // Check if data is available in the serial buffer
+         if (Serial.available() > 0) {
+           String data = Serial.readStringUntil('#'); // Read until '#' is received
+           data.trim(); // Remove any trailing whitespace
+   
+           // Wait for a new RFID card
+           Serial.println("Place your RFID tag near the reader...");
+           if ( ! mfrc522.PICC_IsNewCardPresent()) {
+             return;
+           }
+   
+           // Select one of the cards
+           if ( ! mfrc522.PICC_ReadCardSerial()) {
+             return;
+           }
+   
+           // Authenticate using key A
+           MFRC522::MIFARE_Key key;
+           for (byte i = 0; i < 6; i++) {
+             key.keyByte[i] = 0xFF;
+           }
+   
+           byte block = 4; // Example block to write to
+           byte sector = mfrc522.PICC_GetUid()->uidByte[0] % 32; // Calculate sector
+   
+           MFRC522::StatusCode status;
+           status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, block, &key, &(mfrc522.uid));
+           if (status != MFRC522::STATUS_OK) {
+             Serial.print("Authentication failed: ");
+             Serial.println(mfrc522.GetStatusCodeName(status));
+             return;
+           }
+   
+           // Prepare data to write (16 bytes)
+           byte buffer[18];
+           data.getBytes(buffer, sizeof(buffer));
+           buffer[16] = 0x00; // Padding
+           buffer[17] = 0x00; // Padding
+   
+           // Write data to the block
+           status = mfrc522.MIFARE_Write(block, buffer, 16);
+           if (status != MFRC522::STATUS_OK) {
+             Serial.print("Write failed: ");
+             Serial.println(mfrc522.GetStatusCodeName(status));
+             return;
+           }
+   
+           Serial.println("Data written successfully!");
+         }
+       }
 
-  After running you will be able to enter message in the serial monitor, ending with ``#``, and then write the message to the card by placing the card (or key) close to the MFRC522 module.
+   After uploading the code, the following occurs:
+   
+   * In the Serial Monitor, you will see:
+   
+     .. code-block::
 
-* ``6.5_rfid_read`` to read the information from the card (or key).
+        RFID Reader Initialized!
+        Place your RFID tag near the reader...
+   
+   * Input the data you want to write to the RFID tag, ending with the ``#`` character. For example:
+   
+     .. code-block::
+   
+        Hello World#
+   
+   * Place the RFID tag near the reader. Observe the confirmation message in the Serial Monitor:
+   
+     .. code-block::
+       
+        Data written successfully!
 
-  .. raw:: html
-    
-    <iframe src=https://create.arduino.cc/editor/sunfounder01/df57b5cb-9162-4b4b-b28a-7f02363885c9/preview?embed style="height:510px;width:100%;margin:10px 0" frameborder=0></iframe>
+2. Reading RFID Tags:
 
-  After running, you will be able to read the message stored in the card (or key).
+   .. note::
+   
+      * You can open the file ``6.5_rfid_read.ino`` from ``newton-lab-kit/arduino/6.5_rfid_read``. 
+      * Or copy this code into **Arduino IDE**.
+      * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   
+   .. code-block:: arduino
 
-**Understanding the Code**
+        #include <SPI.h>
+        #include <MFRC522.h>
 
-.. code-block:: arduino
+        // Define the connection pins for the RFID module
+        #define SS_PIN 17    // SDA pin connected to GPIO 17 (SPI SS)
+        #define RST_PIN 9    // RST pin connected to GPIO 9
 
-    #include <MFRC522.h>
+        MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
 
-    #define RST_PIN         9
-    #define SS_PIN          17
+        void setup() {
+          // Initialize serial communication
+          Serial.begin(115200);
+          while (!Serial); // Wait for serial port to connect
 
-    MFRC522 mfrc522(SS_PIN, RST_PIN);
+          // Initialize SPI bus
+          SPI.begin();
 
-First, instantiate ``MFRC522()`` class.
+          // Initialize RFID reader
+          mfrc522.PCD_Init();
+          Serial.println("RFID Reader Initialized!");
+        }
 
-For simplicity of use, the ``MFRC522`` library is further encapsulated with the following functions.
+        void loop() {
+          // Look for new RFID cards
+          if ( ! mfrc522.PICC_IsNewCardPresent()) {
+            return;
+          }
 
-* ``void simple_mfrc522_init()`` : Starts SPI communication and initializes the mfrc522 module.
-* ``void simple_mfrc522_get_card()`` : Suspends the program until the card (or key) is detected, prints the card UID and PICC type.
-* ``void simple_mfrc522_write(String text)`` : Write a string for the card (or key).
-* ``void simple_mfrc522_write(byte* buffer)`` : Writes information for the card (or key), which usually comes from the serial port.
-* ``void simple_mfrc522_write(byte section, String text)`` : Writes a string for a specific sector. ``section`` is set to 0 to write sectors 1-2; ``section`` is set to 1 to write sectors 3-4.
-* ``void simple_mfrc522_write(byte section, byte* buffer)`` : Writes information for a specific sector, usually from the serial port. ``section`` set to 0, writes 1-2 sectors; ``section`` set to 1, writes 3-4 sectors.
-* ``String simple_mfrc522_read()`` : Reads the information in the card (or key), returns a string.
-* ``String simple_mfrc522_read(byte section)`` : Reads the information in a specific sector, returns a string. ``section`` is set to 0, writes 1-2 sectors; ``section`` is set to 1, writes 3-4 sectors.
+          // Select one of the cards
+          if ( ! mfrc522.PICC_ReadCardSerial()) {
+            return;
+          }
 
+          // Read the UID of the card
+          Serial.print("UID tag :");
+          String content= "";
+          byte letter;
+          for (byte i = 0; i < mfrc522.uid.size; i++) {
+             content.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
+             content.concat(String(mfrc522.uid.uidByte[i], HEX));
+          }
+          Serial.println(content);
 
-In the ``6.5_rfid_write.ino`` example, the ``Serial.readBytesUntil()`` function is used, which is a common serial input method.
+          // Print the associated user data
+          if (userData.length() > 0) {
+            Serial.print("Associated Data: ");
+            Serial.println(userData);
+          } else {
+            Serial.println("No data associated with this UID.");
+          }
+        }
 
-* `Serial.readBytesUntil <https://www.arduino.cc/reference/en/language/functions/communication/serial/readbytesuntil/>`_
+   After uploading the code, the following occurs:
+   
+   * In the Serial Monitor, you will see:
+   
+     .. code-block::
+   
+        RFID Reader Initialized!
+   
+   * Place an RFID tag (e.g., a key fob or card) near the MFRC522 RFID module. The Serial Monitor should display both the UID and the data stored on the tag:
+   
+     .. code-block::
+   
+        UID tag : 04 A3 1B 7C 3E
+        Data on tag: HelloWorld
+
+**Troubleshooting**
+
+* No Readings Displayed:
+
+  * Check all wiring connections, especially the SPI lines (SCK, MOSI, MISO, SS).
+  * Ensure the RFID module is receiving power (VCC and GND connections).
+  * Verify that the correct GPIO pins are defined in the code.
+
+* Incorrect Readings:
+
+  * Ensure that the RFID tags are compatible with the MFRC522 module.
+  * Use a different RFID tag to rule out tag-specific issues.
+
+* Write Failures:
+
+  * Ensure the RFID tag is not locked or write-protected.
+  * Verify that the authentication key matches the tag's key.
+  * Check that the data buffer is correctly formatted and does not exceed 16 bytes.
+
+* Signal Interference:
+
+  * Avoid placing the RFID module near other electronic devices that might cause interference.
+  * Ensure there are no physical obstructions blocking the RFID tag's communication with the reader.
+
+**Further Exploration**
+
+* Access Control Systems: 
+
+  Implement door lock mechanisms controlled by RFID tags.
+
+* Inventory Management: 
+
+  Track and manage inventory items using RFID tags for automated counting and monitoring.
+
+* RFID-Based Authentication:
+  Create secure authentication systems for user login or device access.
+
+* Combining with Other Sensors:
+
+  Integrate RFID with other sensors like temperature or motion sensors for comprehensive monitoring systems.
+
+**Conclusion**
+
+In this lesson, you've learned how to interface an RFID system using the MFRC522 RFID module with the Raspberry Pi Pico. By leveraging the SPI communication protocol and the MFRC522 library, you can effortlessly read and write data to RFID tags, enabling a wide range of applications such as access control systems, inventory management, and interactive projects.

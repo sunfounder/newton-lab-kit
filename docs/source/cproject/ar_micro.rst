@@ -123,7 +123,7 @@ We'll write a simple program that detects when the micro switch is pressed and p
 
    * You can open the file ``2.8_press_gently.ino`` from ``newton-lab-kit/arduino/2.8_press_gently``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

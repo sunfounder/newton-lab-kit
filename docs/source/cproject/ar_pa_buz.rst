@@ -111,7 +111,7 @@ Make sure you are using the **passive buzzer**. You can tell it's the correct on
 
    * You can open the file ``3.2_custom_tone.ino`` from ``newton-lab-kit/arduino/3.2_custom_tone``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: arduino
 

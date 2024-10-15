@@ -175,7 +175,7 @@ When you run the code, the LEDs connected to the 74HC595 shift register will dis
 
 This results in an eye-catching display of lights moving back and forth and a bar growing across the LEDs, looping continuously.
 
-**Explanation of the Code**
+**Understanding the Code**
 
 #. Import Modules:
 
@@ -215,7 +215,6 @@ This results in an eye-catching display of lights moving back and forth and a ba
           RCLK.low()
           utime.sleep_us(1)
     
-
 #. Main Loop:
 
    * Lights up each LED one by one from Q0 to Q7.
@@ -252,20 +251,6 @@ This results in an eye-catching display of lights moving back and forth and a ba
 
      shift_out(0x00)
      utime.sleep(0.5)
-
-
-**Understanding *Understanding the Code**
-
-The 74HC595 shift register allows us to control 8 outputs using only 3 GPIO pins.
-Data is shifted into the register serially on the rising edge of the Shift Register Clock (SHCP).
-The Register Clock (STCP) latches the shifted data to the output pins.
-By sending different byte values, we can control which LEDs are on or off.
-
-Example: Controlling LEDs
-
-* Data Byte: 0b00000001 lights up LED connected to Q0.
-* Data Byte: 0b10000000 lights up LED connected to Q7.
-* Data Byte: 0b11111111 lights up all LEDs.
 
 **Experimenting Further**
 

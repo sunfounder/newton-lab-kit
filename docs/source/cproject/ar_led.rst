@@ -90,7 +90,7 @@ By setting the GPIO pin high or low, you're controlling the voltage output of th
 
    * You can open the file ``2.1_hello_led.ino`` from ``newton-lab-kit/arduino/2.1_hello_led``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

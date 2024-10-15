@@ -144,168 +144,172 @@ pin 9, 14, 8, 12, 1, 7, 2, and 5 respectively.
 
    * You can open the file ``5.4_8x8_pixel_graphics.ino`` from ``newton-lab-kit/arduino/5.4_8x8_pixel_graphics``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
-// Define the GPIO pins connected to the 74HC595 shift registers
-const int DS = 18;    // GPIO 18 -> DS (Pin 14) of first 74HC595
-const int SHCP = 20;  // GPIO 20 -> SHCP (Pin 11) of both 74HC595s
-const int STCP = 19;  // GPIO 19 -> STCP (Pin 12) of both 74HC595s
+.. code-block:: arduino
 
-// Array to hold the 'X' pattern for the 8x8 LED matrix
-const byte pattern[] = {
-  0b10000001, // Row 0
-  0b01000010, // Row 1
-  0b00100100, // Row 2
-  0b00011000, // Row 3
-  0b00011000, // Row 4
-  0b00100100, // Row 5
-  0b01000010, // Row 6
-  0b10000001  // Row 7
-};
+  // Define the GPIO pins connected to the 74HC595 shift registers
+  const int DS = 18;    // GPIO 18 -> DS (Pin 14) of first 74HC595
+  const int SHCP = 20;  // GPIO 20 -> SHCP (Pin 11) of both 74HC595s
+  const int STCP = 19;  // GPIO 19 -> STCP (Pin 12) of both 74HC595s
 
-void setup() {
-  // Initialize the control pins as outputs
-  pinMode(DS, OUTPUT);
-  pinMode(SHCP, OUTPUT);
-  pinMode(STCP, OUTPUT);
-}
+  // Array to hold the 'X' pattern for the 8x8 LED matrix
+  const byte pattern[] = {
+    0b10000001, // Row 0
+    0b01000010, // Row 1
+    0b00100100, // Row 2
+    0b00011000, // Row 3
+    0b00011000, // Row 4
+    0b00100100, // Row 5
+    0b01000010, // Row 6
+    0b10000001  // Row 7
+  };
 
-void loop() {
-  for (int i = 0; i < 8; i++) {
-    // Set STCP to LOW to prepare for data
-    digitalWrite(STCP, LOW);
-    
-    // Shift out the row data
-    shiftOut(DS, SHCP, MSBFIRST, pattern[i]);
-    
-    // Shift out the column data (activating one column at a time)
-    shiftOut(DS, SHCP, MSBFIRST, 0x80 >> i);
-    
-    // Set STCP to HIGH to latch the data to the output pins
-    digitalWrite(STCP, HIGH);
-    
-    delay(2); // Short delay for persistence of vision
+  void setup() {
+    // Initialize the control pins as outputs
+    pinMode(DS, OUTPUT);
+    pinMode(SHCP, OUTPUT);
+    pinMode(STCP, OUTPUT);
   }
-}
-Uploading the Code
-Connect Your Pico:
 
-Ensure your Raspberry Pi Pico is connected to your computer via the micro USB cable.
-Open the Arduino IDE:
+  void loop() {
+    for (int i = 0; i < 8; i++) {
+      // Set STCP to LOW to prepare for data
+      digitalWrite(STCP, LOW);
 
-Launch the Arduino IDE on your computer.
-Create a New Sketch:
+      // Shift out the row data
+      shiftOut(DS, SHCP, MSBFIRST, pattern[i]);
 
-Copy and paste the above code into a new sketch.
-Select the Board and Port:
+      // Shift out the column data (activating one column at a time)
+      shiftOut(DS, SHCP, MSBFIRST, 0x80 >> i);
 
-Go to Tools > Board and select Raspberry Pi Pico.
-Go to Tools > Port and select the correct COM port for your Pico.
-Upload the Code:
+      // Set STCP to HIGH to latch the data to the output pins
+      digitalWrite(STCP, HIGH);
 
-Click the Upload button to program the Pico.
-Understanding the Code
-Defining Control Pins:
-
-cpp
-Copy code
-const int DS = 18;    // GPIO 18 -> DS (Pin 14) of first 74HC595
-const int SHCP = 20;  // GPIO 20 -> SHCP (Pin 11) of both 74HC595s
-const int STCP = 19;  // GPIO 19 -> STCP (Pin 12) of both 74HC595s
-DS (Data Serial Input): Receives serial data to be shifted into the first 74HC595.
-SHCP (Shift Register Clock Input): Controls the shifting of data into the shift registers.
-STCP (Storage Register Clock Input): Controls the latching of data from the shift registers to the output pins.
-Creating the 'X' Pattern:
-
-cpp
-Copy code
-const byte pattern[] = {
-  0b10000001, // Row 0
-  0b01000010, // Row 1
-  0b00100100, // Row 2
-  0b00011000, // Row 3
-  0b00011000, // Row 4
-  0b00100100, // Row 5
-  0b01000010, // Row 6
-  0b10000001  // Row 7
-};
-Each byte in the pattern array represents a row in the LED matrix.
-A 1 in a bit position turns on the corresponding LED in that row.
-This specific pattern creates an 'X' across the 8x8 matrix.
-Setup Function:
-
-cpp
-Copy code
-void setup() {
-  // Initialize the control pins as outputs
-  pinMode(DS, OUTPUT);
-  pinMode(SHCP, OUTPUT);
-  pinMode(STCP, OUTPUT);
-}
-Sets the DS, SHCP, and STCP pins as outputs to send data to the shift registers.
-Loop Function:
-
-cpp
-Copy code
-void loop() {
-  for (int i = 0; i < 8; i++) {
-    // Set STCP to LOW to prepare for data
-    digitalWrite(STCP, LOW);
-    
-    // Shift out the row data
-    shiftOut(DS, SHCP, MSBFIRST, pattern[i]);
-    
-    // Shift out the column data (activating one column at a time)
-    shiftOut(DS, SHCP, MSBFIRST, 0x80 >> i);
-    
-    // Set STCP to HIGH to latch the data to the output pins
-    digitalWrite(STCP, HIGH);
-    
-    delay(2); // Short delay for persistence of vision
+      delay(2); // Short delay for persistence of vision
+    }
   }
-}
-Iterating Through Rows and Columns:
-The for loop cycles through each of the 8 rows.
-For each iteration:
-Row Data: Sends the pattern for the current row.
-Column Data: Activates one column at a time by shifting out 0x80 >> i, which shifts a single 1 bit across the 8 columns.
-Latching Data:
-Setting STCP LOW prepares the shift registers to receive new data.
-After shifting out both row and column data, setting STCP HIGH latches the data, updating the LED states.
-Persistence of Vision:
-A short delay(2) ensures that the human eye perceives the LEDs as steadily lit without flickering.
-Testing the Circuit
-Power Up the Circuit:
 
-Ensure all connections are secure.
-Power the Raspberry Pi Pico via the micro USB cable.
-Observe the LED Matrix:
 
-The LED matrix should display an 'X' pattern by lighting up the appropriate LEDs.
+After uploading the code, the LED matrix should display an 'X' pattern by lighting up the appropriate LEDs.
 If the pattern is not visible, try adjusting the timing or check the wiring connections.
-Troubleshooting:
 
-No LEDs Lighting Up:
-Verify all power connections.
-Ensure that the shift registers are properly connected to the Pico.
-Check that the resistors are correctly placed to limit current to the LEDs.
-Incorrect Patterns:
-Double-check the pattern array to ensure the correct binary values.
-Ensure that the rows and columns are correctly wired to the shift registers.
-Flickering or Unstable Display:
-Adjust the delay value in the loop to find a balance between performance and visual stability.
-Ensure that power supply is stable and sufficient for the number of LEDs being used.
-Conclusion
+**Understanding the Code**
+
+#. Defining Control Pins:
+
+   * ``DS (Data Serial Input)``: Receives serial data to be shifted into the first 74HC595.
+   * ``SHCP (Shift Register Clock Input)``: Controls the shifting of data into the shift registers.
+   * ``STCP (Storage Register Clock Input)``: Controls the latching of data from the shift registers to the output pins.
+
+   .. code-block:: arduino
+
+      const int DS = 18;    // GPIO 18 -> DS (Pin 14) of first 74HC595
+      const int SHCP = 20;  // GPIO 20 -> SHCP (Pin 11) of both 74HC595s
+      const int STCP = 19;  // GPIO 19 -> STCP (Pin 12) of both 74HC595s
+
+
+#. Creating the 'X' Pattern:
+
+   * Each byte in the pattern array represents a row in the LED matrix.
+   * A 1 in a bit position turns on the corresponding LED in that row.
+   * This specific pattern creates an 'X' across the 8x8 matrix.
+
+   .. code-block:: arduino
+
+      const byte pattern[] = {
+        0b10000001, // Row 0
+        0b01000010, // Row 1
+        0b00100100, // Row 2
+        0b00011000, // Row 3
+        0b00011000, // Row 4
+        0b00100100, // Row 5
+        0b01000010, // Row 6
+        0b10000001  // Row 7
+      };
+
+#. Setup Function:
+
+   Sets the ``DS``, ``SHCP``, and ``STCP`` pins as outputs to send data to the shift registers.
+
+   .. code-block:: arduino
+
+      void setup() {
+        // Initialize the control pins as outputs
+        pinMode(DS, OUTPUT);
+        pinMode(SHCP, OUTPUT);
+        pinMode(STCP, OUTPUT);
+      }
+
+#. Loop Function: The ``for`` loop cycles through each of the 8 rows.
+
+   * For each iteration:
+
+     * **Row Data**: Sends the pattern for the current row.
+
+     .. code-block:: arduino
+
+        shiftOut(DS, SHCP, MSBFIRST, pattern[i]);
+
+     * **Column Data**: Activates one column at a time by shifting out ``0x80 >> i``, which shifts a single 1 bit across the 8 columns.
+
+     .. code-block:: arduino
+
+        shiftOut(DS, SHCP, MSBFIRST, 0x80 >> i);
+
+   * Latching Data:
+
+     * Setting ``STCP`` ``LOW`` prepares the shift register for new data.
+     * After shifting out the data, setting ``STCP`` ``HIGH`` latches the data to the output pins, updating the 7-segment display.
+
+     .. code-block:: arduino
+
+        digitalWrite(STCP, LOW);
+        // shiftOut(...)
+        digitalWrite(STCP, HIGH);
+      
+   * Persistence of Vision:
+   
+     A short ``delay(2)`` ensures that the human eye perceives the LEDs as steadily lit without flickering.
+
+
+
+**Troubleshooting**
+
+* No Dots Lighting Up:
+
+  * Verify all power connections.
+  * Ensure that the shift registers are properly connected to the Pico.
+  
+* Incorrect Patterns:
+
+  * Double-check the pattern array to ensure the correct binary values.
+  * Ensure that the rows and columns are correctly wired to the shift registers.
+
+* Flickering or Unstable Display:
+
+  * Adjust the delay value in the loop to find a balance between performance and visual stability.
+  * Ensure that power supply is stable and sufficient for the number of LEDs being used.
+
+
+**Further Exploration**
+
+* Creating Animations:
+
+  Develop more complex patterns and animations by modifying the pattern array or adding multiple pattern arrays.
+
+* Implementing Scrolling Text:
+
+  Use shift registers to create scrolling text across the LED matrix by shifting the display patterns over time.
+
+* Interactive Displays:
+
+  Combine the LED matrix with input devices like buttons or sensors to create interactive displays that respond to user input.
+
+* Expanding with More Shift Registers:
+
+  Chain additional 74HC595 shift registers to control larger LED matrices or other peripherals.
+
+**Conclusion**
+
 In this lesson, you've learned how to control an 8x8 LED matrix using the Raspberry Pi Pico and two 74HC595 shift registers. By leveraging shift registers, you can efficiently manage multiple LEDs with minimal GPIO usage, allowing for more complex and interactive projects. Understanding how to send serial data and latch it into parallel outputs enables you to create dynamic patterns and graphics on the LED matrix.
-
-Further Exploration
-Creating Animations:
-Develop more complex patterns and animations by modifying the pattern array or adding multiple pattern arrays.
-Implementing Scrolling Text:
-Use shift registers to create scrolling text across the LED matrix by shifting the display patterns over time.
-Interactive Displays:
-Combine the LED matrix with input devices like buttons or sensors to create interactive displays that respond to user input.
-Expanding with More Shift Registers:
-Chain additional 74HC595 shift registers to control larger LED matrices or other peripherals.
-Adding Colors:
-Use RGB LED matrices to display colorful patterns by controlling multiple color channels for each LED.

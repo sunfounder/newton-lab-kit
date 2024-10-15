@@ -114,7 +114,7 @@ Make sure you are using the **active buzzer**. You can tell it's the correct one
 
    * You can open the file ``3.1_beep.ino`` from ``newton-lab-kit/arduino/3.1_beep``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

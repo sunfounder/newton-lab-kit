@@ -100,7 +100,7 @@ When the PIR module detects someone passing by, GP14 will be high, otherwise it 
 
    * You can open the file ``2.10_detect_human_movement.ino`` from ``newton-lab-kit/arduino/2.10_detect_human_movement``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: python
 

@@ -94,7 +94,7 @@ You can also buy them separately from the links below.
 
     * You can open the file ``3.4_liquid_crystal_display.ino`` from ``newton-lab-kit/arduino/3.4_liquid_crystal_display``. 
     * Or copy this code into **Arduino IDE**.
-    * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
     * The ``LiquidCrystal I2C`` library is used here, you can install it from the **Library Manager**.
 
       .. image:: img/lib_i2c_lcd.png

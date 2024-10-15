@@ -93,97 +93,96 @@ We'll write two separate scripts:
 
     Here you need to use the libraries in ``mfrc522`` folder, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
 
-**1. Writing Data to an RFID Tag**
+1. Writing Data to an RFID Tag:
 
-* ``SimpleMFRC522`` class from the ``mfrc522`` library simplifies interactions with the RFID reader.
-* The reader is initialized with the specified SPI pins.
-* Prompts the user to input data to write.
-* Instructs the user to place the tag near the reader.
-* Writes the data to the tag using ``reader.write(data)``.
+   * ``SimpleMFRC522`` class from the ``mfrc522`` library simplifies interactions with the RFID reader.
+   * The reader is initialized with the specified SPI pins.
+   * Prompts the user to input data to write.
+   * Instructs the user to place the tag near the reader.
+   * Writes the data to the tag using ``reader.write(data)``.
 
-.. note::
+   .. note::
 
-    Open the ``6.5_rfid_write.py`` file from ``newton-lab-kit/micropython`` or copy this code into Thonny, then click “Run Current Script” or simply press F5 to run it.
+       Open the ``6.5_rfid_write.py`` file from ``newton-lab-kit/micropython`` or copy this code into Thonny, then click “Run Current Script” or simply press F5 to run it.
+
+   .. code-block:: python
+
+        from mfrc522 import SimpleMFRC522
+        from machine import Pin, SPI
+
+        # Initialize the RFID reader
+        reader = SimpleMFRC522(spi_id=0, sck=18, mosi=19, miso=16, cs=17, rst=9)
+
+        def write_to_tag():
+            try:
+                data = input("Enter data to write to the tag: ")
+                print("Place your tag near the reader...")
+                reader.write(data)
+                print("Data written successfully!")
+            finally:
+                pass  # Cleanup actions if necessary
+
+        write_to_tag()
+
+   After running, the following occurs:
+   
+   * The program displays: 
+   
+     .. code-block::
+   
+       Enter data to write to the tag:"
+   
+   * You input the text you want to write to the RFID tag and press Enter.
+   * The program then shows:
+   
+     .. code-block::
+       
+       Place your tag near the reader...
+   
+   * You place the RFID tag near the reader module.
+   * After successfully writing the data, it displays:
+   
+     .. code-block::
+   
+       Data written successfully!
+
+2. Reading Data from an RFID Tag:
+
+   * Instructs the user to place the tag near the reader.
+   * Reads the tag's ID and stored text using ``reader.read()``.
+   * Prints out the tag's ID and the data read from the tag.
+
+   .. note::
+
+       Open the ``6.5_rfid_read.py`` file from ``newton-lab-kit/micropython`` or copy this code into Thonny, then click “Run Current Script” or simply press F5 to run it.
 
 
-.. code-block:: python
-
-    from mfrc522 import SimpleMFRC522
-    from machine import Pin, SPI
-
-    # Initialize the RFID reader
-    reader = SimpleMFRC522(spi_id=0, sck=18, mosi=19, miso=16, cs=17, rst=9)
-
-    def write_to_tag():
-        try:
-            data = input("Enter data to write to the tag: ")
-            print("Place your tag near the reader...")
-            reader.write(data)
-            print("Data written successfully!")
-        finally:
-            pass  # Cleanup actions if necessary
-
-    write_to_tag()
-
-After running, the following occurs:
-
-* The program displays: 
-
-  .. code-block::
-
-    Enter data to write to the tag:"
-
-* You input the text you want to write to the RFID tag and press Enter.
-* The program then shows:
-
-  .. code-block::
-    
-    Place your tag near the reader...
-
-* You place the RFID tag near the reader module.
-* After successfully writing the data, it displays:
-
-  .. code-block::
-
-    Data written successfully!
-
-**2. Reading Data from an RFID Tag**
-
-* Instructs the user to place the tag near the reader.
-* Reads the tag's ID and stored text using ``reader.read()``.
-* Prints out the tag's ID and the data read from the tag.
-
-.. note::
-
-    Open the ``6.5_rfid_read.py`` file from ``newton-lab-kit/micropython`` or copy this code into Thonny, then click “Run Current Script” or simply press F5 to run it.
-
-
-.. code-block:: python
-
-    from mfrc522 import SimpleMFRC522
-    from machine import Pin, SPI
-
-    # Initialize the RFID reader
-    reader = SimpleMFRC522(spi_id=0, sck=18, mosi=19, miso=16, cs=17, rst=9)
-
-    def read_from_tag():
-        try:
-            print("Place your tag near the reader...")
-            id, text = reader.read()
-            print("Tag ID: {}".format(id))
-            print("Data: {}".format(text.strip()))
-        finally:
-            pass  # Cleanup actions if necessary
-
-    read_from_tag()
-
-After running, the program prints the message "Place your tag near the reader...".
-You need to place an RFID tag near the MFRC522 reader module, then program prints the retrieved information to the console. The output will look something like:
-
-.. code-block:: 
-
-    Tag ID: 1234567890
-    Data: Your stored message
+   .. code-block:: python
+   
+       from mfrc522 import SimpleMFRC522
+       from machine import Pin, SPI
+   
+       # Initialize the RFID reader
+       reader = SimpleMFRC522(spi_id=0, sck=18, mosi=19, miso=16, cs=17, rst=9)
+   
+       def read_from_tag():
+           try:
+               print("Place your tag near the reader...")
+               id, text = reader.read()
+               print("Tag ID: {}".format(id))
+               print("Data: {}".format(text.strip()))
+           finally:
+               pass  # Cleanup actions if necessary
+   
+       read_from_tag()
+   
+   After running, the program prints the message "Place your tag near the reader...".
+   You need to place an RFID tag near the MFRC522 reader module, then program prints the retrieved information to the console. The output will look something like:
+   
+   .. code-block:: 
+   
+       Tag ID: 1234567890
+       Data: Your stored message
 
 **Understanding the Code**
 

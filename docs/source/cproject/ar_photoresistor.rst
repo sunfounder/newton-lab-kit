@@ -103,7 +103,7 @@ The calculation formula is shown below.
 
    * You can open the file ``2.12_feel_the_light.ino`` from ``newton-lab-kit/arduino/2.12_feel_the_light``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: Arduino
 

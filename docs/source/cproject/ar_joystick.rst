@@ -98,7 +98,7 @@ The SW pin is connected to a 10K pull-up resistor, the reason is to be able to g
 
    * You can open the file ``4.1_toggle_the_joyostick.ino`` from ``newton-lab-kit/arduino/4.1_toggle_the_joyostick``. 
    * Or copy this code into **Arduino IDE**.
-   * Select the Raspberry Pi Pico 2 board and the correct port, then click "Upload".
+   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
 
 .. code-block:: arduino
 
