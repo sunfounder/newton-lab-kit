@@ -35,4 +35,4 @@ The principle is very simple. When the switch is tilted in a certain angle, the 
 * :ref:`py_tilt` (For MicroPython User)
 * :ref:`py_10_second` (For MicroPython User)
 * :ref:`ar_tilt` (For Arduino User)
-* :ref:`per_flowing_leds` (For Piper Make User)
+.. * :ref:`per_flowing_leds` (For Piper Make User)

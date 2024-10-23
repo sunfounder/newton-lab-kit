@@ -114,10 +114,10 @@ We'll write a MicroPython script that:
     from machine import Pin
     import utime
 
-    # Define GPIO pins for the shift registers
-    SDI = Pin(18, Pin.OUT)   # Serial Data Input
-    SRCLK = Pin(19, Pin.OUT) # Shift Register Clock
-    RCLK = Pin(20, Pin.OUT)  # Storage Register Clock (Latch)
+    # Initialize the control pins for 74HC595
+    SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input (DS)
+    RCLK = machine.Pin(19, machine.Pin.OUT)  # Register Clock (STCP)
+    SRCLK = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SHCP)
 
     # 7-segment display segment codes for digits 0-9 (common cathode)
     SEGMENT_CODES = [0x3F,  # 0
@@ -131,11 +131,14 @@ We'll write a MicroPython script that:
                     0x7F,  # 8
                     0x6F]  # 9
 
-    # Define digit selection codes (active LOW for common cathode)
-    DIGIT_CODES = [0xE,  # Digit 1 (leftmost)
-                0xD,  # Digit 2
-                0xB,  # Digit 3
-                0x7]  # Digit 4 (rightmost)
+    # Initialize digit select pins (common cathodes)
+    digit_pins = [
+        machine.Pin(10, machine.Pin.OUT),  # Digit 1
+        machine.Pin(11, machine.Pin.OUT),  # Digit 2
+        machine.Pin(12, machine.Pin.OUT),  # Digit 3
+        machine.Pin(13, machine.Pin.OUT)   # Digit 4
+    ]
+
 
     # Initialize the tilt switch
     tilt_switch = Pin(16, Pin.IN, Pin.PULL_DOWN)
@@ -147,12 +150,27 @@ We'll write a MicroPython script that:
 
     # Function to shift out data to the shift registers
     def shift_out(data):
-        for bit in range(15, -1, -1):
-            SRCLK.low()
-            SDI.value((data >> bit) & 0x01)
-            SRCLK.high()
         RCLK.low()
+        for bit in range(7, -1, -1):
+            SRCLK.low()
+            bit_val = (data >> bit) & 0x01
+            SDI.value(bit_val)
+            SRCLK.high()
         RCLK.high()
+
+    # Function to display a digit at a specific position
+    def display_digit(position, digit):
+        # Turn off all digits
+        for dp in digit_pins:
+            dp.high()
+        # Send segment data
+        shift_out(SEGMENT_CODES[digit])
+        # Activate the selected digit (common cathode is active low)
+        digit_pins[position].low()
+        # Small delay to allow the digit to be visible
+        utime.sleep_ms(5)
+        # Turn off the digit
+        digit_pins[position].high()
 
     # Function to display the elapsed time
     def display_time(time_ms):
@@ -162,23 +180,16 @@ We'll write a MicroPython script that:
         if centiseconds > 9999:
             centiseconds = 9999
 
-        # Split the time into individual digits
-        digits = [centiseconds // 1000 % 10,
-                centiseconds // 100 % 10,
-                centiseconds // 10 % 10,
-                centiseconds % 10]
-
-        # Multiplexing: rapidly display each digit
+        # Extract individual digits
+        digits = [
+            (centiseconds // 1000) % 10,
+            (centiseconds // 100) % 10,
+            (centiseconds // 10) % 10,
+            centiseconds % 10
+        ]
+        # Display each digit rapidly
         for i in range(4):
-            # Prepare the data for shift registers
-            segment_data = SEGMENT_CODES[digits[i]]
-            # Add decimal point after the second digit
-            if i == 1:
-                segment_data |= 0x80  # Set DP segment
-            digit_data = DIGIT_CODES[i]
-            data = (segment_data << 8) | digit_data
-            shift_out(data)
-            utime.sleep_ms(2)  # Small delay for persistence of vision
+            display_digit(i, digits[i])
 
     # Interrupt handler for the tilt switch
     def tilt_handler(pin):
@@ -204,6 +215,7 @@ We'll write a MicroPython script that:
         else:
             # Display the final time
             display_time(elapsed_time)
+
 
 
 When the code is running, the 4-digit 7-segment display should initialize and show 00.00.
@@ -236,10 +248,11 @@ When the code is running, the 4-digit 7-segment display should initialize and sh
 #. Segment and Digit Codes:
 
    * ``SEGMENT_CODES``: A list containing the binary codes for displaying digits 0-9 on a 7-segment display.
-   * ``DIGIT_CODES``: Codes to select each digit of the display. Active LOW for common cathode displays.
+   * ``digit_pins``: Codes to select each digit of the display. Active LOW for common cathode displays.
 
    .. code-block:: python
 
+        # 7-segment display segment codes for digits 0-9 (common cathode)
         SEGMENT_CODES = [0x3F,  # 0
                         0x06,  # 1
                         0x5B,  # 2
@@ -251,11 +264,13 @@ When the code is running, the 4-digit 7-segment display should initialize and sh
                         0x7F,  # 8
                         0x6F]  # 9
 
-        # Define digit selection codes (active LOW for common cathode)
-        DIGIT_CODES = [0xE,  # Digit 1 (leftmost)
-                    0xD,  # Digit 2
-                    0xB,  # Digit 3
-                    0x7]  # Digit 4 (rightmost)
+        # Initialize digit select pins (common cathodes)
+        digit_pins = [
+            machine.Pin(10, machine.Pin.OUT),  # Digit 1
+            machine.Pin(11, machine.Pin.OUT),  # Digit 2
+            machine.Pin(12, machine.Pin.OUT),  # Digit 3
+            machine.Pin(13, machine.Pin.OUT)   # Digit 4
+        ]
 
 #. Variables for Timing:
 
@@ -263,28 +278,46 @@ When the code is running, the 4-digit 7-segment display should initialize and sh
    * ``elapsed_time``: Stores the total elapsed time when the timer stops.
    * ``counting``: A boolean flag indicating whether the timer is running.
 
-#. ``shift_out`` Function:
+#. Define the ``shift_out`` Function:
 
-   * Shifts out 16 bits of data to the two shift registers.
-   * **Data Format**: Upper 8 bits are segment data, lower 8 bits are digit control data.
-   * **Bit Order**: MSB first.
+   * Sends 8 bits of data to the 74HC595.
+   * Shifts out the data starting from the most significant bit (MSB).
+   * Pulses the shift and register clocks appropriately.
 
    .. code-block:: python
 
         def shift_out(data):
-            for bit in range(15, -1, -1):
-                SRCLK.low()
-                SDI.value((data >> bit) & 0x01)
-                SRCLK.high()
             RCLK.low()
+            for bit in range(7, -1, -1):
+                SRCLK.low()
+                bit_val = (data >> bit) & 0x01
+                SDI.value(bit_val)
+                SRCLK.high()
             RCLK.high()
+
+#. Define the ``display_digit`` Function:
+
+   * Turns off all digits.
+   * Sends the segment code for the digit.
+   * Activates the specified digit by setting its pin low.
+   * Adds a small delay to make the digit visible.
+   * Turns off the digit after displaying.
+
+   .. code-block:: python
+
+        def display_digit(position, digit):
+            for dp in digit_pins:
+                dp.high()
+            shift_out(SEGMENT_CODES[digit])
+            digit_pins[position].low()
+            utime.sleep_ms(5)
+            digit_pins[position].high()
 
 #. ``display_time`` Function:
 
    * Converts the elapsed time from milliseconds to centiseconds (hundredths of a second).
    * Splits the time into individual digits.
    * Uses multiplexing to display each digit rapidly.
-   * Adds a decimal point after the second digit to display time as XX.XX seconds.
 
    .. code-block:: python
 
@@ -294,9 +327,17 @@ When the code is running, the 4-digit 7-segment display should initialize and sh
             # Limit to 9999 to fit the display
             if centiseconds > 9999:
                 centiseconds = 9999
-                ...
-                shift_out(data)
-                utime.sleep_ms(2)  # Small delay for persistence of vision
+
+            # Extract individual digits
+            digits = [
+                (centiseconds // 1000) % 10,
+                (centiseconds // 100) % 10,
+                (centiseconds // 10) % 10,
+                centiseconds % 10
+            ]
+            # Display each digit rapidly
+            for i in range(4):
+                display_digit(i, digits[i])
 
 #. ``tilt_handler`` Function:
 

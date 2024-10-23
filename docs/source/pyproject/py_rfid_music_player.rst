@@ -137,80 +137,73 @@ We'll write two scripts:
 
 #. Open the ``7.8_rfid_music_player.py`` file from ``newton-lab-kit/micropython`` or copy this code into Thonny, then click “Run Current Script” or simply press F5 to run it.
 
-
-   * ``play_tone``: Plays a note on the buzzer for a specified duration.
-   * ``light_led``: Lights up an LED with a random color corresponding to the note.
-   * ``parse_and_play``: Parses the text read from the RFID tag and plays the sequence.
-   * ``read_and_play``: Reads the RFID tag and initiates the music playback.
-
    .. code-block:: python
 
         from mfrc522 import SimpleMFRC522
-        from machine import Pin, PWM
+        import machine
         import time
         from ws2812 import WS2812
         import urandom
 
-        # Initialize WS2812 LEDs
-        # Assuming 8 LEDs connected to Pin GP0
-        ws = WS2812(Pin(0), 8)
+        # WS2812 LED setup
+        # Initialize an 8-LED WS2812 strip on pin 0
+        ws = WS2812(machine.Pin(0), 8)
 
-        # Initialize the RFID reader
-        reader = SimpleMFRC522(spi_id=0, sck=18, mosi=19, miso=16, cs=17, rst=9)
+        # MFRC522 RFID reader setup
+        # Initialize the RFID reader using SPI on specific pins
+        reader = SimpleMFRC522(spi_id=0, sck=18, miso=16, mosi=19, cs=17, rst=9)
 
-        # Define note frequencies
-        notes = {
-            'C': 262,  # C4
-            'D': 294,  # D4
-            'E': 330,  # E4
-            'F': 349,  # F4
-            'G': 392,  # G4
-            'A': 440,  # A4
-            'B': 494,  # B4
-            'N': 0     # No sound (rest)
-        }
+        # Buzzer note frequencies (in Hertz)
+        NOTE_C4 = 262
+        NOTE_D4 = 294
+        NOTE_E4 = 330
+        NOTE_F4 = 349
+        NOTE_G4 = 392
+        NOTE_A4 = 440
+        NOTE_B4 = 494
+        NOTE_C5 = 523
 
-        # Initialize PWM for buzzer on GP15
-        buzzer = PWM(Pin(15))
+        # Initialize PWM for buzzer on pin 15
+        buzzer = machine.PWM(machine.Pin(15))
 
-        def play_tone(frequency, duration):
-            if frequency == 0:
-                buzzer.duty_u16(0)
-            else:
-                buzzer.freq(frequency)
-                buzzer.duty_u16(32768)  # 50% duty cycle
-            time.sleep_ms(duration)
-            buzzer.duty_u16(0)
+        # List of note frequencies corresponding to musical notes
+        note = [NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4, NOTE_A4, NOTE_B4, NOTE_C5]
 
-        def light_led(index):
-            # Turn off all LEDs
-            ws.pixels_fill((0, 0, 0))
-            # Set random color for the specified LED
-            color = (
-                urandom.randint(0, 255),
-                urandom.randint(0, 255),
-                urandom.randint(0, 255)
-            )
-            ws.pixels[index] = color
-            ws.write()
+        # Function to play a tone on the buzzer with a specified frequency and duration
+        def tone(pin, frequency, duration):
+         pin.freq(frequency)  # Set the buzzer frequency
+         pin.duty_u16(30000)  # Set duty cycle to 50% (approx)
+         time.sleep_ms(duration)  # Play the tone for the specified duration
+         pin.duty_u16(0)  # Stop the tone by setting duty cycle to 0
 
-        def parse_and_play(text):
-            # Remove spaces and convert to uppercase
-            sequence = text.replace(' ', '').upper()
-            for char in sequence:
-                frequency = notes.get(char, 0)
-                play_tone(frequency, 300)
-                led_index = list(notes.keys()).index(char) if char in notes else 0
-                light_led(led_index)
-                time.sleep_ms(100)  # Short pause between notes
+        # Function to light up a WS2812 LED at a specific index with a random color
+        def lumi(index):
+         for i in range(8):
+             ws[i] = 0x000000  # Turn off all LEDs
+         ws[index] = int(urandom.uniform(0, 0xFFFFFF))  # Set a random color for the LED at the given index
+         ws.write()  # Write the color data to the WS2812 LEDs
 
-        def read_and_play():
-            print("Place your tag near the reader...")
-            id, text = reader.read()
-            print("ID: {}\nText: {}".format(id, text.strip()))
-            parse_and_play(text.strip())
+        # Encode musical notes text into indices and play the corresponding notes
+        words = ["C", "D", "E", "F", "G", "A", "B", "N"]  # Mapping of musical notes to text characters
+        def take_text(text):
+         string = text.replace(' ', '').upper()  # Remove spaces and convert the text to uppercase
+         while len(string) > 0:
+             index = words.index(string[0])  # Find the index of the first note in the string
+             tone(buzzer, note[index], 250)  # Play the corresponding note on the buzzer for 250 ms
+             lumi(index)  # Light up the LED corresponding to the note
+             string = string[1:]  # Move to the next character in the string
 
-        read_and_play()
+        # Function to read from the RFID card and play the stored score
+        def read():
+         print("Reading...Please place the card...")
+         id, text = reader.read()  # Read the RFID card (ID and stored text)
+         print("ID: %s\nText: %s" % (id, text))  # Print the ID and text
+         take_text(text)  # Play the score from the text stored on the card
+
+        # Start reading from the RFID card and play the corresponding score
+        read()
+
+
 
 #. After running, the console will display: "Place your tag near the reader...".
 

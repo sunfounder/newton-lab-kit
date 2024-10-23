@@ -282,7 +282,7 @@ When you run this code, the 4-digit 7-segment display will function as a counter
                 SRCLK.high()
             RCLK.high()
 
-#. Define the display_digit Function:
+#. Define the ``display_digit`` Function:
 
    * Turns off all digits.
    * Sends the segment code for the digit.
@@ -309,7 +309,14 @@ When you run this code, the 4-digit 7-segment display will function as a counter
    .. code-block:: python
 
         def display_number(number):
-            digits = [ ... ]
+            # Extract individual digits
+            digits = [
+                (number // 1000) % 10,
+                (number // 100) % 10,
+                (number // 10) % 10,
+                number % 10
+            ]
+            # Display each digit rapidly
             for i in range(4):
                 display_digit(i, digits[i])
 

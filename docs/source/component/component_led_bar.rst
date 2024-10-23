@@ -32,4 +32,4 @@ The following is the internal schematic diagram of LED Bar Graph. Generally spea
 
 * :ref:`py_led_bar` (For MicroPython User)
 * :ref:`ar_led_bar` (For Arduino User)
-* :ref:`per_light_display` (For Piper Make User)
+.. * :ref:`per_light_display` (For Piper Make User)

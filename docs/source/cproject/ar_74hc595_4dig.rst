@@ -126,84 +126,84 @@ Then G10 ~ G13 will select which 7-segment display to work.
 
 .. code-block:: arduino
 
-  // Define the connection pins for the shift register
-  #define DATA_PIN   11  // DS (Serial Data Input)
-  #define LATCH_PIN  12  // STCP (Storage Register Clock)
-  #define CLOCK_PIN  13  // SHCP (Shift Register Clock)
+    // Define the connection pins for the shift register
+    #define DATA_PIN 18   // DS (Serial Data Input)
+    #define LATCH_PIN 19  // STCP (Storage Register Clock)
+    #define CLOCK_PIN 20  // SHCP (Shift Register Clock)
 
-  // Define the digit control pins for the 4-digit 7-segment display
-  const int digitPins[4] = {2, 3, 4, 5}; // DIG1, DIG2, DIG3, DIG4
+    // Define the digit control pins for the 4-digit 7-segment display
+    const int digitPins[4] = { 10, 11, 12, 13 };  // DIG1, DIG2, DIG3, DIG4
 
-  // Segment byte maps for numbers 0-9
-  const byte digitCodes[10] = {
-    // Pgfedcba
-    0b00111111, // 0
-    0b00000110, // 1
-    0b01011011, // 2
-    0b01001111, // 3
-    0b01100110, // 4
-    0b01101101, // 5
-    0b01111101, // 6
-    0b00000111, // 7
-    0b01111111, // 8
-    0b01101111  // 9
-  };
+    // Segment byte maps for numbers 0-9
+    const byte digitCodes[10] = {
+      // Pgfedcba
+      0b00111111,  // 0
+      0b00000110,  // 1
+      0b01011011,  // 2
+      0b01001111,  // 3
+      0b01100110,  // 4
+      0b01101101,  // 5
+      0b01111101,  // 6
+      0b00000111,  // 7
+      0b01111111,  // 8
+      0b01101111   // 9
+    };
 
-  unsigned long previousMillis = 0; // Stores the last time the display was updated
-  unsigned int counter = 0;         // Counter value
+    unsigned long previousMillis = 0;  // Stores the last time the display was updated
+    unsigned int counter = 0;          // Counter value
 
-  void setup() {
-    // Initialize the shift register pins
-    pinMode(DATA_PIN, OUTPUT);
-    pinMode(LATCH_PIN, OUTPUT);
-    pinMode(CLOCK_PIN, OUTPUT);
+    void setup() {
+      // Initialize the shift register pins
+      pinMode(DATA_PIN, OUTPUT);
+      pinMode(LATCH_PIN, OUTPUT);
+      pinMode(CLOCK_PIN, OUTPUT);
 
-    // Initialize the digit control pins
-    for (int i = 0; i < 4; i++) {
-      pinMode(digitPins[i], OUTPUT);
-      digitalWrite(digitPins[i], HIGH); // Turn off all digits
-    }
-  }
-
-  void loop() {
-    unsigned long currentMillis = millis();
-
-    // Update the counter every 1000 milliseconds (1 second)
-    if (currentMillis - previousMillis >= 1000) {
-      previousMillis = currentMillis;
-      counter++; // Increment the counter
-      if (counter > 9999) {
-        counter = 0; // Reset counter after 9999
+      // Initialize the digit control pins
+      for (int i = 0; i < 4; i++) {
+        pinMode(digitPins[i], OUTPUT);
+        digitalWrite(digitPins[i], HIGH);  // Turn off all digits
       }
     }
 
-    // Display the counter value
-    displayNumber(counter);
-  }
+    void loop() {
+      unsigned long currentMillis = millis();
 
-  void displayNumber(int num) {
-    // Break the number into digits
-    int digits[4];
-    digits[0] = num / 1000;         // Thousands
-    digits[1] = (num / 100) % 10;   // Hundreds
-    digits[2] = (num / 10) % 10;    // Tens
-    digits[3] = num % 10;           // Units
+      // Update the counter every 1000 milliseconds (1 second)
+      if (currentMillis - previousMillis >= 1000) {
+        previousMillis = currentMillis;
+        counter++;  // Increment the counter
+        if (counter > 9999) {
+          counter = 0;  // Reset counter after 9999
+        }
+      }
 
-    // Display each digit
-    for (int i = 0; i < 4; i++) {
-      digitalWrite(digitPins[i], LOW); // Activate digit
-      shiftOutDigit(digitCodes[digits[i]]);
-      delay(5);                        // Small delay for multiplexing
-      digitalWrite(digitPins[i], HIGH); // Deactivate digit
+      // Display the counter value
+      displayNumber(counter);
     }
-  }
 
-  void shiftOutDigit(byte data) {
-    // Send data to the shift register
-    digitalWrite(LATCH_PIN, LOW);
-    shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, data);
-    digitalWrite(LATCH_PIN, HIGH);
-  }
+    void displayNumber(int num) {
+      // Break the number into digits
+      int digits[4];
+      digits[0] = num / 1000;        // Thousands
+      digits[1] = (num / 100) % 10;  // Hundreds
+      digits[2] = (num / 10) % 10;   // Tens
+      digits[3] = num % 10;          // Units
+
+      // Display each digit
+      for (int i = 0; i < 4; i++) {
+        digitalWrite(digitPins[i], LOW);  // Activate digit
+        shiftOutDigit(digitCodes[digits[i]]);
+        delay(5);                          // Small delay for multiplexing
+        digitalWrite(digitPins[i], HIGH);  // Deactivate digit
+      }
+    }
+
+    void shiftOutDigit(byte data) {
+      // Send data to the shift register
+      digitalWrite(LATCH_PIN, LOW);
+      shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, data);
+      digitalWrite(LATCH_PIN, HIGH);
+    }
 
 After uploading the code, the 4-digit 7-segment display should start counting up from 0000, incrementing by 1 every second.
 The count should progress as follows: 0000, 0001, 0002, ..., 9999, then reset to 0000.
@@ -218,10 +218,10 @@ The count should progress as follows: 0000, 0001, 0002, ..., 9999, then reset to
 
    .. code-block:: arduino
 
-      #define DATA_PIN   11  // DS (Serial Data Input) connected to GPIO 11
-      #define LATCH_PIN  12  // STCP (Storage Register Clock) connected to GPIO 12
-      #define CLOCK_PIN  13  // SHCP (Shift Register Clock) connected to GPIO 13
-
+      #define DATA_PIN   18  // DS (Serial Data Input)
+      #define LATCH_PIN  19  // STCP (Storage Register Clock)
+      #define CLOCK_PIN  20  // SHCP (Shift Register Clock)
+  
 #. Defining Digit Control Pins:
 
    * Each digit's common cathode is connected to a separate GPIO pin.
@@ -229,8 +229,8 @@ The count should progress as follows: 0000, 0001, 0002, ..., 9999, then reset to
 
    .. code-block:: arduino
 
-      const int digitPins[4] = {10, 11, 12, 13};
-
+      const int digitPins[4] = {10, 11, 12, 13}; // DIG1, DIG2, DIG3, DIG4
+  
 #. Creating Segment Byte Maps:
 
    * Each byte represents the segments that need to be lit to display numbers 0 to 9 on a common cathode 7-segment display.

@@ -199,8 +199,8 @@ After reaching 9, all segments should turn off for one second before starting th
    .. code-block:: arduino
 
         const int DS = 0;    // GPIO 0 -> DS (Pin 14)
-        const int SHCP = 1;  // GPIO 1 -> SHCP (Pin 11)
-        const int STCP = 2;  // GPIO 2 -> STCP (Pin 12)
+        const int SHCP = 2;  // GPIO 2 -> SHCP (Pin 11)
+        const int STCP = 1;  // GPIO 1 -> STCP (Pin 12)
 
 #. Creating Data Patterns:
 

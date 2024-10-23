@@ -148,47 +148,33 @@ pin 9, 14, 8, 12, 1, 7, 2, and 5 respectively.
 
 .. code-block:: arduino
 
-  // Define the GPIO pins connected to the 74HC595 shift registers
-  const int DS = 18;    // GPIO 18 -> DS (Pin 14) of first 74HC595
-  const int SHCP = 20;  // GPIO 20 -> SHCP (Pin 11) of both 74HC595s
-  const int STCP = 19;  // GPIO 19 -> STCP (Pin 12) of both 74HC595s
+    const int STcp = 19;  // Pin connected to ST_CP (latch pin) of 74HC595
+    const int SHcp = 20;  // Pin connected to SH_CP (clock pin) of 74HC595
+    const int DS = 18;    // Pin connected to DS (data pin) of 74HC595
 
-  // Array to hold the 'X' pattern for the 8x8 LED matrix
-  const byte pattern[] = {
-    0b10000001, // Row 0
-    0b01000010, // Row 1
-    0b00100100, // Row 2
-    0b00011000, // Row 3
-    0b00011000, // Row 4
-    0b00100100, // Row 5
-    0b01000010, // Row 6
-    0b10000001  // Row 7
-  };
+    // Data array representing the 'X' shape on an 8x8 LED matrix
+    byte datArray[] = {0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E};
 
-  void setup() {
-    // Initialize the control pins as outputs
-    pinMode(DS, OUTPUT);
-    pinMode(SHCP, OUTPUT);
-    pinMode(STCP, OUTPUT);
-  }
-
-  void loop() {
-    for (int i = 0; i < 8; i++) {
-      // Set STCP to LOW to prepare for data
-      digitalWrite(STCP, LOW);
-
-      // Shift out the row data
-      shiftOut(DS, SHCP, MSBFIRST, pattern[i]);
-
-      // Shift out the column data (activating one column at a time)
-      shiftOut(DS, SHCP, MSBFIRST, 0x80 >> i);
-
-      // Set STCP to HIGH to latch the data to the output pins
-      digitalWrite(STCP, HIGH);
-
-      delay(2); // Short delay for persistence of vision
+    void setup() {
+      // Set pins as outputs
+      pinMode(STcp, OUTPUT);
+      pinMode(SHcp, OUTPUT);
+      pinMode(DS, OUTPUT);
     }
-  }
+
+    void loop()
+    {
+      for(int num = 0; num <8; num++)
+      {
+        digitalWrite(STcp,LOW); //ground ST_CP and hold low for as long as you are transmitting
+        shiftOut(DS,SHcp,MSBFIRST,datArray[num]);
+        shiftOut(DS,SHcp,MSBFIRST,0x80>>num);    
+        //return the latch pin high to signal chip that it 
+        //no longer needs to listen for information
+        digitalWrite(STcp,HIGH); //pull the ST_CPST_CP to save the data
+      }
+    }
+
 
 
 After uploading the code, the LED matrix should display an 'X' pattern by lighting up the appropriate LEDs.
@@ -196,83 +182,63 @@ If the pattern is not visible, try adjusting the timing or check the wiring conn
 
 **Understanding the Code**
 
-#. Defining Control Pins:
+#. Pin Definitions:
 
-   * ``DS (Data Serial Input)``: Receives serial data to be shifted into the first 74HC595.
-   * ``SHCP (Shift Register Clock Input)``: Controls the shifting of data into the shift registers.
-   * ``STCP (Storage Register Clock Input)``: Controls the latching of data from the shift registers to the output pins.
-
-   .. code-block:: arduino
-
-      const int DS = 18;    // GPIO 18 -> DS (Pin 14) of first 74HC595
-      const int SHCP = 20;  // GPIO 20 -> SHCP (Pin 11) of both 74HC595s
-      const int STCP = 19;  // GPIO 19 -> STCP (Pin 12) of both 74HC595s
-
-
-#. Creating the 'X' Pattern:
-
-   * Each byte in the pattern array represents a row in the LED matrix.
-   * A 1 in a bit position turns on the corresponding LED in that row.
-   * This specific pattern creates an 'X' across the 8x8 matrix.
+   * ``STcp (ST_CP)``: Used to latch the shifted data into the output register on a rising edge.
+   * ``SHcp (SH_CP)``: Shifts data into the register on each rising edge.
+   * ``DS``: Serial data input for the shift register.
 
    .. code-block:: arduino
 
-      const byte pattern[] = {
-        0b10000001, // Row 0
-        0b01000010, // Row 1
-        0b00100100, // Row 2
-        0b00011000, // Row 3
-        0b00011000, // Row 4
-        0b00100100, // Row 5
-        0b01000010, // Row 6
-        0b10000001  // Row 7
-      };
+      const int STcp = 19;  // Latch pin (ST_CP) of 74HC595
+      const int SHcp = 20;  // Clock pin (SH_CP) of 74HC595
+      const int DS = 18;    // Data pin (DS) of 74HC595
+
+#. Data Array (``datArray``):
+
+   * Each element represents a row in the LED matrix.
+   * The hex values correspond to the LEDs that should be lit (0) or off (1) in each row.
+   * This pattern forms a symmetrical 'X' shape across the matrix.
+
+   .. code-block:: arduino
+
+      byte datArray[] = {0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E};
+  
 
 #. Setup Function:
 
-   Sets the ``DS``, ``SHCP``, and ``STCP`` pins as outputs to send data to the shift registers.
+   Initializes the control pins as outputs to communicate with the shift registers.
 
    .. code-block:: arduino
 
       void setup() {
-        // Initialize the control pins as outputs
+        // Set pins as outputs
+        pinMode(STcp, OUTPUT);
+        pinMode(SHcp, OUTPUT);
         pinMode(DS, OUTPUT);
-        pinMode(SHCP, OUTPUT);
-        pinMode(STCP, OUTPUT);
       }
 
-#. Loop Function: The ``for`` loop cycles through each of the 8 rows.
+#. Loop Function:
 
-   * For each iteration:
+   * ``num`` ranges from 0 to 7, representing each row of the LED matrix.
+   * ``0x80>>num`` activates one row at a time.
+   * ``shiftOut()`` sends the column and row data to the shift registers, starting with the most significant bit (``MSBFIRST``).
+   * Latches the data to the output pins by toggling the ``STcp``.
 
-     * **Row Data**: Sends the pattern for the current row.
+   .. code-block:: arduino
 
-     .. code-block:: arduino
-
-        shiftOut(DS, SHCP, MSBFIRST, pattern[i]);
-
-     * **Column Data**: Activates one column at a time by shifting out ``0x80 >> i``, which shifts a single 1 bit across the 8 columns.
-
-     .. code-block:: arduino
-
-        shiftOut(DS, SHCP, MSBFIRST, 0x80 >> i);
-
-   * Latching Data:
-
-     * Setting ``STCP`` ``LOW`` prepares the shift register for new data.
-     * After shifting out the data, setting ``STCP`` ``HIGH`` latches the data to the output pins, updating the 7-segment display.
-
-     .. code-block:: arduino
-
-        digitalWrite(STCP, LOW);
-        // shiftOut(...)
-        digitalWrite(STCP, HIGH);
-      
-   * Persistence of Vision:
-   
-     A short ``delay(2)`` ensures that the human eye perceives the LEDs as steadily lit without flickering.
-
-
+      void loop()
+      {
+        for(int num = 0; num <8; num++)
+        {
+          digitalWrite(STcp,LOW); //ground ST_CP and hold low for as long as you are transmitting
+          shiftOut(DS,SHcp,MSBFIRST,datArray[num]);
+          shiftOut(DS,SHcp,MSBFIRST,0x80>>num);    
+          //return the latch pin high to signal chip that it 
+          //no longer needs to listen for information
+          digitalWrite(STcp,HIGH); //pull the ST_CPST_CP to save the data
+        }
+      }
 
 **Troubleshooting**
 
@@ -283,7 +249,7 @@ If the pattern is not visible, try adjusting the timing or check the wiring conn
   
 * Incorrect Patterns:
 
-  * Double-check the pattern array to ensure the correct binary values.
+  * Double-check the pattern array.
   * Ensure that the rows and columns are correctly wired to the shift registers.
 
 * Flickering or Unstable Display:
@@ -292,23 +258,93 @@ If the pattern is not visible, try adjusting the timing or check the wiring conn
   * Ensure that power supply is stable and sufficient for the number of LEDs being used.
 
 
-**Further Exploration**
+**Experimenting Further**
 
-* Creating Animations:
+* Changing the Pattern
 
-  Develop more complex patterns and animations by modifying the pattern array or adding multiple pattern arrays.
+  Try replacing the pattern list with the following arrays to display different graphics. Replace pattern in your code with ``pattern_heart`` or ``pattern_smile`` to see different images.
 
-* Implementing Scrolling Text:
+  .. code-block:: arduino
 
-  Use shift registers to create scrolling text across the LED matrix by shifting the display patterns over time.
+      // Heart shape pattern
+      byte pattern_heart[] = {
+        0xFF, // 11111111
+        0x99, // 10011001
+        0x00, // 00000000
+        0x00, // 00000000
+        0x00, // 00000000
+        0x81, // 10000001
+        0xC3, // 11000011
+        0xE7  // 11100111
+      };
 
-* Interactive Displays:
+      // Smile face pattern
+      byte pattern_smile[] = {
+        0xC3, // 11000011
+        0xBD, // 10111101
+        0x5A, // 01011010
+        0x7E, // 01111110
+        0x5A, // 01011010
+        0x66, // 01100110
+        0xBD, // 10111101
+        0xC3  // 11000011
+      };
 
-  Combine the LED matrix with input devices like buttons or sensors to create interactive displays that respond to user input.
+* Animating the Display
 
-* Expanding with More Shift Registers:
+  Create multiple patterns and cycle through them to create animations:
 
-  Chain additional 74HC595 shift registers to control larger LED matrices or other peripherals.
+  .. code-block:: arduino
+        
+      const int STcp = 19;  // Pin connected to ST_CP (latch pin) of 74HC595
+      const int SHcp = 20;  // Pin connected to SH_CP (clock pin) of 74HC595
+      const int DS = 18;    // Pin connected to DS (data pin) of 74HC595
+
+      // Heart shape pattern
+      byte pattern_heart[] = { 0xFF, 0x99, 0x00, 0x00, 0x00, 0x81, 0xC3, 0xE7 };
+
+      // Smile face pattern
+      byte pattern_smile[] = { 0xC3, 0xBD, 0x5A, 0x7E, 0x5A, 0x66, 0xBD, 0xC3 };
+
+      void setup() {
+        // Set pins as outputs
+        pinMode(STcp, OUTPUT);
+        pinMode(SHcp, OUTPUT);
+        pinMode(DS, OUTPUT);
+      }
+
+      void latchData() {
+        // Latch the shifted data to the output pins of the 74HC595
+        digitalWrite(STcp, HIGH);  // Latch data
+        digitalWrite(STcp, LOW);   // Prepare for the next data transmission
+      }
+
+      void displayPattern(byte pattern[]) {
+        for (int repeat = 0; repeat < 500; repeat++) {  // Display the pattern for a certain duration
+          for (int row = 0; row < 8; row++) {
+            // Begin data transmission
+            digitalWrite(STcp, LOW);  // Prepare to shift data
+
+            // Shift out column data (pattern for the current row)
+            shiftOut(DS, SHcp, MSBFIRST, pattern[row]);
+
+            // Shift out row data (activating one row at a time)
+            shiftOut(DS, SHcp, MSBFIRST, 1 << row);
+
+            // Latch the data to display
+            latchData();
+
+            // Short delay for persistence of vision
+            delay(1);
+          }
+        }
+      }
+
+      void loop() {
+        // Continuously display patterns: heart and smiley face
+        displayPattern(pattern_heart);  // Display the heart shape
+        displayPattern(pattern_smile);  // Display the smiley face
+      }
 
 **Conclusion**
 

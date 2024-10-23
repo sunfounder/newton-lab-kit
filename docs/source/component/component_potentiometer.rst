@@ -59,4 +59,4 @@ If you want to know more about potentiometer, refer to: `Potentiometer - Wikiped
 
 * :ref:`py_pot` (For MicroPython User)
 * :ref:`ar_pot` (For Arduino User)
-* :ref:`per_swing_servo` (For Piper Make User)
+.. * :ref:`per_swing_servo` (For Piper Make User)

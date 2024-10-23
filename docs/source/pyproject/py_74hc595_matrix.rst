@@ -151,112 +151,120 @@ We'll write a MicroPython program to display a pattern on the LED matrix.
 .. code-block:: python
 
     import machine
-    import utime
+    import time
 
-    # Define the GPIO pins connected to the shift registers
-    SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
-    SRCLK = machine.Pin(19, machine.Pin.OUT) # Shift Register Clock
-    RCLK = machine.Pin(20, machine.Pin.OUT)  # Storage Register Clock (Latch)
+    # Define the pins connected to the 74HC595 shift register
+    sdi = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
+    rclk = machine.Pin(19, machine.Pin.OUT)  # Storage Register Clock (RCLK)
+    srclk = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SRCLK)
 
-    # Function to send data to the shift registers
-    def shift_out(data1, data2):
-        data = (data1 << 8) | data2  # Combine two bytes of data
-        for bit in range(16):
-            SRCLK.low()
-            SDI.value((data >> (15 - bit)) & 0x01)
-            SRCLK.high()
-        RCLK.high()
-        utime.sleep_us(10)
-        RCLK.low()
+    # Define the glyph data for the letter 'X' with lit pixels and background off
+    glyph = [0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E]
 
-    # Define the pattern to display (an 'X' shape)
-    pattern = [
-        0b10000001,  # Row 0
-        0b01000010,  # Row 1
-        0b00100100,  # Row 2
-        0b00011000,  # Row 3
-        0b00011000,  # Row 4
-        0b00100100,  # Row 5
-        0b01000010,  # Row 6
-        0b10000001   # Row 7
-    ]
+    def hc595_in(dat):
+        """
+        Shifts 8 bits of data into the 74HC595 shift register.
+        """
+        for bit in range(7, -1, -1):
+            srclk.low()
+            sdi.value((dat >> bit) & 1)  # Output data bit by bit
+            srclk.high()
+            time.sleep_us(1)  # Short delay to ensure proper timing
+
+    def hc595_out():
+        """
+        Latches the data from the shift register to the storage register,
+        updating the outputs.
+        """
+        rclk.high()
+        rclk.low()
 
     while True:
-        for row in range(8):
-            # Activate one row at a time
-            row_data = 1 << row
-            # The columns data is the pattern for that row
-            col_data = pattern[row]
-            # Send data to shift registers
-            shift_out(~col_data & 0xFF, row_data)
-            # Small delay to create persistence of vision
-            utime.sleep_us(1000)
+        for i in range(8):
+            hc595_in(glyph[i])       # Send the column data for the current row
+            hc595_in(1 << i)         # Activate the current row
+            hc595_out()              # Update the display
+            time.sleep_ms(1)         # Delay for visual persistence
+
+
 
 When you run this code, the 8x8 LED matrix will display an 'X' shape, with the LEDs lighting up to form the pattern of the letter 'X' across the matrix.
 
 **Understanding the Code**
 
-#. Initialize Control Pins:
+#. Importing Modules:
+
+   * ``machine``: Provides access to hardware-related functions, such as controlling GPIO pins.
+   * ``time``: Used for adding delays to control timing.
+
+#. Defining Pins:
+
+   * ``sdi``: Sends serial data into the shift register.
+   * ``rclk``: Latches the shifted data to the output pins.
+   * ``srclk``: Shifts the data into the register on each rising edge.
+
+#. Defining the Glyph for 'X':
+
+   * Each element represents a row in the LED matrix.
+   * The hex values correspond to the LEDs that should be lit (0) or off (1) in each row.
+   * This pattern forms a symmetrical 'X' shape across the matrix.
 
    .. code-block:: python
+    
+        glyph = [0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E]
 
-        SDI = machine.Pin(18, machine.Pin.OUT)
-        SRCLK = machine.Pin(19, machine.Pin.OUT)
-        RCLK = machine.Pin(20, machine.Pin.OUT)
+#. Function ``hc595_in(dat)``:
 
-#. Shift Out Function:
+   * This function sends 8 bits of data (``dat``) into the shift register serially.
+   * It iterates from the most significant bit to the least significant bit.
+   * The ``srclk`` pin is toggled to shift each bit into the register.
+   * The ``sdi`` pin sets the data line high or low depending on the current bit.
 
-   * Combines two bytes of data (data1 and data2) into a 16-bit integer.
-   * Shifts out the data bit by bit, starting from the most significant bit.
-   * Uses SRCLK to clock in the data and RCLK to latch the data to the outputs.
 
    .. code-block:: python
+    
+        def hc595_in(dat):
+            """
+            Shifts 8 bits of data into the 74HC595 shift register.
+            """
+            for bit in range(7, -1, -1):
+                srclk.low()
+                sdi.value((dat >> bit) & 1)  # Output data bit by bit
+                srclk.high()
+                time.sleep_us(1)  # Short delay to ensure proper timing
 
-        def shift_out(data1, data2):
-            data = (data1 << 8) | data2
-            for bit in range(16):
-                SRCLK.low()
-                SDI.value((data >> (15 - bit)) & 0x01)
-                SRCLK.high()
-            RCLK.high()
-            utime.sleep_us(10)
-            RCLK.low()
 
+#. Function ``hc595_out()``:
 
-#. Define the Pattern:
-
-   * Each element in the pattern list represents a row in the LED matrix.
-   * Each bit in a byte represents a column in that row.
-   * The pattern creates an 'X' shape on the matrix.
+   * This function latches the shifted data from the shift register to the output register.
+   * A rising edge on the ``rclk`` pin transfers the data to the output pins, updating the LEDs.
 
    .. code-block:: python
+    
+        def hc595_out():
 
-        pattern = [
-            0b10000001,
-            0b01000010,
-            0b00100100,
-            0b00011000,
-            0b00011000,
-            0b00100100,
-            0b01000010,
-            0b10000001
-        ]
+            rclk.high()
+            rclk.low()
 
 #. Main Loop:
 
-   * Loops through each row to refresh the display.
-   * Activates one row at a time by setting the corresponding bit in ``row_data``.
-   * Sends the column data (``col_data``) for that row.
-   * Uses a short delay to allow the human eye to perceive the image due to persistence of vision.
+   * The loop continuously refreshes the display to create a persistent image of the letter 'X'.
+   * The ``for`` loop iterates over each row index from 0 to 7.
+   * ``hc595_in(1 << i)`` activates one row at a time by setting a single bit high.
+   * ``hc595_in(glyph[i])`` sends the column data for the current row, determining which LEDs in that row should be lit.
+   * ``hc595_out()`` latches the data, updating the LED matrix display.
+   * ``time.sleep_ms(1)`` provides a short delay to ensure that each row is displayed long enough to be perceived by the human eye.
+   * This rapid scanning creates the illusion of the entire 'X' being displayed simultaneously.
 
    .. code-block:: python
-
+    
         while True:
-            for row in range(8):
-                row_data = 1 << row
-                col_data = pattern[row]
-                shift_out(~col_data & 0xFF, row_data)
-                utime.sleep_us(1000)
+            for i in range(8):
+                hc595_in(glyph[i])       # Send the column data for the current row
+                hc595_in(1 << i)         # Activate the current row
+                hc595_out()              # Update the display
+                time.sleep_ms(1)         # Delay for visual persistence
+
 
 **Experimenting Further**
 
@@ -268,26 +276,26 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
 
         # Heart shape
         pattern_heart = [
+            0b11111111,
+            0b10011001,
             0b00000000,
-            0b01100110,
-            0b11111111,
-            0b11111111,
-            0b11111111,
-            0b01111110,
-            0b00111100,
-            0b00011000
+            0b00000000,
+            0b00000000,
+            0b10000001,
+            0b11000011,
+            0b11100111
         ]
 
         # Smile face
         pattern_smile = [
-            0b00111100,
-            0b01000010,
-            0b10100101,
-            0b10000001,
-            0b10100101,
-            0b10011001,
-            0b01000010,
-            0b00111100
+            0b11000011,  # Row 0
+            0b10111101,  # Row 1
+            0b01011010,  # Row 2
+            0b01111110,  # Row 3
+            0b01011010,  # Row 4
+            0b01100110,  # Row 5
+            0b10111101,  # Row 6
+            0b11000011   # Row 7
         ]
 
 
@@ -297,20 +305,73 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
 
   .. code-block:: python
 
-        patterns = [pattern1, pattern2, pattern3, pattern4]
-
+        import machine
+        import time
+        
+        # Define pins connected to the 74HC595 shift registers
+        sdi = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
+        rclk = machine.Pin(19, machine.Pin.OUT)  # Register Clock (Latch)
+        srclk = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock
+        
+        # Heart shape
+        pattern_heart = [
+            0b11111111,
+            0b10011001,
+            0b00000000,
+            0b00000000,
+            0b00000000,
+            0b10000001,
+            0b11000011,
+            0b11100111
+        ]
+        
+        # Smile face
+        pattern_smile = [
+            0b11000011,  # Row 0
+            0b10111101,  # Row 1
+            0b01011010,  # Row 2
+            0b01111110,  # Row 3
+            0b01011010,  # Row 4
+            0b01100110,  # Row 5
+            0b10111101,  # Row 6
+            0b11000011   # Row 7
+        ]
+        
+        def hc595_in(dat):
+            """
+            Shift 8 bits of data into the 74HC595 shift register.
+            """
+            for bit in range(7, -1, -1):
+                srclk.low()                            # Prepare to shift data
+                sdi.value((dat >> bit) & 1)            # Set data bit
+                srclk.high()                           # Shift data bit into register
+                time.sleep_us(1)                       # Short delay for timing
+        
+        def hc595_out():
+            """
+            Latch the shifted data to the output pins of the 74HC595.
+            """
+            rclk.high()                               # Latch data (rising edge)
+            rclk.low()                                # Prepare for next data
+        
+        def display_pattern(pattern):
+            """
+            Display a given 8x8 pattern on the LED matrix.
+            """
+            for _ in range(500):                      # Display the pattern for a certain duration
+                for i in range(8):
+                    hc595_in(pattern[i])              # Send column data for current row
+                    hc595_in(1 << i)                  # Activate current row
+                    hc595_out()                       # Update the output
+                    time.sleep_ms(1)                  # Short delay for persistence
+        
         while True:
-            for pattern in patterns:
-                for _ in range(50):  # Display each pattern for a short time
-                    for row in range(8):
-                        row_data = 1 << row
-                        col_data = pattern[row]
-                        shift_out(~col_data & 0xFF, row_data)
-                        utime.sleep_us(1000)
+            display_pattern(pattern_heart)            # Display the heart shape
+            display_pattern(pattern_smile)            # Display the smiley face
 
 * Design Your Own Patterns
 
-  Each byte represents a row; bits set to 1 turn on the LED in that column. Create custom patterns by defining your own pattern list.
+  Each byte represents a row; bits set to 0 turn on the LED in that column. Create custom patterns by defining your own pattern list.
 
 **Conclusion**
 

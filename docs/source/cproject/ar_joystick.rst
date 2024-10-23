@@ -105,7 +105,7 @@ The SW pin is connected to a 10K pull-up resistor, the reason is to be able to g
    // Define the pins
    const int joystickX = 26;  // GP26 (ADC0) connected to VRx
    const int joystickY = 27;  // GP27 (ADC1) connected to VRy
-   const int joystickSW = 28; // GP28 connected to SW (button)
+   const int joystickSW = 22; // GP22 connected to SW (button)
 
    void setup() {
      // Initialize serial communication at 115200 baud

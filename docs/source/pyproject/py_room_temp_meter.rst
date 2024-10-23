@@ -154,8 +154,8 @@ We'll write a MicroPython program that reads the temperature from the thermistor
 
             # Display the temperature on the LCD
             lcd.clear()
-            lcd.puts("Room Temp:", 0, 0)
-            lcd.puts(temp_str, 4, 1)
+            lcd.write(0, 0, "Room Temp:")
+            lcd.write(4, 1, temp_str)
 
             # Optional: Print the temperature to the console
             print("Temperature:", temp_str)
@@ -234,8 +234,8 @@ The console in Thonny will also print the temperature readings.
 
                 # Display the temperature on the LCD
                 lcd.clear()
-                lcd.puts("Room Temp:", 0, 0)
-                lcd.puts(temp_str, 4, 1)
+                lcd.write(0, 0, "Room Temp:")
+                lcd.write(4, 1, temp_str)
 
                 # Optional: Print the temperature to the console
                 print("Temperature:", temp_str)

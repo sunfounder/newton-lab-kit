@@ -30,16 +30,13 @@ Since the pin 1 is connected to pin 2, and pin 3 to pin 4, when the button is pr
 
 |img_button2|
 
-.. Examples
-.. -------------------
 
-.. :ref:`Reading Button Value`
 
 **Example**
 
 * :ref:`py_button` (For MicroPython User)
 * :ref:`ar_button` (For Arduino User)
-* :ref:`per_button` (For Piper Make User)
-* :ref:`per_rainbow_light` (For Piper Make User)
-* :ref:`per_drum_kit` (For Piper Make User)
-* :ref:`per_reaction_game` (For Piper Make User)
+.. * :ref:`per_button` (For Piper Make User)
+.. * :ref:`per_rainbow_light` (For Piper Make User)
+.. * :ref:`per_drum_kit` (For Piper Make User)
+.. * :ref:`per_reaction_game` (For Piper Make User)

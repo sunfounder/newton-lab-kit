@@ -41,4 +41,4 @@ Here is the electronic symbol of photoresistor.
 * :ref:`py_photoresistor` (For MicroPython User)
 * :ref:`py_light_theremin` (For MicroPython User)
 * :ref:`ar_photoresistor` (For Arduino User)
-* :ref:`per_light_display` (For Piper Make User)
+.. * :ref:`per_light_display` (For Piper Make User)

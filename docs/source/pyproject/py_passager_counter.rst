@@ -123,51 +123,72 @@ We'll write a MicroPython script that:
     # Define the PIR sensor pin
     pir_sensor = Pin(16, Pin.IN)
 
-    # Define GPIO pins for the shift registers
-    SDI = Pin(18, Pin.OUT)   # Serial Data Input
-    SRCLK = Pin(19, Pin.OUT) # Shift Register Clock
-    RCLK = Pin(20, Pin.OUT)  # Storage Register Clock (Latch)
-
-    # 7-segment display segment codes for digits 0-9 (common cathode)
-    SEGMENT_CODES = [0x3F,  # 0
-                    0x06,  # 1
-                    0x5B,  # 2
-                    0x4F,  # 3
-                    0x66,  # 4
-                    0x6D,  # 5
-                    0x7D,  # 6
-                    0x07,  # 7
-                    0x7F,  # 8
-                    0x6F]  # 9
-
     # Initialize the counter
     count = 0
 
-    # Function to shift out data to the shift registers
+    # Define the binary codes for each digit (0-9)
+    SEGMENT_CODES = [
+        0x3F,  # 0
+        0x06,  # 1
+        0x5B,  # 2
+        0x4F,  # 3
+        0x66,  # 4
+        0x6D,  # 5
+        0x7D,  # 6
+        0x07,  # 7
+        0x7F,  # 8
+        0x6F   # 9
+    ]
+
+    # Initialize the control pins for 74HC595
+    SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input (DS)
+    RCLK = machine.Pin(19, machine.Pin.OUT)  # Register Clock (STCP)
+    SRCLK = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SHCP)
+
+    # Initialize digit select pins (common cathodes)
+    digit_pins = [
+        machine.Pin(10, machine.Pin.OUT),  # Digit 1
+        machine.Pin(11, machine.Pin.OUT),  # Digit 2
+        machine.Pin(12, machine.Pin.OUT),  # Digit 3
+        machine.Pin(13, machine.Pin.OUT)   # Digit 4
+    ]
+
+    # Function to send data to 74HC595
     def shift_out(data):
-        for bit in range(15, -1, -1):
-            SRCLK.low()
-            SDI.value((data >> bit) & 0x01)
-            SRCLK.high()
         RCLK.low()
+        for bit in range(7, -1, -1):
+            SRCLK.low()
+            bit_val = (data >> bit) & 0x01
+            SDI.value(bit_val)
+            SRCLK.high()
         RCLK.high()
 
-    # Function to update the display with the current count
-    def update_display(value):
-        # Split the value into individual digits
-        digits = [value // 1000 % 10,
-                value // 100 % 10,
-                value // 10 % 10,
-                value % 10]
+    # Function to display a digit at a specific position
+    def display_digit(position, digit):
+        # Turn off all digits
+        for dp in digit_pins:
+            dp.high()
+        # Send segment data
+        shift_out(SEGMENT_CODES[digit])
+        # Activate the selected digit (common cathode is active low)
+        digit_pins[position].low()
+        # Small delay to allow the digit to be visible
+        utime.sleep_ms(5)
+        # Turn off the digit
+        digit_pins[position].high()
 
-        # Multiplexing: rapidly display each digit
+    # Function to display a number on the 4-digit display
+    def display_number(number):
+        # Extract individual digits
+        digits = [
+            (number // 1000) % 10,
+            (number // 100) % 10,
+            (number // 10) % 10,
+            number % 10
+        ]
+        # Display each digit rapidly
         for i in range(4):
-            # Prepare the data for shift registers
-            segment_data = SEGMENT_CODES[digits[i]]  # Segment data
-            digit_data = 1 << i  # Activate the i-th digit (assuming common cathode)
-            data = (segment_data << 8) | digit_data
-            shift_out(data)
-            utime.sleep_ms(5)  # Small delay for persistence of vision
+            display_digit(i, digits[i])
 
     # Interrupt handler for PIR sensor
     def pir_handler(pin):
@@ -181,7 +202,8 @@ We'll write a MicroPython script that:
 
     # Main loop
     while True:
-        update_display(count)
+        # Continuously refresh the display
+        display_number(count)
 
 When the code is running, the 7-segment display should initialize and show 0000.
 Move in front of the PIR sensor.
@@ -194,7 +216,7 @@ If the count reaches 9999, it will reset to 0000.
 
    * ``machine.Pin``: For controlling GPIO pins.
    * ``utime``: For timing functions.
-   * Define SDI, SRCLK, and RCLK pins for controlling the shift registers.
+   * Define SDI, SRCLK, and RCLK pins for controlling the shift register.
    * Define ``pir_sensor`` on GP16 as an input pin for the PIR sensor.
 
 #. Segment Codes:
@@ -204,60 +226,77 @@ If the count reaches 9999, it will reset to 0000.
    .. code-block:: python
 
         # 7-segment display segment codes for digits 0-9 (common cathode)
-        SEGMENT_CODES = [0x3F,  # 0
-                        0x06,  # 1
-                        0x5B,  # 2
-                        0x4F,  # 3
-                        0x66,  # 4
-                        0x6D,  # 5
-                        0x7D,  # 6
-                        0x07,  # 7
-                        0x7F,  # 8
-                        0x6F]  # 9
+        SEGMENT_CODES = [
+            0x3F,  # 0
+            0x06,  # 1
+            0x5B,  # 2
+            0x4F,  # 3
+            0x66,  # 4
+            0x6D,  # 5
+            0x7D,  # 6
+            0x07,  # 7
+            0x7F,  # 8
+            0x6F   # 9
+        ]
 
 #. Counter Initialization:
 
    * ``count``: A global variable that keeps track of the number of times motion has been detected.
 
-#. ``shift_out`` Function:
+#. Define the ``shift_out`` Function:
 
-   * Shifts out 16 bits of data to the two shift registers.
-   * **Data Format**: Upper 8 bits are segment data, lower 8 bits are digit control data.
-   * **Bit Order**: MSB first.
+   * Sends 8 bits of data to the 74HC595.
+   * Shifts out the data starting from the most significant bit (MSB).
+   * Pulses the shift and register clocks appropriately.
 
    .. code-block:: python
 
         def shift_out(data):
-            for bit in range(15, -1, -1):
-                SRCLK.low()
-                SDI.value((data >> bit) & 0x01)
-                SRCLK.high()
             RCLK.low()
+            for bit in range(7, -1, -1):
+                SRCLK.low()
+                bit_val = (data >> bit) & 0x01
+                SDI.value(bit_val)
+                SRCLK.high()
             RCLK.high()
 
-#. ``update_display`` Function:
+#. Define the ``display_digit`` Function:
 
-   * Splits the current count into individual digits.
-   * For each digit, it prepares a 16-bit data word combining segment data and digit selection.
-   * Uses multiplexing by quickly cycling through each digit to create the illusion that all digits are displayed simultaneously.
+   * Turns off all digits.
+   * Sends the segment code for the digit.
+   * Activates the specified digit by setting its pin low.
+   * Adds a small delay to make the digit visible.
+   * Turns off the digit after displaying.
 
    .. code-block:: python
 
-        def update_display(value):
-            # Split the value into individual digits
-            digits = [value // 1000 % 10,
-                    value // 100 % 10,
-                    value // 10 % 10,
-                    value % 10]
+        def display_digit(position, digit):
+            for dp in digit_pins:
+                dp.high()
+            shift_out(SEGMENT_CODES[digit])
+            digit_pins[position].low()
+            utime.sleep_ms(5)
+            digit_pins[position].high()
 
-            # Multiplexing: rapidly display each digit
+
+#. Define the ``display_number`` Function:
+
+   * Extracts each digit from the number.
+   * Calls ``display_digit`` for each digit rapidly to create the multiplexing effect.
+
+   .. code-block:: python
+
+        def display_number(number):
+            # Extract individual digits
+            digits = [
+                (number // 1000) % 10,
+                (number // 100) % 10,
+                (number // 10) % 10,
+                number % 10
+            ]
+            # Display each digit rapidly
             for i in range(4):
-                # Prepare the data for shift registers
-                segment_data = SEGMENT_CODES[digits[i]]  # Segment data
-                digit_data = 1 << i  # Activate the i-th digit (assuming common cathode)
-                data = (segment_data << 8) | digit_data
-                shift_out(data)
-                utime.sleep_ms(5)  # Small delay for persistence of vision
+                display_digit(i, digits[i])
 
 #. PIR Interrupt Handler:
 
@@ -283,19 +322,19 @@ If the count reaches 9999, it will reset to 0000.
 
 #. Main Loop:
 
-   Continuously calls ``update_display(count)`` to refresh the display with the current count.
+   Continuously calls ``display_number(count)`` to refresh the display with the current count.
 
    .. code-block:: python
 
         while True:
-            update_display(count)
+            display_number(count)
 
 **Troubleshooting**
 
 * Display Issues:
 
   * If the display is not showing numbers correctly, verify the segment codes and wiring connections.
-  * Ensure that the shift registers are connected properly and that data is being shifted out in the correct order.
+  * Ensure that the shift register is connected properly and that data is being shifted out in the correct order.
 
 * PIR Sensor Sensitivity:
 

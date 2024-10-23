@@ -40,4 +40,4 @@ The circuit symbol of the slide switch is shown as below. The pin2 in the figure
 * :ref:`py_slide` (For MicroPython User)
 * :ref:`py_alarm_lamp` (For MicroPython User)
 * :ref:`ar_slide` (For Arduino User)
-* :ref:`per_drum_kit` (For Piper Make User)
+.. * :ref:`per_drum_kit` (For Piper Make User)

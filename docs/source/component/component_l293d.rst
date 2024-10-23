@@ -43,4 +43,4 @@ When pin EN is High level, if A is High, Y outputs high level; if A is Low, Y ou
 * :ref:`ar_motor` (For Arduino User)
 * :ref:`py_pump` (For MicroPython User)
 * :ref:`ar_pump` (For Arduino User)
-* :ref:`per_smart_fan` (For Piper Make User)
+.. * :ref:`per_smart_fan` (For Piper Make User)

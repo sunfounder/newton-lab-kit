@@ -98,21 +98,19 @@ Let's write a MicroPython program to detect touch inputs on the electrodes and p
 
 .. code-block:: python
     
-    from machine import I2C, Pin
     from mpr121 import MPR121
+    from machine import Pin, I2C
     import utime
 
-    # Initialize I2C communication (I2C0)
     i2c = I2C(0, sda=Pin(4), scl=Pin(5))
+    mpr = MPR121(i2c)
 
-    # Create an MPR121 object
-    touch_sensor = MPR121(i2c)
-
+    # check all keys
     while True:
-        touched_pins = touch_sensor.get_touched_pins()
-        if touched_pins:
-            print("Touched electrodes:", touched_pins)
-        utime.sleep(0.1)
+        value = mpr.get_all_states()
+        if len(value) != 0:
+            print(value)
+        utime.sleep_ms(100)
 
 After running the program, touch the connected electrodes or conductive objects. Observe the printed output in the Thonny Shell. You should see messages indicating which electrodes are being touched.
 
@@ -131,21 +129,21 @@ After running the program, touch the connected electrodes or conductive objects.
 
 #. Create an MPR121 Object:
 
-   * ``touch_sensor = MPR121(i2c)``: Initializes the MPR121 sensor using the I2C communication established.
+   * ``mpr = MPR121(i2c)``: Initializes the MPR121 sensor using the I2C communication established.
 
 #. Main Loop to Detect Touch Inputs:
 
-   * ``get_touched_pins()``: Returns a list of electrode numbers that are currently being touched.
+   * ``get_all_states()``: Returns a list of electrode numbers that are currently being touched.
    * If any electrodes are touched, it prints out their numbers.
    * The loop runs continuously with a short delay of 100 milliseconds.
 
    .. code-block:: python
 
-      while True:
-          touched_pins = touch_sensor.get_touched_pins()
-          if touched_pins:
-              print("Touched electrodes:", touched_pins)
-          utime.sleep(0.1)
+        while True:
+            value = mpr.get_all_states()
+            if len(value) != 0:
+                print(value)
+            time.sleep_ms(100)
 
 **Extending the Electrodes**
 
@@ -167,10 +165,19 @@ You can enhance your project by connecting the electrodes to various conductive 
 
   .. code-block:: python
   
-      while True:
-          if touch_sensor.is_touched(0):
+        from mpr121 import MPR121
+        from machine import Pin, I2C
+        import utime
+
+        i2c = I2C(0, sda=Pin(4), scl=Pin(5))
+        mpr = MPR121(i2c)
+
+        # check all keys
+        while True:
+          if mpr.is_touched(0):
               print("Electrode 0 is touched!")
           utime.sleep(0.1)
+
 
 * **Create a Musical Instrument**: Map each electrode to a musical note and play sounds when touched.
 * **Interactive Art**: Use conductive paint to create touch-sensitive artworks.

@@ -1,6 +1,6 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hello, welcome to the SunFounder Raspberry Pi & python & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, python, and ESP32 with fellow enthusiasts.
 
     **Why Join?**
 
@@ -119,64 +119,76 @@ We'll write a MicroPython script that:
     import utime
     from machine import Timer
 
+    # Initialize LED pins
+    led_pins = [7, 8, 9]  # Green, Yellow, Red LEDs connected to GP7, GP8, GP9
+    leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
+
     # Define the duration for each traffic light color in seconds [Green, Yellow, Red]
     light_time = [30, 5, 30]  # [Green, Yellow, Red]
 
-    # 7-segment display codes for digits 0-9 (common cathode)
-    SEGMENT_CODES = [0x3F,  # 0
-                    0x06,  # 1
-                    0x5B,  # 2
-                    0x4F,  # 3
-                    0x66,  # 4
-                    0x6D,  # 5
-                    0x7D,  # 6
-                    0x07,  # 7
-                    0x7F,  # 8
-                    0x6F]  # 9
+    # Define the binary codes for each digit (0-9)
+    SEGMENT_CODES = [
+        0x3F,  # 0
+        0x06,  # 1
+        0x5B,  # 2
+        0x4F,  # 3
+        0x66,  # 4
+        0x6D,  # 5
+        0x7D,  # 6
+        0x07,  # 7
+        0x7F,  # 8
+        0x6F   # 9
+    ]
 
-    # Initialize GPIO pins for shift registers
-    SDI = machine.Pin(18, machine.Pin.OUT)    # Serial Data Input
-    SRCLK = machine.Pin(19, machine.Pin.OUT)  # Shift Register Clock
-    RCLK = machine.Pin(20, machine.Pin.OUT)   # Storage Register Clock (Latch)
+    # Initialize the control pins for 74HC595
+    SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input (DS)
+    RCLK = machine.Pin(19, machine.Pin.OUT)  # Register Clock (STCP)
+    SRCLK = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SHCP)
 
-    # Initialize list to store 4 digit control pins for the 7-segment display
-    digit_pins = [10, 13, 12, 11]  # Adjust according to your wiring
-    digit_controls = [machine.Pin(pin, machine.Pin.OUT) for pin in digit_pins]
+    # Initialize digit select pins (common cathodes)
+    digit_pins = [
+        machine.Pin(10, machine.Pin.OUT),  # Digit 1
+        machine.Pin(11, machine.Pin.OUT),  # Digit 2
+        machine.Pin(12, machine.Pin.OUT),  # Digit 3
+        machine.Pin(13, machine.Pin.OUT)   # Digit 4
+    ]
 
-    # Initialize LED pins
-    led_pins = [7, 8, 9]  # Red, Yellow, Green LEDs connected to GP7, GP8, GP9
-    leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
-
-    # Function to select which digit to display
-    def select_digit(digit):
-        for i in range(4):
-            digit_controls[i].value(1)  # Turn off all digits (assuming common cathode)
-        digit_controls[digit].value(0)  # Turn on the selected digit
-
-    # Function to shift out data to the shift registers
+    # Function to send data to 74HC595
     def shift_out(data):
-        RCLK.value(0)  # Prepare for data shift
-        for bit in range(15, -1, -1):
-            SRCLK.value(0)
-            SDI.value((data >> bit) & 0x01)
-            SRCLK.value(1)
-        RCLK.value(1)  # Latch the data
+        RCLK.low()
+        for bit in range(7, -1, -1):
+            SRCLK.low()
+            bit_val = (data >> bit) & 0x01
+            SDI.value(bit_val)
+            SRCLK.high()
+        RCLK.high()
 
-    # Function to display a number on the 7-segment display
-    def display_number(num):
+    # Function to display a digit at a specific position
+    def display_digit(position, digit):
+        # Turn off all digits
+        for dp in digit_pins:
+            dp.high()
+        # Send segment data
+        shift_out(SEGMENT_CODES[digit])
+        # Activate the selected digit (common cathode is active low)
+        digit_pins[position].low()
+        # Small delay to allow the digit to be visible
+        utime.sleep_ms(5)
+        # Turn off the digit
+        digit_pins[position].high()
+
+    # Function to display a number on the 4-digit display
+    def display_number(number):
+        # Extract individual digits
         digits = [
-            num // 1000 % 10,
-            num // 100 % 10,
-            num // 10 % 10,
-            num % 10
+            (number // 1000) % 10,
+            (number // 100) % 10,
+            (number // 10) % 10,
+            number % 10
         ]
+        # Display each digit rapidly
         for i in range(4):
-            select_digit(i)
-            segment_data = SEGMENT_CODES[digits[i]]
-            # Prepare data for both shift registers (segments and digit controls)
-            data = (segment_data << 8) | 0xFF  # Digit controls are managed separately
-            shift_out(data)
-            utime.sleep_ms(2)
+            display_digit(i, digits[i])
 
     # Function to update the LEDs based on the current state
     def update_leds(state):
@@ -212,6 +224,7 @@ We'll write a MicroPython script that:
         timer.deinit()
         print("Program stopped.")
 
+
 When the code runs, the green LED will light up first, and the display will show a countdown from 30.
 After 30 seconds, the yellow LED will light up, and the display will count down from 5.
 Then, the red LED will light up, and the display will count down from 30.
@@ -219,44 +232,103 @@ The cycle repeats indefinitely.
 
 **Understanding the Code**
 
-#. Imports and Pin Definitions:
+#. Imports and Initialization:
 
-   * ``machine, utime, Timer``: Modules for hardware control and timing.
-   * ``Define SDI, SRCLK, RCLK``: For controlling the shift registers.
-   * ``digit_controls``: List of pins controlling the digits of the display.
-   * ``leds``: List of pins controlling the LEDs.
+   * ``machine``: Provides access to hardware-related functions.
+   * ``utime``: Offers time-related functions.
+   * ``Timer``: Used for creating hardware timers.
 
-#. Segment Codes:
+#. LED Initialization:
 
-   * ``SEGMENT_CODES``: Defines which segments to light up for digits 0-9.
+   Defines GPIO pins for the red, yellow, and green LEDs. Initializes each pin as an output.
+
+   .. code-block:: python
+
+        led_pins = [7, 8, 9]  # Green, Yellow, Red LEDs connected to GP7, GP8, GP9
+        leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
+
+#. Traffic Light Timings:
+
+   Specifies the duration (in seconds) for each traffic light state.
+
+   .. code-block:: python
+
+        light_time = [30, 5, 30]  # [Green, Yellow, Red]
 
 #. Display Functions:
 
-   * ``select_digit(digit)``: Activates a specific digit on the display.
-   * ``shift_out(data)``: Sends data to the shift registers.
+   * ``display_digit(digit)``: Activates a specific digit on the display.
+   * ``shift_out(data)``: Sends data to the shift register.
    * ``display_number(num)``: Breaks down the number into digits and displays them using multiplexing.
 
-#. LED Control:
+#. ``update_leds(state)`` Function:
 
-   * ``update_leds(state)``: Turns on the appropriate LED based on the current traffic light state.
+   * Updates the LED states based on the current traffic light state.
+   * Turns off all LEDs and then turns on the LED corresponding to the current state.
 
-#. Timer and State Management:
+   .. code-block:: python
 
-   * ``counter``: Tracks the remaining time for the current light.
-   * ``current_state``: Indicates the current traffic light state.
-   * ``timer_callback(t)``: Decrements the counter and switches states when necessary.
-   * ``timer``: Initializes a hardware timer to call timer_callback every second.
+        def update_leds(state):
+            # States: 0 = Green, 1 = Yellow, 2 = Red
+            for i in range(3):
+                leds[i].value(0)
+            leds[state].value(1)
 
-#. Main Loop:
+#. ``timer_callback(t)`` Function:
 
-   * Continuously updates the display to show the remaining time.
-   * Uses a try-except block to handle a KeyboardInterrupt gracefully.
+   * Timer interrupt callback function.
+   * Decrements the counter every second.
+   * When the counter reaches zero, it cycles to the next traffic light state and resets the counter.
+
+   .. code-block:: python
+
+        def timer_callback(t):
+            global counter, current_state
+            counter -= 1
+            if counter <= 0:
+                current_state = (current_state + 1) % 3  # Cycle through the states
+                counter = light_time[current_state]  # Reset counter for the new state
+                update_leds(current_state)
+
+#. Main Execution:
+
+   * Initial Variables: Sets the initial state to green and initializes the counter.
+
+     .. code-block:: python
+
+        counter = light_time[0]  # Start with green light duration
+        current_state = 0  # 0 = Green, 1 = Yellow, 2 = Red
+   
+   * Initialize the Timer: Creates a periodic timer that triggers every 1000 milliseconds (1 second) and calls timer_callback.
+
+
+     .. code-block:: python
+
+        timer = Timer(period=1000, mode=Timer.PERIODIC, callback=timer_callback)
+   
+   * Set Initial LED State: Ensures the correct LED is lit at the start.
+
+     .. code-block:: python
+
+        update_leds(current_state)
+
+   * Main Loop: Enters an infinite loop displaying the countdown timer. Handles a keyboard interrupt (e.g., Ctrl+C) to safely deinitialize the timer and exit.
+
+
+     .. code-block:: python
+
+        try:
+            while True:
+                display_number(counter)
+        except KeyboardInterrupt:
+            timer.deinit()
+            print("Program stopped.")
 
 **Experimenting Further**
 
 * Adjust Timing:
 
-  Change the light_time list to adjust the durations for each light.
+  Change the ``light_time`` list to adjust the durations for each light.
 
 * Add Pedestrian Crossing:
 

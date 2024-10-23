@@ -152,12 +152,12 @@ We'll write a MicroPython program that:
         upper_bound = 99
         guess = ""
         lcd.clear()
-        lcd.puts("Press 'A' to Start")
+        lcd.message("Press A to Start")
 
     # Display function
     def update_display(message):
         lcd.clear()
-        lcd.puts(message)
+        lcd.message(message)
 
     # Main program
     init_game()
@@ -210,7 +210,6 @@ We'll write a MicroPython program that:
                     # Show hint or any other functionality
                     update_display("Hint not available")
         utime.sleep(0.1)
-
 
 After the code runs, follow these steps to play the game:
 
@@ -275,7 +274,7 @@ After the code runs, follow these steps to play the game:
             upper_bound = 99
             guess = ""
             lcd.clear()
-            lcd.puts("Press 'A' to Start")
+            lcd.message("Press A to Start")
 
 #. Display Update Function (``update_display``):
 
@@ -286,7 +285,7 @@ After the code runs, follow these steps to play the game:
         # Display function
         def update_display(message):
             lcd.clear()
-            lcd.puts(message)
+            lcd.message(message)
 
 #. Main Program Loop:
 

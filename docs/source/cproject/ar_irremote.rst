@@ -100,88 +100,57 @@ We'll write a program that initializes the IR receiver, listens for incoming IR 
 
 .. code-block:: arduino
 
-    #include <IRremote.h>
+    #define SEND_PWM_BY_TIMER
 
-    // Define the connection pin for the IR receiver
-    const int IR_RECEIVE_PIN = 17;
+    #include <IRremote.hpp>  // Include the IRremote library
 
-    // Create an IR receiver object
-    IRrecv irrecv(IR_RECEIVE_PIN);
-    decode_results results;
+    const int receiverPin = 17;  // Define the pin number for the IR Sensor
 
     void setup() {
-      // Initialize serial communication at 115200 baud
+      // Start serial communication at a baud rate of 115200
       Serial.begin(115200);
-      Serial.println("IR Remote Control Test");
-
-      // Initialize the IR receiver
-      irrecv.enableIRIn(); // Start the receiver
+      // Initialize the IR receiver on the specified pin with LED feedback enabled
+      IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);
     }
 
     void loop() {
-      // Check if an IR signal has been received
-      if (irrecv.decode(&results)) {
-        // Decode the received value
-        String key = decodeKeyValue(results.value);
+      if (IrReceiver.decode()) {  // Check if the IR receiver has received a signal
+        bool result = 0;
+        String key = decodeKeyValue(IrReceiver.decodedIRData.command);
         if (key != "ERROR") {
-          Serial.println(key); // Print the decoded key to Serial Monitor
-        } else {
-          Serial.println("Unknown Command");
+          Serial.println(key);  // Print the readable command
+          delay(100);
         }
-        irrecv.resume(); // Receive the next value
+      IrReceiver.resume();  // Prepare the IR receiver to receive the next signal
       }
     }
 
     // Function to map received IR signals to corresponding keys
-    String decodeKeyValue(unsigned long value) {
-      // Each case corresponds to a specific IR command
-      switch (value) {
-        case 0x16:
-          return "0";
-        case 0xC:
-          return "1";
-        case 0x18:
-          return "2";
-        case 0x5E:
-          return "3";
-        case 0x8:
-          return "4";
-        case 0x1C:
-          return "5";
-        case 0x5A:
-          return "6";
-        case 0x42:
-          return "7";
-        case 0x52:
-          return "8";
-        case 0x4A:
-          return "9";
-        case 0x9:
-          return "+";
-        case 0x15:
-          return "-";
-        case 0x7:
-          return "EQ";
-        case 0xD:
-          return "U/SD";
-        case 0x19:
-          return "CYCLE";
-        case 0x44:
-          return "PLAY/PAUSE";
-        case 0x43:
-          return "FORWARD";
-        case 0x40:
-          return "BACKWARD";
-        case 0x45:
-          return "POWER";
-        case 0x47:
-          return "MUTE";
-        case 0x46:
-          return "MODE";
-        case 0x0:
-          return "ERROR";
-        default:
-          return "ERROR";
+    String decodeKeyValue(long result) {
+      switch (result) {
+        case 0x45: return "POWER";
+        case 0x47: return "MUTE";
+        case 0x46: return "MODE";
+        case 0x44: return "PLAY/PAUSE";
+        case 0x40: return "BACKWARD";
+        case 0x43: return "FORWARD";
+        case 0x7: return "EQ";
+        case 0x15: return "-";
+        case 0x9: return "+";
+        case 0x19: return "CYCLE";
+        case 0xD: return "U/SD";
+        case 0x16: return "0";
+        case 0xC: return "1";
+        case 0x18: return "2";
+        case 0x5E: return "3";
+        case 0x8: return "4";
+        case 0x1C: return "5";
+        case 0x5A: return "6";
+        case 0x42: return "7";
+        case 0x52: return "8";
+        case 0x4A: return "9";
+        case 0x0: return "ERROR";
+        default: return "ERROR";
       }
     }
 
@@ -189,12 +158,13 @@ After uploading the code, press buttons on the IR remote control. Observe the co
 
 .. code-block:: arduino
 
-  IR Remote Control Test
-  1
-  2
-  PLAY/PAUSE
-  5
-  Unknown Command
+    BACKWARD
+    CYCLE
+    POWER
+    MODE
+    EQ
+    5
+    9
 
 .. note::
 
@@ -203,81 +173,65 @@ After uploading the code, press buttons on the IR remote control. Observe the co
 
 **Understanding the Code**
 
-#. Including Libraries and Defining Constants:
+#. Header and Constants:
 
-   * ``IRremote.h``: Includes the IRremote library to handle IR signal reception and decoding.
-   * ``IR_RECEIVE_PIN``: Specifies the GPIO pin connected to the IR receiver's data pin.
-   * ``irrecv``: Creates an IR receiver object to manage incoming IR signals.
-   * ``results``: Stores the decoded IR signal data.
-  
+   * ``#define SEND_PWM_BY_TIMER``: This line appears to define a macro for sending PWM signals by using a timer. However, it is not used anywhere in the code, so it might be a leftover or a placeholder.
+   * ``#include <IRremote.hpp>``: Includes the ``IRremote`` library, which provides functionalities for sending and receiving IR signals.
+   * ``const int receiverPin = 17;``: Defines the pin (17) that the IR receiver module is connected to on the Arduino.
+
 #. Setup Function:
 
-   * **Serial Communication**: Starts serial communication for debugging and displaying received IR signals.
-   * **IR Receiver Initialization**: Enables the IR receiver to start listening for incoming signals.
+   * ``Serial.begin(115200);``: Initializes serial communication at a baud rate of 115200, which allows the Arduino to communicate with a computer for debugging purposes.
+   * ``IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);``: Initializes the IR receiver on ``receiverPin`` and enables LED feedback, which will light up an LED when the IR receiver gets a signal.
 
    .. code-block:: arduino
 
       void setup() {
-        // Initialize serial communication at 115200 baud
         Serial.begin(115200);
-        Serial.println("IR Remote Control Test");
-      
-        // Initialize the IR receiver
-        irrecv.enableIRIn(); // Start the receiver
+        IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);
       }
 
-#. Loop Function:
+#. Loop Function: 
 
-   * **IR Signal Detection**: Checks if the IR receiver has detected a signal.
-   * **Signal Decoding**: Uses the ``decodeKeyValue()`` function to map the received IR value to a readable key.
-   * **Serial Output**: Prints the decoded key to the Serial Monitor for easy identification.
-   * **Prepare for Next Signal**: Resets the IR receiver to listen for the next incoming signal.
+   * ``if (IrReceiver.decode())``: Checks if the IR receiver has received a valid IR signal. If it has, the function proceeds to decode it.
+   * ``decodeKeyValue(IrReceiver.decodedIRData.command)``: Calls a function to convert the received IR command into a more human-readable key (like "POWER" or "MUTE").
+   * ``Serial.println(key);``: Prints the decoded key to the serial monitor.
+   * ``delay(100);``: Adds a short delay to avoid printing the same signal multiple times.
+   * ``IrReceiver.resume();``: Prepares the IR receiver to receive the next signal by clearing the previous one.
 
    .. code-block:: arduino
 
       void loop() {
-        // Check if an IR signal has been received
-        if (irrecv.decode(&results)) {
-          // Decode the received value
-          String key = decodeKeyValue(results.value);
+        if (IrReceiver.decode()) {
+          bool result = 0;
+          String key = decodeKeyValue(IrReceiver.decodedIRData.command);
           if (key != "ERROR") {
-            Serial.println(key); // Print the decoded key to Serial Monitor
-          } else {
-            Serial.println("Unknown Command");
+            Serial.println(key);
+            delay(100);
           }
-          irrecv.resume(); // Receive the next value
+          IrReceiver.resume();
         }
       }
 
+#. ``decodeKeyValue`` Function:
 
-#. Helper Function - Decoding IR Signals:
-
-   * **Purpose**: Maps specific IR codes to corresponding key labels for easier understanding.
-   * **Usage**: Converts raw IR codes received from the remote into readable strings that represent button presses.
-   * **Error Handling**: Returns "ERROR" for unknown or unmapped IR codes.
+   * This function takes a long value result (the raw IR command) and uses a switch statement to map it to a specific key name. Each case corresponds to a different button on the remote.
+   * For example, 0x45 maps to "POWER," and 0x47 maps to "MUTE."
+   * If the command does not match any known key, the function returns "ERROR."
 
    .. code-block:: arduino
 
-      // Function to map received IR signals to corresponding keys
-      String decodeKeyValue(unsigned long value) {
-        // Each case corresponds to a specific IR command
-        switch (value) {
-          case 0x16:
-            return "0";
-          case 0xC:
-            return "1";
+      String decodeKeyValue(long result) {
+        switch (result) {
+          case 0x45: return "POWER";
+          case 0x47: return "MUTE";
+          case 0x46: return "MODE";
           ...
-          case 0x47:
-            return "MUTE";
-          case 0x46:
-            return "MODE";
-          case 0x0:
-            return "ERROR";
-          default:
-            return "ERROR";
+          case 0x4A: return "9";
+          case 0x0: return "ERROR";
+          default: return "ERROR";
         }
       }
-
 
 **Troubleshooting**
 
@@ -285,17 +239,17 @@ After uploading the code, press buttons on the IR remote control. Observe the co
 
   * Ensure the IR receiver is properly connected to GPIO 17.
   * Verify that the IR receiver is receiving power (VCC and GND connections).
-  * Check that the correct GPIO pin is defined in the code (``IR_RECEIVE_PIN``).
+  * Check that the correct GPIO pin is defined in the code (``receiverPin``).
 
 * Incorrect Readings:
 
   * Confirm that the remote control is compatible with the IR receiver.
-  * Check that the ``decodeKeyValue()`` function correctly maps the IR codes from your specific remote.
+  * Check that the ``decodeKeyValue`` function correctly maps the IR codes from your specific remote.
   * Use a universal remote to ensure compatibility.
 
 * Unknown Commands:
 
-  * Update the ``decodeKeyValue()`` function to include the IR codes specific to your remote control.
+  * Update the ``decodeKeyValue`` function to include the IR codes specific to your remote control.
   * Use an IR decoding tool or reference to find the correct codes emitted by your remote.
 
 * Signal Interference:

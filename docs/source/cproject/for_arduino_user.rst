@@ -98,5 +98,4 @@ We recommend that you read the chapters in order.
     ar_dht11
     ar_mpu6050
     ar_irremote
-    ar_rfid
 

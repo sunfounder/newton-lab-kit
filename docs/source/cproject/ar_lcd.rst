@@ -253,7 +253,7 @@ We can enhance the program to read input from the Serial Monitor and display it 
 
       void setup() {
           Wire.begin();
-          Serial.begin(9600);
+          Serial.begin(115200);
           while (!Serial); // Wait for the serial connection to be established
           Serial.println("\nI2C Scanner");
       }

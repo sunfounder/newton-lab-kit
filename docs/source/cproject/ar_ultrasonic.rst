@@ -106,8 +106,8 @@ We'll write a program that triggers the ultrasonic sensor, measures the echo tim
     const int echoPin = 16;  // GPIO 16 -> Echo
 
     void setup() {
-      // Initialize serial communication at 9600 baud
-      Serial.begin(9600);
+      // Initialize serial communication at 115200 baud
+      Serial.begin(115200);
     
       // Initialize the sensor pins
       pinMode(trigPin, OUTPUT);
@@ -168,8 +168,8 @@ Move the object closer and farther to observe changes in the distance readings.
    .. code-block:: arduino
 
         void setup() {
-          // Initialize serial communication at 9600 baud
-          Serial.begin(9600);
+          // Initialize serial communication at 115200 baud
+          Serial.begin(115200);
 
           // Initialize the sensor pins
           pinMode(trigPin, OUTPUT);

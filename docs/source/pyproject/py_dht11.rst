@@ -114,8 +114,8 @@ Let's write a MicroPython program to read temperature and humidity values from t
          # Trigger measurement
          sensor.measure()
          # Read values
-         temperature = sensor.temperature()  # In Celsius
-         humidity = sensor.humidity()        # In Percent
+         temperature = sensor.temperature  # In Celsius
+         humidity = sensor.humidity        # In Percent
          # Print values
          print("Temperature: {}°C   Humidity: {}%".format(temperature, humidity))
       except OSError as e:
@@ -124,6 +124,15 @@ Let's write a MicroPython program to read temperature and humidity values from t
       utime.sleep(2)
 
 Once the code is running, the temperature and humidity readings will display in the Thonny Shell.
+
+.. code-block::
+
+  Temperature: 29.3°C   Humidity: 60.0%
+  Temperature: 29.2°C   Humidity: 60.0%
+  Temperature: 29.2°C   Humidity: 60.0%
+  Temperature: 29.1°C   Humidity: 60.0%
+  Temperature: 29.2°C   Humidity: 60.0%
+  Temperature: 29.3°C   Humidity: 60.0%
 
 **Understanding the Code**
 
@@ -143,8 +152,8 @@ Once the code is running, the temperature and humidity readings will display in 
 #. Main Loop:
 
    * ``sensor.measure()``: Triggers the sensor to take a measurement.
-   * ``sensor.temperature()``: Reads the temperature in Celsius.
-   * ``sensor.humidity()``: Reads the humidity percentage.
+   * ``sensor.temperature``: Reads the temperature in Celsius.
+   * ``sensor.humidity``: Reads the humidity percentage.
    * ``Exception Handling``: Catches any errors that occur during reading.
    * ``utime.sleep(2)``: Waits 2 seconds between readings.
 
@@ -153,8 +162,8 @@ Once the code is running, the temperature and humidity readings will display in 
       while True:
          try:
             sensor.measure()
-            temperature = sensor.temperature()
-            humidity = sensor.humidity()
+            temperature = sensor.temperature
+            humidity = sensor.humidity
             print("Temperature: {}°C   Humidity: {}%".format(temperature, humidity))
          except OSError as e:
             print("Failed to read sensor.")

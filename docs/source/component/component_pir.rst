@@ -55,4 +55,4 @@ Choosing different modes by using the jumper cap.
 * :ref:`py_pir` (For MicroPython User)
 * :ref:`py_passage_counter` (For MicroPython User)
 * :ref:`ar_pir` (For Arduino User)
-* :ref:`per_lucky_cat` (For Piper Make User)
+.. * :ref:`per_lucky_cat` (For Piper Make User)

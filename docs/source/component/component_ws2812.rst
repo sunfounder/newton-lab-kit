@@ -58,15 +58,9 @@ LED with low driving voltage, environmental protection and energy saving, high b
 e is large, good consistency, low power, long life and other advantages. The control chip integrated in LED
 above becoming more simple circuit, small volume, convenient installation.
 
-.. Example
-.. -------------------
-
-.. :ref:`RGB LED Strip`
-
-
 **Example**
 
 * :ref:`py_neopixel` (For MicroPython User)
 * :ref:`py_music_player` (For MicroPython User)
 * :ref:`ar_neopixel` (For Arduino User)
-* :ref:`per_flowing_leds` (For Piper Make User)
+.. * :ref:`per_flowing_leds` (For Piper Make User)

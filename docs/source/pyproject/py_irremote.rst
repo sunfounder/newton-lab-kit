@@ -92,13 +92,8 @@ Let's write a MicroPython script to receive and decode IR signals from the remot
 .. note::
 
     * Open the ``6.4_ir_remote_control.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-
     * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-
-     
-    
     * Here you need to use the libraries in ``ir_rx`` folder, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
-
 
 .. code-block:: python
 
@@ -122,24 +117,27 @@ Let's write a MicroPython script to receive and decode IR signals from the remot
     def decode_key(data):
         key_codes = {
             0x45: "POWER",
-            0x46: "MENU",
-            0x47: "TEST",
-            0x44: "BACK",
-            0x40: "PLAY",
+            0x46: "MODE",
+            0x47: "MUTE",
+            0x44: "PLAY/PAUSE",
+            0x40: "BACKWARD",
             0x43: "FORWARD",
-            0x07: "0",
-            0x15: "UP",
-            0x09: "DOWN",
-            0x16: "OK",
-            0x19: "1",
-            0x0D: "2",
-            0x0C: "3",
-            0x18: "4",
-            0x5E: "5",
-            0x08: "6",
-            0x1C: "7",
-            0x5A: "8",
-            0x42: "9",
+            0x07: "EQ",
+            0x15: "-",
+            0x09: "+",
+            0xD: "U/SD",
+            0x16: "0",
+            0x19: "cycle",
+            0xC: "1",
+            0x5E: "3",
+            0x18: "2",
+            0x8: "4",
+            0x1C: "5",
+            0x5A: "6",
+            0x42: "7",
+            0x52: "8",
+            0x4A: "9",
+            0x0: "ERROR",
             # Add more key codes based on your remote
         }
         return key_codes.get(data, "UNKNOWN")
@@ -198,29 +196,31 @@ When you run this code and press buttons on your infrared remote control, the Th
 
         def decode_key(data):
             key_codes = {
-                0x45: "POWER",
-                0x46: "MENU",
-                0x47: "TEST",
-                0x44: "BACK",
-                0x40: "PLAY",
-                0x43: "FORWARD",
-                0x07: "0",
-                0x15: "UP",
-                0x09: "DOWN",
-                0x16: "OK",
-                0x19: "1",
-                0x0D: "2",
-                0x0C: "3",
-                0x18: "4",
-                0x5E: "5",
-                0x08: "6",
-                0x1C: "7",
-                0x5A: "8",
-                0x42: "9",
-                # Add more key codes based on your remote
+            0x45: "POWER",
+            0x46: "MODE",
+            0x47: "MUTE",
+            0x44: "PLAY/PAUSE",
+            0x40: "BACKWARD",
+            0x43: "FORWARD",
+            0x07: "EQ",
+            0x15: "-",
+            0x09: "+",
+            0xD: "U/SD",
+            0x16: "0",
+            0x19: "cycle",
+            0xC: "1",
+            0x5E: "3",
+            0x18: "2",
+            0x8: "4",
+            0x1C: "5",
+            0x5A: "6",
+            0x42: "7",
+            0x52: "8",
+            0x4A: "9",
+            0x0: "ERROR",
+            # Add more key codes based on your remote
             }
             return key_codes.get(data, "UNKNOWN")
-
 
 #. Instantiate IR Receiver:
 

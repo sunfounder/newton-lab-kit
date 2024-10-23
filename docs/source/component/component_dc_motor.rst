@@ -48,4 +48,4 @@ This continuous reversal essentially converts the DC power from the battery to A
 
 * :ref:`py_motor` (For MicroPython User)
 * :ref:`ar_motor` (For Arduino User)
-* :ref:`per_smart_fan` (For Piper Make User)
+.. * :ref:`per_smart_fan` (For Piper Make User)

@@ -115,78 +115,106 @@ We'll write a MicroPython script that:
 
 .. code-block:: python
 
-    from imu import MPU6050
-    from machine import Pin, I2C
-    import utime
+    import machine
+    from machine import I2C, Pin
+    import time
     import math
-
-    # Initialize I2C communication for MPU6050
-    i2c = I2C(1, scl=Pin(7), sda=Pin(6))
+    from imu import MPU6050
+    
+    # Initialize I2C communication with MPU6050 sensor
+    i2c = I2C(1, sda=Pin(6), scl=Pin(7), freq=400000)
     mpu = MPU6050(i2c)
-
-    # Initialize shift register pins
-    SDI = Pin(18, Pin.OUT)    # Serial Data Input
-    RCLK = Pin(19, Pin.OUT)   # Register Clock (Latch)
-    SRCLK = Pin(20, Pin.OUT)  # Shift Register Clock
-
-    # Function to shift data into the shift registers
-    def shift_out(data1, data2):
+    
+    # Function to calculate the distance between two points
+    def dist(a, b):
+        return math.sqrt((a * a) + (b * b))
+    
+    # Function to calculate rotation along the y-axis
+    def get_y_rotation(x, y, z):
+        radians = math.atan2(x, dist(y, z))
+        return -math.degrees(radians)
+    
+    # Function to calculate rotation along the x-axis
+    def get_x_rotation(x, y, z):
+        radians = math.atan2(y, dist(x, z))
+        return math.degrees(radians)
+    
+    # Function to get the current angles from the MPU6050 sensor
+    def get_angle():
+        y_angle = get_y_rotation(mpu.accel.x, mpu.accel.y, mpu.accel.z)
+        x_angle = get_x_rotation(mpu.accel.x, mpu.accel.y, mpu.accel.z)
+        return x_angle, y_angle
+    
+    # Initialize shift register pins for controlling the LED matrix
+    sdi = machine.Pin(18, machine.Pin.OUT)
+    rclk = machine.Pin(19, machine.Pin.OUT)
+    srclk = machine.Pin(20, machine.Pin.OUT)
+    
+    # Function to shift data into the shift register
+    def hc595_in(dat):
+        for bit in range(7, -1, -1):
+            srclk.low()
+            time.sleep_us(30)
+            sdi.value(1 & (dat >> bit))
+            time.sleep_us(30)
+            srclk.high()
+    
+    # Function to output the data from the shift register to the LED matrix
+    def hc595_out():
+        rclk.high()
+        time.sleep_us(200)
+        rclk.low()
+    
+    # Function to display a glyph (8x8 matrix) on the LED matrix
+    def display(glyph):
+        for i in range(0, 8):
+            hc595_in(glyph[i])
+            hc595_in(0x80 >> i)
+            hc595_out()
+    
+    # Convert a 2D matrix to a glyph that can be displayed on the LED matrix
+    def matrix_2_glyph(matrix):
+        glyph = [0 for i in range(8)]
         for i in range(8):
-            SRCLK.value(0)
-            # Shift out to first shift register (columns)
-            SDI.value((data1 >> (7 - i)) & 1)
-            SRCLK.value(1)
-        for i in range(8):
-            SRCLK.value(0)
-            # Shift out to second shift register (rows)
-            SDI.value((data2 >> (7 - i)) & 1)
-            SRCLK.value(1)
-        RCLK.value(0)
-        RCLK.value(1)
-
-    # Function to calculate the position of the bubble
-    def get_bubble_position():
-        accel = mpu.accel
-        x_angle = math.degrees(math.atan2(accel.x, math.sqrt(accel.y ** 2 + accel.z ** 2)))
-        y_angle = math.degrees(math.atan2(accel.y, math.sqrt(accel.x ** 2 + accel.z ** 2)))
-
-        # Map angles to positions (0 to 7)
-        x_pos = int(((x_angle + 90) / 180) * 7)
-        y_pos = int(((y_angle + 90) / 180) * 7)
-
-        # Clamp positions to within the matrix
-        x_pos = max(0, min(7, x_pos))
-        y_pos = max(0, min(7, y_pos))
-
-        return x_pos, y_pos
-
-    # Function to display the bubble on the LED matrix
-    def display_bubble(x, y):
-        # Create a buffer for the matrix
-        matrix = [0x00] * 8
-
-        # Set the bits for the bubble (2x2 pixels)
-        for i in range(2):
-            if y + i < 8:
-                matrix[y + i] |= (0x80 >> x)
-                if x + 1 < 8:
-                    matrix[y + i] |= (0x80 >> (x + 1))
-
-        # Shift out the data to the shift registers
-        for row in range(8):
-            cols = matrix[row]
-            rows = 1 << row
-            shift_out(cols, ~rows & 0xFF)
-            utime.sleep_us(1000)  # Small delay to create persistence of vision
-
+            for j in range(8):
+                glyph[i] += matrix[i][j] << j
+        return glyph
+    
+    # Clamp a value between a specified minimum and maximum
+    def clamp_number(val, min_val, max_val):
+        return min_val if val < min_val else max_val if val > max_val else val
+    
+    # Map a value from one range to another
+    def interval_mapping(x, in_min, in_max, out_min, out_max):
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+    
+    # Calculate the position of the bubble in the matrix based on the MPU6050 readings
+    sensitivity = 4  # Sensitivity of the bubble movement
+    matrix_range = 7  # The matrix size is 8x8, so the range is 0-7
+    point_range = matrix_range - 1  # Bubble's position should be between 0 and 6
+    
+    # Function to calculate the position of the bubble based on sensor data
+    def bubble_position():
+        y, x = get_angle()  # Get the current rotation angles
+        x = int(clamp_number(interval_mapping(x, 90, -90, 0 - sensitivity, point_range + sensitivity), 0, point_range))
+        y = int(clamp_number(interval_mapping(y, -90, 90, point_range + sensitivity, 0 - sensitivity), 0, point_range))
+        return [x, y]
+    
+    # Drop the bubble (represented by turning off 2x2 LEDs) into the matrix
+    def drop_bubble(matrix, bubble):
+        matrix[bubble[0]][bubble[1]] = 0
+        matrix[bubble[0] + 1][bubble[1]] = 0
+        matrix[bubble[0]][bubble[1] + 1] = 0
+        matrix[bubble[0] + 1][bubble[1] + 1] = 0
+        return matrix
+    
     # Main loop
-    try:
-        while True:
-            x_pos, y_pos = get_bubble_position()
-            for _ in range(50):  # Refresh the display multiple times for visibility
-                display_bubble(x_pos, y_pos)
-    except KeyboardInterrupt:
-        pass
+    while True:
+        matrix = [[1 for i in range(8)] for j in range(8)]  # Create an empty matrix (all LEDs on)
+        bubble = bubble_position()  # Get the current bubble position based on sensor data
+        matrix = drop_bubble(matrix, bubble)  # Drop the bubble into the matrix
+        display(matrix_2_glyph(matrix))  # Display the matrix on the LED grid
+        time.sleep(0.1)  # Add a small delay to slow down updates
 
 When the code runs, place the setup on a level surface.
 The bubble (a 2x2 pixel area) should appear at the center of the LED matrix.
@@ -195,100 +223,122 @@ Observe the bubble moving on the LED matrix in the direction of the tilt, simula
 
 **Understanding the Code**
 
-#. Initialization:
+This code reads data from an MPU6050 accelerometer and gyroscope sensor to determine the tilt of the device and displays a "bubble" on an 8x8 LED matrix, simulating a digital bubble level.
 
-   * I2C Communication: Set up to read data from the MPU6050.
-   * Shift Register Pins: Initialized for controlling the 74HC595 shift registers.
+#. Imports and Initializations:
 
-#. Shift Register Control (``shift_out`` function):
+   * ``machine``: Access to the microcontroller's hardware components.
+   * ``I2C``, ``Pin``: For I2C communication and GPIO pin manipulation.
+   * ``time``: Timing functions for delays.
+   * ``math``: Mathematical functions for calculations.
+   * ``MPU6050`` from ``imu``: Library to interface with the MPU6050 sensor.
 
-   * Sends data to the shift registers controlling the columns and rows of the LED matrix.
-   * The function first shifts out the column data, then the row data, and then latches the data to update the outputs.
+#. I2C Initialization:
 
-   .. code-block:: python
+   * Sets up I2C communication on bus 1 with SDA on Pin 6 and SCL on Pin 7.
+   * The frequency is set to 400 kHz for fast data transfer.
+   * An ``mpu`` object is created to interact with the MPU6050 sensor.
 
-        def shift_out(data1, data2):
-            for i in range(8):
-                SRCLK.value(0)
-                # Shift out to first shift register (columns)
-                SDI.value((data1 >> (7 - i)) & 1)
-                SRCLK.value(1)
-            for i in range(8):
-                SRCLK.value(0)
-                # Shift out to second shift register (rows)
-                SDI.value((data2 >> (7 - i)) & 1)
-                SRCLK.value(1)
-            RCLK.value(0)
-            RCLK.value(1)
+#. Mathematical Functions:
 
-#. Calculating Bubble Position (``get_bubble_position`` function):
+   * ``dist(a, b)`` Funtion:
 
-   * Reads acceleration data from the MPU6050.
-   * Calculates tilt angles along the X and Y axes.
-   * Maps these angles to positions on the 8x8 grid (values from 0 to 7).
-   * Uses ``math.atan2`` to calculate the tilt angle in degrees.
+     * Calculates the Euclidean distance between two values.
+     * Used to compute the magnitude component in angle calculations.
 
-   .. code-block:: python
+   * ``get_y_rotation(x, y, z)``:
+     
+     * Calculates the rotation around the Y-axis in degrees.
+     * Uses ``math.atan2`` to compute the arctangent of x and the distance between y and z.
+     * The result is negated to match the desired orientation.
 
-        # Function to calculate the position of the bubble
-        def get_bubble_position():
-            accel = mpu.accel
-            x_angle = math.degrees(math.atan2(accel.x, math.sqrt(accel.y ** 2 + accel.z ** 2)))
-            y_angle = math.degrees(math.atan2(accel.y, math.sqrt(accel.x ** 2 + accel.z ** 2)))
+   * ``get_x_rotation(x, y, z)``:
 
-            # Map angles to positions (0 to 7)
-            x_pos = int(((x_angle + 90) / 180) * 7)
-            y_pos = int(((y_angle + 90) / 180) * 7)
+     * Calculates the rotation around the X-axis in degrees.
+     * Similar to ``get_y_rotation`` but computes the arctangent of y and the distance between x and z.
 
-            # Clamp positions to within the matrix
-            x_pos = max(0, min(7, x_pos))
-            y_pos = max(0, min(7, y_pos))
+   * ``get_angle()``:
 
-            return x_pos, y_pos
+     * Retrieves the current acceleration data from the MPU6050 sensor.
+     * Computes the X and Y rotation angles using the accelerometer data.
 
-#. Displaying the Bubble (``display_bubble`` function):
+#. Shift Register Functions:
 
-   * Creates a buffer representing the LED matrix.
-   * Sets bits in the buffer to represent a 2x2 pixel bubble at the calculated position.
-   * Shifts out the data to the shift registers to update the LED matrix.
-   * Uses multiplexing to refresh the display for persistence of vision.
+   * Pin Definitions:
 
-   .. code-block:: python
+     * ``sdi``: Serial Data Input pin for the shift register (Pin 18).
+     * ``rclk``: Register Clock (latch) pin for the shift register (Pin 19).
+     * ``srclk``: Shift Register Clock pin for the shift register (Pin 20).
 
-        # Function to display the bubble on the LED matrix
-        def display_bubble(x, y):
-            # Create a buffer for the matrix
-            matrix = [0x00] * 8
+   * ``hc595_in(dat)`` Function:
 
-            # Set the bits for the bubble (2x2 pixels)
-            for i in range(2):
-                if y + i < 8:
-                    matrix[y + i] |= (0x80 >> x)
-                    if x + 1 < 8:
-                        matrix[y + i] |= (0x80 >> (x + 1))
+     * Shifts an 8-bit data byte into the shift register.
+     * Iterates over each bit from MSB to LSB.
+     * Controls ``srclk`` and ``sdi`` to clock in the data bits.
 
-            # Shift out the data to the shift registers
-            for row in range(8):
-                cols = matrix[row]
-                rows = 1 << row
-                shift_out(cols, ~rows & 0xFF)
-                utime.sleep_us(1000)  # Small delay to create persistence of vision
+   * ``hc595_out()``:
 
-#. Main Loop:
+     * Latches the shifted data to the output pins of the shift register.
+     * Toggles the ``rclk`` pin to transfer the data from the shift register to the storage register.
 
-   * Continuously updates the bubble position based on the MPU6050 readings.
-   * Refreshes the display multiple times to ensure the bubble is visible.
+#. LED Matrix Display Functions:
 
-   .. code-block:: python
+   * ``display(glyph)`` Funtion:
 
-       # Main loop
-        try:
-            while True:
-                x_pos, y_pos = get_bubble_position()
-                for _ in range(50):  # Refresh the display multiple times for visibility
-                    display_bubble(x_pos, y_pos)
-        except KeyboardInterrupt:
-            pass
+     * Displays an 8x8 glyph on the LED matrix.
+     * Iterates through each row of the glyph.
+     * Shifts in the row data and the corresponding column selector.
+     * Calls ``hc595_out()`` to update the display.
+
+   * ``matrix_2_glyph(matrix)`` Funtion:
+
+     * Converts an 8x8 2D matrix of 0s and 1s into an 8-byte glyph.
+     * Each byte in the glyph represents a row in the LED matrix.
+     * Bits in each byte correspond to the LEDs in that row.
+
+#. Utility Functions:
+
+   * ``clamp_number(val, min_val, max_val)`` Funtion:
+
+     * Ensures that ``val`` stays within the specified ``min_val`` and ``max_val`` range.
+     * Prevents the bubble from moving outside the LED matrix boundaries.
+
+   * ``interval_mapping(x, in_min, in_max, out_min, out_max)`` Funtion:
+
+     * Maps a value ``x`` from one numerical range to another.
+     * Used to translate angle measurements to matrix positions.
+
+#. Bubble Position Calculation:
+
+   * Sensitivity Settings:
+
+     * ``sensitivity = 4``: Determines how responsive the bubble is to tilt changes.
+     * ``matrix_range = 7``: The maximum index for the 8x8 matrix (0 to 7).
+     * ``point_range = matrix_range - 1``: Adjusted range to keep the bubble within bounds (0 to 6).
+
+   * ``bubble_position()`` Funtion:
+
+     * Retrieves the current X and Y rotation angles.
+     * Maps the angles to positions on the LED matrix using ``interval_mapping``.
+     * Clamps the positions to ensure they stay within the matrix.
+
+#. Bubble Display Function:
+
+   * ``drop_bubble(matrix, bubble)`` Function:
+
+     * Modifies the LED matrix to represent the bubble at the given position.
+     * Turns off a 2x2 block of LEDs centered at the bubble's coordinates.
+     * Updates the matrix to create the visual effect of a bubble moving.
+
+#. Main Loop
+
+   * Continuously runs to update the display based on sensor input.
+   * Initializes a fresh 8x8 matrix with all LEDs turned on (value ``1``).
+   * Gets the current bubble position from ``bubble_position()``.
+   * Updates the matrix with ``drop_bubble()`` to reflect the bubble's new position.
+   * Converts the matrix to a glyph using ``matrix_2_glyph()``.
+   * Displays the glyph on the LED matrix with ``display()``.
+   * Waits for 0.1 seconds before repeating to control the update rate.
 
 **Troubleshooting**
 
