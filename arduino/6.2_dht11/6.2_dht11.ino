@@ -1,61 +1,57 @@
-/*
-  This code reads the temperature and humidity values from a DHT11 sensor 
-  connected to pin 11 and prints them to the serial monitor. 
-  It also calculates and prints the heat index value in both Celsius and Fahrenheit.
-  
-  Board: Arduino Uno R4
-  Component: Temperature and humidity module(DHT11)
-  Library: https://github.com/adafruit/DHT-sensor-library  (DHT sensor library by Adafruit)
-*/
-
 #include <DHT.h>
 
-#define DHTPIN 16       // Define the pin used to connect the sensor
+// Define the connection pins
+#define DHTPIN 16      // GPIO 16 -> Data pin of DHT11
 #define DHTTYPE DHT11  // Define the sensor type
 
-DHT dht(DHTPIN, DHTTYPE);  // Create a DHT object
+// Create a DHT object
+DHT dht(DHTPIN, DHTTYPE);
+
+unsigned long previousMillis = 0;  // Stores the last time the display was updated
+const long interval = 2000;        // Interval at which to read sensor (milliseconds)
 
 void setup() {
-  // Initialize the serial communication
-  Serial.begin(9600);
-  Serial.println(F("DHT11 test!"));
+  // Initialize serial communication at 115200 baud
+  Serial.begin(115200);
+  Serial.println(F("DHT11 Sensor Test!"));
 
-  dht.begin();  // Initialize the DHT sensor
+  // Initialize the DHT sensor
+  dht.begin();
 }
 
 void loop() {
-  // Wait a few seconds between measurements.
-  delay(2000);
+  unsigned long currentMillis = millis();
 
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
-  // Read temperature as Fahrenheit (isFahrenheit = true)
-  float f = dht.readTemperature(true);
+  // Update the sensor reading every 'interval' milliseconds
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
 
-  // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(t) || isnan(f)) {
-    Serial.println(F("Failed to read from DHT sensor!"));
-    return;
+    // Read humidity and temperature
+    float humidity = dht.readHumidity();
+    float temperatureC = dht.readTemperature();
+    float temperatureF = dht.readTemperature(true);
+
+    // Check if any reads failed
+    if (isnan(humidity) || isnan(temperatureC) || isnan(temperatureF)) {
+      Serial.println(F("Failed to read from DHT sensor!"));
+      return;
+    }
+
+    // Calculate heat index
+    float heatIndexC = dht.computeHeatIndex(temperatureC, humidity, false);
+    float heatIndexF = dht.computeHeatIndex(temperatureF, humidity);
+
+    // Print the results to the Serial Monitor
+    Serial.print(F("Humidity: "));
+    Serial.print(humidity);
+    Serial.print(F("%  Temperature: "));
+    Serial.print(temperatureC);
+    Serial.print(F("°C "));
+    Serial.print(temperatureF);
+    Serial.print(F("°F  Heat index: "));
+    Serial.print(heatIndexC);
+    Serial.print(F("°C "));
+    Serial.print(heatIndexF);
+    Serial.println(F("°F"));
   }
-
-  // Compute heat index in Fahrenheit (the default)
-  float hif = dht.computeHeatIndex(f, h);
-  // Compute heat index in Celsius (isFahreheit = false)
-  float hic = dht.computeHeatIndex(t, h, false);
-
-  // Print the humidity, temperature, and heat index values to the serial monitor
-  Serial.print(F("Humidity: "));
-  Serial.print(h);
-  Serial.print(F("%  Temperature: "));
-  Serial.print(t);
-  Serial.print(F("°C "));
-  Serial.print(f);
-  Serial.print(F("°F  Heat index: "));
-  Serial.print(hic);
-  Serial.print(F("°C "));
-  Serial.print(hif);
-  Serial.println(F("°F"));
 }

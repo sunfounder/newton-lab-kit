@@ -11,6 +11,6 @@ def write_to_tag():
         reader.write(data)
         print("Data written successfully!")
     finally:
-        pass  # Cleanup actions if necessary
+        pass
 
 write_to_tag()

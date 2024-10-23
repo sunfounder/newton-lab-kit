@@ -1,36 +1,35 @@
 import machine
 import time
 
-sdi = machine.Pin(18,machine.Pin.OUT)
-rclk = machine.Pin(19,machine.Pin.OUT)
-srclk = machine.Pin(20,machine.Pin.OUT)
+# Define the pins connected to the 74HC595 shift register
+sdi = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
+rclk = machine.Pin(19, machine.Pin.OUT)  # Storage Register Clock (RCLK)
+srclk = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SRCLK)
 
+# Define the glyph data for the letter 'X' with lit pixels and background off
+glyph = [0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E]
 
-glyph = [0xFF,0xBB,0xD7,0xEF,0xD7,0xBB,0xFF,0xFF]
-# glyph1 = [0xFF,0xEF,0xC7,0xAB,0xEF,0xEF,0xEF,0xFF]
-# glyph2 = [0xFF,0xEF,0xEF,0xEF,0xAB,0xC7,0xEF,0xFF]
-# glyph3 = [0xFF,0xEF,0xDF,0x81,0xDF,0xEF,0xFF,0xFF]
-# glyph4 = [0xFF,0xF7,0xFB,0x81,0xFB,0xF7,0xFF,0xFF]
-# glyph5 = [0xFF,0xBB,0xD7,0xEF,0xD7,0xBB,0xFF,0xFF]
-# glyph6 = [0xFF,0xFF,0xF7,0xEB,0xDF,0xBF,0xFF,0xFF]
-
-
-# Shift the data to 74HC595
 def hc595_in(dat):
-    for bit in range(7,-1, -1):
+    """
+    Shifts 8 bits of data into the 74HC595 shift register.
+    """
+    for bit in range(7, -1, -1):
         srclk.low()
-        time.sleep_us(30)
-        sdi.value(1 & (dat >> bit))
-        time.sleep_us(30)
+        sdi.value((dat >> bit) & 1)  # Output data bit by bit
         srclk.high()
+        time.sleep_us(1)  # Short delay to ensure proper timing
 
 def hc595_out():
+    """
+    Latches the data from the shift register to the storage register,
+    updating the outputs.
+    """
     rclk.high()
-    time.sleep_us(200)
     rclk.low()
 
 while True:
-    for i in range(0,8):
-        hc595_in(glyph[i])
-        hc595_in(0x80>>i)
-        hc595_out()
+    for i in range(8):
+        hc595_in(glyph[i])       # Send the column data for the current row
+        hc595_in(1 << i)         # Activate the current row
+        hc595_out()              # Update the display
+        time.sleep_ms(1)         # Delay for visual persistence

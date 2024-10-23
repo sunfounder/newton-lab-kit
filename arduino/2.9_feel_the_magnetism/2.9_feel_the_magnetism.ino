@@ -1,14 +1,18 @@
-const int reedPin = 14;
-int state = 0;
+const int reedPin = 14;    // GPIO pin connected to the reed switch
+int reedState = 0;
 
 void setup() {
-  pinMode(reedPin, INPUT);
-  Serial.begin(115200);
+  Serial.begin(115200);       // Initialize Serial Monitor at 115200 baud
+  pinMode(reedPin, INPUT);    // Set the reed pin as input
 }
 
 void loop() {
-  state = digitalRead(reedPin);
-  if (state == HIGH) {
-    Serial.println("There are magnets here!!");
-  }   
+  reedState = digitalRead(reedPin);  // Read the state of the reed switch
+
+  if (reedState == HIGH) {
+    Serial.println("Magnet Detected!");
+  } else {
+    Serial.println("No Magnet.");
+  }
+  delay(500);  // Delay to avoid flooding the Serial Monitor
 }

@@ -1,24 +1,36 @@
-#define analogPin  A2 //the thermistor attach to 
-#define beta 3950 //the beta of the thermistor
-#define resistance 10 //the value of the pull-up resistor
+// Define the pins
+const int thermistorPin = 28;  // Thermistor connected to GP28 (ADC2)
 
-void setup()
-{
-  Serial.begin(9600);
+// Constants for the thermistor and calculations
+const float BETA = 3950;                 // Beta value of the thermistor (provided by manufacturer)
+const float SERIES_RESISTOR = 10000;     // 10KΩ resistor
+const float NOMINAL_RESISTANCE = 10000;  // Resistance at 25°C (provided by manufacturer)
+const float NOMINAL_TEMPERATURE = 25.0;  // 25°C in Celsius
+
+void setup() {
+  Serial.begin(115200);  // Initialize Serial Monitor
 }
 
-void loop()
-{
-  //read thermistor value
-  long a = analogRead(analogPin);
-  //the calculating formula of temperature
-  float tempC = beta / (log((1025.0 * 10 / a - 10) / 10) + beta / 298.0) - 273.0;
-  float tempF = 1.8 * tempC + 32.0;
-  Serial.print("Temp: ");
-  Serial.print(tempC);
-  Serial.println("degree Celsius");
-  Serial.print("Temp: ");
-  Serial.print(tempF);
-  Serial.println("degree Fahrenheit");  
-  delay(200); //wait for 200 milliseconds
+void loop() {
+  // Read the analog value from the thermistor
+  int adcValue = analogRead(thermistorPin);
+  // Convert the ADC value to voltage
+  float voltage = adcValue * (3.3 / 1023.0);
+  // Calculate the resistance of the thermistor
+  float resistance = (voltage * SERIES_RESISTOR) / (3.3 - voltage);
+  // Calculate the temperature in Kelvin using the Beta formula
+  float temperatureK = 1 / ((1 / (NOMINAL_TEMPERATURE + 273.15)) + (1 / BETA) * log(resistance / NOMINAL_RESISTANCE));
+  // Convert Kelvin to Celsius
+  float temperatureC = temperatureK - 273.15;
+  // Convert Celsius to Fahrenheit
+  float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
+
+  // Print the temperature readings
+  Serial.print("Temperature: ");
+  Serial.print(temperatureC);
+  Serial.print(" °C, ");
+  Serial.print(temperatureF);
+  Serial.println(" °F");
+
+  delay(1000);  // Wait a second before the next reading
 }

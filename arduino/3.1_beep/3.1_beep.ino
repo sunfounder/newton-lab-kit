@@ -1,15 +1,12 @@
-const int buzzerPin = 15;
+const int buzzerPin = 15;  // GPIO pin connected to the transistor base
 
 void setup() {
-    pinMode(buzzerPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
 }
 
 void loop() {
-  for (int i=0;i<4;i++){
-    digitalWrite(buzzerPin, HIGH);   
-    delay(300);                       
-    digitalWrite(buzzerPin, LOW);    
-    delay(300);     
-  }
-  delay(1000);      
+  digitalWrite(buzzerPin, HIGH);  // Turn the buzzer on
+  delay(1000);                    // Wait for 1 second
+  digitalWrite(buzzerPin, LOW);   // Turn the buzzer off
+  delay(1000);                    // Wait for 1 second
 }

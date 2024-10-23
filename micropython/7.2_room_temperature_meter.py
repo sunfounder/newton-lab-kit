@@ -1,38 +1,55 @@
 from lcd1602 import LCD
-from machine import I2C, Pin
+from machine import I2C, Pin, ADC
 import utime
 import math
 
-# Initialize the thermistor (ADC on pin 28) and LCD display
-thermistor = machine.ADC(28)  # Analog input from the thermistor
+# Initialize the thermistor (ADC on pin 28)
+thermistor = ADC(28)  # Analog input from the thermistor
 
 # Initialize I2C communication for the LCD1602 display
-i2c = I2C(1, sda=Pin(6), scl=Pin(7), freq=400000)
+i2c = I2C(1, scl=Pin(7), sda=Pin(6), freq=400000)
 
 # Create an LCD object for controlling the LCD1602 display
 lcd = LCD(i2c)
 
-# Main loop to continuously read temperature and display it
-while True:
+# Constants for the Steinhart-Hart equation
+BETA = 3950  # Beta coefficient of the thermistor
+R0 = 10000   # Resistance at 25 degrees Celsius
+T0 = 298.15  # Reference temperature in Kelvin (25°C)
+
+def read_temperature():
     # Read raw ADC value from the thermistor
-    temperature_value = thermistor.read_u16()
+    adc_value = thermistor.read_u16()
 
-    # Convert the raw ADC value to a voltage (0-3.3V range)
-    Vr = 3.3 * float(temperature_value) / 65535  # ADC value to voltage conversion
+    # Convert the raw ADC value to voltage
+    voltage = adc_value * 3.3 / 65535
 
-    # Calculate the thermistor resistance (using a voltage divider with a 10kOhm resistor)
-    Rt = 10000 * Vr / (3.3 - Vr)  # Rt = thermistor resistance
+    # Calculate the resistance of the thermistor
+    Rt = (voltage * R0) / (3.3 - voltage)
 
-    # Use the Steinhart-Hart equation to calculate the temperature in Kelvin
-    # The values used are specific to the thermistor (3950 is the beta coefficient)
-    temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25)))  # Temperature in Kelvin
+    # Apply the Steinhart-Hart equation to calculate temperature in Kelvin
+    tempK = 1 / ((1 / T0) + (1 / BETA) * math.log(Rt / R0))
 
     # Convert temperature from Kelvin to Celsius
-    Cel = temp - 273.15
+    tempC = tempK - 273.15
 
-    # Display the temperature on the LCD in Celsius
-    string = " Temperature is \n    " + str('{:.2f}'.format(Cel)) + " C"  # Format string for the LCD
-    lcd.message(string)  # Display the string on the LCD
+    return tempC
 
-    utime.sleep(1)  # Wait for 1 second
-    lcd.clear()  # Clear the LCD for the next reading
+def main():
+    while True:
+        temperature = read_temperature()
+        # Format the temperature to two decimal places
+        temp_str = "{:.2f} C".format(temperature)
+
+        # Display the temperature on the LCD
+        lcd.clear()
+        lcd.write(0, 0, "Room Temp:")
+        lcd.write(4, 1, temp_str)
+
+        # Optional: Print the temperature to the console
+        print("Temperature:", temp_str)
+
+        utime.sleep(1)
+
+if __name__ == "__main__":
+    main()

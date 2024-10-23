@@ -1,26 +1,21 @@
 from machine import I2C, Pin
 from lcd1602 import LCD
-import time
+import utime
 
-# Initialize I2C communication;
+# Initialize I2C communication (I2C0)
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
 
-# Create an LCD object for interfacing with the LCD1602 display
+# Create an LCD object
 lcd = LCD(i2c)
 
-# Display the first message on the LCD
-# Use '\n' to create a new line.
-string = "SunFounder\n    LCD Tutorial"
-lcd.message(string)
-# Wait for 2 seconds
-time.sleep(2)
-# Clear the display
+# Display the first message
 lcd.clear()
+lcd.message("Hello, World!")
+utime.sleep(2)
 
-# Display the second message on the LCD
-string = "Hello\n  World!"
-lcd.message(string)
-# Wait for 5 seconds
-time.sleep(5)
-# Clear the display before exiting
+# Move to the second line and display another message
+lcd.write(0, 1,"LCD1602 with I2C")  # Column 0, Line 1
+utime.sleep(5)
+
+# Clear the display
 lcd.clear()

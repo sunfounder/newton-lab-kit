@@ -1,9 +1,14 @@
 import machine
 import utime
 
-motor1A = machine.Pin(14, machine.Pin.OUT)
-motor2A = machine.Pin(15, machine.Pin.OUT)
+# Define the control pins connected to the L293D
+pump_in1 = machine.Pin(14, machine.Pin.OUT)
+pump_in2 = machine.Pin(15, machine.Pin.OUT)
 
+# Start the pump by setting IN1 high and IN2 low
+pump_in1.high()
+pump_in2.low()
+
+# Keep the pump running indefinitely
 while True:
-    motor1A.high()
-    motor2A.low()
+    utime.sleep(1)

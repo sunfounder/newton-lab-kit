@@ -1,14 +1,18 @@
-import machine 
+import machine
 from ws2812 import WS2812
 
-ws = WS2812(machine.Pin(0),8)
+# Initialize the LED strip
+led_strip = WS2812(machine.Pin(0), 8)  # Using GP0, 8 LEDs
 
-ws[0] = [64,154,227]
-ws[1] = [128,0,128]
-ws[2] = [50,150,50]
-ws[3] = [255,30,30]
-ws[4] = [0,128,255]
-ws[5] = [99,199,0]
-ws[6] = [128,128,128]
-ws[7] = [255,100,0]
-ws.write()
+# Set colors for each LED
+led_strip[0] = [255, 0, 0]     # Red
+led_strip[1] = [0, 255, 0]     # Green
+led_strip[2] = [0, 0, 255]     # Blue
+led_strip[3] = [255, 255, 0]   # Yellow
+led_strip[4] = [0, 255, 255]   # Cyan
+led_strip[5] = [255, 0, 255]   # Magenta
+led_strip[6] = [255, 255, 255] # White
+led_strip[7] = [128, 128, 128] # Gray
+
+# Update the LED strip to show the colors
+led_strip.write()

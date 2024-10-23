@@ -1,7 +1,10 @@
 import machine
 import utime
-button = machine.Pin(14, machine.Pin.IN)
+
+# Initialize GP14 as an input pin
+tilt_switch = machine.Pin(14, machine.Pin.IN)
+
 while True:
-    if button.value() == 0:
-        print("The switch works!")
-        utime.sleep(1)
+    if tilt_switch.value() == 0:
+        print("Tilt detected!")
+        utime.sleep(1)  # Delay to avoid multiple rapid detections

@@ -1,58 +1,82 @@
 import machine
-import time
+import utime
 
-SEGCODE = [0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f]
+# Define the binary codes for each digit (0-9)
+SEGMENT_CODES = [
+    0x3F,  # 0
+    0x06,  # 1
+    0x5B,  # 2
+    0x4F,  # 3
+    0x66,  # 4
+    0x6D,  # 5
+    0x7D,  # 6
+    0x07,  # 7
+    0x7F,  # 8
+    0x6F   # 9
+]
 
-sdi = machine.Pin(18,machine.Pin.OUT)
-rclk = machine.Pin(19,machine.Pin.OUT)
-srclk = machine.Pin(20,machine.Pin.OUT)
+# Initialize the control pins for 74HC595
+SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input (DS)
+RCLK = machine.Pin(19, machine.Pin.OUT)  # Register Clock (STCP)
+SRCLK = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SHCP)
 
-placePin = []
-pin = [10,13,12,11]
-for i in range(4):
-    placePin.append(None)
-    placePin[i] = machine.Pin(pin[i], machine.Pin.OUT)
+# Initialize digit select pins (common cathodes)
+digit_pins = [
+    machine.Pin(10, machine.Pin.OUT),  # Digit 1
+    machine.Pin(11, machine.Pin.OUT),  # Digit 2
+    machine.Pin(12, machine.Pin.OUT),  # Digit 3
+    machine.Pin(13, machine.Pin.OUT)   # Digit 4
+]
 
-timerStart=time.ticks_ms()
-
-def timer1():
-    return int((time.ticks_ms()-timerStart)/1000)
-
-def pickDigit(digit):
-    for i in range(4):
-        placePin[i].value(1)
-    placePin[digit].value(0)
-
-def clearDisplay():
-    hc595_shift(0x00)
-
-def hc595_shift(dat):
-    rclk.low()
-    time.sleep_us(200)
+# Function to send data to 74HC595
+def shift_out(data):
+    RCLK.low()
     for bit in range(7, -1, -1):
-        srclk.low()
-        time.sleep_us(200)
-        value = 1 & (dat >> bit)
-        sdi.value(value)
-        time.sleep_us(200)
-        srclk.high()
-        time.sleep_us(200)
-    time.sleep_us(200)
-    rclk.high()
-    time.sleep_us(200)
+        SRCLK.low()
+        bit_val = (data >> bit) & 0x01
+        SDI.value(bit_val)
+        SRCLK.high()
+    RCLK.high()
+
+# Function to display a digit at a specific position
+def display_digit(position, digit):
+    # Turn off all digits
+    for dp in digit_pins:
+        dp.high()
+    # Send segment data
+    shift_out(SEGMENT_CODES[digit])
+    # Activate the selected digit (common cathode is active low)
+    digit_pins[position].low()
+    # Small delay to allow the digit to be visible
+    utime.sleep_ms(5)
+    # Turn off the digit
+    digit_pins[position].high()
+
+# Function to display a number on the 4-digit display
+def display_number(number):
+    # Extract individual digits
+    digits = [
+        (number // 1000) % 10,
+        (number // 100) % 10,
+        (number // 10) % 10,
+        number % 10
+    ]
+    # Display each digit rapidly
+    for i in range(4):
+        display_digit(i, digits[i])
+
+# Main loop
+counter = 0
+last_update = utime.ticks_ms()
 
 while True:
-    count = timer1()
-    #print(count)
-    
-    pickDigit(0)
-    hc595_shift(SEGCODE[count%10])
+    # Update the counter every 1000 ms (1 second)
+    current_time = utime.ticks_ms()
+    if utime.ticks_diff(current_time, last_update) >= 1000:
+        counter += 1
+        if counter > 9999:
+            counter = 0
+        last_update = current_time
 
-    pickDigit(1)
-    hc595_shift(SEGCODE[count%100//10])
-    
-    pickDigit(2)
-    hc595_shift(SEGCODE[count%1000//100])
-    
-    pickDigit(3)
-    hc595_shift(SEGCODE[count%10000//1000])    
+    # Continuously refresh the display
+    display_number(counter)

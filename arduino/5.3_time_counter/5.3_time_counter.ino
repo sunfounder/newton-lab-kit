@@ -1,51 +1,41 @@
-const int STcp = 19;//Pin connected to ST_CP of 74HC595
-const int SHcp = 20;//Pin connected to SH_CP of 74HC595 
-const int DS = 18; //Pin connected to DS of 74HC595 
-const int placePin[4] = {13,12,11,10}; 
+// Define the GPIO pins connected to the 74HC595 shift registers
+const int DS = 18;    // GPIO 18 -> DS (Pin 14) of first 74HC595
+const int SHCP = 20;  // GPIO 20 -> SHCP (Pin 11) of both 74HC595s
+const int STCP = 19;  // GPIO 19 -> STCP (Pin 12) of both 74HC595s
 
-int datArray[] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};
-unsigned long timerStart = 0;
+// Array to hold the 'X' pattern for the 8x8 LED matrix
+const byte pattern[] = {
+  0b10000001, // Row 0
+  0b01000010, // Row 1
+  0b00100100, // Row 2
+  0b00011000, // Row 3
+  0b00011000, // Row 4
+  0b00100100, // Row 5
+  0b01000010, // Row 6
+  0b10000001  // Row 7
+};
 
+void setup() {
+  // Initialize the control pins as outputs
+  pinMode(DS, OUTPUT);
+  pinMode(SHCP, OUTPUT);
+  pinMode(STCP, OUTPUT);
+}
 
-void setup ()
-{
-  //set pins to output
-  pinMode(STcp,OUTPUT);
-  pinMode(SHcp,OUTPUT);
-  pinMode(DS,OUTPUT);
-  for (int i = 0; i<4;i++){
-    pinMode(placePin[i],OUTPUT);
+void loop() {
+  for (int i = 0; i < 8; i++) {
+    // Set STCP to LOW to prepare for data
+    digitalWrite(STCP, LOW);
+
+    // Shift out the row data
+    shiftOut(DS, SHCP, MSBFIRST, pattern[i]);
+
+    // Shift out the column data (activating one column at a time)
+    shiftOut(DS, SHCP, MSBFIRST, 0x80 >> i);
+
+    // Set STCP to HIGH to latch the data to the output pins
+    digitalWrite(STCP, HIGH);
+
+    delay(2); // Short delay for persistence of vision
   }
-  timerStart = millis();
-}
-
-void loop()
-{
-  unsigned int count = (millis()-timerStart)/1000;
-  
-  pickDigit(0);
-  hc595_shift(count%10/1);
-  
-  pickDigit(1);
-  hc595_shift(count%100/10);
-  
-  pickDigit(2);
-  hc595_shift(count%1000/100);
-  
-  pickDigit(3);
-  hc595_shift(count%10000/1000);
-}
-
-void pickDigit(int digit){
-  for(int i = 0; i < 4; i++){
-    digitalWrite(placePin[i],HIGH);
-  }
-  digitalWrite(placePin[digit],LOW);
-}
-
-void hc595_shift(int num){
-    digitalWrite(STcp,LOW); //ground ST_CP and hold low for as long as you are transmitting
-    shiftOut(DS,SHcp,MSBFIRST,datArray[num]);
-    digitalWrite(STcp,HIGH); //pull the ST_CPST_CP to save the data
-    delay(1);
 }

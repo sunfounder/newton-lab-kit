@@ -1,30 +1,29 @@
-#include <Wire.h> 
+#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
-LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+#define LCD_ADDRESS 0x27
+#define LCD_COLUMNS 16
+#define LCD_ROWS 2
 
-void setup()
-{
-  lcd.init();                      // initialize the lcd 
+LiquidCrystal_I2C lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
+
+void setup() {
+  lcd.init();
   lcd.backlight();
-  Serial.begin(9600);
+
+  Serial.begin(115200);
+  lcd.setCursor(0, 0);
+  lcd.print("Enter text:");
 }
 
-void loop()
-{
-  // when characters arrive over the serial port...
-  if (Serial.available()) {
-    // wait a bit for the entire message to arrive
-    delay(100);
-    // clear the screen
+void loop() {
+  if (Serial.available() > 0) {
     lcd.clear();
-    // read all the available characters
-    while (Serial.available() > 0) {
-      char incomingByte=Serial.read();
-    // skip the line-feed character
-      if(incomingByte==10){break;}
-      // display each character to the LCD    
-      lcd.print(incomingByte);
-    }
+    lcd.setCursor(0, 0);
+    lcd.print("You typed:");
+
+    String inputText = Serial.readStringUntil('\n');
+    lcd.setCursor(0, 1);
+    lcd.print(inputText);
   }
 }

@@ -1,78 +1,87 @@
-import machine
-import time
+from machine import Pin
+import utime
 
-# Initialize PIR sensor on pin 16, configured as an input
-pir_sensor = machine.Pin(16, machine.Pin.IN)
+# Define the PIR sensor pin
+pir_sensor = Pin(16, Pin.IN)
 
-# 7-segment display codes for digits 0-9, using hexadecimal to represent LED segments
-SEGCODE = [0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f]
-
-# Define pins for shift register communication (74HC595)
-sdi = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
-rclk = machine.Pin(19, machine.Pin.OUT)  # Register Clock (Latch)
-srclk = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock
-
-# Initialize list to store 4 digit control pins
-placePin = []
-
-# Define control pins for each of the four digits (common anodes)
-pin = [10,13,12,11] # Pin numbers for the 4-digit display
-for i in range(4):
-    placePin.append(None)  # Reserve space in list
-    placePin[i] = machine.Pin(pin[i], machine.Pin.OUT)  # Initialize pin as output
-
-# Initialize counter to keep track of detected motion events
+# Initialize the counter
 count = 0
 
-# Function to select which digit (0-3) to display by controlling the common anode pins
-def pickDigit(digit):
+# Define the binary codes for each digit (0-9)
+SEGMENT_CODES = [
+    0x3F,  # 0
+    0x06,  # 1
+    0x5B,  # 2
+    0x4F,  # 3
+    0x66,  # 4
+    0x6D,  # 5
+    0x7D,  # 6
+    0x07,  # 7
+    0x7F,  # 8
+    0x6F   # 9
+]
+
+# Initialize the control pins for 74HC595
+SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input (DS)
+RCLK = machine.Pin(19, machine.Pin.OUT)  # Register Clock (STCP)
+SRCLK = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SHCP)
+
+# Initialize digit select pins (common cathodes)
+digit_pins = [
+    machine.Pin(10, machine.Pin.OUT),  # Digit 1
+    machine.Pin(11, machine.Pin.OUT),  # Digit 2
+    machine.Pin(12, machine.Pin.OUT),  # Digit 3
+    machine.Pin(13, machine.Pin.OUT)   # Digit 4
+]
+
+# Function to send data to 74HC595
+def shift_out(data):
+    RCLK.low()
+    for bit in range(7, -1, -1):
+        SRCLK.low()
+        bit_val = (data >> bit) & 0x01
+        SDI.value(bit_val)
+        SRCLK.high()
+    RCLK.high()
+
+# Function to display a digit at a specific position
+def display_digit(position, digit):
+    # Turn off all digits
+    for dp in digit_pins:
+        dp.high()
+    # Send segment data
+    shift_out(SEGMENT_CODES[digit])
+    # Activate the selected digit (common cathode is active low)
+    digit_pins[position].low()
+    # Small delay to allow the digit to be visible
+    utime.sleep_ms(5)
+    # Turn off the digit
+    digit_pins[position].high()
+
+# Function to display a number on the 4-digit display
+def display_number(number):
+    # Extract individual digits
+    digits = [
+        (number // 1000) % 10,
+        (number // 100) % 10,
+        (number // 10) % 10,
+        number % 10
+    ]
+    # Display each digit rapidly
     for i in range(4):
-        placePin[i].value(1)  # Turn off all digits
-    placePin[digit].value(0)  # Turn on the selected digit
+        display_digit(i, digits[i])
 
-# Function to clear the display by sending '0x00' to the shift register
-def clearDisplay():
-    hc595_shift(0x00)
-
-# Function to send data to the shift register (74HC595)
-def hc595_shift(dat):
-    rclk.low()  # Pull latch low to prepare for data shifting
-    time.sleep_us(200)  # Small delay for timing stability
-    for bit in range(7, -1, -1):  # Loop through each bit (MSB first)
-        srclk.low()  # Prepare to send the next bit
-        time.sleep_us(200)
-        value = 1 & (dat >> bit)  # Extract the current bit from the data
-        sdi.value(value)  # Set the data line to the current bit value
-        time.sleep_us(200)
-        srclk.high()  # Pulse the shift clock to store the bit in the register
-        time.sleep_us(200)
-    time.sleep_us(200)
-    rclk.high()  # Pulse the register clock to move the data to the output
-
-# Interrupt handler for PIR sensor, triggered on motion detection (rising edge)
-# Increments the motion count each time the sensor is triggered
-def motion_detected(pin):
+# Interrupt handler for PIR sensor
+def pir_handler(pin):
     global count
-    count = count + 1  # Increment the count when motion is detected
+    count += 1
+    if count > 9999:
+        count = 0
 
-# Set up an interrupt to detect motion using the PIR sensor
-pir_sensor.irq(trigger=machine.Pin.IRQ_RISING, handler=motion_detected)
+# Set up PIR sensor interrupt
+pir_sensor.irq(trigger=Pin.IRQ_RISING, handler=pir_handler)
 
-# Main loop to continuously update the 7-segment display with the current count
+# Main loop
 while True:
-    # Update the first digit (units place)
-    pickDigit(0)
-    hc595_shift(SEGCODE[count % 10])
-
-    # Update the second digit (tens place)
-    pickDigit(1)
-    hc595_shift(SEGCODE[count % 100 // 10])
-
-    # Update the third digit (hundreds place)
-    pickDigit(2)
-    hc595_shift(SEGCODE[count % 1000 // 100])
-
-    # Update the fourth digit (thousands place)
-    pickDigit(3)
-    hc595_shift(SEGCODE[count % 10000 // 1000])
-
+    # Continuously refresh the display
+    display_number(count)

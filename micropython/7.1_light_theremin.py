@@ -1,41 +1,62 @@
 import machine
 import utime
 
-# Initialize LED, photoresistor, and buzzer
-led = machine.Pin(16, machine.Pin.OUT)  # LED on pin 16
-photoresistor = machine.ADC(28)  # Photoresistor on ADC pin 28
-buzzer = machine.PWM(machine.Pin(15))  # Buzzer on pin 15 with PWM
+# Initialize components
+led = machine.Pin(16, machine.Pin.OUT)  # LED on GP16
+photoresistor = machine.ADC(28)         # Photoresistor connected to ADC0 (GP28)
+buzzer = machine.PWM(machine.Pin(15))   # Buzzer connected to GP15
 
-# Variables to store the highest and lowest light readings for calibration
-light_low = 65535 
-light_high = 0 
+# Variables for calibration
+light_low = 65535
+light_high = 0
 
-# Function to map one range of values to another
+# Function to map values from one range to another
 def interval_mapping(x, in_min, in_max, out_min, out_max):
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+    # Ensure in_min != in_max to avoid division by zero
+    if in_max - in_min == 0:
+        return out_min
+    return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
-# Function to play a tone on the buzzer at a specified frequency for a set duration
-def tone(pin, frequency, duration):
-    pin.freq(frequency)  # Set buzzer frequency
-    pin.duty_u16(30000)  # Set duty cycle to around 50%
-    utime.sleep_ms(duration)  # Play the tone for the specified duration
-    pin.duty_u16(0)  # Turn off the tone by setting duty cycle to 0
+# Function to play a tone on the buzzer
+def play_tone(pin, frequency):
+    if frequency <= 0:
+        pin.duty_u16(0)
+    else:
+        pin.freq(frequency)
+        pin.duty_u16(32768)  # 50% duty cycle
 
-# Calibrate the photoresistor by finding the highest and lowest light values over 5 seconds
-timer_init_start = utime.ticks_ms()  # Get the current time (start time)
-led.value(1)  # Turn on LED to indicate calibration is in progress
-while utime.ticks_diff(utime.ticks_ms(), timer_init_start) < 5000:  # Run calibration for 5 seconds
-    light_value = photoresistor.read_u16()  # Read the light value from the photoresistor
-    if light_value > light_high:  # Track the maximum light value
-        light_high = light_value
-    if light_value < light_low:  # Track the minimum light value
-        light_low = light_value
-led.value(0)  # Turn off the LED after calibration
+# Calibration process
+def calibrate():
+    global light_low, light_high
+    print("Calibrating... Move your hand over the sensor.")
+    led.value(1)  # Turn on LED to indicate calibration
+    start_time = utime.ticks_ms()
+    while utime.ticks_diff(utime.ticks_ms(), start_time) < 5000:  # 5 seconds calibration
+        light_value = photoresistor.read_u16()
+        if light_value > light_high:
+            light_high = light_value
+        if light_value < light_low:
+            light_low = light_value
+        utime.sleep_ms(10)
+    led.value(0)  # Turn off LED after calibration
+    print("Calibration complete.")
+    print("Light Low:", light_low)
+    print("Light High:", light_high)
 
-# Main loop to read light levels and play corresponding tones
-while True:
-    light_value = photoresistor.read_u16()  # Read the current light value from the photoresistor
-    pitch = int(interval_mapping(light_value, light_low, light_high, 50, 6000))  # Map light value to a pitch range
-    if pitch > 50:  # Only play tones if the pitch is above a minimum threshold
-        tone(buzzer, pitch, 20)  # Play the corresponding pitch for 20ms
-    utime.sleep_ms(10)  # Small delay between readings
+# Main function
+def main():
+    calibrate()
+    try:
+        while True:
+            light_value = photoresistor.read_u16()
+            # Map the light value to a frequency range (e.g., 200 Hz to 2000 Hz)
+            frequency = interval_mapping(light_value, light_low, light_high, 200, 2000)
+            play_tone(buzzer, frequency)
+            utime.sleep_ms(20)
+    except KeyboardInterrupt:
+        buzzer.deinit()
+        print("Program stopped.")
+
+# Run the main function
+if __name__ == "__main__":
+    main()

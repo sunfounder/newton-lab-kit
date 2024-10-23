@@ -1,27 +1,27 @@
 import machine
 import utime
 
-motor1A = machine.Pin(14, machine.Pin.OUT)
-motor2A = machine.Pin(15, machine.Pin.OUT)
+# Define the control pins
+motor_in1 = machine.Pin(14, machine.Pin.OUT)
+motor_in2 = machine.Pin(15, machine.Pin.OUT)
 
-def clockwise():
-    motor1A.high()
-    motor2A.low()
+def rotate_clockwise():
+    motor_in1.high()
+    motor_in2.low()
 
-def anticlockwise():
-    motor1A.low()
-    motor2A.high()
+def rotate_counterclockwise():
+    motor_in1.low()
+    motor_in2.high()
 
-def stopMotor():
-    motor1A.low()
-    motor2A.low()
+def stop_motor():
+    motor_in1.low()
+    motor_in2.low()
 
 while True:
-    clockwise()
+    rotate_clockwise()
     utime.sleep(1)
-    stopMotor()
+    stop_motor()
     utime.sleep(1)
-    anticlockwise()
+    rotate_counterclockwise()
     utime.sleep(1)
-    stopMotor()
-    utime.sleep(1)
+    stop_motor()

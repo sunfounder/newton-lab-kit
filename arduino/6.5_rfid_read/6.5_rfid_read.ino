@@ -8,19 +8,32 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 
 void setup() {
+
+
+  
+
   Serial.begin(115200);        // Initialize serial communications with the PC
-  while (!Serial) {
+  while(!Serial){
     delay(10);
   }
   simple_mfrc522_init();
+  Serial.println(F("Type string you want to write to section 0, ending with #"));
 }
 
 void loop() {
-  Serial.println("Place a card to read...");
+  byte buffer[34];
+  byte len;
+  
+
+  len = Serial.readBytesUntil('#', (char *) buffer, 30) ; // read from serial
+  if (len == 0){
+    return;
+  }
+  for (byte i = len; i < 30; i++) buffer[i] = ' ';     // pad with spaces
+
+  Serial.println("Place a card to write...");
   simple_mfrc522_get_card();
-  String result = simple_mfrc522_read();
-  Serial.print("Read:");
-  Serial.println(result);
+  simple_mfrc522_write(buffer);
 }
 
 
@@ -61,13 +74,14 @@ void simple_mfrc522_write(byte section, String text) {
 }
 void simple_mfrc522_write(byte section, byte* buffer) {
   byte block = section * 3 + 1;
-
+  
+  
   MFRC522::StatusCode status;
   // Prepare key - all keys are set to FFFFFFFFFFFFh at chip delivery from the factory.
   MFRC522::MIFARE_Key key;
   for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
 
-  //  simple_mfrc522_get_card();
+//  simple_mfrc522_get_card();
 
   //Serial.println(F("Authenticating using key A..."));
   status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, block, &key, &(mfrc522.uid));
@@ -114,7 +128,6 @@ void simple_mfrc522_write(byte section, byte* buffer) {
 String simple_mfrc522_read() {
   return simple_mfrc522_read(0);
 }
-
 String simple_mfrc522_read(byte section) {
   byte block = section * 3 + 1;
   // Prepare key - all keys are set to FFFFFFFFFFFFh at chip delivery from the factory.
@@ -123,7 +136,7 @@ String simple_mfrc522_read(byte section) {
 
   byte len;
   MFRC522::StatusCode status;
-
+  
   byte buffer[18];
   len = 18;
 

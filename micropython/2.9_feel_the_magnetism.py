@@ -1,7 +1,10 @@
 import machine
 import utime
-reed = machine.Pin(14, machine.Pin.IN)
+
+# Initialize GP14 as an input pin
+reed_switch = machine.Pin(14, machine.Pin.IN)
+
 while True:
-    if reed.value() == 1:
-        print("There are magnets here!!")
-        utime.sleep(1)
+    if reed_switch.value() == 0:
+        print("Magnet detected!")
+        utime.sleep(1)  # Delay to avoid multiple detections

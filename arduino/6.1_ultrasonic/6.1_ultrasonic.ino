@@ -1,27 +1,35 @@
-const int echoPin = 16;
-const int trigPin = 17;
+// Define the connection pins
+const int trigPin = 17;  // GPIO 17 -> Trig
+const int echoPin = 16;  // GPIO 16 -> Echo
 
-
-void setup(){
+void setup() {
+  // Initialize serial communication at 9600 baud
   Serial.begin(9600);
-  pinMode(echoPin, INPUT);
+
+  // Initialize the sensor pins
   pinMode(trigPin, OUTPUT);
-  Serial.println("Ultrasonic sensor:");  
+  pinMode(echoPin, INPUT);
 }
 
-void loop(){
-  float distance = readSensorData();
-  Serial.print(distance);   
-  Serial.println(" cm");
-  delay(400);
-}
+void loop() {
+  long duration;
+  float distance;
 
-float readSensorData(){
-  digitalWrite(trigPin, LOW); 
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH); 
+  // Trigger the sensor by setting Trig HIGH for 10 microseconds
+  digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);  
-  float distance = pulseIn(echoPin, HIGH)/58.00;  //Equivalent to (340m/s*1us)/2
-  return distance;
+  digitalWrite(trigPin, LOW);
+
+  // Read the Echo pin, returns the duration in microseconds
+  duration = pulseIn(echoPin, HIGH);
+
+  // Calculate the distance in centimeters
+  distance = duration * 0.034 / 2;
+
+  // Print the distance to the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  delay(500); // Wait for half a second before the next measurement
 }

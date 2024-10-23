@@ -1,21 +1,23 @@
 import machine
 import utime
 
+# Initialize PWM on pin GP15
 servo = machine.PWM(machine.Pin(15))
-servo.freq(50)
+servo.freq(50)  # Set the frequency to 50Hz
 
-def interval_mapping(x, in_min, in_max, out_min, out_max):
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-
-def servo_write(pin,angle):
-    pulse_width=interval_mapping(angle, 0, 180, 0.5,2.5)
-    duty=int(interval_mapping(pulse_width, 0, 20, 0,65535))
-    pin.duty_u16(duty)
+# Function to map angle to duty cycle
+def angle_to_duty(angle):
+    min_duty = 1638  # Corresponds to 0.5ms pulse (0°)
+    max_duty = 8192  # Corresponds to 2.5ms pulse (180°)
+    duty = int(min_duty + (angle / 180) * (max_duty - min_duty))
+    return duty
 
 while True:
-    for angle in range(180):
-        servo_write(servo,angle)
+    # Move servo from 0° to 180°
+    for angle in range(0, 181, 1):
+        servo.duty_u16(angle_to_duty(angle))
         utime.sleep_ms(20)
-    for angle in range(180,-1,-1):
-        servo_write(servo,angle)
+    # Move servo from 180° back to 0°
+    for angle in range(180, -1, -1):
+        servo.duty_u16(angle_to_duty(angle))
         utime.sleep_ms(20)

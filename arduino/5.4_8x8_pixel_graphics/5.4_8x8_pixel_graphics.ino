@@ -1,15 +1,17 @@
-const int STcp = 19;//Pin connected to ST_CP of 74HC595
-const int SHcp = 20;//Pin connected to SH_CP of 74HC595 
-const int DS = 18; //Pin connected to DS of 74HC595 
-int datArray[] = {0xFF,0xBB,0xD7,0xEF,0xD7,0xBB,0xFF,0xFF};
+const int STcp = 19;  // Pin connected to ST_CP (latch pin) of 74HC595
+const int SHcp = 20;  // Pin connected to SH_CP (clock pin) of 74HC595
+const int DS = 18;    // Pin connected to DS (data pin) of 74HC595
 
-void setup ()
-{
-  //set pins to output
-  pinMode(STcp,OUTPUT);
-  pinMode(SHcp,OUTPUT);
-  pinMode(DS,OUTPUT);
+// Data array representing the 'X' shape on an 8x8 LED matrix
+byte datArray[] = {0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E};
+
+void setup() {
+  // Set pins as outputs
+  pinMode(STcp, OUTPUT);
+  pinMode(SHcp, OUTPUT);
+  pinMode(DS, OUTPUT);
 }
+
 void loop()
 {
   for(int num = 0; num <8; num++)

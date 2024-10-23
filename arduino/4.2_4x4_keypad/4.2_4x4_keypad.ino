@@ -1,11 +1,10 @@
-// Include the Adafruit_Keypad library
 #include "Adafruit_Keypad.h"
 
-// Define the number of rows and columns for the keypad
+// Define the number of rows and columns
 const byte ROWS = 4;
 const byte COLS = 4;
 
-// Define the characters mapped to each button on the 4x4 keypad
+// Define the keymap for the keypad
 char keys[ROWS][COLS] = {
   { '1', '2', '3', 'A' },
   { '4', '5', '6', 'B' },
@@ -13,37 +12,38 @@ char keys[ROWS][COLS] = {
   { '*', '0', '#', 'D' }
 };
 
-// Define the Arduino pins connected to the row pinouts of the keypad
+// Connect to the row pinouts of the keypad
 byte rowPins[ROWS] = { 2, 3, 4, 5 };
-// Define the Arduino pins connected to the column pinouts of the keypad
+
+// Connect to the column pinouts of the keypad
 byte colPins[COLS] = { 6, 7, 8, 9 };
 
-// Initialize a custom keypad instance
+// Create the Keypad object
 Adafruit_Keypad myKeypad = Adafruit_Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
-// Setup function
 void setup() {
-  // Initialize Serial communication at 9600 baud rate
-  Serial.begin(9600);
-  // Initialize the custom keypad
+  // Initialize Serial communication
+  Serial.begin(115200);
+
+  // Initialize the keypad
   myKeypad.begin();
 }
 
-// Main loop function
 void loop() {
   // Update the state of keys
   myKeypad.tick();
 
-  // Check if there are new keypad events
+  // Check if there are any new keypad events
   while (myKeypad.available()) {
     // Read the keypad event
     keypadEvent e = myKeypad.read();
+
     // Check if the event is a key press
     if (e.bit.EVENT == KEY_JUST_PRESSED) {
-      // Print the key value only when the key is pressed
+      // Print the key value to the Serial Monitor
       Serial.println((char)e.bit.KEY);
     }
   }
 
-  delay(10);
+  delay(10); // Short delay to improve stability
 }

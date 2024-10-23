@@ -1,38 +1,40 @@
-from imu import MPU6050
 from machine import I2C, Pin
-import time
+import utime
+from imu import MPU6050
 
-# Initialize the I2C interface (SDA: Pin 4, SCL: Pin 5) with a frequency of 400kHz
+# Initialize I2C interface (I2C0) with SDA on GP4 and SCL on GP5
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
 
-# Initialize the MPU6050 sensor using the I2C interface
+# Initialize the MPU-6050 sensor
 mpu = MPU6050(i2c)
 
-def read_accel():
-    """Reads and returns accelerometer values (x, y, z)."""
-    return mpu.accel.x, mpu.accel.y, mpu.accel.z
+def read_accelerometer():
+   """Reads accelerometer data and returns it as a tuple (x, y, z)."""
+   accel = mpu.accel
+   return accel.x, accel.y, accel.z
 
-def read_gyro():
-    """Reads and returns gyroscope values (x, y, z)."""
-    return mpu.gyro.x, mpu.gyro.y, mpu.gyro.z
+def read_gyroscope():
+   """Reads gyroscope data and returns it as a tuple (x, y, z)."""
+   gyro = mpu.gyro
+   return gyro.x, gyro.y, gyro.z
 
 def main():
-    """Main loop that continuously reads and prints accelerometer and gyroscope data."""
-    while True:
-        # Read accelerometer data
-        accel_x, accel_y, accel_z = read_accel()
-        print("Accelerometer - X: {:.6f}, Y: {:.6f}, Z: {:.6f}".format(accel_x, accel_y, accel_z))
-        
-        # Wait for 0.5 seconds before reading gyroscope data
-        time.sleep(0.5)
+   """Main loop to read and print sensor data."""
+   while True:
+      # Read accelerometer data
+      ax, ay, az = read_accelerometer()
+      print("Accelerometer (g) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(ax, ay, az))
 
-        # Read gyroscope data
-        gyro_x, gyro_y, gyro_z = read_gyro()
-        print("Gyroscope - X: {:.6f}, Y: {:.6f}, Z: {:.6f}".format(gyro_x, gyro_y, gyro_z))
-        
-        # Wait for 0.5 seconds before the next loop
-        time.sleep(0.5)
+      # Pause for readability
+      utime.sleep(0.5)
 
-# Entry point of the script
+      # Read gyroscope data
+      gx, gy, gz = read_gyroscope()
+      print("Gyroscope (°/s) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(gx, gy, gz))
+
+      # Pause before the next set of readings
+      utime.sleep(0.5)
+
+# Run the main function
 if __name__ == "__main__":
-    main()
+   main()

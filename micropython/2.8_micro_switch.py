@@ -1,7 +1,10 @@
 import machine
 import utime
-button = machine.Pin(14, machine.Pin.IN)
+
+# Initialize GP14 as an input pin
+switch = machine.Pin(14, machine.Pin.IN)
+
 while True:
-    if button.value() == 1:
-        print("The switch works!")
-        utime.sleep(1)
+    if switch.value() == 1:
+        print("The switch is pressed!")
+        utime.sleep(0.5)  # Debounce delay

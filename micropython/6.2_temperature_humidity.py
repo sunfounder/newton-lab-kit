@@ -1,19 +1,20 @@
 from machine import Pin
-import utime as time
-from dht import DHT11
+import utime
+import dht
 
-# Initialize the pin for the DHT11 sensor as an input
-pin = Pin(16, Pin.IN)
-
-# Create a DHT11 sensor object
-sensor = DHT11(pin)
+# Initialize the DHT11 sensor
+sensor = dht.DHT11(Pin(16))
 
 while True:
-    # Measure temperature and humidity
-    sensor.measure()
-    
-    # Print the measured temperature and humidity values
-    print("Temperature: {}, Humidity: {}".format(sensor.temperature, sensor.humidity))
-    
-    # Wait for 1 second before the next measurement
-    time.sleep(1)
+   try:
+      # Trigger measurement
+      sensor.measure()
+      # Read values
+      temperature = sensor.temperature  # In Celsius
+      humidity = sensor.humidity        # In Percent
+      # Print values
+      print("Temperature: {}°C   Humidity: {}%".format(temperature, humidity))
+   except OSError as e:
+      print("Failed to read sensor.")
+   # Wait before the next reading
+   utime.sleep(2)

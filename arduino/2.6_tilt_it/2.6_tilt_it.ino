@@ -1,14 +1,15 @@
-const int tiltPin = 14;
-int state = 0;
+const int tiltPin = 14;  // GPIO pin connected to the tilt switch
 
 void setup() {
-  pinMode(tiltPin, INPUT);
-  Serial.begin(115200)
+  Serial.begin(115200);       // Initialize Serial Monitor at 115200 baud
+  pinMode(tiltPin, INPUT);    // Set the tilt pin as input
 }
 
 void loop() {
-  state = digitalRead(tiltPin);
-  if (state == LOW) {
-    Serial.println("The switch works!")
+  int tiltState = digitalRead(tiltPin);  // Read the state of the tilt switch
+
+  if (tiltState == HIGH) {
+    Serial.println("The switch works!");
   }
+  delay(100);  // Small delay to avoid flooding the Serial Monitor
 }

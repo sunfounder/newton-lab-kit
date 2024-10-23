@@ -1,7 +1,13 @@
 import machine
 import utime
-button = machine.Pin(14, machine.Pin.IN)
+
+# Initialize GP14 as an input
+slide_switch = machine.Pin(14, machine.Pin.IN)
+
 while True:
-    if button.value() == 0:
-        print("The switch works!")
-        utime.sleep(1)
+    switch_state = slide_switch.value()
+    if switch_state == 1:
+        print("Switch is toggled to the LEFT!")
+    else:
+        print("Switch is toggled to the RIGHT!")
+    utime.sleep(0.5)

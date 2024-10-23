@@ -1,10 +1,12 @@
-#include <IRremote.h>  // Include the IRremote library
+#define SEND_PWM_BY_TIMER
+
+#include <IRremote.hpp>  // Include the IRremote library
 
 const int receiverPin = 17;  // Define the pin number for the IR Sensor
 
 void setup() {
-  // Start serial communication at a baud rate of 9600
-  Serial.begin(9600);
+  // Start serial communication at a baud rate of 115200
+  Serial.begin(115200);
   // Initialize the IR receiver on the specified pin with LED feedback enabled
   IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);
 }

@@ -1,25 +1,37 @@
 import machine
-import time
+import utime
 
-TRIG = machine.Pin(17,machine.Pin.OUT)
-ECHO = machine.Pin(16,machine.Pin.IN)
+# Define the pins connected to the sensor
+TRIG = machine.Pin(17, machine.Pin.OUT)
+ECHO = machine.Pin(16, machine.Pin.IN)
 
-def distance():
+def measure_distance():
+    # Ensure the trigger pin is low
     TRIG.low()
-    time.sleep_us(2)
+    utime.sleep_us(2)
+    # Send a 10µs pulse to trigger the measurement
     TRIG.high()
-    time.sleep_us(10)
+    utime.sleep_us(10)
     TRIG.low()
-    while not ECHO.value():
+
+    # Wait for the echo pin to go high (start of echo pulse)
+    while ECHO.value() == 0:
         pass
-    time1 = time.ticks_us()
-    while ECHO.value():
+    start_time = utime.ticks_us()
+
+    # Wait for the echo pin to go low (end of echo pulse)
+    while ECHO.value() == 1:
         pass
-    time2 = time.ticks_us()
-    during = time.ticks_diff(time2,time1)
-    return during * 340 / 2 / 10000
+    end_time = utime.ticks_us()
+
+    # Calculate the duration of the echo pulse
+    duration = utime.ticks_diff(end_time, start_time)
+
+    # Calculate the distance (speed of sound is 34300 cm/s)
+    distance = (duration * 0.0343) / 2
+    return distance
 
 while True:
-    dis = distance()
-    print ('Distance: %.2f' % dis)
-    time.sleep_ms(300)
+    dist = measure_distance()
+    print("Distance: {:.2f} cm".format(dist))
+    utime.sleep(0.5)
