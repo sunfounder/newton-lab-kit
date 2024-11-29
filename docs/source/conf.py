@@ -734,6 +734,9 @@ rst_epilog += """
 
     <a href="https://www.sunfounder.com/products/hcsr501-human-sensor" target="_blank">BUY</a>
 
+.. |link_micropython_method| raw:: html
+
+    <a href="https://www.raspberrypi.com/documentation/microcontrollers/micropython.html#drag-and-drop-micropython" target="_blank">method</a>
 
 
 """

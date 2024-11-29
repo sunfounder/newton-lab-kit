@@ -14,54 +14,38 @@
 
 .. _install_micropython_on_pico:
 
-1.3 Install MicroPython Firmware on Your Pico
-=========================================================
-
-You can program your Pico by connecting it to a computer via USB, then dragging and dropping a file onto it so we’ve put together a downloadable UF2 file to let you install MicroPython more easily.
-
-#. Download the correct MicroPython UF2 file for your board:
-
-   :download:`Raspberry Pi Pico 2 UF2 Firmware <https://micropython.org/resources/firmware/RPI_PICO2-20240809-v1.24.0-preview.201.g269a0e0e1.uf2>`
-
-#. Press and hold the **BOOTSEL** button and then connect the Pico to computer via a Micro USB cable. Release the **BOOTSEL** button after your Pico is mount as a Mass Storage Device called **RP2350**.
-
-   .. image:: img/bootsel_onboard.png
-    :width: 500
-    :align: center
-
-#. Drag and drop the MicroPython UF2 file onto the **RP2350** volume. Your Pico 2 will reboot. You are now running MicroPython.
-
-   .. image:: img/drag_drop_uf2.png
-      :width: 800
+1.3 Install MicroPython on Your Pico2
+==========================================
 
 
-.. Now come to install MicroPython Firmware into Raspberry Pi Pico 2, Thonny IDE provides a very convenient way for you to install it with one click.
+Now come to install MicroPython into Raspberry Pi Pico 2, Thonny IDE provides a very convenient way for you to install it with one click.
 
-.. .. note::
-..     If you do not wish to upgrade Thonny IDE, you can use the Raspberry Pi official |link_micropython_pi| by dragging and dropping an ``rp2_pico_xxxx.uf2`` file into Raspberry Pi Pico 2.
-
-.. #. Open Thonny IDE.
-
-..     .. image:: img/set_pico1.png
-
-.. #. Press and hold the **BOOTSEL** button and then connect the Pico to computer via a Micro USB cable. Release the **BOOTSEL** button after your Pico is mount as a Mass Storage Device called **RP2350**.
-
-..     .. image:: img/bootsel_onboard.png
-
-.. #. In the bottom right corner, click the interpreter selection button and select **Install Micropython**.
-
-..     .. note::
-..         If your Thonny does not have this option, please update to the latest version.
-
-..     .. image:: img/set_pico2.png
-
-.. #. In the **Target volume**, the volume of the Pico you just plugged in will automatically appear, and in the **Micropython variant**, select **Raspberry Pi.Pico/Pico H**.
-
-..     .. image:: img/set_pico3.png
-
-.. #. Click the **Install** button, wait for the installation to complete and then close this page.
-
-..     .. image:: img/set_pico4.png
+.. note::
+    If you do not wish to upgrade Thonny, you can use the Raspberry Pi official |link_micropython_method| by dragging and dropping an ``rp2_pico_xxxx.uf2`` file into Raspberry Pi Pico2.
 
 
-.. Congratulations, now your Raspberry Pi Pico 2 is ready to go.
+#. Open Thonny IDE.
+
+    .. image:: img/new/set_pico1.png
+
+#. Press and hold the **BOOTSEL** button and then connect the Pico2 to computer via a Micro USB cable. Release the **BOOTSEL** button after your Pico2 is mount as a Mass Storage Device called **RPI-RP2**.
+
+    .. image:: img/new/bootsel_onboard.png
+
+#. In the bottom right corner, click the interpreter selection button and select **Install Micropython**.
+
+    .. note::
+        If your Thonny does not have this option, please update to the latest version.
+
+    .. image:: img/new/set_pico2.jpg
+
+#. In the **Target volume**, the volume of the Pico2 you just plugged in will automatically appear, and in the **Micropython variant**, select **Raspberry Pi.Pico 2**.
+
+    .. image:: img/new/set_pico3.jpg
+
+#. Click the **Install** button, wait for the installation to complete and then close this page.
+
+    .. image:: img/new/set_pico4.jpg
+
+
+Congratulations, now your Raspberry Pi Pico2 is ready to go.
