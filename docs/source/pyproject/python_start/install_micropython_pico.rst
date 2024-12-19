@@ -28,7 +28,7 @@ Now come to install MicroPython into Raspberry Pi Pico 2, Thonny IDE provides a 
 
     .. image:: img/new/set_pico1.png
 
-#. Press and hold the **BOOTSEL** button and then connect the Pico2 to computer via a Micro USB cable. Release the **BOOTSEL** button after your Pico2 is mount as a Mass Storage Device called **RPI-RP2**.
+#. Press and hold the **BOOTSEL** button and then connect the Pico2 to computer via a Micro USB cable. Release the **BOOTSEL** button after your Pico2 is mount as a Mass Storage Device called **RPI-RP2040**.
 
     .. image:: img/new/bootsel_onboard.png
 
