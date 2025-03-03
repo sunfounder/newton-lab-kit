@@ -630,10 +630,13 @@ rst_epilog += """
 
 rst_epilog += """
 
+.. |link_Newton_lab_kit| raw:: html
+
+    <a href="https://www.sunfounder.com/products/raspberry-pi-pico-2-newton-lab-starter-kit?_pos=1&_sid=537fa680e&_ss=r" target="_blank">Purchase Link for Newton Lab Kit</a>
 
 .. |link_newton_lab_kit| raw:: html
 
-    <a href="https://www.sunfounder.com/collections/raspberry-pi-kit-for-beginner-1/products/sunfounder-raspberry-pi-pico-w-ultimate-starter-kit" target="_blank">Newton Lab Kit</a>
+    <a href="https://www.sunfounder.com/products/raspberry-pi-pico-2-newton-lab-starter-kit?_pos=1&_sid=537fa680e&_ss=r" target="_blank">Newton Lab Kit</a>
 
 .. |link_pico2_buy| raw:: html
 

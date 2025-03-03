@@ -12,11 +12,12 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-SunFounder Newton Lab Kit for Raspberry Pi Pico 2
+SunFounder |link_newton_lab_kit| for Raspberry Pi Pico 2
 ===========================================================
 
+* |link_Newton_lab_kit|
 
-Thank you for choosing the SunFounder Newton Lab Kit!
+Thank you for choosing the SunFounder |link_newton_lab_kit|!
 
 This advanced learning kit, built around the Raspberry Pi Pico 2, offers a wide range of components, including displays, sound modules, drivers, controllers, and sensors, designed to give you a deep understanding of electronic devices.
 
