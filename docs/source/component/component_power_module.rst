@@ -1,42 +1,41 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_power_module:
 
-Power Supply Module
-===================
+Stromversorgungsmodul
+========================
 
-A 3.3V and 5V breadboard power module with series diode and reverse polarity protection.
-The module can accept 6.5V to 12V input, and can generate 3.3V and +5V.
-For experimenters who must test/prototype electronic circuits on breadboards or perforated/veroboards, this is a must-have power supply module.
-
+Ein 3,3V und 5V Stromversorgungsmodul für Steckbretter mit Seriendiode und Schutz gegen Verpolung.
+Das Modul kann eine Eingangsspannung von 6,5V bis 12V akzeptieren und kann 3,3V und +5V erzeugen.
+Für Experimentatoren, die elektronische Schaltungen auf Steckbrettern oder Lochrasterplatten testen/prototypisieren müssen, ist dieses Stromversorgungsmodul unverzichtbar.
 
 |img_power_module|
 
-**Features**
-    #. Plug directly to MB102 Standard breadboard.
-    #. Input voltage: 6.5-12 V (DC) or 5V USB power supply.
-    #. Output voltage: 3.3V and 5V can switch over.
-    #. Maximum output current: <700 mA.
-    #. External Input voltage ON/OFF switch.
-    #. Independent control of upper and Lower Bread Board Power Rails. Can switch over to 0V, 3.3V, 5V using jumpers on any rail.
-    #. On-board two groups of 3.3V, 5V DC output plug pin, convenient external lead use.
-    #. USB device connector onboard for power output to external device.
-    #. Size: 5.3cm x 3.5cm.
+**Merkmale**
+    #. Direkter Anschluss an das MB102 Standard-Steckbrett.
+    #. Eingangsspannung: 6,5-12 V (DC) oder 5V USB-Stromversorgung.
+    #. Ausgangsspannung: Umschaltbar zwischen 3,3V und 5V.
+    #. Maximale Ausgangsstromstärke: <700 mA.
+    #. Externer Eingangsspannung Ein/Aus-Schalter.
+    #. Unabhängige Kontrolle der oberen und unteren Stromschienen des Steckbretts. Umschaltung auf 0V, 3,3V, 5V möglich durch Jumper auf jeder Schiene.
+    #. An Bord zwei Gruppen von 3,3V, 5V DC-Ausgangssteckerstiften, bequem für den externen Anschluss.
+    #. USB-Geräteanschluss an Bord für die Stromversorgung externer Geräte.
+    #. Größe: 5,3cm x 3,5cm.
 
 
-**Example**
+**Beispiel**
 
 * :ref:`py_motor` (For MicroPython User)
 * :ref:`ar_motor` (For Arduino User)

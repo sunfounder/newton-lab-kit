@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 mit anderen Technikbegeisterten ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugriff auf neue Produktankündigungen und Sneak Peeks.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu experimentieren und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _py_bubble_level:
 
-7.12 Building a Digital Bubble Level
-==========================================
+7.12 Bau einer digitalen Wasserwaage
+=========================================
 
-In this project, we'll create a **Digital Bubble Level** using the Raspberry Pi Pico 2, an MPU6050 accelerometer and gyroscope module, and an 8x8 LED matrix display controlled by two 74HC595 shift registers. This device functions similarly to a traditional spirit level, indicating the tilt of a surface. As you tilt the MPU6050, a "bubble" represented by LEDs on the matrix will move accordingly, allowing you to visualize the levelness of a surface.
+In diesem Projekt erstellen wir eine **digitale Wasserwaage** mit dem Raspberry Pi Pico 2, einem MPU6050-Beschleunigungs- und Gyroskopsensor sowie einer 8x8-LED-Matrix, die über zwei 74HC595-Schieberegister gesteuert wird. Dieses Gerät funktioniert ähnlich wie eine herkömmliche Wasserwaage und zeigt die Neigung einer Oberfläche an. Je nach Neigung des MPU6050 bewegt sich eine auf der LED-Matrix dargestellte "Blase" entsprechend und ermöglicht eine visuelle Anzeige der Ebenheit.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein komplettes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Du kannst sie auch einzeln über die folgenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_dot_matrix`
@@ -77,43 +77,43 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Understanding the Components**
+**Verständnis der Komponenten**
 
-* **MPU6050 Accelerometer and Gyroscope**: Provides acceleration and angular velocity data along three axes (X, Y, Z), which we'll use to calculate the tilt angles.
-* **8x8 LED Matrix Display**: An array of LEDs arranged in 8 rows and 8 columns, allowing us to display patterns or images by controlling individual LEDs.
-* **74HC595 Shift Registers**: Allows us to control multiple outputs (in this case, the rows and columns of the LED matrix) using fewer GPIO pins on the Pico.
+* **MPU6050 Beschleunigungssensor und Gyroskop**: Liefert Beschleunigungs- und Rotationsdaten entlang der X-, Y- und Z-Achsen, die zur Berechnung der Neigungswinkel verwendet werden.
+* **8x8-LED-Matrix**: Ein Raster aus LEDs, das es ermöglicht, Muster oder Bilder darzustellen, indem einzelne LEDs gesteuert werden.
+* **74HC595 Schieberegister**: Ermöglichen die Steuerung mehrerer Ausgänge (in diesem Fall Zeilen und Spalten der LED-Matrix) mit nur wenigen GPIO-Pins des Pico.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_bubble_level|
 
-The MPU6050 takes the acceleration values in each direction and calculates the attitude angle.
+Der MPU6050 erfasst die Beschleunigungswerte in jeder Richtung und berechnet den Neigungswinkel.
 
-As a result, the program draws a 2x2 dot on the dot matrix based on data from the two 74HC595 chips.
+Basierend auf diesen Daten zeichnet das Programm einen 2x2-Pixel-Punkt auf der LED-Matrix mithilfe der beiden 74HC595-Chips.
 
-As the attitude angle changes, the program sends different data to the 74HC595 chips, and the position of the dot changes, creating a bubble effect.
+Wenn sich der Neigungswinkel ändert, sendet das Programm unterschiedliche Daten an die 74HC595-Chips, wodurch sich die Position des Punkts ändert und ein "Blaseneffekt" entsteht.
 
-**Wiring**
+**Verdrahtung**
 
 |wiring_digital_bubble_level| 
 
 
-**Writing the Code**
+**Code schreiben**
 
-We'll write a MicroPython script that:
+Wir schreiben ein MicroPython-Skript, das:
 
-* Reads acceleration data from the MPU6050.
-* Calculates the tilt angles along the X and Y axes.
-* Maps the tilt angles to positions on the 8x8 LED matrix.
-* Displays a "bubble" (a 2x2 pixel representation) that moves according to the tilt.
+* Die Beschleunigungsdaten vom MPU6050 liest.
+* Die Neigungswinkel entlang der X- und Y-Achsen berechnet.
+* Die Neigungswinkel auf Positionen der 8x8-LED-Matrix abbildet.
+* Eine "Blase" (eine 2x2-Pixel-Darstellung) anzeigt, die sich entsprechend der Neigung bewegt.
 
 .. note::
 
-    * Open the ``7.12_digital_bubble_level.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the ``imu.py`` and ``vector3d.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * Öffne ``7.12_digital_bubble_level.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny und klicke dann auf „Run“ oder drücke F5.
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Hier benötigst du die Bibliotheken ``imu.py`` und ``vector3d.py``. Überprüfe, ob sie bereits auf den Pico hochgeladen wurden. Eine detaillierte Anleitung findest du unter :ref:`add_libraries_py`.
 
-.. code-block:: python
+.. code-block:: python 
 
     import machine
     from machine import I2C, Pin
@@ -121,36 +121,36 @@ We'll write a MicroPython script that:
     import math
     from imu import MPU6050
     
-    # Initialize I2C communication with MPU6050 sensor
+    # Initialisierung der I2C-Kommunikation mit dem MPU6050-Sensor
     i2c = I2C(1, sda=Pin(6), scl=Pin(7), freq=400000)
     mpu = MPU6050(i2c)
     
-    # Function to calculate the distance between two points
+    # Funktion zur Berechnung der Distanz zwischen zwei Punkten
     def dist(a, b):
         return math.sqrt((a * a) + (b * b))
     
-    # Function to calculate rotation along the y-axis
+    # Funktion zur Berechnung der Rotation entlang der y-Achse
     def get_y_rotation(x, y, z):
         radians = math.atan2(x, dist(y, z))
         return -math.degrees(radians)
     
-    # Function to calculate rotation along the x-axis
+    # Funktion zur Berechnung der Rotation entlang der x-Achse
     def get_x_rotation(x, y, z):
         radians = math.atan2(y, dist(x, z))
         return math.degrees(radians)
     
-    # Function to get the current angles from the MPU6050 sensor
+    # Funktion zur Ermittlung der aktuellen Winkel vom MPU6050-Sensor
     def get_angle():
         y_angle = get_y_rotation(mpu.accel.x, mpu.accel.y, mpu.accel.z)
         x_angle = get_x_rotation(mpu.accel.x, mpu.accel.y, mpu.accel.z)
         return x_angle, y_angle
     
-    # Initialize shift register pins for controlling the LED matrix
+    # Initialisierung der Schieberegister-Pins zur Steuerung der LED-Matrix
     sdi = machine.Pin(18, machine.Pin.OUT)
     rclk = machine.Pin(19, machine.Pin.OUT)
     srclk = machine.Pin(20, machine.Pin.OUT)
     
-    # Function to shift data into the shift register
+    # Funktion, um Daten ins Schieberegister zu schieben
     def hc595_in(dat):
         for bit in range(7, -1, -1):
             srclk.low()
@@ -159,20 +159,20 @@ We'll write a MicroPython script that:
             time.sleep_us(30)
             srclk.high()
     
-    # Function to output the data from the shift register to the LED matrix
+    # Funktion, um die Daten vom Schieberegister auf die LED-Matrix auszugeben
     def hc595_out():
         rclk.high()
         time.sleep_us(200)
         rclk.low()
     
-    # Function to display a glyph (8x8 matrix) on the LED matrix
+    # Funktion zur Anzeige eines Glyphs (8x8-Matrix) auf der LED-Matrix
     def display(glyph):
         for i in range(0, 8):
             hc595_in(glyph[i])
             hc595_in(0x80 >> i)
             hc595_out()
     
-    # Convert a 2D matrix to a glyph that can be displayed on the LED matrix
+    # Konvertierung einer 2D-Matrix in ein Glyph, das auf der LED-Matrix angezeigt werden kann
     def matrix_2_glyph(matrix):
         glyph = [0 for i in range(8)]
         for i in range(8):
@@ -180,27 +180,27 @@ We'll write a MicroPython script that:
                 glyph[i] += matrix[i][j] << j
         return glyph
     
-    # Clamp a value between a specified minimum and maximum
+    # Klemmen eines Werts zwischen einem festgelegten Minimum und Maximum
     def clamp_number(val, min_val, max_val):
         return min_val if val < min_val else max_val if val > max_val else val
     
-    # Map a value from one range to another
+    # Abbilden eines Werts von einem Bereich auf einen anderen
     def interval_mapping(x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
     
-    # Calculate the position of the bubble in the matrix based on the MPU6050 readings
-    sensitivity = 4  # Sensitivity of the bubble movement
-    matrix_range = 7  # The matrix size is 8x8, so the range is 0-7
-    point_range = matrix_range - 1  # Bubble's position should be between 0 and 6
+    # Berechnung der Position der Blase in der Matrix basierend auf den MPU6050-Lesungen
+    sensitivity = 4  # Empfindlichkeit der Blasenbewegung
+    matrix_range = 7  # Die Matrixgröße ist 8x8, also ist der Bereich 0-7
+    point_range = matrix_range - 1  # Die Position der Blase sollte zwischen 0 und 6 liegen
     
-    # Function to calculate the position of the bubble based on sensor data
+    # Funktion zur Berechnung der Position der Blase basierend auf Sensordaten
     def bubble_position():
-        y, x = get_angle()  # Get the current rotation angles
+        y, x = get_angle()  # Erhalten der aktuellen Rotationswinkel
         x = int(clamp_number(interval_mapping(x, 90, -90, 0 - sensitivity, point_range + sensitivity), 0, point_range))
         y = int(clamp_number(interval_mapping(y, -90, 90, point_range + sensitivity, 0 - sensitivity), 0, point_range))
         return [x, y]
     
-    # Drop the bubble (represented by turning off 2x2 LEDs) into the matrix
+    # Fallenlassen der Blase (dargestellt durch das Ausschalten von 2x2 LEDs) in die Matrix
     def drop_bubble(matrix, bubble):
         matrix[bubble[0]][bubble[1]] = 0
         matrix[bubble[0] + 1][bubble[1]] = 0
@@ -208,178 +208,179 @@ We'll write a MicroPython script that:
         matrix[bubble[0] + 1][bubble[1] + 1] = 0
         return matrix
     
-    # Main loop
+    # Hauptschleife
     while True:
-        matrix = [[1 for i in range(8)] for j in range(8)]  # Create an empty matrix (all LEDs on)
-        bubble = bubble_position()  # Get the current bubble position based on sensor data
-        matrix = drop_bubble(matrix, bubble)  # Drop the bubble into the matrix
-        display(matrix_2_glyph(matrix))  # Display the matrix on the LED grid
-        time.sleep(0.1)  # Add a small delay to slow down updates
+        matrix = [[1 for i in range(8)] for j in range(8)]  # Erstellen einer leeren Matrix (alle LEDs an)
+        bubble = bubble_position()  # Erhalten der aktuellen Blasenposition basierend auf Sensordaten
+        matrix = drop_bubble(matrix, bubble)  # Fallenlassen der Blase in die Matrix
+        display(matrix_2_glyph(matrix))  # Anzeigen der Matrix auf dem LED-Gitter
+        time.sleep(0.1)  # Kleine Verzögerung, um Aktualisierungen zu verlangsamen
 
-When the code runs, place the setup on a level surface.
-The bubble (a 2x2 pixel area) should appear at the center of the LED matrix.
-Tilt the breadboard or the MPU6050 module.
-Observe the bubble moving on the LED matrix in the direction of the tilt, simulating a real bubble level.
 
-**Understanding the Code**
+Wenn der Code ausgeführt wird, platziere die Schaltung auf einer ebenen Fläche.
+Die Blase (ein 2x2-Pixel-Bereich) sollte sich im Zentrum der LED-Matrix befinden.
+Neige das Breadboard oder das MPU6050-Modul.
+Beobachte, wie sich die Blase auf der LED-Matrix in Richtung der Neigung bewegt und eine echte Wasserwaage simuliert.
 
-This code reads data from an MPU6050 accelerometer and gyroscope sensor to determine the tilt of the device and displays a "bubble" on an 8x8 LED matrix, simulating a digital bubble level.
+**Verständnis des Codes**
 
-#. Imports and Initializations:
+Dieser Code liest Daten von einem MPU6050-Beschleunigungs- und Gyroskopsensor, um die Neigung des Geräts zu bestimmen, und zeigt eine "Blase" auf einer 8x8-LED-Matrix an, die eine digitale Wasserwaage simuliert.
 
-   * ``machine``: Access to the microcontroller's hardware components.
-   * ``I2C``, ``Pin``: For I2C communication and GPIO pin manipulation.
-   * ``time``: Timing functions for delays.
-   * ``math``: Mathematical functions for calculations.
-   * ``MPU6050`` from ``imu``: Library to interface with the MPU6050 sensor.
+#. Importe und Initialisierung:
 
-#. I2C Initialization:
+   * ``machine``: Zugriff auf die Hardwarekomponenten des Mikrocontrollers.
+   * ``I2C``, ``Pin``: Für I2C-Kommunikation und GPIO-Pin-Steuerung.
+   * ``time``: Zeitfunktionen für Verzögerungen.
+   * ``math``: Mathematische Funktionen für Berechnungen.
+   * ``MPU6050`` aus ``imu``: Bibliothek zur Schnittstelle mit dem MPU6050-Sensor.
 
-   * Sets up I2C communication on bus 1 with SDA on Pin 6 and SCL on Pin 7.
-   * The frequency is set to 400 kHz for fast data transfer.
-   * An ``mpu`` object is created to interact with the MPU6050 sensor.
+#. I2C-Initialisierung:
 
-#. Mathematical Functions:
+   * Einrichtung der I2C-Kommunikation mit SDA auf Pin 6 und SCL auf Pin 7.
+   * Die Frequenz wird auf 400 kHz für eine schnelle Datenübertragung eingestellt.
+   * Ein ``mpu``-Objekt wird erstellt, um mit dem MPU6050-Sensor zu kommunizieren.
 
-   * ``dist(a, b)`` Funtion:
+#. Mathematische Funktionen:
 
-     * Calculates the Euclidean distance between two values.
-     * Used to compute the magnitude component in angle calculations.
+   * ``dist(a, b)``:
+
+     * Berechnet die euklidische Distanz zwischen zwei Werten.
+     * Wird zur Berechnung der Größe der Komponenten in den Winkelberechnungen verwendet.
 
    * ``get_y_rotation(x, y, z)``:
-     
-     * Calculates the rotation around the Y-axis in degrees.
-     * Uses ``math.atan2`` to compute the arctangent of x and the distance between y and z.
-     * The result is negated to match the desired orientation.
+
+     * Berechnet die Rotation um die Y-Achse in Grad.
+     * Nutzt ``math.atan2``, um den Arkustangens von x und der Distanz zwischen y und z zu berechnen.
+     * Das Ergebnis wird negiert, um die gewünschte Ausrichtung zu erhalten.
 
    * ``get_x_rotation(x, y, z)``:
 
-     * Calculates the rotation around the X-axis in degrees.
-     * Similar to ``get_y_rotation`` but computes the arctangent of y and the distance between x and z.
+     * Berechnet die Rotation um die X-Achse in Grad.
+     * Ähnlich wie ``get_y_rotation``, aber mit Berechnung des Arkustangens von y und der Distanz zwischen x und z.
 
    * ``get_angle()``:
 
-     * Retrieves the current acceleration data from the MPU6050 sensor.
-     * Computes the X and Y rotation angles using the accelerometer data.
+     * Ruft die aktuellen Beschleunigungsdaten vom MPU6050-Sensor ab.
+     * Berechnet die X- und Y-Rotationswinkel basierend auf den Beschleunigungswerten.
 
-#. Shift Register Functions:
+#. Schieberegister-Funktionen:
 
-   * Pin Definitions:
+   * Pin-Definitionen:
 
-     * ``sdi``: Serial Data Input pin for the shift register (Pin 18).
-     * ``rclk``: Register Clock (latch) pin for the shift register (Pin 19).
-     * ``srclk``: Shift Register Clock pin for the shift register (Pin 20).
+     * ``sdi``: Serial Data Input (Pin 18).
+     * ``rclk``: Register Clock (Latch) (Pin 19).
+     * ``srclk``: Shift Register Clock (Pin 20).
 
-   * ``hc595_in(dat)`` Function:
+   * ``hc595_in(dat)``:
 
-     * Shifts an 8-bit data byte into the shift register.
-     * Iterates over each bit from MSB to LSB.
-     * Controls ``srclk`` and ``sdi`` to clock in the data bits.
+     * Schiebt ein 8-Bit-Datenbyte in das Schieberegister.
+     * Iteriert über jedes Bit vom MSB zum LSB.
+     * Steuert ``srclk`` und ``sdi``, um die Bits in das Register zu schieben.
 
    * ``hc595_out()``:
 
-     * Latches the shifted data to the output pins of the shift register.
-     * Toggles the ``rclk`` pin to transfer the data from the shift register to the storage register.
+     * Latcht die Daten vom Schieberegister auf die Ausgänge.
+     * Kippt das ``rclk``-Signal, um die Daten auszugeben.
 
-#. LED Matrix Display Functions:
+#. LED-Matrix-Anzeigefunktionen:
 
-   * ``display(glyph)`` Funtion:
+   * ``display(glyph)``:
 
-     * Displays an 8x8 glyph on the LED matrix.
-     * Iterates through each row of the glyph.
-     * Shifts in the row data and the corresponding column selector.
-     * Calls ``hc595_out()`` to update the display.
+     * Zeigt ein 8x8-Glyph auf der LED-Matrix an.
+     * Iteriert durch jede Zeile des Glyphs.
+     * Verschiebt die Zeilendaten und den entsprechenden Spaltenselektor.
+     * Ruft ``hc595_out()`` auf, um die Anzeige zu aktualisieren.
 
-   * ``matrix_2_glyph(matrix)`` Funtion:
+   * ``matrix_2_glyph(matrix)``:
 
-     * Converts an 8x8 2D matrix of 0s and 1s into an 8-byte glyph.
-     * Each byte in the glyph represents a row in the LED matrix.
-     * Bits in each byte correspond to the LEDs in that row.
+     * Wandelt eine 8x8 2D-Matrix von 0en und 1en in ein 8-Byte-Glyph um.
+     * Jedes Byte im Glyph repräsentiert eine Zeile in der LED-Matrix.
+     * Bits in jedem Byte entsprechen den LEDs in dieser Zeile.
 
-#. Utility Functions:
+#. Hilfsfunktionen:
 
-   * ``clamp_number(val, min_val, max_val)`` Funtion:
+   * ``clamp_number(val, min_val, max_val)``:
 
-     * Ensures that ``val`` stays within the specified ``min_val`` and ``max_val`` range.
-     * Prevents the bubble from moving outside the LED matrix boundaries.
+     * Stellt sicher, dass ``val`` innerhalb des angegebenen Bereichs bleibt.
+     * Verhindert, dass die Blase sich außerhalb der LED-Matrix bewegt.
 
-   * ``interval_mapping(x, in_min, in_max, out_min, out_max)`` Funtion:
+   * ``interval_mapping(x, in_min, in_max, out_min, out_max)``:
 
-     * Maps a value ``x`` from one numerical range to another.
-     * Used to translate angle measurements to matrix positions.
+     * Ordnet einen Wert ``x`` von einem numerischen Bereich auf einen anderen zu.
+     * Wird verwendet, um Winkelmessungen in Matrixpositionen zu übersetzen.
 
-#. Bubble Position Calculation:
+#. Blasen-Positionsberechnung:
 
-   * Sensitivity Settings:
+   * Empfindlichkeitseinstellungen:
 
-     * ``sensitivity = 4``: Determines how responsive the bubble is to tilt changes.
-     * ``matrix_range = 7``: The maximum index for the 8x8 matrix (0 to 7).
-     * ``point_range = matrix_range - 1``: Adjusted range to keep the bubble within bounds (0 to 6).
+     * ``sensitivity = 4``: Bestimmt, wie empfindlich die Blase auf Neigungsänderungen reagiert.
+     * ``matrix_range = 7``: Der maximale Index für die 8x8-Matrix (0 bis 7).
+     * ``point_range = matrix_range - 1``: Angepasster Bereich, um die Blase innerhalb der Grenzen zu halten (0 bis 6).
 
-   * ``bubble_position()`` Funtion:
+   * ``bubble_position()``:
 
-     * Retrieves the current X and Y rotation angles.
-     * Maps the angles to positions on the LED matrix using ``interval_mapping``.
-     * Clamps the positions to ensure they stay within the matrix.
+     * Ruft die aktuellen X- und Y-Rotationswinkel ab.
+     * Ordnet die Winkel auf Positionen auf der LED-Matrix zu, indem ``interval_mapping`` verwendet wird.
+     * Begrenzt die Positionen, um sicherzustellen, dass sie innerhalb der Matrix bleiben.
 
-#. Bubble Display Function:
+#. Blasen-Anzeigefunktion:
 
-   * ``drop_bubble(matrix, bubble)`` Function:
+   * ``drop_bubble(matrix, bubble)``:
 
-     * Modifies the LED matrix to represent the bubble at the given position.
-     * Turns off a 2x2 block of LEDs centered at the bubble's coordinates.
-     * Updates the matrix to create the visual effect of a bubble moving.
+     * Ändert die LED-Matrix, um die Blase an der angegebenen Position darzustellen.
+     * Schaltet einen 2x2-Block von LEDs aus, der sich um die Blasenkoordinaten befindet.
+     * Aktualisiert die Matrix, um den visuellen Effekt einer sich bewegenden Blase zu erzeugen.
 
-#. Main Loop
+#. Hauptschleife
 
-   * Continuously runs to update the display based on sensor input.
-   * Initializes a fresh 8x8 matrix with all LEDs turned on (value ``1``).
-   * Gets the current bubble position from ``bubble_position()``.
-   * Updates the matrix with ``drop_bubble()`` to reflect the bubble's new position.
-   * Converts the matrix to a glyph using ``matrix_2_glyph()``.
-   * Displays the glyph on the LED matrix with ``display()``.
-   * Waits for 0.1 seconds before repeating to control the update rate.
+   * Läuft kontinuierlich, um die Anzeige basierend auf den Sensoreingaben zu aktualisieren.
+   * Initialisiert eine frische 8x8-Matrix mit allen eingeschalteten LEDs (Wert ``1``).
+   * Ruft die aktuelle Blasenposition von ``bubble_position()`` ab.
+   * Aktualisiert die Matrix mit ``drop_bubble()``, um die neue Position der Blase anzuzeigen.
+   * Wandelt die Matrix mit ``matrix_2_glyph()`` in ein Glyph um.
+   * Zeigt das Glyph auf der LED-Matrix mit ``display()`` an.
+   * Wartet 0,1 Sekunden vor der Wiederholung, um die Aktualisierungsrate zu steuern.
 
-**Troubleshooting**
+**Fehlersuche**
 
-* LED Matrix Not Displaying Correctly:
+* LED-Matrix wird nicht korrekt angezeigt:
 
-  * Check all wiring connections between the shift registers and the LED matrix.
-  * Ensure that the shift registers are connected properly to the Pico.
-  * Verify that the common anode or cathode configuration of your LED matrix matches the code logic.
+  * Überprüfe alle Verdrahtungen zwischen den Schieberegistern und der LED-Matrix.
+  * Stelle sicher, dass die Schieberegister korrekt mit dem Pico verbunden sind.
+  * Prüfe, ob die Konfiguration der gemeinsamen Anode oder Kathode deiner LED-Matrix mit der Code-Logik übereinstimmt.
 
-* Incorrect Bubble Movement:
+* Blasenbewegung ist inkorrekt:
 
-  * Ensure the MPU6050 is properly connected and functioning.
-  * Check that the MPU6050 is correctly oriented.
+  * Stelle sicher, dass der MPU6050 richtig angeschlossen und funktionsfähig ist.
+  * Überprüfe, ob der MPU6050 korrekt ausgerichtet ist.
 
-* Program Errors:
+* Programmfehler:
 
-  * Ensure that ``imu.py`` and ``vector3d.py`` are correctly uploaded.
-  * Check for typos or indentation errors in the code.
+  * Stelle sicher, dass ``imu.py`` und ``vector3d.py`` korrekt hochgeladen wurden.
+  * Prüfe den Code auf Tippfehler oder Einrückungsfehler.
 
-**Experimenting Further**
+**Weiterführende Experimente**
 
-* Adjust Sensitivity:
+* Empfindlichkeit anpassen:
 
-  Modify the mapping of angles to positions to change the sensitivity of the bubble movement.
+  Ändere die Skalierung der Winkel-zu-Matrix-Zuordnung, um die Blasenbewegung fein abzustimmen.
 
-* Display Enhancements:
+* Anzeigeverbesserungen:
 
-  * Change the size or shape of the bubble.
-  * Add visual effects, such as trails or different patterns.
+  * Ändere die Größe oder Form der Blase.
+  * Füge visuelle Effekte wie Nachzieheffekte oder verschiedene Muster hinzu.
 
-* Calibration:
+* Kalibrierung hinzufügen:
 
-  Implement a calibration routine to set the zero point when the device is placed on an uneven surface.
+  Implementiere eine Kalibrierungsroutine, um einen Nullpunkt zu setzen, wenn das Gerät auf einer unebenen Oberfläche liegt.
 
-* Alternative Displays:
+* Alternative Anzeigen:
 
-  Use an OLED or LCD display to show numerical angle values in addition to the visual bubble.
+  Verwende ein OLED- oder LCD-Display, um numerische Winkelwerte zusätzlich zur visuellen Blase anzuzeigen.
 
-**Conclusion**
+**Fazit**
 
-You've successfully built a Digital Bubble Level using the Raspberry Pi Pico 2! This project demonstrates how accelerometer data can be used to visualize orientation and tilt, and how to control an LED matrix display using shift registers.
+Du hast erfolgreich eine digitale Wasserwaage mit dem Raspberry Pi Pico 2 gebaut! Dieses Projekt zeigt, wie Beschleunigungsdaten genutzt werden können, um Orientierung und Neigung visuell darzustellen, und wie eine LED-Matrix-Anzeige mithilfe von Schieberegistern gesteuert wird.
 
-Feel free to expand upon this project by adding new features or integrating it into larger systems.
+Erweitere das Projekt mit zusätzlichen Funktionen oder integriere es in größere Systeme!
 

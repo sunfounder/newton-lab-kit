@@ -1,32 +1,32 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie sich in Raspberry Pi, Arduino und ESP32 zusammen mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Giveaways**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_led_bar:
 
-2.2 Display the Level
+2.2 Den Pegel anzeigen
 =============================
 
-In this lesson, we'll learn how to control an LED Bar Graph using the Raspberry Pi Pico 2. An LED Bar Graph consists of 10 LEDs arranged in a line, typically used to display levels such as volume, signal strength, or other measurements. We'll light up the LEDs sequentially to create a level display effect.
+In dieser Lektion lernen wir, wie man einen LED-Balkenanzeiger mit dem Raspberry Pi Pico 2 steuert. Ein LED-Balkenanzeiger besteht aus 10 LEDs in einer Reihe, die typischerweise verwendet werden, um Pegel wie Lautstärke, Signalstärke oder andere Messwerte anzuzeigen. Wir werden die LEDs nacheinander aufleuchten lassen, um einen Pegelanzeigeeffekt zu erzeugen.
 
 |img_led_bar_pin|
 
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
@@ -39,7 +39,7 @@ It's definitely convenient to buy a whole kit, here's the link:
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -56,7 +56,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB-Kabel
         - 1
         - 
     *   - 3
@@ -65,34 +65,34 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 10(220Ω)
+        - 10 (220Ω)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_led_bar`
         - 1
         - 
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_ledbar|
 
-In this project, each of the 10 LEDs in the LED Bar Graph is connected to the Raspberry Pi Pico 2. The anodes (positive terminals) of the LEDs are connected to GPIO pins GP6 through GP15. The cathodes (negative terminals) are connected through 220Ω resistors to the GND (ground) pin.
+In diesem Projekt ist jede der 10 LEDs im LED-Balkenanzeiger mit dem Raspberry Pi Pico 2 verbunden. Die Anoden (positive Pole) der LEDs sind an die GPIO-Pins GP6 bis GP15 angeschlossen. Die Kathoden (negative Pole) sind über 220Ω-Widerstände mit dem GND (Ground)-Pin verbunden.
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_ledbar|
 
-**Writing the Code**
+**Schreiben des Codes**
 
 .. note::
 
-   * You can open the file ``2.2_display_the_level.ino`` from ``newton-lab-kit/arduino/2.2_display_the_level``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``2.2_display_the_level.ino`` aus ``newton-lab-kit/arduino/2.2_display_the_level`` öffnen. 
+   * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port, dann klicken Sie auf "Upload".
 
 .. code-block:: Arduino
 
@@ -116,21 +116,21 @@ In this project, each of the 10 LEDs in the LED Bar Graph is connected to the Ra
       }
     }    
 
-After uploading the code, the LEDs on the bar graph should light up one after another, creating a level display effect. Each LED turns on for half a second and then turns off before the next one lights up.
+Nach dem Hochladen des Codes sollten die LEDs auf dem Balkenanzeiger nacheinander aufleuchten und einen Pegelanzeigeeffekt erzeugen. Jede LED leuchtet eine halbe Sekunde und erlischt dann, bevor die nächste aufleuchtet.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Defining the LED Pins:
+#. Definition der LED-Pins:
 
-   Create an array ``ledPins`` that holds the GPIO pin numbers connected to each LED on the bar graph.
+   Erstellen Sie ein Array ``ledPins``, das die GPIO-Pinnummern enthält, die mit jeder LED auf dem Balkendiagramm verbunden sind.
 
    .. code-block:: Arduino
 
       const int ledPins[] = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 
-#. Initializing the Pins:
+#. Initialisierung der Pins:
 
-   In the ``setup()`` function, we set each pin in the ``ledPins`` array as an output.
+   In der Funktion ``setup()`` stellen wir jeden Pin im Array ``ledPins`` als Ausgang ein.
 
    .. code-block:: Arduino
 
@@ -140,9 +140,9 @@ After uploading the code, the LEDs on the bar graph should light up one after an
         }
       }
 
-#. Controlling the LEDs:
+#. Steuerung der LEDs:
 
-   In the ``loop()`` function, we use a ``for`` loop to iterate through each LED. We turn it on, wait for 500 milliseconds, turn it off, and then wait another 500 milliseconds before moving to the next LED.
+   In der Funktion ``loop()`` verwenden wir eine ``for``-Schleife, um durch jede LED zu iterieren. Wir schalten sie ein, warten 500 Millisekunden, schalten sie aus und warten dann weitere 500 Millisekunden, bevor wir zur nächsten LED übergehen.
 
    .. code-block:: Arduino
 
@@ -155,11 +155,11 @@ After uploading the code, the LEDs on the bar graph should light up one after an
         }
       }
 
-**Experimenting Further**
+**Weiteres Experimentieren**
 
-* **Reverse the Order**: Modify the code to light up the LEDs in reverse order.
+* **Reihenfolge umkehren**: Ändern Sie den Code, um die LEDs in umgekehrter Reihenfolge aufleuchten zu lassen.
 
-* **Create a Bounce Effect**: After reaching the last LED, make the sequence reverse back to the first LED.
+* **Bounce-Effekt erstellen**: Nachdem die letzte LED erreicht wurde, soll die Sequenz umkehren und zum ersten LED zurückkehren.
 
   .. code-block:: Arduino
     
@@ -178,8 +178,10 @@ After uploading the code, the LEDs on the bar graph should light up one after an
         }
       }
 
-* **Adjust the Speed**: Change the delay times to make the LEDs light up faster or slower.
+* **Geschwindigkeit anpassen**: Ändern Sie die Verzögerungszeiten, um die LEDs schneller oder langsamer aufleuchten zu lassen.
 
-**Conclusion**
 
-In this lesson, you've learned how to control multiple LEDs using the Raspberry Pi Pico and how to create visual effects using simple programming constructs like loops and delays. This foundational knowledge is essential for more advanced projects involving LED displays and indicators.
+
+**Fazit**
+
+In dieser Lektion haben Sie gelernt, wie man mehrere LEDs mit dem Raspberry Pi Pico steuert und wie man mit einfachen Programmierkonstrukten wie Schleifen und Verzögerungen visuelle Effekte erzeugt. Dieses Grundwissen ist wesentlich für fortgeschrittenere Projekte mit LED-Anzeigen und Indikatoren.

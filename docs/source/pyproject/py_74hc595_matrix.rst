@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_74hc_788bs:
 
-5.4 Displaying Graphics on an 8x8 LED Matrix
+5.4 Grafiken auf einer 8x8-LED-Matrix anzeigen
 ===================================================================
 
-In this lesson, we'll learn how to control an **8x8 LED matrix** using the Raspberry Pi Pico 2 and two **74HC595 shift registers**. We'll display patterns and simple graphics by controlling individual LEDs on the matrix.
+In dieser Lektion lernen wir, wie man eine **8x8-LED-Matrix** mit dem Raspberry Pi Pico 2 und zwei **74HC595-Schieberegistern** steuert. Wir werden Muster und einfache Grafiken anzeigen, indem wir einzelne LEDs der Matrix gezielt ansteuern.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE KOMPONENTEN
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_dot_matrix`
@@ -73,108 +73,92 @@ You can also buy them separately from the links below.
         - 2
         - |link_74hc595_buy|
 
-**Understanding the 8x8 LED Matrix**
+**Funktionsweise der 8x8-LED-Matrix**
 
-An 8x8 LED matrix consists of 64 LEDs arranged in 8 rows and 8 columns. Each LED can be individually controlled by applying voltage across its row and column. By controlling the current through each pair of rows and columns, we can control each LED to display characters or patterns.
+Eine 8x8-LED-Matrix besteht aus 64 LEDs, die in 8 Reihen und 8 Spalten angeordnet sind. Jede LED kann individuell gesteuert werden, indem eine Spannung zwischen der entsprechenden Reihe und Spalte angelegt wird. Durch gezielte Steuerung der Reihen- und Spaltenströme können Zeichen oder Muster angezeigt werden.
 
-In this setup, we'll use two 74HC595 shift registers to control the rows and columns of the LED matrix, effectively expanding the number of outputs from the Raspberry Pi Pico 2 while using only a few GPIO pins.
+In diesem Aufbau verwenden wir zwei 74HC595-Schieberegister, um die Reihen und Spalten der LED-Matrix zu steuern. Dies ermöglicht eine effiziente Erweiterung der digitalen Ausgänge des Raspberry Pi Pico 2, während nur wenige GPIO-Pins benötigt werden.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_ledmatrix|
 
-The 8x8 LED dot matrix is controlled by two **74HC595** shift registers: one controls the rows, and the other controls the columns. These two chips share the Pico's GPIO pins **GP18**, **GP19**, and **GP20**, greatly conserving the Pico's I/O ports.
+Die 8x8-LED-Matrix wird durch zwei **74HC595-Schieberegister** gesteuert: eines für die Reihen, das andere für die Spalten. Diese beiden Chips teilen sich die GPIO-Pins **GP18**, **GP19** und **GP20** des Pico und sparen so wertvolle I/O-Ports.
 
-The Pico outputs a 16-bit binary number at a time. The first 8 bits are sent to the 74HC595 controlling the rows, and the last 8 bits are sent to the 74HC595 controlling the columns. This allows the dot matrix to display specific patterns.
+Der Pico sendet ein 16-Bit-Binärmuster: Die ersten 8 Bits steuern die Reihen, die letzten 8 Bits steuern die Spalten. Dadurch lassen sich gezielt Muster auf der LED-Matrix darstellen.
 
-**Q7' (Pin 9)**: This serial data output pin of the first 74HC595 connects to the **DS (Pin 14)** of the second 74HC595, enabling you to chain multiple 74HC595 chips together.
+**Q7' (Pin 9)**: Dieser serielle Ausgang des ersten 74HC595 wird mit **DS (Pin 14)** des zweiten 74HC595 verbunden, um eine Kaskadierung mehrerer Schieberegister zu ermöglichen.
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm** 
 
-Building the circuit can be complex, so let's proceed step by step.
+Der Aufbau der Schaltung kann komplex sein, daher gehen wir schrittweise vor.
 
-
-**Step 1:**  First, insert the pico, the LED dot matrix
-and two 74HC595 chips into breadboard. Connect the 3.3V and GND of the
-pico to holes on the two sides of the board, then hook up pin16 and
-10 of the two 74HC595 chips to VCC, pin 13 and pin 8 to GND.
+**Schritt 1:** Setzen Sie zuerst den Pico, die 8x8-LED-Matrix und zwei 74HC595-Schieberegister in das Breadboard ein. Verbinden Sie 3,3V und GND des Pico mit den seitlichen Stromschienen des Boards. Anschließend schließen Sie Pin 16 und Pin 10 der beiden 74HC595 an VCC an und verbinden Pin 13 sowie Pin 8 mit GND.
 
 .. note::
-   In the Fritzing image above, the side with label is at the bottom.
+   Im obigen Fritzing-Bild befindet sich die Seite mit der Beschriftung unten.
 
 |wiring_ledmatrix_4|
 
-**Step 2:** Connect pin 11 of the two 74HC595 together, and then to
-GP20; then pin 12 of the two chips, and to GP19; next, pin 14 of the
-74HC595 on the left side to GP18 and pin 9 to pin 14 of the second
-74HC595.
+**Schritt 2:** Verbinden Sie Pin 11 der beiden 74HC595 miteinander und dann mit GP20. Danach verbinden Sie Pin 12 beider Chips mit GP19. Anschließend verbinden Sie Pin 14 des linken 74HC595 mit GP18 und Pin 9 mit Pin 14 des zweiten 74HC595.
 
 |wiring_ledmatrix_3|
 
-**Step 3:** The 74HC595 on the right side is to control columns of the
-LED dot matrix. See the table below for the mapping. Therefore, Q0-Q7
-pins of the 74HC595 are mapped with pin 13, 3, 4, 10, 6, 11, 15, and 16
-respectively.
+**Schritt 3:** Das rechte 74HC595 steuert die Spalten der LED-Matrix. Die Zuordnung der Pins ist in der folgenden Tabelle dargestellt. Q0-Q7 des 74HC595 sind mit den Pins 13, 3, 4, 10, 6, 11, 15 und 16 der LED-Matrix verbunden.
 
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
 | **74HC595**        | **Q0** | **Q1** | **Q2** | **Q3** | **Q4** | **Q5** | **Q6** | **Q7** |
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
-| **LED Dot Matrix** | **13** | **3**  | **4**  | **10** | **6**  | **11** | **15** | **16** |
+| **LED-Matrix**     | **13** | **3**  | **4**  | **10** | **6**  | **11** | **15** | **16** |
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
 
 |wiring_ledmatrix_2|
 
-**Step 4:** Now connect the ROWs of the LED dot matrix. The 74HC595 on
-the left controls ROW of the LED dot matrix. See the table below for the
-mapping. We can see, Q0-Q7 of the 74HC595 on the left are mapped with
-pin 9, 14, 8, 12, 1, 7, 2, and 5 respectively.
+**Schritt 4:** Nun werden die Reihen der LED-Matrix angeschlossen. Das linke 74HC595 steuert die Reihen. Die Zuordnung der Pins ist in der folgenden Tabelle dargestellt. Q0-Q7 des linken 74HC595 sind mit den Pins 9, 14, 8, 12, 1, 7, 2 und 5 der LED-Matrix verbunden.
 
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
 | **74HC595**        | **Q0** | **Q1** | **Q2** | **Q3** | **Q4** | **Q5** | **Q6** | **Q7** |
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
-| **LED Dot Matrix** | **9**  | **14** | **8**  | **12** | **1**  | **7**  | **2**  | **5**  |
+| **LED-Matrix**     | **9**  | **14** | **8**  | **12** | **1**  | **7**  | **2**  | **5**  |
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
 
 |wiring_ledmatrix_1|
 
+**Code schreiben**
 
-**Writing the Code**
-
-We'll write a MicroPython program to display a pattern on the LED matrix.
+Nun schreiben wir ein MicroPython-Programm, um ein Muster auf der LED-Matrix darzustellen.
 
 .. note::
 
-    * Open the ``5.4_8x8_pixel_graphics.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    
+    * Öffnen Sie ``5.4_8x8_pixel_graphics.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Ausführen" oder drücken Sie F5.
+    * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
     import machine
     import time
 
-    # Define the pins connected to the 74HC595 shift register
-    sdi = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
-    rclk = machine.Pin(19, machine.Pin.OUT)  # Storage Register Clock (RCLK)
-    srclk = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SRCLK)
+    # Definition der Pins für die 74HC595-Schieberegister
+    sdi = machine.Pin(18, machine.Pin.OUT)   # Serielle Dateneingabe
+    rclk = machine.Pin(19, machine.Pin.OUT)  # Speicherregister-Takt (RCLK)
+    srclk = machine.Pin(20, machine.Pin.OUT) # Schieberegister-Takt (SRCLK)
 
-    # Define the glyph data for the letter 'X' with lit pixels and background off
+    # Muster für den Buchstaben "X"
     glyph = [0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E]
 
     def hc595_in(dat):
         """
-        Shifts 8 bits of data into the 74HC595 shift register.
+        Sendet 8 Bit Daten an das 74HC595-Schieberegister.
         """
         for bit in range(7, -1, -1):
             srclk.low()
-            sdi.value((dat >> bit) & 1)  # Output data bit by bit
+            sdi.value((dat >> bit) & 1)
             srclk.high()
-            time.sleep_us(1)  # Short delay to ensure proper timing
+            time.sleep_us(1)
 
     def hc595_out():
         """
-        Latches the data from the shift register to the storage register,
-        updating the outputs.
+        Latcht die Daten vom Schieberegister ins Speicherregister.
         """
         rclk.high()
         rclk.low()
@@ -184,42 +168,42 @@ We'll write a MicroPython program to display a pattern on the LED matrix.
             hc595_in(glyph[i])       # Send the column data for the current row
             hc595_in(1 << i)         # Activate the current row
             hc595_out()              # Update the display
-            time.sleep_ms(1)         # Delay for visual persistence
+            time.sleep_ms(1)         # Delay for visual persistence       
 
 
 
-When you run this code, the 8x8 LED matrix will display an 'X' shape, with the LEDs lighting up to form the pattern of the letter 'X' across the matrix.
+Wenn Sie diesen Code ausführen, zeigt die 8x8-LED-Matrix ein "X"-Muster an, wobei die LEDs aufleuchten, um die Form des Buchstabens "X" über die gesamte Matrix zu bilden.
 
-**Understanding the Code**
+**Den Code verstehen**
 
-#. Importing Modules:
+#. Module importieren:
 
-   * ``machine``: Provides access to hardware-related functions, such as controlling GPIO pins.
-   * ``time``: Used for adding delays to control timing.
+   * ``machine``: Bietet Zugriff auf hardwarebezogene Funktionen, z. B. zur Steuerung von GPIO-Pins.
+   * ``time``: Wird verwendet, um Verzögerungen für die Zeitsteuerung hinzuzufügen.
 
-#. Defining Pins:
+#. Pins definieren:
 
-   * ``sdi``: Sends serial data into the shift register.
-   * ``rclk``: Latches the shifted data to the output pins.
-   * ``srclk``: Shifts the data into the register on each rising edge.
+   * ``sdi``: Sendet serielle Daten an das Schieberegister.
+   * ``rclk``: Latcht die verschobenen Daten an die Ausgangspins.
+   * ``srclk``: Verschiebt die Daten bei jeder steigenden Flanke in das Register.
 
-#. Defining the Glyph for 'X':
+#. Das Muster für "X" definieren:
 
-   * Each element represents a row in the LED matrix.
-   * The hex values correspond to the LEDs that should be lit (0) or off (1) in each row.
-   * This pattern forms a symmetrical 'X' shape across the matrix.
+   * Jedes Element repräsentiert eine Reihe in der LED-Matrix.
+   * Die Hexadezimalwerte geben an, welche LEDs in jeder Reihe leuchten (0) oder ausgeschaltet bleiben (1).
+   * Dieses Muster erzeugt eine symmetrische "X"-Form in der Matrix.
 
    .. code-block:: python
     
         glyph = [0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E]
 
-#. Function ``hc595_in(dat)``:
+#. Funktion ``hc595_in(dat)``:
 
-   * This function sends 8 bits of data (``dat``) into the shift register serially.
-   * It iterates from the most significant bit to the least significant bit.
-   * The ``srclk`` pin is toggled to shift each bit into the register.
-   * The ``sdi`` pin sets the data line high or low depending on the current bit.
-
+   * Diese Funktion sendet 8 Bit Daten (``dat``) seriell an das Schieberegister.
+   * Sie iteriert vom höchstwertigen Bit zum niedrigstwertigen Bit.
+   * Der Pin ``srclk`` wird getoggelt, um jedes Bit in das Register zu verschieben.
+   * Der ``sdi``-Pin setzt die Datenleitung je nach aktuellem Bit auf HIGH oder LOW.
+   
 
    .. code-block:: python
     
@@ -229,15 +213,15 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
             """
             for bit in range(7, -1, -1):
                 srclk.low()
-                sdi.value((dat >> bit) & 1)  # Output data bit by bit
+                sdi.value((dat >> bit) & 1)  # Daten Bit für Bit ausgeben
                 srclk.high()
-                time.sleep_us(1)  # Short delay to ensure proper timing
+                time.sleep_us(1)  # Kurze Verzögerung für korrekte Übertragung
 
 
-#. Function ``hc595_out()``:
+#. Funktion ``hc595_out()``:
 
-   * This function latches the shifted data from the shift register to the output register.
-   * A rising edge on the ``rclk`` pin transfers the data to the output pins, updating the LEDs.
+   * Diese Funktion latcht die verschobenen Daten vom Schieberegister in das Ausgangsregister.
+   * Eine steigende Flanke am ``rclk``-Pin überträgt die Daten an die Ausgangspins und aktualisiert die LEDs.
 
    .. code-block:: python
     
@@ -246,35 +230,35 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
             rclk.high()
             rclk.low()
 
-#. Main Loop:
+#. **Hauptschleife:**
 
-   * The loop continuously refreshes the display to create a persistent image of the letter 'X'.
-   * The ``for`` loop iterates over each row index from 0 to 7.
-   * ``hc595_in(1 << i)`` activates one row at a time by setting a single bit high.
-   * ``hc595_in(glyph[i])`` sends the column data for the current row, determining which LEDs in that row should be lit.
-   * ``hc595_out()`` latches the data, updating the LED matrix display.
-   * ``time.sleep_ms(1)`` provides a short delay to ensure that each row is displayed long enough to be perceived by the human eye.
-   * This rapid scanning creates the illusion of the entire 'X' being displayed simultaneously.
+   * Die Schleife aktualisiert kontinuierlich die Anzeige, um ein stabiles "X"-Muster zu erzeugen.
+   * Die ``for``-Schleife iteriert über jeden Zeilenindex von 0 bis 7.
+   * ``hc595_in(1 << i)`` aktiviert eine Reihe nach der anderen, indem jeweils ein Bit auf HIGH gesetzt wird.
+   * ``hc595_in(glyph[i])`` sendet die Spaltendaten für die aktuelle Zeile und bestimmt, welche LEDs in dieser Zeile leuchten.
+   * ``hc595_out()`` latcht die Daten und aktualisiert die LED-Matrix.
+   * ``time.sleep_ms(1)`` sorgt für eine kurze Verzögerung, damit jede Zeile lang genug angezeigt wird, um vom menschlichen Auge wahrgenommen zu werden.
+   * Dieses schnelle Scannen erzeugt die Illusion, dass das gesamte "X" gleichzeitig angezeigt wird.
 
    .. code-block:: python
     
         while True:
             for i in range(8):
-                hc595_in(glyph[i])       # Send the column data for the current row
-                hc595_in(1 << i)         # Activate the current row
-                hc595_out()              # Update the display
-                time.sleep_ms(1)         # Delay for visual persistence
+                hc595_in(glyph[i])       # Spaltendaten für die aktuelle Reihe senden
+                hc595_in(1 << i)         # Aktuelle Reihe aktivieren
+                hc595_out()              # Anzeige aktualisieren
+                time.sleep_ms(1)         # Verzögerung für visuelle Beständigkeit
 
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* Changing the Pattern
+* Muster ändern 
+  Ersetzen Sie die glyph-Liste durch die folgenden Arrays, um verschiedene Grafiken anzuzeigen. Ersetzen Sie glyph in Ihrem Code durch ``pattern_heart`` oder ``pattern_smile``, um andere Muster zu sehen.
 
-  Try replacing the pattern list with the following arrays to display different graphics. Replace pattern in your code with ``pattern_heart`` or ``pattern_smile`` to see different images.
 
   .. code-block:: python
 
-        # Heart shape
+        # Herzform
         pattern_heart = [
             0b11111111,
             0b10011001,
@@ -286,34 +270,33 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
             0b11100111
         ]
 
-        # Smile face
+        # Smiley-Gesicht
         pattern_smile = [
-            0b11000011,  # Row 0
-            0b10111101,  # Row 1
-            0b01011010,  # Row 2
-            0b01111110,  # Row 3
-            0b01011010,  # Row 4
-            0b01100110,  # Row 5
-            0b10111101,  # Row 6
-            0b11000011   # Row 7
+            0b11000011,  # Reihe 0
+            0b10111101,  # Reihe 1
+            0b01011010,  # Reihe 2
+            0b01111110,  # Reihe 3
+            0b01011010,  # Reihe 4
+            0b01100110,  # Reihe 5
+            0b10111101,  # Reihe 6
+            0b11000011   # Reihe 7
         ]
 
-
-* Animating the Display
-
-  Create multiple patterns and cycle through them to create animations:
+* Animationen erstellen 
+ 
+  Erstellen Sie mehrere Muster und lassen Sie sie in einer Schleife durchlaufen, um Animationen zu erzeugen.
 
   .. code-block:: python
 
         import machine
         import time
         
-        # Define pins connected to the 74HC595 shift registers
-        sdi = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input
-        rclk = machine.Pin(19, machine.Pin.OUT)  # Register Clock (Latch)
-        srclk = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock
+        # Pins für 74HC595 definieren
+        sdi = machine.Pin(18, machine.Pin.OUT)   # Serielle Dateneingabe
+        rclk = machine.Pin(19, machine.Pin.OUT)  # Speicherregister-Takt
+        srclk = machine.Pin(20, machine.Pin.OUT) # Schieberegister-Takt
         
-        # Heart shape
+        # Herzform
         pattern_heart = [
             0b11111111,
             0b10011001,
@@ -325,16 +308,16 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
             0b11100111
         ]
         
-        # Smile face
+        # Smiley-Gesicht
         pattern_smile = [
-            0b11000011,  # Row 0
-            0b10111101,  # Row 1
-            0b01011010,  # Row 2
-            0b01111110,  # Row 3
-            0b01011010,  # Row 4
-            0b01100110,  # Row 5
-            0b10111101,  # Row 6
-            0b11000011   # Row 7
+            0b11000011,  # Reihe 0
+            0b10111101,  # Reihe 1
+            0b01011010,  # Reihe 2
+            0b01111110,  # Reihe 3
+            0b01011010,  # Reihe 4
+            0b01100110,  # Reihe 5
+            0b10111101,  # Reihe 6
+            0b11000011   # Reihe 7
         ]
         
         def hc595_in(dat):
@@ -346,14 +329,14 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
                 sdi.value((dat >> bit) & 1)            # Set data bit
                 srclk.high()                           # Shift data bit into register
                 time.sleep_us(1)                       # Short delay for timing
-        
+
         def hc595_out():
             """
             Latch the shifted data to the output pins of the 74HC595.
             """
             rclk.high()                               # Latch data (rising edge)
             rclk.low()                                # Prepare for next data
-        
+
         def display_pattern(pattern):
             """
             Display a given 8x8 pattern on the LED matrix.
@@ -364,15 +347,16 @@ When you run this code, the 8x8 LED matrix will display an 'X' shape, with the L
                     hc595_in(1 << i)                  # Activate current row
                     hc595_out()                       # Update the output
                     time.sleep_ms(1)                  # Short delay for persistence
-        
+
         while True:
             display_pattern(pattern_heart)            # Display the heart shape
             display_pattern(pattern_smile)            # Display the smiley face
 
-* Design Your Own Patterns
+* Eigene Muster entwerfen  
 
-  Each byte represents a row; bits set to 0 turn on the LED in that column. Create custom patterns by defining your own pattern list.
+  Jedes Byte repräsentiert eine Zeile, Bits mit Wert 0 schalten die LED in dieser Spalte ein. Erstellen Sie individuelle Muster, indem Sie Ihre eigene Musterliste definieren.
 
-**Conclusion**
 
-In this lesson, you've learned how to control an 8x8 LED matrix using the Raspberry Pi Pico 2 and two 74HC595 shift registers. By understanding how to manipulate bits and use shift registers, you can display patterns and graphics on the LED matrix.
+**Fazit**
+
+In dieser Lektion haben Sie gelernt, wie Sie eine 8x8-LED-Matrix mit dem Raspberry Pi Pico 2 und zwei 74HC595-Schieberegistern steuern. Durch das Verständnis der Bit-Manipulation und den Einsatz von Schieberegistern können Sie Muster und Grafiken auf der LED-Matrix anzeigen.

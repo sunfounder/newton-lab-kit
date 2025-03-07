@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_keypad:
 
-4.2 Using a 4x4 Keypad
+4.2 Nutzung eines 4x4-Tastenfelds
 =================================================
 
-In this lesson, we'll learn how to interface a **4x4 matrix keypad** with the Raspberry Pi Pico 2 to detect which keys are pressed. Matrix keypads are commonly used in devices like calculators, telephones, vending machines, and security systems for numerical input.
+In dieser Lektion lernen wir, wie man ein **4x4 Matrix-Tastenfeld** mit dem Raspberry Pi Pico 2 verwendet, um zu erkennen, welche Tasten gedrückt werden. Matrix-Tastenfelder werden häufig in Geräten wie Taschenrechnern, Telefonen, Verkaufsautomaten und Sicherheitssystemen für die numerische Eingabe verwendet.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -73,41 +73,41 @@ You can also buy them separately from the links below.
         - 1
         - |link_keypad_buy|
 
-**Understanding the 4x4 Keypad**
+**Verständnis des 4x4-Tastenfelds**
 
-A 4x4 keypad consists of:
+Ein 4x4-Tastenfeld besteht aus:
 
-* **16 keys** arranged in 4 rows and 4 columns.
-* **8 pins**: 4 connected to rows and 4 connected to columns.
+* **16 Tasten**, angeordnet in 4 Reihen und 4 Spalten.
+* **8 Pins**: 4 verbunden mit den Reihen und 4 mit den Spalten.
 
-When you press a key, it connects a specific row and column, allowing us to identify the key based on the row and column numbers.
+Wenn Sie eine Taste drücken, wird eine bestimmte Reihe und Spalte verbunden, was uns erlaubt, die Taste anhand der Reihen- und Spaltennummern zu identifizieren.
 
-Here's how the keys are arranged:
+So sind die Tasten angeordnet:
 
 |img_keypad|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_keypad|
 
-4 pull-down resistors are connected to each of the columns of the matrix keyboard, so that G6 ~ G9 get a stable low level when the keys are not pressed.
+4 Pull-Down-Widerstände sind mit jeder der Spalten des Matrix-Tastenfelds verbunden, sodass G6 bis G9 ein stabiles niedriges Niveau erhalten, wenn die Tasten nicht gedrückt sind.
 
-The rows of the keyboard (G2 ~ G5) are programmed to go high; if one of G6 ~ G9 is read high, then we know which key is pressed.
+Die Reihen des Tastenfelds (G2 bis G5) sind so programmiert, dass sie hoch gehen; wenn einer von G6 bis G9 hoch gelesen wird, wissen wir, welche Taste gedrückt ist.
 
-For example, if G6 is read high, then numeric key 1 is pressed; this is because the control pins of numeric key 1 are G2 and G6, when numeric key 1 is pressed, G2 and G6 will be connected together and G6 is also high.
+Beispielsweise, wenn G6 hoch gelesen wird, dann wird die Zahlentaste 1 gedrückt; dies liegt daran, dass die Steuerpins der Zahlentaste 1 G2 und G6 sind, wenn Zahlentaste 1 gedrückt wird, werden G2 und G6 miteinander verbunden und G6 ist ebenfalls hoch.
 
-**Wiring**
+**Verdrahtungsdiagramm**
 
 |wiring_keypad|
 
-**Writing the Code**
+**Code schreiben**
 
-Let's write a MicroPython program to read which key is pressed.
+Lassen Sie uns ein MicroPython-Programm schreiben, um zu lesen, welche Taste gedrückt wird.
 
 .. note::
 
-    * Open the ``4.2_4x4_keypad.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Öffnen Sie die Datei ``4.2_4x4_keypad.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Run" oder drücken Sie F5.
+    * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
     
 
 .. code-block:: python
@@ -115,7 +115,7 @@ Let's write a MicroPython program to read which key is pressed.
     import machine
     import time
 
-    # Define the characters on the keypad
+    # Definieren Sie die Zeichen auf dem Tastenfeld
     keys = [
         ['1', '2', '3', 'A'],
         ['4', '5', '6', 'B'],
@@ -123,27 +123,27 @@ Let's write a MicroPython program to read which key is pressed.
         ['*', '0', '#', 'D']
     ]
 
-    # Define the GPIO pins connected to the rows and columns
+    # Definieren Sie die GPIO-Pins, die mit den Reihen und Spalten verbunden sind
     row_pins = [2, 3, 4, 5]   # GP2-GP5
     col_pins = [6, 7, 8, 9]   # GP6-GP9
 
-    # Initialize row pins as outputs
+    # Initialisieren Sie die Reihenpins als Ausgänge
     rows = [machine.Pin(pin_num, machine.Pin.OUT) for pin_num in row_pins]
 
-    # Initialize column pins as inputs with pull-down resistors
+    # Initialisieren Sie die Spaltenpins als Eingänge mit Pull-Down-Widerständen
     cols = [machine.Pin(pin_num, machine.Pin.IN, machine.Pin.PULL_DOWN) for pin_num in col_pins]
 
     def scan_keypad():
         for i, row in enumerate(rows):
-            # Set all rows low
+            # Setzen Sie alle Reihen auf niedrig
             for r in rows:
                 r.value(0)
-            # Set the current row high
+            # Setzen Sie die aktuelle Reihe auf hoch
             row.value(1)
-            # Check columns for a high signal
+            # Überprüfen Sie die Spalten auf ein hohes Signal
             for j, col in enumerate(cols):
                 if col.value() == 1:
-                    # Key detected
+                    # Taste erkannt
                     return keys[i][j]
         return None
 
@@ -157,11 +157,11 @@ Let's write a MicroPython program to read which key is pressed.
             last_key = key
         time.sleep(0.1)
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Define Keypad Characters
+#. Definieren Sie Tastencharaktere
 
-   This 2D list represents the keypad layout, matching the physical arrangement.
+   Diese 2D-Liste repräsentiert das Layout des Tastenfelds, passend zur physischen Anordnung.
 
    .. code-block:: python
 
@@ -173,44 +173,44 @@ Let's write a MicroPython program to read which key is pressed.
         ]
 
 
-#. Initialize Pins:
+#. Initialisieren Sie die Pins:
 
    .. code-block:: python
 
-        row_pins = [2, 3, 4, 5]   # GPIO pins for rows
-        col_pins = [6, 7, 8, 9]   # GPIO pins for columns
+        row_pins = [2, 3, 4, 5]   # GPIO-Pins für Reihen
+        col_pins = [6, 7, 8, 9]   # GPIO-Pins für Spalten
 
-        # Initialize rows as outputs
+        # Initialisieren Sie Reihen als Ausgänge
         rows = [machine.Pin(pin_num, machine.Pin.OUT) for pin_num in row_pins]
 
-        # Initialize columns as inputs with pull-down resistors
+        # Initialisieren Sie Spalten als Eingänge mit Pull-Down-Widerständen
         cols = [machine.Pin(pin_num, machine.Pin.IN, machine.Pin.PULL_DOWN) for pin_num in col_pins]
 
-#. Define the Keypad Scanning Function:
+#. Definieren Sie die Tastenfeld-Scanfunktion:
 
-    The function scans each row by setting it high and checking if any column reads high, indicating a key press at that row and column.
+    Die Funktion scannt jede Reihe, indem sie sie hoch setzt und prüft, ob eine Spalte hoch liest, was auf einen Tastendruck in dieser Reihe und Spalte hinweist.
 
    .. code-block:: python
 
         def scan_keypad():
             for i, row in enumerate(rows):
-                # Set all rows low
+                # Setzen Sie alle Reihen auf niedrig
                 for r in rows:
                     r.value(0)
-                # Set the current row high
+                # Setzen Sie die aktuelle Reihe auf hoch
                 row.value(1)
-                # Check columns for a key press
+                # Überprüfen Sie die Spalten auf einen Tastendruck
                 for j, col in enumerate(cols):
                     if col.value() == 1:
-                        # Key is pressed
+                        # Taste wird gedrückt
                         return keys[i][j]
             return None
 
-#. Main Loop to Detect Key Presses
+#. Hauptschleife zum Erkennen von Tastendrücken
 
-   * The loop continuously scans for key presses.
-   * It checks if the current key is different from the last key to prevent multiple detections of the same key press (debouncing).
-   * Prints the key when a new key press is detected.
+   * Die Schleife scannt kontinuierlich nach Tastendrücken.
+   * Sie prüft, ob der aktuelle Schlüssel sich vom letzten unterscheidet, um mehrfache Erkennungen desselben Tastendrucks zu verhindern (Entprellung).
+   * Druckt die Taste, wenn ein neuer Tastendruck erkannt wird.
 
    .. code-block:: python
 
@@ -224,30 +224,30 @@ Let's write a MicroPython program to read which key is pressed.
                 last_key = key
             time.sleep(0.1)
 
-After running the program, Press different keys on the keypad. The corresponding key character should be printed in the Thonny Shell.
+Nachdem Sie das Programm ausgeführt haben, drücken Sie verschiedene Tasten auf dem Tastenfeld. Der entsprechende Tastencharakter sollte in der Thonny Shell ausgegeben werden.
 
-**Troubleshooting Tips**
+**Tipps zur Fehlerbehebung**
 
-* No Output When Pressing Keys:
+* Keine Ausgabe beim Drücken von Tasten:
 
-  * Ensure all connections are correct.
-  * Verify that the pull-down resistors are properly connected between the column pins and GND.
+  * Stellen Sie sicher, dass alle Verbindungen korrekt sind.
+  * Überprüfen Sie, ob die Pull-Down-Widerstände richtig zwischen den Spaltenpins und GND angeschlossen sind.
 
-* Incorrect Key Detected:
+* Falsche Taste erkannt:
 
-  * Double-check the keys array to ensure it matches your keypad's layout.
-  * Make sure the row and column pins in the code match the physical connections.
+  * Überprüfen Sie das Tastenarray, um sicherzustellen, dass es mit dem Layout Ihres Tastenfelds übereinstimmt.
+  * Stellen Sie sicher, dass die Reihen- und Spaltenpins im Code mit den physischen Verbindungen übereinstimmen.
 
-* Multiple Keys Detected:
+* Mehrere Tasten erkannt:
 
-  Mechanical keypads may sometimes detect ghosting (false key presses) if multiple keys are pressed simultaneously. For this basic setup, avoid pressing multiple keys at once.
+  Mechanische Tastenfelder können manchmal Ghosting (falsche Tastendrücke) erkennen, wenn mehrere Tasten gleichzeitig gedrückt werden. Vermeiden Sie es in diesem einfachen Setup, mehrere Tasten gleichzeitig zu drücken.
 
-**Experimenting Further**
+**Weiterführende Experimente**
 
-* **Implement a Simple Password Lock**: Store a sequence of key presses and compare them to a preset password.
-* **Add an LCD Display**: Display the keys pressed on an LCD screen.
-* **Create a Calculator**: Use the keypad to input numbers and perform basic arithmetic operations.
+* **Implementieren Sie ein einfaches Passwortschloss**: Speichern Sie eine Sequenz von Tastendrücken und vergleichen Sie diese mit einem voreingestellten Passwort.
+* **Fügen Sie ein LCD-Display hinzu**: Zeigen Sie die gedrückten Tasten auf einem LCD-Bildschirm an.
+* **Erstellen Sie einen Taschenrechner**: Verwenden Sie das Tastenfeld, um Zahlen einzugeben und grundlegende Rechenoperationen durchzuführen.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to connect and program a 4x4 matrix keypad with the Raspberry Pi Pico 2. You can now detect key presses and use them to interact with your projects, opening up possibilities for creating interactive devices like locks, calculators, and control interfaces.
+In dieser Lektion haben Sie gelernt, wie man ein 4x4 Matrix-Tastenfeld mit dem Raspberry Pi Pico 2 verbindet und programmiert. Sie können jetzt Tastendrücke erkennen und diese nutzen, um mit Ihren Projekten zu interagieren, was Möglichkeiten für die Erstellung interaktiver Geräte wie Schlösser, Taschenrechner und Steuerungsschnittstellen eröffnet.

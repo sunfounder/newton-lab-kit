@@ -1,40 +1,40 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_capacitor:
 
 
-Capacitor
+Kondensator
 =============
 
 |img_capacitor|
 
-Capacitance, refers to the amount of charge storage under a given potential difference, denoted as C, and the international unit is farad (F). 
-Generally speaking, electric charges move under force in an electric field. When there is a medium between conductors, the movement of electric charges is hindered and the electric charges accumulate on the conductors, resulting in accumulation of electric charges. 
+Die Kapazität, bezeichnet die Menge der gespeicherten elektrischen Ladung unter einer gegebenen Potentialdifferenz, gekennzeichnet als C, und die internationale Einheit ist Farad (F). 
+Allgemein bewegen sich elektrische Ladungen unter Kraft in einem elektrischen Feld. Wenn ein Medium zwischen Leitern existiert, wird die Bewegung der elektrischen Ladungen behindert und die Ladungen sammeln sich auf den Leitern an, was zur Ansammlung von Ladungen führt.
 
-The amount of stored electric charges is called capacitance. Because capacitors are one of the most widely used electronic components in electronic equipment, they are widely used in direct current isolation, coupling, bypass, filtering, tuning loops, energy conversion, and control circuits. Capacitors are divided into electrolytic capacitors, solid capacitors, etc.
+Die Menge der gespeicherten elektrischen Ladungen wird als Kapazität bezeichnet. Da Kondensatoren zu den am häufigsten verwendeten elektronischen Komponenten in elektronischen Geräten gehören, werden sie breit eingesetzt in Anwendungen wie Gleichstromisolierung, Kopplung, Bypass, Filterung, Abstimmkreisen, Energieumwandlung und Steuerschaltungen. Kondensatoren werden unterteilt in Elektrolytkondensatoren, Festkondensatoren usw.
 
-According to material characteristics, capacitors can be divided into: aluminum electrolytic capacitors, film capacitors, tantalum capacitors, ceramic capacitors, super capacitors, etc.
+Nach Materialmerkmalen können Kondensatoren eingeteilt werden in: Aluminiumelektrolytkondensatoren, Filmkondensatoren, Tantalkondensatoren, Keramikkondensatoren, Superkondensatoren usw.
 
-In this kit, ceramic capacitors and electrolytic capacitors are used. 
+In diesem Kit werden Keramikkondensatoren und Elektrolytkondensatoren verwendet.
 
 * `Ceramic Capacitor - Wikipedia <https://en.wikipedia.org/wiki/Ceramic_capacitor>`_
 
 * `Electrolytic Capacitor - Wikipedia <https://en.wikipedia.org/wiki/Electrolytic_capacitor>`_
 
-There are 103 or 104 label on the ceramic capacitors, which represent the capacitance value, 103=10x10^3pF, 104=10x10^4pF
+Auf den Keramikkondensatoren sind Bezeichnungen wie 103 oder 104 zu finden, die den Kapazitätswert darstellen, 103=10x10^3pF, 104=10x10^4pF
 
-**Unit Conversion**
+**Einheitenumrechnung**
     1F=10^3mF=10^6uF=10^9nF=10^12pF
 

@@ -1,57 +1,57 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_rgb:
 
-RGB LED
+RGB-LED
 =================
 
 |img_rgb|
     
-RGB LEDs emit light in various colors. An RGB LED packages three LEDs of red, green, and blue into a transparent or semitransparent plastic shell. It can display various colors by changing the input voltage of the three pins and superimpose them, which, according to statistics, can create 16,777,216 different colors. 
+RGB-LEDs emittieren Licht in verschiedenen Farben. Eine RGB-LED integriert drei LEDs in Rot, Grün und Blau in einer transparenten oder halbtransparenten Kunststoffhülle. Sie kann verschiedene Farben durch Veränderung der Eingangsspannung der drei Pins darstellen und diese überlagern, was statistisch gesehen 16.777.216 verschiedene Farben erzeugen kann.
 
 |img_rgb_light|
 
-RGB LEDs can be categorized into common anode and common cathode ones. In this kit, the latter is used. The **common cathode**, or CC, means to connect the cathodes of the three LEDs. After you connect it with GND and plug in the three pins, the LED will flash the corresponding color. 
+RGB-LEDs können in gemeinsame Anode und gemeinsame Kathode unterteilt werden. In diesem Kit wird letztere verwendet. Die **gemeinsame Kathode**, oder CC, bedeutet, dass die Kathoden der drei LEDs verbunden sind. Wenn Sie sie mit GND verbinden und die drei Pins anschließen, wird die LED die entsprechende Farbe anzeigen.
 
-Its circuit symbol is shown as figure.
+Das Schaltsymbol wird wie folgt dargestellt.
 
 |img_rgb_symbol| 
 
-An RGB LED has 4 pins: the longest pin is the common cathode pin, which is usually connected to GND, the left pin next to the longest pin is Red, and the 2 pins on the right are Green and Blue.
+Eine RGB-LED hat 4 Pins: Der längste Pin ist der gemeinsame Kathodenpin, der üblicherweise mit GND verbunden wird, der linke Pin neben dem längsten Pin ist Rot, und die 2 Pins rechts sind Grün und Blau.
 
 |img_rgb_pin|
 
 
-**Features**
+**Merkmale**
 
-* Color: Tri-Color (Red/Green/Blue)
-* Common Cathode
-* 5mm Clear Round Lens
-* Forward Voltage: Red: DC 2.0 - 2.2V; Blue&Green: DC 3.0 - 3.2V (IF=20mA)
-* 0.06 Watts DIP RGB LED
-* Luminance Brighter Up To +20%
-* Viewing Angle: 30°
+* Farbe: Tri-Farbe (Rot/Grün/Blau)
+* Gemeinsame Kathode
+* 5mm klare, runde Linse
+* Vorwärtsspannung: Rot: DC 2.0 - 2.2V; Blau&Grün: DC 3.0 - 3.2V (IF=20mA)
+* 0,06 Watt DIP RGB LED
+* Helligkeit bis zu +20% erhöht
+* Betrachtungswinkel: 30°
 
 
-.. Example
+.. Beispiel
 .. -------------------
 
 .. :ref:`Colorful Light`
 
 
-**Example**
+**Beispiel**
 
 * :ref:`py_rgb` (For MicroPython User)
 * :ref:`py_fruit_piano` (For MicroPython User)

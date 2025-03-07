@@ -1,42 +1,41 @@
-.. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer ein in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_pa_buz:
 
-3.2 Play Custom Tones with a Passive Buzzer
-===========================================
+3.2 Benutzerdefinierte Töne mit einem passiven Summer spielen
+=================================================================
 
-In this lesson, we'll learn how to use a **passive buzzer** with the Raspberry Pi Pico 2 to play different tones and even simple melodies! Unlike an active buzzer, a passive buzzer needs a changing electrical signal to produce sound, which means we can control the pitch of the sound by changing the signal's frequency.
+In dieser Lektion lernen wir, wie man einen **passiven Summer** mit dem Raspberry Pi Pico 2 verwendet, um verschiedene Töne und sogar einfache Melodien zu spielen! Im Gegensatz zu einem aktiven Summer benötigt ein passiver Summer ein wechselndes elektrisches Signal, um Ton zu erzeugen, was bedeutet, dass wir die Tonhöhe des Sounds durch Ändern der Frequenz des Signals steuern können.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
+    *   - Name
+        - ARTIKEL IN DIESEM KIT
         - LINK
-    *   - Newton Lab Kit	
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +43,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,56 +61,56 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
-        - 1(S8050)
+        - 1 (S8050)
         - |link_transistor_buy|
     *   - 6
         - :ref:`cpn_resistor`
-        - 1(1KΩ)
+        - 1 (1KΩ)
         - |link_resistor_buy|
     *   - 7
-        - Passive :ref:`cpn_buzzer`
+        - Passiver :ref:`cpn_buzzer`
         - 1
         - |link_passive_buzzer_buy|
 
-**Understanding the Passive Buzzer**
+**Verständnis des passiven Summers**
 
-A passive buzzer works like a tiny speaker. It doesn't produce sound on its own; instead, it needs an oscillating signal to make sound. By providing signals of different frequencies, we can make the buzzer produce different pitches, allowing us to play notes and melodies.
+Ein passiver Summer funktioniert wie ein kleiner Lautsprecher. Er erzeugt keinen Ton von sich aus; stattdessen benötigt er ein oszillierendes Signal, um Ton zu machen. Indem wir Signale unterschiedlicher Frequenzen bereitstellen, können wir den Summer verschiedene Töne erzeugen lassen, wodurch wir Noten und Melodien spielen können.
 
 |img_buzzer|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_buzzer|
 
-In this circuit, the passive buzzer is powered through a transistor (**S8050** NPN). The transistor amplifies the current, making the buzzer sound louder than if it were connected directly to the Pico. 
+In diesem Schaltkreis wird der passive Summer über einen Transistor (**S8050** NPN) mit Strom versorgt. Der Transistor verstärkt den Strom, wodurch der Summer lauter klingt, als wäre er direkt an den Pico angeschlossen.
 
-Here's what happens:
+Hier ist, was passiert:
 
-* **GP15** outputs a high signal to control the transistor.
-* When the transistor is activated, it allows current to flow through the buzzer, making it beep.
+* **GP15** gibt ein hohes Signal aus, um den Transistor zu steuern.
+* Wenn der Transistor aktiviert ist, lässt er den Strom durch den Summer fließen, was ihn piepen lässt.
 
-A **1kΩ resistor** is used to limit the current to protect the transistor.
+Ein **1kΩ Widerstand** wird verwendet, um den Strom zu begrenzen und den Transistor zu schützen.
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
-Make sure you are using the **passive buzzer**. You can tell it's the correct one by looking for the exposed PCB (as opposed to the sealed back, which is a active buzzer).
+Stellen Sie sicher, dass Sie den **passiven Summer** verwenden. Sie können erkennen, dass es der richtige ist, indem Sie nach der freiliegenden PCB suchen (im Gegensatz zur versiegelten Rückseite, die ein aktiver Summer ist).
 
 |img_buzzer|
 
 |wiring_buzzer|
 
-**Writing the Code**
+**Code schreiben**
 
-Now, let's write some code to make the buzzer play different tones.
+Jetzt schreiben wir etwas Code, damit der Summer verschiedene Töne spielt.
 
 .. note::
 
-    * Open the ``3.2_custom_tone.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Öffnen Sie die Datei ``3.2_custom_tone.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Run" oder drücken Sie F5.
+    * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx.
     
 
 .. code-block:: python
@@ -119,36 +118,36 @@ Now, let's write some code to make the buzzer play different tones.
    import machine
    import utime
 
-   # Initialize PWM on GP15
+   # PWM auf GP15 initialisieren
    buzzer = machine.PWM(machine.Pin(15))
 
    def play_tone(frequency, duration):
-       # Set the frequency of the PWM signal
+       # Die Frequenz des PWM-Signals einstellen
        buzzer.freq(frequency)
-       # Set duty cycle to 50%
+       # Tastverhältnis auf 50% setzen
        buzzer.duty_u16(32768)
-       # Play the tone for the specified duration
+       # Den Ton für die angegebene Dauer spielen
        utime.sleep_ms(duration)
-       # Turn off the buzzer
+       # Den Summer ausschalten
        buzzer.duty_u16(0)
 
-   # Play some tones
-   play_tone(440, 500)  # A4 note for 500ms
+   # Einige Töne spielen
+   play_tone(440, 500)  # A4-Note für 500ms
    utime.sleep_ms(200)
-   play_tone(494, 500)  # B4 note for 500ms
+   play_tone(494, 500)  # B4-Note für 500ms
    utime.sleep_ms(200)
-   play_tone(523, 500)  # C5 note for 500ms
+   play_tone(523, 500)  # C5-Note für 500ms
 
-When the code runs, you will hear the passive buzzer play the A4 note for 500ms, the B4 note for 500ms, and the C5 note for 500ms respectively.
+Wenn der Code ausgeführt wird, hören Sie, wie der passive Summer die A4-Note für 500ms, die B4-Note für 500ms und die C5-Note für 500ms spielt.
 
 
-**Explanation of the Code**
+**Erklärung des Codes**
 
-#. Initialize PWM:
+#. PWM initialisieren:
 
-   * ``buzzer = machine.PWM(machine.Pin(15))``: This sets up PWM (Pulse Width Modulation) on pin GP15, which we'll use to control the buzzer.
+   * ``buzzer = machine.PWM(machine.Pin(15))``: Damit wird PWM (Pulsweitenmodulation) auf Pin GP15 eingerichtet, den wir verwenden, um den Summer zu steuern.
 
-#. Define the ``play_tone`` Function: 
+#. Die Funktion ``play_tone`` definieren: 
 
    .. code-block:: python
 
@@ -158,35 +157,35 @@ When the code runs, you will hear the passive buzzer play the A4 note for 500ms,
           utime.sleep_ms(duration)
           buzzer.duty_u16(0)
 
-   * ``frequency``: The pitch of the tone. Higher frequency means a higher pitch.
-   * ``duration``: How long the tone plays, in milliseconds.
-   * ``buzzer.duty_u16(32768)``: Sets the duty cycle to 50% (half of 65535), which is ideal for generating sound.
-   * After the duration, we turn off the buzzer by setting the duty cycle to 0.
+   * ``frequency``: Die Tonhöhe des Tons. Höhere Frequenz bedeutet eine höhere Tonhöhe.
+   * ``duration``: Wie lange der Ton spielt, in Millisekunden.
+   * ``buzzer.duty_u16(32768)``: Setzt das Tastverhältnis auf 50% (die Hälfte von 65535), was ideal ist, um Ton zu erzeugen.
+   * Nach der Dauer wird der Summer ausgeschaltet, indem das Tastverhältnis auf 0 gesetzt wird.
 
-#. Play Notes:
+#. Noten spielen:
 
-   We call ``play_tone`` with different frequencies corresponding to musical notes.
+   Wir rufen ``play_tone`` mit verschiedenen Frequenzen auf, die musikalischen Noten entsprechen.
 
    .. code-block:: python
 
-      # Play some tones
-      play_tone(440, 500)  # A4 note for 500ms
+      # Einige Töne spielen
+      play_tone(440, 500)  # A4-Note für 500ms
       utime.sleep_ms(200)
-      play_tone(494, 500)  # B4 note for 500ms
+      play_tone(494, 500)  # B4-Note für 500ms
       utime.sleep_ms(200)
-      play_tone(523, 500)  # C5 note for 500ms
+      play_tone(523, 500)  # C5-Note für 500ms
 
    
-**Playing a Melody**
+**Eine Melodie spielen**
 
-Now that we've learned how to play individual tones with the passive buzzer, let's create a simple melody! This will help us understand how to sequence notes and control their durations to produce music.
+Jetzt, da wir gelernt haben, wie man einzelne Töne mit dem passiven Summer spielt, lassen Sie uns eine einfache Melodie erstellen! Das hilft uns zu verstehen, wie man Noten anordnet und ihre Dauer kontrolliert, um Musik zu erzeugen.
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Note frequencies (in Hz)
+    # Notenfrequenzen (in Hz)
     NOTE_C4 = 262
     NOTE_D4 = 294
     NOTE_E4 = 330
@@ -206,7 +205,7 @@ Now that we've learned how to play individual tones with the passive buzzer, let
         500, 500, 500, 500
     ]
 
-    # Initialize PWM on GP15
+    # PWM auf GP15 initialisieren
     buzzer = machine.PWM(machine.Pin(15))
 
     def play_tone(frequency, duration):
@@ -214,20 +213,20 @@ Now that we've learned how to play individual tones with the passive buzzer, let
         buzzer.duty_u16(32768)
         utime.sleep_ms(duration)
         buzzer.duty_u16(0)
-        utime.sleep_ms(50)  # Short pause between notes
+        utime.sleep_ms(50)  # Kurze Pause zwischen den Noten
 
     for i in range(len(melody)):
         play_tone(melody[i], note_durations[i])
 
-When you run this code, the buzzer will play a simple melody by sounding each note in the sequence. Each note lasts for 500 milliseconds, and there's a short pause between notes. You'll hear the buzzer play an ascending scale from Middle C (C4) up to the next octave's C (C5).
+Wenn Sie diesen Code ausführen, spielt der Summer eine einfache Melodie, indem er jede Note in der Reihenfolge erklingen lässt. Jede Note dauert 500 Millisekunden, und es gibt eine kurze Pause zwischen den Noten. Sie hören den Summer eine aufsteigende Tonleiter von Mittel-C (C4) bis zum C der nächsten Oktave (C5).
 
-**Experimenting Further**
+**Weiter experimentieren**
 
-* **Create Your Own Melody**: Change the notes and durations in the melody and ``note_durations`` lists to compose your own tune.
-* **Adjust the Tempo**: Modify the values in ``note_durations`` to speed up or slow down the melody.
-* **Add More Notes**: Define additional notes by adding their frequencies and include them in your melody.
-* **Change the Volume**: Adjust the duty cycle in ``buzzer.duty_u16()`` to make the buzzer louder or quieter. A value around 32768 gives 50% duty cycle.
+* **Erstellen Sie Ihre eigene Melodie**: Ändern Sie die Noten und Dauern in der Melodie und den ``note_durations``-Listen, um Ihre eigene Melodie zu komponieren.
+* **Das Tempo anpassen**: Ändern Sie die Werte in ``note_durations``, um die Melodie schneller oder langsamer zu machen.
+* **Weitere Noten hinzufügen**: Definieren Sie zusätzliche Noten durch Hinzufügen ihrer Frequenzen und schließen Sie sie in Ihre Melodie ein.
+* **Die Lautstärke ändern**: Passen Sie das Tastverhältnis in ``buzzer.duty_u16()`` an, um den Summer lauter oder leiser zu machen. Ein Wert um 32768 gibt ein Tastverhältnis von 50%.
 
-**Conclusion**
+**Schlussfolgerung**
 
-In this lesson, you've learned how to use a passive buzzer to play tones and melodies with the Raspberry Pi Pico 2. By controlling the frequency of the PWM signal, you can create a variety of sounds and even play simple songs. This is a great way to add audio feedback or fun musical elements to your projects.
+In dieser Lektion haben Sie gelernt, wie man einen passiven Summer verwendet, um Töne und Melodien mit dem Raspberry Pi Pico 2 zu spielen. Indem Sie die Frequenz des PWM-Signals kontrollieren, können Sie eine Vielzahl von Klängen erzeugen und sogar einfache Lieder spielen. Dies ist eine großartige Möglichkeit, Ihren Projekten akustisches Feedback oder unterhaltsame musikalische Elemente hinzuzufügen.```

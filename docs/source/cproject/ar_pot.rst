@@ -1,55 +1,55 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer ein in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Werbegeschenke**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_pot:
 
-2.11 Turn the Knob
-==========================
+2.11 Den Knopf drehen
+=======================
 
-In this lesson, we'll explore how to read analog input using the Raspberry Pi Pico 2's built-in Analog-to-Digital Converter (ADC) and use that input to control the brightness of an LED. Specifically, we'll use a potentiometer—a variable resistor—as an analog input device. By turning the knob of the potentiometer, we'll adjust the voltage level read by the Pico, which we'll then use to control the LED's brightness via Pulse Width Modulation (PWM).
+In dieser Lektion werden wir lernen, wie man analoge Eingänge mit dem Raspberry Pi Pico 2 liest, indem man den eingebauten Analog-Digital-Wandler (ADC) verwendet, und wie man diesen Eingang nutzt, um die Helligkeit einer LED über Pulsweitenmodulation (PWM) zu steuern. Konkret werden wir einen Potentiometer – einen variablen Widerstand – als analogen Eingabegerät verwenden. Durch das Drehen des Potentiometerknopfes passen wir die vom Pico gelesene Spannung an, die wir dann nutzen, um die Helligkeit der LED zu steuern.
 
 
-**Understanding Analog Input**
+**Analoge Eingänge verstehen**
 
-So far, we've worked with digital inputs and outputs, which are either ON (high voltage) or OFF (low voltage). However, many real-world signals are analog, meaning they can vary continuously over a range of values. Examples include light intensity, temperature, and sound levels.
+Bisher haben wir mit digitalen Eingängen und Ausgängen gearbeitet, die entweder EIN (hohe Spannung) oder AUS (niedrige Spannung) sind. Viele Signale in der realen Welt sind jedoch analog, d.h. sie können kontinuierlich über einen Bereich von Werten variieren. Beispiele hierfür sind Lichtintensität, Temperatur und Schallpegel.
 
-The Raspberry Pi Pico 2 has a built-in ADC that allows it to read analog voltages and convert them into digital values that can be processed in code.
+Der Raspberry Pi Pico 2 verfügt über einen eingebauten ADC, der es ihm ermöglicht, analoge Spannungen zu lesen und in digitale Werte umzuwandeln, die im Code verarbeitet werden können.
 
-The ADC converts the analog voltage from the potentiometer into a digital value using the formula:
+Die Umwandlung der analogen Spannung vom Potentiometer in einen digitalen Wert erfolgt nach der Formel:
 
 .. code-block::
 
-  Digital Value = (Analog Voltage/3.3V) * 1023
+  Digitaler Wert = (Analoge Spannung / 3,3V) * 1023
 
 
-**Pico's ADC Pins**
+**ADC-Pins des Pico**
 
 |pin_adc|
 
-The Pico has three GPIO pins that can be used for analog input:
+Der Pico verfügt über drei GPIO-Pins, die für analoge Eingänge verwendet werden können:
 
 * **GP26** (ADC0)
 * **GP27** (ADC1)
 * **GP28** (ADC2)
 
-In addition, there's a fourth ADC channel connected internally to a temperature sensor (ADC4), which we'll explore in later lessons.
+Zusätzlich gibt es einen vierten ADC-Kanal, der intern mit einem Temperatursensor (ADC4) verbunden ist, den wir in späteren Lektionen erkunden werden.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
@@ -62,7 +62,7 @@ It's definitely convenient to buy a whole kit, here's the link:
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -79,7 +79,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -88,7 +88,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -103,23 +103,23 @@ You can also buy them separately from the links below.
         - 1
         - |link_potentiometer_buy|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_pot|
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_pot|
 
 
-**Writing the Code**
+**Schreiben des Codes**
 
 
 .. note::
 
-   * You can open the file ``2.11_turn_the_knob.ino`` from ``newton-lab-kit/arduino/2.11_turn_the_knob``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``2.11_turn_the_knob.ino`` aus ``newton-lab-kit/arduino/2.11_turn_the_knob`` öffnen. 
+   * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port, dann klicken Sie auf "Upload".
 
 .. code-block:: Arduino
 
@@ -149,73 +149,73 @@ You can also buy them separately from the links below.
      delay(10);
    }
 
-When the code is running and the Serial Monitor is open:
+Wenn der Code ausgeführt wird und der serielle Monitor geöffnet ist:
 
-* As you turn the potentiometer knob, the brightness of the LED should change smoothly from dim to bright.
-* You should see the analog values printed, ranging from approximately 0 to 1023 as you adjust the potentiometer.
+* Wenn Sie den Knopf des Potentiometers drehen, sollte die Helligkeit der LED von schwach bis hell reibungslos wechseln.
+* Sie sollten die analogen Werte sehen, die gedruckt werden und von etwa 0 bis 1023 variieren, wenn Sie das Potentiometer einstellen.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Defining the Pins:
+#. Definition der Pins:
 
-   Assigns the GPIO pins used for the potentiometer and the LED.
+   Weist die GPIO-Pins, die für das Potentiometer und die LED verwendet werden, zu.
 
    .. code-block:: Arduino
 
         const int potPin = 28;   // Potentiometer connected to GP28 (ADC2)
         const int ledPin = 15;   // LED connected to GP15 (PWM capable)
 
-#. Initializing Serial Communication:
+#. Serielle Kommunikation initialisieren:
 
-   Starts serial communication, allowing you to print messages to the Serial Monitor.
+   Startet die serielle Kommunikation, sodass Sie Nachrichten auf den seriellen Monitor drucken können.
 
    .. code-block:: Arduino
 
         Serial.begin(115200);
 
-#. Reading the Analog Value:
+#. Den analogen Wert lesen:
 
-   Reads the analog voltage on potPin (GP28) and returns a value between 0 and 1023.
+   Liest die analoge Spannung an potPin (GP28) und gibt einen Wert zwischen 0 und 1023 zurück.
 
    .. code-block:: Arduino
 
         int sensorValue = analogRead(potPin);
 
-#. Printing the Sensor Value:
+#. Den Sensorwert drucken:
 
-   Prints the current sensor value to the Serial Monitor for debugging purposes.
+   Gibt den aktuellen Sensorwert zum Debugging im seriellen Monitor aus.
 
    .. code-block:: Arduino
 
         Serial.println(sensorValue);
 
-#. Mapping the Sensor Value:
+#. Den Sensorwert abbilden:
 
-   Converts the sensor value (0-1023) to a brightness value suitable for PWM output (0-255).
+   Konvertiert den Sensorwert (0-1023) in einen Helligkeitswert, der für die PWM-Ausgabe geeignet ist (0-255).
 
    .. code-block:: Arduino
 
         int brightness = map(sensorValue, 0, 1023, 0, 255);
 
-#. Setting the LED Brightness:
+#. Die Helligkeit der LED einstellen:
 
-   Adjusts the brightness of the LED by setting the PWM duty cycle on ledPin (GP15).
+   Passt die Helligkeit der LED an, indem der PWM-Tastgrad an ledPin (GP15) eingestellt wird.
 
    .. code-block:: Arduino
 
         analogWrite(ledPin, brightness);
 
-#. Adding a Small Delay:
+#. Eine kleine Verzögerung hinzufügen:
 
-   A short delay to stabilize the readings and prevent the loop from running too fast.
+   Eine kurze Verzögerung, um die Ablesungen zu stabilisieren und zu verhindern, dass die Schleife zu schnell läuft.
 
    .. code-block:: Arduino
 
         delay(10);
 
-**Further Exploration**
+**Weiterführende Explorationen**
 
-* **Display Voltage**: Modify the code to calculate and display the actual voltage read from the potentiometer.
+* **Spannung anzeigen**: Modifizieren Sie den Code, um die tatsächlich gelesene Spannung vom Potentiometer zu berechnen und anzuzeigen.
 
   .. code-block:: Arduino
 
@@ -252,29 +252,29 @@ When the code is running and the Serial Monitor is open:
           delay(10);
         }
 
-* **Control Multiple LEDs**: Use multiple potentiometers to control different LEDs or colors in an RGB LED.
-* **Use with Other Sensors**: Replace the potentiometer with another analog sensor, such as a light-dependent resistor (LDR), to control the LED based on ambient light.
+* **Mehrere LEDs steuern**: Verwenden Sie mehrere Potentiometer, um verschiedene LEDs oder Farben in einer RGB-LED zu steuern.
+* **Verwendung mit anderen Sensoren**: Ersetzen Sie das Potentiometer durch einen anderen analogen Sensor, wie einen lichtabhängigen Widerstand (LDR), um die LED basierend auf dem Umgebungslicht zu steuern.
 
 
-**Explanation of Concepts**
+**Erklärung der Konzepte**
 
-* Analog-to-Digital Conversion (ADC):
+* Analog-Digital-Wandlung (ADC):
 
-  * The ADC on the Pico converts the analog voltage from the potentiometer into a digital value.
-  * The voltage range from 0V to 3.3V is converted into a numerical value between 0 and 1023.
+  * Der ADC des Pico wandelt die analoge Spannung vom Potentiometer in einen digitalen Wert um.
+  * Der Spannungsbereich von 0V bis 3,3V wird in einen numerischen Wert zwischen 0 und 1023 umgewandelt.
 
-* Pulse Width Modulation (PWM):
+* Pulsweitenmodulation (PWM):
 
-  * PWM is a technique used to simulate an analog voltage by rapidly switching a digital pin between HIGH and LOW states.
-  * By adjusting the proportion of time the signal is HIGH (duty cycle), we can control devices like LEDs and motors.
+  * PWM ist eine Technik, die verwendet wird, um eine analoge Spannung zu simulieren, indem ein digitaler Pin schnell zwischen HOCH und NIEDRIG geschaltet wird.
+  * Durch die Anpassung des Anteils der Zeit, in der das Signal HOCH ist (Tastgrad), können wir Geräte wie LEDs und Motoren steuern.
 
-* Mapping Values:
+* Werte abbilden:
 
-  * The ``map()`` function scales one range of values to another.
-  * In this case, we map the potentiometer's 0-1023 range to the PWM's 0-255 range.
+  * Die Funktion ``map()`` skaliert einen Bereich von Werten auf einen anderen.
+  * In diesem Fall mappen wir den Bereich des Potentiometers von 0-1023 auf den PWM-Bereich von 0-255.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to read analog input from a potentiometer using the Raspberry Pi Pico's ADC and use that input to control the brightness of an LED via PWM. This fundamental skill allows you to interface with a variety of analog sensors and control outputs in a proportional manner.
+In dieser Lektion haben Sie gelernt, wie man analoge Eingänge von einem Potentiometer mit dem ADC des Raspberry Pi Pico liest und diesen Eingang verwendet, um die Helligkeit einer LED über PWM zu steuern. Diese grundlegende Fähigkeit ermöglicht es Ihnen, mit einer Vielzahl von analogen Sensoren zu arbeiten und Ausgänge proportional zu steuern.
 
 

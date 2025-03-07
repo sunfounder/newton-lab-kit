@@ -1,29 +1,29 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer ein in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Werbegeschenke**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_photoresistor:
 
-2.12 Feel the Light
-=====================
+2.12 Das Licht fühlen
+=========================
 
-In this lesson, we'll learn how to use a **photoresistor** (also known as a light-dependent resistor or LDR) with the Raspberry Pi Pico 2 to measure light intensity. A photoresistor changes its resistance based on the amount of light it receives: the brighter the light, the lower the resistance. This makes it ideal for detecting changes in ambient light.
+In dieser Lektion lernen wir, wie man einen **Fotowiderstand** (auch bekannt als lichtabhängiger Widerstand oder LDR) mit dem Raspberry Pi Pico 2 verwendet, um die Lichtintensität zu messen. Ein Fotowiderstand ändert seinen Widerstand abhängig von der Menge des empfangenen Lichts: Je heller das Licht, desto geringer der Widerstand. Dies macht ihn ideal für die Erkennung von Veränderungen im Umgebungslicht.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
@@ -36,7 +36,7 @@ It's definitely convenient to buy a whole kit, here's the link:
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -74,36 +74,32 @@ You can also buy them separately from the links below.
         - |link_photoresistor_buy|
 
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_photoresistor|
 
+In diesem Schaltkreis sind ein 10K-Widerstand und ein Fotowiderstand in Reihe geschaltet, was einen Spannungsteiler bildet. GP28 liest die Spannung über dem Fotowiderstand, während der 10K-Widerstand als Schutz dient, indem er den Strom begrenzt.
 
-In this circuit, a 10K resistor and a photoresistor are connected in series, forming a voltage divider. GP28 reads the voltage across the photoresistor, while the 10K resistor provides protection by limiting current.
+* **Helles Licht**: Der Widerstand des Fotowiderstands verringert sich, was seine Spannung und den GP28-Wert senkt. Bei starkem Licht nähert sich sein Widerstand null, und GP28 liest nahezu 0. In diesem Fall spielt der 10K-Widerstand eine schützende Rolle, sodass 3.3V und GND nicht miteinander kurzgeschlossen werden.
+* **Dunkelheit**: Der Widerstand des Fotowiderstands erhöht sich, was seine Spannung und den GP28-Wert erhöht. Bei völliger Dunkelheit ist sein Widerstand nahezu unendlich (der 10K-Widerstand ist vernachlässigbar), und GP28 liest nahe 1023.
 
-* **Bright Light**: The photoresistor's resistance decreases, lowering its voltage and the GP28 reading. In strong light, its resistance approaches zero, and GP28 reads close to 0. At this time, the 10K resistor plays a protective role, so that 3.3V and GND are not connected together, resulting in a short circuit.
-* **Darkness**: The photoresistor's resistance increases, raising its voltage and the GP28 value. In complete darkness, its resistance is nearly infinite (the 10K resistor is negligible), and GP28 reads close to 1023.
-
-The calculation formula is shown below.
+Die Berechnungsformel lautet wie folgt.
 
 .. code-block::
 
   Digital Value = (Analog Voltage/3.3V) * 1023
 
-
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_photoresistor|
 
-
-**Writing the Code**
-
+**Schreiben des Codes**
 
 .. note::
 
-   * You can open the file ``2.12_feel_the_light.ino`` from ``newton-lab-kit/arduino/2.12_feel_the_light``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``2.12_feel_the_light.ino`` aus ``newton-lab-kit/arduino/2.12_feel_the_light`` öffnen. 
+   * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port und klicken Sie dann auf "Upload".
 
 .. code-block:: Arduino
 
@@ -121,62 +117,62 @@ The calculation formula is shown below.
      delay(500);  // Wait half a second before reading again
    }
 
-When the code is running and the Serial Monitor is open:
+Wenn der Code läuft und der serielle Monitor geöffnet ist:
 
-* Observing the Sensor Values:
+* Beobachten der Sensorwerte:
 
-  You should see a stream of numbers representing the analog values from the photoresistor.
+  Sie sollten eine Reihe von Zahlen sehen, die die analogen Werte vom Fotowiderstand darstellen.
 
-* Interacting with the Photoresistor:
+* Interaktion mit dem Fotowiderstand:
 
-  * Shine a flashlight or a lamp on the photoresistor. The sensor values should decrease (since resistance decreases with more light).
-  * Cover the photoresistor with your hand or place it in a dark area. The sensor values should increase (since resistance increases with less light).
+  * Leuchten Sie mit einer Taschenlampe oder einer Lampe auf den Fotowiderstand. Die Sensorwerte sollten abnehmen (da der Widerstand mit mehr Licht abnimmt).
+  * Bedecken Sie den Fotowiderstand mit Ihrer Hand oder platzieren Sie ihn in einem dunklen Bereich. Die Sensorwerte sollten zunehmen (da der Widerstand mit weniger Licht zunimmt).
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Defining the Sensor Pin:
+#. Definition des Sensorpins:
 
-   Assigns sensorPin to GPIO 28, which is connected to the analog input.
+   Weist sensorPin GPIO 28 zu, der mit dem analogen Eingang verbunden ist.
 
    .. code-block:: arduino
 
         const int sensorPin = 28;   // Photoresistor connected to GP28 (ADC2)
 
-#. Initializing Serial Communication:
+#. Initialisieren der seriellen Kommunikation:
 
-   Starts serial communication, allowing you to print messages to the Serial Monitor.
+   Startet die serielle Kommunikation, um Nachrichten auf den seriellen Monitor zu drucken.
 
    .. code-block:: arduino
 
         Serial.begin(115200);
 
-#. Reading the Analog Value:
+#. Lesen des analogen Werts:
 
-   Reads the analog voltage at sensorPin and returns a value between 0 and 1023.
+   Liest die analoge Spannung an sensorPin und gibt einen Wert zwischen 0 und 1023 zurück.
 
    .. code-block:: arduino
 
         int sensorValue = analogRead(sensorPin);
 
-#. Printing the Sensor Value:
+#. Drucken des Sensorwerts:
 
-   Outputs the sensor value to the Serial Monitor.
+   Gibt den Sensorwert auf den seriellen Monitor aus.
 
    .. code-block:: arduino
 
         Serial.println(sensorValue);
 
-#. Adding a Delay:
+#. Hinzufügen einer Verzögerung:
 
-   Waits for 500 milliseconds before the next reading.
+   Wartet 500 Millisekunden vor der nächsten Messung.
 
    .. code-block:: arduino
 
         delay(500);
 
-**Converting to Voltage**
+**Umrechnung in Spannung**
 
-If you want to see the actual voltage value being read, you can modify the code:
+Wenn Sie den tatsächlich gelesenen Spannungswert sehen möchten, können Sie den Code ändern:
 
 .. code-block:: arduino
 
@@ -198,23 +194,23 @@ If you want to see the actual voltage value being read, you can modify the code:
       delay(500);
     }
 
-**Further Exploration**
+**Weitere Erkundungen**
 
-* Control an LED Based on Light:
+* Steuerung einer LED basierend auf Licht:
 
-  Use the photoresistor to control the brightness of an LED or turn it on/off based on light levels.
+  Verwenden Sie den Fotowiderstand, um die Helligkeit einer LED zu steuern oder sie basierend auf den Lichtverhältnissen ein- oder auszuschalten.
 
-* Data Logging:
+* Datenprotokollierung:
 
-  Record the light intensity over time to monitor changes in the environment.
+  Protokollieren Sie die Lichtintensität über die Zeit, um Veränderungen in der Umgebung zu überwachen.
 
-* Build a Night Light:
+* Bau eines Nachtlichts:
 
-  Create a light that turns on automatically when it gets dark.
+  Erstellen Sie ein Licht, das sich automatisch einschaltet, wenn es dunkel wird.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use a photoresistor with the Raspberry Pi Pico to measure light intensity. By reading the analog voltage from a voltage divider circuit, you can detect changes in light levels and use this information in your projects.
+In dieser Lektion haben Sie gelernt, wie man einen Fotowiderstand mit dem Raspberry Pi Pico verwendet, um die Lichtintensität zu messen. Durch das Lesen der analogen Spannung aus einem Spannungsteilerkreis können Sie Veränderungen in den Lichtverhältnissen erkennen und diese Informationen in Ihren Projekten verwenden.
 
 
 

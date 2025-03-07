@@ -1,44 +1,43 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook!  
+    Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Fachkundige Unterstützung**: Erhalte Hilfe von unserer Community und unserem Team bei technischen Herausforderungen und Problemen nach dem Kauf.
+    - **Lernen & Teilen**: Tausche Tipps und Anleitungen aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nimm an Gewinnspielen und Sonderaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu experimentieren und zu kreieren? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _py_pir:
 
+2.10 Menschliche Bewegung erkennen
+=====================================
 
-2.10 Detect Human Movement
-==========================
+In dieser Lektion lernen wir, wie man einen **Passiven Infrarotsensor (PIR)** mit dem Raspberry Pi Pico 2 verwendet, um Bewegungen von Menschen zu erkennen. PIR-Sensoren werden häufig in Sicherheitssystemen, automatischen Beleuchtungssystemen und anderen Anwendungen zur Bewegungserkennung eingesetzt. Sie erkennen die Infrarotstrahlung, die von warmen Objekten wie Menschen oder Tieren ausgestrahlt wird.
 
-In this lesson, we'll learn how to use a Passive Infrared (PIR) sensor with the Raspberry Pi Pico 2 to detect human movement. PIR sensors are commonly used in security systems, automatic lighting, and other applications where motion detection is required. They detect infrared radiation emitted by warm objects, such as humans or animals, in their field of view.
+**Benötigte Komponenten**
 
+Für dieses Projekt werden folgende Komponenten benötigt:  
 
-**What You'll Need**
-
-In this project, we need the following components. 
-
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein vollständiges Kit ist hier erhältlich:  
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
+    *   - Name
+        - ENTHALTENE TEILE
         - LINK
-    *   - Newton Lab Kit	
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten einzeln erworben werden: 
 
 
 .. list-table::
@@ -46,8 +45,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE
+        - MENGE
         - LINK
 
     *   - 1
@@ -55,7 +54,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -64,100 +63,97 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_pir`
         - 1
         - |link_pir_buy|
-      
 
-**Circuit Diagram**
+
+**Schaltplan**
 
 |sch_pir|
 
-When the PIR module detects someone passing by, GP14 will be high, otherwise it will be low.
+Sobald der PIR-Sensor eine Bewegung erkennt, wird GP14 HIGH, ansonsten bleibt es LOW.
 
 .. note::
 
-    The PIR sensor have two potentiometers:
+    Der PIR-Sensor verfügt über zwei Potentiometer:
 
-    * **Sensitivity Adjustment**: Controls the range of detection.
-    * **Time Delay Adjustment**: Controls how long the output remains HIGH after motion is detected.
+    * **Empfindlichkeitseinstellung**: Bestimmt die Reichweite der Erkennung.
+    * **Verzögerungseinstellung**: Bestimmt, wie lange der Ausgang nach einer Bewegungserkennung HIGH bleibt.
 
-    For initial testing, turn both potentiometers counterclockwise to their minimum positions. This sets the sensor to its most sensitive and shortest delay settings, allowing you to observe immediate responses.
-
+    Für erste Tests sollten beide Potentiometer gegen den Uhrzeigersinn auf ihre Minimalwerte gedreht werden. Dadurch wird der Sensor auf maximale Empfindlichkeit und kürzeste Verzögerung eingestellt, sodass sofortige Reaktionen beobachtet werden können.
+    
 
     |img_PIR_TTE|
 
-**Wiring Diagram**
+**Verdrahtung**
 
 |wiring_pir|
 
 
-**Writing the Code**
+**Code schreiben** 
 
-We'll write a MicroPython program that uses an interrupt to detect motion and prints a message when motion is detected.
+Wir werden ein MicroPython-Programm schreiben, das eine Unterbrechung (Interrupt) nutzt, um Bewegung zu erkennen und eine Meldung auszugeben, sobald eine Bewegung registriert wird.
 
 .. note::
 
-    * Open the ``2.10_detect_human_movement.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-
-    
+    * Öffne die Datei ``2.10_detect_human_movement.py`` unter ``newton-lab-kit/micropython`` oder kopiere den folgenden Code in Thonny. Klicke dann auf „Run Current Script“ oder drücke F5.
+    * Stelle sicher, dass der Interpreter „MicroPython (Raspberry Pi Pico).COMxx“ unten rechts in Thonny ausgewählt ist.
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin
+    # GP14 als Eingang für den PIR-Sensor initialisieren
     pir_sensor = machine.Pin(14, machine.Pin.IN)
 
     def motion_detected(pin):
         print("Motion detected!")
 
-    # Set up an interrupt on the rising edge
+    # Interrupt für steigende Flanke (LOW → HIGH) setzen
     pir_sensor.irq(trigger=machine.Pin.IRQ_RISING, handler=motion_detected)
 
-    # Main loop does nothing, interrupt handles motion detection
+    # Hauptschleife bleibt leer, da der Interrupt die Erkennung übernimmt
     while True:
         utime.sleep(1)
 
-When the code is running, you will observe the following phenomenon:
+Sobald das Programm läuft, können folgende Beobachtungen gemacht werden:
 
-* Move in front of the PIR sensor.
-* When motion is detected, "Motion detected!" should appear in the console.
+* Bewege dich vor dem PIR-Sensor.
+* Sobald eine Bewegung erkannt wird, erscheint die Meldung „Bewegung erkannt!“ in der Konsole.
 
-**Understanding the Code**
+**Code verstehen**
 
-#. Import Modules:
+#. Module importieren:
 
-   * ``import machine``: Access to hardware functions.
-   * ``import utime``: Time-related functions.
+   * ``import machine``: Zugriff auf Hardware-Funktionen.
+   * ``import utime``: Zeitbezogene Funktionen.
 
-#. Initialize the PIR Sensor Pin:
+#. PIR-Sensor initialisieren:
 
-   * ``pir_sensor = machine.Pin(14, machine.Pin.IN)``: Sets up GP14 as an input pin.
+   * ``pir_sensor = machine.Pin(14, machine.Pin.IN)``: Setzt GP14 als Eingangspin.
 
-#. Define the Interrupt Handler:
+#. Interrupt-Handler definieren:
 
-   * ``def motion_detected(pin)``: Function that gets called when motion is detected.
-   * ``print("Motion detected!")``: Prints a message to the console.
+   * ``def motion_detected(pin)``: Funktion, die bei Bewegungserkennung aufgerufen wird.
+   * ``print("Motion detected!")``: Gibt eine Meldung in der Konsole aus.
 
-#. Set Up the Interrupt:
+#. Interrupt konfigurieren:
 
-   * ``pir_sensor.irq(trigger=machine.Pin.IRQ_RISING, handler=motion_detected)``: Configures an interrupt that triggers on the rising edge of the signal from the PIR sensor.
+   * ``pir_sensor.irq(trigger=machine.Pin.IRQ_RISING, handler=motion_detected)``: Löst eine Unterbrechung aus, wenn das PIR-Signal von LOW auf HIGH wechselt. Ruft die Funktion ``motion_detected`` auf.
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * ``while True``: An infinite loop.
-   * ``utime.sleep(1)``: The loop sleeps for 1 second in each iteration. The main loop doesn't need to do anything because the interrupt handles the motion detection.
+   * ``while True``: Endlosschleife.
+   * ``utime.sleep(1)``: Die Schleife schläft für eine Sekunde. Die Bewegungserkennung erfolgt ausschließlich über den Interrupt.
 
-**Example Code for Measuring Duration**
+**Erweiterung: Dauer der Bewegungserkennung messen**
 
-You can modify the code to measure the duration of motion detection and the intervals between detections.
+Der Code kann so modifiziert werden, dass er die Dauer einer erkannten Bewegung misst:
 
 .. code-block:: python
 
@@ -179,42 +175,42 @@ You can modify the code to measure the duration of motion detection and the inte
         else:
             print("Motion ended. Duration of motion: {} ms".format(duration))
 
-    # Set up interrupts for both rising and falling edges
+    # Interrupts für steigende und fallende Flanken setzen
     pir_sensor.irq(trigger=machine.Pin.IRQ_RISING | machine.Pin.IRQ_FALLING, handler=pir_triggered)
 
     while True:
         utime.sleep(1)
 
-* Interrupts for Both Edges: set up the interrupt to trigger on both rising and falling edges using ``machine.Pin.IRQ_RISING`` | ``machine.Pin.IRQ_FALLING``.
-* Tracking Time:
+* Interrupts für beide Flanken:  
+  Die Unterbrechung wird sowohl bei einer steigenden als auch bei einer fallenden Flanke ausgelöst  (``machine.Pin.IRQ_RISING | machine.Pin.IRQ_FALLING``).
 
-  * Use ``utime.ticks_ms()`` to get the current time in milliseconds.
-  * Calculate the duration between triggers to measure how long the PIR sensor output remains ``HIGH`` or ``LOW``.
+* Zeitmessung:
 
-**Practical Applications**
+  * ``utime.ticks_ms()`` gibt die aktuelle Zeit in Millisekunden zurück.
+  * Die Dauer wird anhand der Zeitdifferenz zwischen zwei Triggern berechnet.
 
-* **Security Systems**: Detect intruders or unauthorized movement.
-* **Automatic Lighting**: Turn lights on when motion is detected.
-* **Energy Saving**: Power down devices when no movement is detected for a period.
+**Praktische Anwendungen**
 
-**Troubleshooting Tips**
+* **Sicherheitssysteme**: Einbruchserkennung und Alarmaktivierung.
+* **Automatische Beleuchtung**: Licht schaltet sich bei Bewegung ein.
+* **Energiesparen**: Geräte werden ausgeschaltet, wenn keine Bewegung erkannt wird.
 
-* False Triggers:
+**Fehlersuche**
 
-  * PIR sensors can be sensitive to environmental factors like temperature changes or sunlight.
-  * Avoid pointing the sensor directly at heat sources or windows.
+* Falsche Auslösungen:
 
-* Sensor Not Detecting Motion:
+  * PIR-Sensoren reagieren empfindlich auf Wärmequellen.
+  * Vermeide direkte Sonneneinstrahlung oder die Nähe zu Heizkörpern.
 
-  * Ensure the sensor has had time to initialize (some sensors require up to 60 seconds).
-  * Adjust the sensitivity potentiometer.
+* Keine Bewegung erkannt:
 
-* Interference: 
+  * Einige PIR-Sensoren benötigen bis zu 60 Sekunden zur Initialisierung.
+  * Die Empfindlichkeitseinstellung des Potentiometers überprüfen.
 
-  * Keep the sensor away from electronics that may cause electromagnetic interference.
+* Interferenzen vermeiden:
 
-**Conclusion**
+  * Halte den Sensor von elektromagnetischen Störquellen fern.
 
-By integrating a PIR sensor with the Raspberry Pi Pico 2, you've added motion detection capabilities to your projects. Understanding how to read sensor inputs and handle interrupts allows you to create responsive and efficient programs.
+**Fazit**
 
-
+Durch die Integration eines PIR-Sensors mit dem Raspberry Pi Pico 2 hast du die Fähigkeit zur Bewegungserkennung in deine Projekte eingebaut. Das Verständnis von Sensor-Eingaben und Interrupts ermöglicht es dir, effiziente und reaktionsschnelle Programme zu entwickeln.

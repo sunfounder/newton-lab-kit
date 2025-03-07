@@ -1,42 +1,43 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein – gemeinsam mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Erhalte Hilfe bei technischen Herausforderungen und nach dem Kauf auftretenden Problemen durch unsere Community und unser Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Feierliche Aktionen und Gewinnspiele**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und werde Teil unserer Community!
 
 .. _py_room_temp:
 
-7.2 Building a Room Temperature Meter
+7.2 Bau eines Raumthermometers
 ============================================================
 
-In this project, we'll create a **Room Temperature Meter** using a thermistor and an I2C LCD1602 display. This simple yet practical device will measure the ambient temperature and display it on the LCD screen, providing real-time temperature readings of your environment.
+In diesem Projekt erstellen wir ein **Raumthermometer**, das einen Thermistor und ein I2C LCD1602-Display verwendet.  
+Dieses einfache, aber praktische Gerät misst die Umgebungstemperatur und zeigt sie auf dem LCD-Bildschirm an, sodass du in Echtzeit die Temperatur deiner Umgebung überwachen kannst.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt werden folgende Komponenten benötigt.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch. Hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die folgenden Links erworben werden.
 
 
 .. list-table::
@@ -44,8 +45,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +54,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,11 +63,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_thermistor`
@@ -79,33 +80,31 @@ You can also buy them separately from the links below.
 
 
 
-**Understanding the Components**
+**Funktionsweise der Komponenten**
 
-* **Thermistor:** A type of resistor whose resistance varies significantly with temperature. We'll use a Negative Temperature Coefficient (NTC) thermistor, meaning its resistance decreases as temperature increases.
-* **Voltage Divider:** By combining the thermistor with a fixed resistor, we create a voltage divider circuit, allowing us to measure changes in voltage corresponding to temperature changes.
-* **I2C LCD1602 Display:** A 16x2 character LCD display with an I2C interface, which simplifies wiring and code by using only two data lines (SDA and SCL).
+* **Thermistor:** Ein Widerstand, dessen Widerstandswert sich mit der Temperatur ändert. Wir verwenden einen NTC-Thermistor (Negative Temperature Coefficient), dessen Widerstand bei steigender Temperatur sinkt.
 
+* **Spannungsteiler:** Durch die Kombination des Thermistors mit einem festen Widerstand entsteht ein Spannungsteiler, der Spannungsänderungen in Abhängigkeit von der Temperatur ermöglicht.
 
-**Circuit Diagram**
+* **I2C LCD1602 Display:** Ein 16x2-Zeichen-LCD mit I2C-Schnittstelle, das die Verkabelung und Programmierung durch die Nutzung von nur zwei Datenleitungen (SDA und SCL) vereinfacht.
+
+**Schaltplan**
 
 |sch_room_temp|
 
-
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_room_temp|
 
+**Code schreiben**
 
-**Writing the Code**
-
-We'll write a MicroPython program that reads the temperature from the thermistor and displays it on the LCD.
+Wir schreiben ein MicroPython-Programm, das die Temperatur vom Thermistor ausliest und auf dem LCD-Display anzeigt.
 
 .. note::
 
-    * Open the ``7.2_room_temperature_meter.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the library called ``lcd1602.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
-
+    * Öffne ``7.2_room_temperature_meter.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny, dann klicke auf "Run" oder drücke F5.
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Die Bibliothek ``lcd1602.py`` muss hochgeladen sein. Eine detaillierte Anleitung findest du unter :ref:`add_libraries_py`.
 
 .. code-block:: python
 
@@ -114,34 +113,34 @@ We'll write a MicroPython program that reads the temperature from the thermistor
     import utime
     import math
 
-    # Initialize the thermistor (ADC on pin 28)
-    thermistor = ADC(28)  # Analog input from the thermistor
+    # Initialisierung des Thermistors (ADC an Pin 28)
+    thermistor = ADC(28)  # Analogeingang für den Thermistor
 
-    # Initialize I2C communication for the LCD1602 display
+    # Initialisierung der I2C-Kommunikation für das LCD1602-Display
     i2c = I2C(1, scl=Pin(7), sda=Pin(6), freq=400000)
 
-    # Create an LCD object for controlling the LCD1602 display
+    # Erstellen eines LCD-Objekts zur Steuerung des LCD1602-Displays
     lcd = LCD(i2c)
 
-    # Constants for the Steinhart-Hart equation
-    BETA = 3950  # Beta coefficient of the thermistor
-    R0 = 10000   # Resistance at 25 degrees Celsius
-    T0 = 298.15  # Reference temperature in Kelvin (25°C)
+    # Konstanten für die Steinhart-Hart-Gleichung
+    BETA = 3950  # Beta-Koeffizient des Thermistors
+    R0 = 10000   # Widerstand bei 25 Grad Celsius
+    T0 = 298.15  # Referenztemperatur in Kelvin (25°C)
 
     def read_temperature():
-        # Read raw ADC value from the thermistor
+        # Lese den ADC-Rohwert vom Thermistor
         adc_value = thermistor.read_u16()
 
-        # Convert the raw ADC value to voltage
+        # Wandle den ADC-Wert in eine Spannung um
         voltage = adc_value * 3.3 / 65535
 
-        # Calculate the resistance of the thermistor
+        # Berechne den Widerstand des Thermistors
         Rt = (voltage * R0) / (3.3 - voltage)
 
-        # Apply the Steinhart-Hart equation to calculate temperature in Kelvin
+        # Steinhart-Hart-Gleichung zur Berechnung der Temperatur in Kelvin
         tempK = 1 / ((1 / T0) + (1 / BETA) * math.log(Rt / R0))
 
-        # Convert temperature from Kelvin to Celsius
+        # Umrechnung von Kelvin in Celsius
         tempC = tempK - 273.15
 
         return tempC
@@ -149,15 +148,15 @@ We'll write a MicroPython program that reads the temperature from the thermistor
     def main():
         while True:
             temperature = read_temperature()
-            # Format the temperature to two decimal places
+            # Temperatur mit zwei Dezimalstellen formatieren
             temp_str = "{:.2f} C".format(temperature)
 
-            # Display the temperature on the LCD
+            # Temperatur auf dem LCD anzeigen
             lcd.clear()
             lcd.write(0, 0, "Room Temp:")
             lcd.write(4, 1, temp_str)
 
-            # Optional: Print the temperature to the console
+            # Optionale Ausgabe der Temperatur in der Konsole
             print("Temperature:", temp_str)
 
             utime.sleep(1)
@@ -165,135 +164,136 @@ We'll write a MicroPython program that reads the temperature from the thermistor
     if __name__ == "__main__":
         main()
 
-Once the code is running, the LCD should display the current room temperature in Celsius.
-If the LCD is blank, adjust the contrast using the potentiometer on the back.
-The console in Thonny will also print the temperature readings.
+Sobald der Code läuft, sollte das LCD-Display die aktuelle Raumtemperatur in Celsius anzeigen.  
+Falls das Display leer bleibt, passe den Kontrast mit dem Potentiometer auf der Rückseite an.  
+Die Konsole in Thonny gibt ebenfalls die gemessenen Temperaturwerte aus.
 
-**Understanding the Code**
+**Den Code verstehen**
 
-#. Imports and Initialization:
+#. Importe und Initialisierung:
 
-   * ``lcd1602.LCD``: For controlling the LCD display.
-   * ``machine.ADC``: To read analog values from the thermistor.
-   * ``math``: For logarithmic calculations needed in the temperature conversion.
+   * ``lcd1602.LCD``: Zur Steuerung des LCD-Displays.
+   * ``machine.ADC``: Zum Auslesen der analogen Werte vom Thermistor.
+   * ``math``: Für die logarithmischen Berechnungen zur Temperaturumrechnung.
 
-#. Variables:
+#. Variablen:
 
-   * **BETA**: The beta coefficient specific to your thermistor (commonly 3950).
-   * **R0**: The resistance of the thermistor at the reference temperature (usually 10kΩ at 25°C).
-   * **T0**: The reference temperature in Kelvin (25°C + 273.15).
+   * **BETA**: Der Beta-Koeffizient des Thermistors (normalerweise 3950).
+   * **R0**: Der Widerstand des Thermistors bei der Referenztemperatur (üblicherweise 10 kΩ bei 25°C).
+   * **T0**: Die Referenztemperatur in Kelvin (25°C + 273.15).
 
    .. code-block:: python
 
-        BETA = 3950  # Beta coefficient of the thermistor
-        R0 = 10000   # Resistance at 25 degrees Celsius
-        T0 = 298.15  # Reference temperature in Kelvin (25°C)
-    
-#. Reading Temperature (``read_temperature Function``):
+        BETA = 3950  # Beta-Koeffizient des Thermistors
+        R0 = 10000   # Widerstand bei 25 Grad Celsius
+        T0 = 298.15  # Referenztemperatur in Kelvin (25°C)
 
-   * **ADC Reading**: Captures the analog value from the thermistor.
-   * **Voltage Calculation**: Converts the ADC value to an actual voltage.
-   * **Resistance Calculation (Rt)**: Calculates the thermistor's resistance using the voltage divider formula.
-   * **Steinhart-Hart Equation**: A mathematical model that relates the resistance of a thermistor to its temperature.
-   * **Conversion to Celsius**: Adjusts the temperature from Kelvin to Celsius.
+#. Temperaturmessung (``read_temperature Function``):
+
+   * **ADC-Wert auslesen**: Erfasst den analogen Wert des Thermistors.
+   * **Spannungsberechnung**: Wandelt den ADC-Wert in eine tatsächliche Spannung um.
+   * **Widerstandsberechnung (Rt)**: Berechnet den Widerstand des Thermistors mit der Spannungsteilerformel.
+   * **Steinhart-Hart-Gleichung**: Ein mathematisches Modell, das den Widerstand eines Thermistors mit der Temperatur in Beziehung setzt.
+   * **Umrechnung in Celsius**: Wandelt die Temperatur von Kelvin in Celsius um.
 
    .. code-block:: python
 
         def read_temperature():
-                # Read raw ADC value from the thermistor
+                # Rohwert des ADC vom Thermistor auslesen
                 adc_value = thermistor.read_u16()
 
-                # Convert the raw ADC value to voltage
+                # Umrechnung des Rohwerts in eine Spannung
                 voltage = adc_value * 3.3 / 65535
 
-                # Calculate the resistance of the thermistor
+                # Berechnung des Widerstands des Thermistors
                 Rt = (voltage * R0) / (3.3 - voltage)
 
-                # Apply the Steinhart-Hart equation to calculate temperature in Kelvin
+                # Anwendung der Steinhart-Hart-Gleichung zur Berechnung der Temperatur in Kelvin
                 tempK = 1 / ((1 / T0) + (1 / BETA) * math.log(Rt / R0))
 
-                # Convert temperature from Kelvin to Celsius
+                # Umrechnung von Kelvin in Celsius
                 tempC = tempK - 273.15
 
                 return tempC
 
-#. Main Loop (main Function):
+#. Hauptschleife (main-Funktion):
 
-   * Continuously reads the temperature.
-   * Formats and displays the temperature on the LCD.
-   * Prints the temperature to the console (optional for debugging).
-   * Waits for 1 second before repeating.
+   * Liest kontinuierlich die Temperatur.
+   * Formatiert und zeigt die Temperatur auf dem LCD an.
+   * Gibt die Temperatur optional zur Fehlerüberprüfung in der Konsole aus.
+   * Wartet eine Sekunde, bevor die nächste Messung durchgeführt wird.
 
    .. code-block:: python
 
         def main():
             while True:
                 temperature = read_temperature()
-                # Format the temperature to two decimal places
+                # Temperatur mit zwei Dezimalstellen formatieren
                 temp_str = "{:.2f} C".format(temperature)
 
-                # Display the temperature on the LCD
+                # Temperatur auf dem LCD anzeigen
                 lcd.clear()
                 lcd.write(0, 0, "Room Temp:")
                 lcd.write(4, 1, temp_str)
 
-                # Optional: Print the temperature to the console
+                # Optionale Ausgabe der Temperatur in der Konsole
                 print("Temperature:", temp_str)
 
                 utime.sleep(1)
 
 
-**Troubleshooting**
+**Fehlersuche**
 
-* LCD Not Displaying Text:
+* LCD zeigt keinen Text an:
 
-  * Verify SDA and SCL connections (GP6 and GP7).
-  * Check that the LCD is powered correctly.
-  * Adjust the contrast potentiometer on the LCD module.
+  * Überprüfe die Verbindungen von SDA und SCL (GP6 und GP7).
+  * Stelle sicher, dass das LCD-Modul korrekt mit Strom versorgt wird.
+  * Passe den Kontrast mit dem Potentiometer auf der Rückseite des Displays an.
 
-* Incorrect Temperature Readings:
+* Falsche Temperaturwerte:
 
-  * Ensure the thermistor and resistor are connected properly.
-  * Double-check the resistor values.
-  * Confirm that the BETA value matches your thermistor's specifications.
+  * Vergewissere dich, dass Thermistor und Widerstand richtig angeschlossen sind.
+  * Überprüfe die Widerstandswerte.
+  * Stelle sicher, dass der BETA-Wert zu deinem Thermistor passt.
 
-* Program Errors:
+* Programmfehler:
 
-  * Make sure all necessary libraries are correctly uploaded to the Pico.
-  * Check for typos or indentation errors in the code.
+  * Prüfe, ob alle notwendigen Bibliotheken korrekt auf den Pico hochgeladen wurden.
+  * Überprüfe den Code auf Tippfehler oder fehlerhafte Einrückungen.
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* Display Temperature in Fahrenheit:
+* Anzeige der Temperatur in Fahrenheit:
 
-  Modify the read_temperature function to convert Celsius to Fahrenheit: ``tempF = (tempC * 9 / 5) + 32``.
+  Ändere die read_temperature-Funktion, um die Temperatur auch in Fahrenheit anzuzeigen:  ``tempF = (tempC * 9 / 5) + 32``.
 
-* Add Humidity Measurement:
+* Luftfeuchtigkeit messen:
 
-  Integrate a DHT11 or DHT22 sensor to display humidity alongside temperature.
+  Integriere einen DHT11- oder DHT22-Sensor, um zusätzlich die Luftfeuchtigkeit anzuzeigen.
 
-* Data Logging:
+* Datenprotokollierung:
 
-  Store temperature readings over time in a file on the Pico. Plot the data using a computer for analysis.
+  Speichere die Temperaturwerte über einen längeren Zeitraum auf dem Pico und analysiere sie auf einem Computer.
 
-* Visual Alerts:
+* Visuelle Alarme:
 
-  Add LEDs or a buzzer to alert when the temperature exceeds certain thresholds.
+  Füge LEDs oder einen Summer hinzu, um einen Alarm auszulösen, wenn die Temperatur einen bestimmten Schwellenwert überschreitet.
 
-**Understanding the Science**
+**Die Wissenschaft dahinter verstehen**
 
-* Thermistors and Temperature Measurement:
+* Thermistoren und Temperaturmessung:
 
-  * Thermistors are sensitive to temperature changes, making them ideal for precise measurements.
-  * The voltage divider circuit converts resistance changes into voltage changes that can be read by the Pico's ADC.
+  * Thermistoren reagieren empfindlich auf Temperaturänderungen und eignen sich daher ideal für präzise Messungen.
+  * Der Spannungsteiler wandelt Widerstandsänderungen in Spannungsänderungen um, die vom ADC des Pico ausgelesen werden können.
 
-* Steinhart-Hart Equation:
+* Steinhart-Hart-Gleichung:
 
-  * Provides a more accurate temperature calculation than a simple linear approximation.
-  * Essential for applications requiring precise temperature readings.
+  * Liefert eine genauere Temperaturberechnung als eine einfache lineare Näherung.
+  * Essenziell für Anwendungen, die eine präzise Temperaturmessung erfordern.
 
-**Conclusion**
+**Fazit**
 
-Congratulations! You've built a functional Room Temperature Meter using the Raspberry Pi Pico 2. This project not only demonstrates how to interface analog sensors and I2C devices but also provides practical experience with temperature measurement and display technologies.
-
-Feel free to enhance and customize your temperature meter by adding new features or integrating other sensors. This project serves as a solid foundation for exploring environmental monitoring and control systems.
+Herzlichen Glückwunsch! Du hast erfolgreich ein funktionales Raumthermometer mit dem Raspberry Pi Pico 2 gebaut.  
+Dieses Projekt zeigt nicht nur, wie analoge Sensoren mit I2C-Displays kombiniert werden, sondern bietet auch praktische Erfahrungen in der Temperaturmessung und Anzeige.  
+Erweitere und passe dein Thermometer an, indem du neue Funktionen hinzufügst oder weitere Sensoren integrierst.  
+Dieses Projekt bildet eine solide Grundlage für die Entwicklung von Umweltüberwachungs- und Steuerungssystemen.

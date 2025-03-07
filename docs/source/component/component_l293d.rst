@@ -1,16 +1,16 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_l293d:
 
@@ -19,25 +19,25 @@ IC L293D
 
 |img_l293d0|
 
-L293D is a 4-channel motor driver integrated by chip with high voltage and high current. 
-It's designed to connect to standard DTL, TTL logic level, and drive inductive loads (such as relay coils, DC, Stepper Motors) and power switching transistors etc. 
-DC Motors are devices that turn DC electrical energy into mechanical energy. They are widely used in electrical drive for their superior speed regulation performance.
+Der L293D ist ein 4-Kanal-Motortreiber-IC, der für hohe Spannungen und hohe Ströme ausgelegt ist.
+Er ist konzipiert für den Anschluss an Standard-DTL-, TTL-Logikpegel und zum Ansteuern induktiver Lasten (wie Relaisspulen, Gleichstrom-, Schrittmotoren) und Leistungsschalttransistoren usw.
+Gleichstrommotoren sind Geräte, die Gleichstromenergie in mechanische Energie umwandeln. Sie werden häufig in elektrischen Antrieben eingesetzt, da sie eine überlegene Geschwindigkeitsregulierungsleistung bieten.
 
-See the figure of pins below. L293D has two pins (Vcc1 and Vcc2) for power supply. 
-Vcc2 is used to supply power for the motor, while Vcc1 to supply for the chip. Since a small-sized DC motor is used here, connect both pins to +5V.
+Siehe die Pin-Abbildung unten. Der L293D hat zwei Pins (Vcc1 und Vcc2) zur Stromversorgung.
+Vcc2 dient zur Stromversorgung des Motors, während Vcc1 den Chip versorgt. Da hier ein kleiner Gleichstrommotor verwendet wird, verbinden Sie beide Pins mit +5V.
 
 |img_l293d1| 
 
-The following is the internal structure of L293D. 
-Pin EN is an enable pin and only works with high level; A stands for input and Y for output. 
-You can see the relationship among them at the right bottom. 
-When pin EN is High level, if A is High, Y outputs high level; if A is Low, Y outputs Low level. When pin EN is Low level, the L293D does not work.
+Folgend ist die interne Struktur des L293D.
+Pin EN ist ein Enable-Pin und funktioniert nur auf hohem Niveau; A steht für Eingang und Y für Ausgang.
+Unten rechts sehen Sie die Beziehung zwischen ihnen.
+Wenn Pin EN auf hohem Niveau ist, liefert Y bei hohem A ein hohes Niveau; bei niedrigem A gibt Y ein niedriges Niveau aus. Wenn Pin EN auf niedrigem Niveau ist, funktioniert der L293D nicht.
 
 |img_l293d2|
 
 * `L293D Datasheet <https://cdn-shop.adafruit.com/datasheets/l293d.pdf>`_
 
-**Example**
+**Beispiel**
 
 * :ref:`py_motor` (For MicroPython User)
 * :ref:`ar_motor` (For Arduino User)

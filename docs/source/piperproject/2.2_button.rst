@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein, gemeinsam mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie nach dem Kauf aufgetretene Probleme und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _per_button:
 
-2.2 Button
+2.2 Schalter
 =================
 
-In this project, we will learn how to turn on or off the LED by using a button.
+In diesem Projekt werden wir lernen, wie man eine LED mit einem Schalter ein- und ausschaltet.
 
-**Required Components**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ELEMENTE IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB Kabel
         - 1
         - 
     *   - 3
@@ -62,11 +62,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 2(220Ω, 10KΩ)
+        - 2 (220Ω, 10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_led`
@@ -77,33 +77,32 @@ You can also buy them separately from the links below.
         - 1
         - |link_button_buy|
 
-**Wiring**
+**Verkabelung**
 
 
 |button0|
 
 
-* One side of the button pin is connected to 3.3v, and the other side pin is connected to GP14, so when the button is pressed, GP14 will be high. 
-* However, when the button is not pressed, GP14 is in a suspended state and may be high or low. In order to get a stable low level when the button is not pressed, GP14 needs to be reconnected to GND through a 10K pull-down resistor.
+* Ein Pin des Schalters ist mit 3.3V verbunden, der andere Pin mit GP14, sodass, wenn der Schalter gedrückt wird, GP14 hoch ist. 
+* Wenn der Schalter jedoch nicht gedrückt wird, befindet sich GP14 in einem Schwebezustand und kann hoch oder niedrig sein. Um einen stabilen niedrigen Pegel zu erreichen, wenn der Schalter nicht gedrückt wird, muss GP14 über einen 10K Pull-Down-Widerstand erneut mit GND verbunden werden.
 
 
-**Writing the Code**
+**Den Code schreiben**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.2_button.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * Sie können sich das untenstehende Bild ansehen, um den Code per Drag-and-Drop zu schreiben.
+    * Importieren Sie ``2.2_button.png`` aus dem Pfad ``kepler-kit-main\piper``. Für detaillierte Tutorials siehe :ref:`import_code_piper`.
 
 
 |2.2_button|
 
-After connecting Pico W, click the **Start** button and the code starts to run. When the button is pressed, the LED will be lit. When the button is released, the LED will go out.
+Nachdem Sie Pico W angeschlossen haben, klicken Sie auf den **Start**-Button und der Code beginnt zu laufen. Wenn der Schalter gedrückt wird, leuchtet die LED. Wenn der Schalter losgelassen wird, erlischt die LED.
 
 
-**Understanding the Code**
+**Den Code verstehen**
 
-When the button is pressed, pin14 is high. So if the read pin14 is high, turn the pin15 on (LED is lit); else, turn off the pin15 (LED is off).
+Wenn der Schalter gedrückt wird, ist Pin14 hoch. Also, wenn Pin14 hoch gelesen wird, schalte Pin15 ein (LED leuchtet); sonst, schalte Pin15 aus (LED ist aus).
 
-* [if () do () else ()]: This is a judgment block, depending on the condition after the [if] block to determine whether to run the blocks inside the [do] block, or the blocks inside the [else] block.
-* [is pin () HIGH]: This is used to read the level of a specific pin, if the level read is the same as the set HIGH/LOW, then execute the blocks inside [do] block, otherwise execute the blocks inside [else].
-
+* [if () do () else ()]: Dies ist ein Urteilsblock, der abhängig von der Bedingung nach dem [if]-Block entscheidet, ob die Blöcke im [do]-Block oder die Blöcke im [else]-Block ausgeführt werden.
+* [is pin () HIGH]: Dies wird verwendet, um den Pegel eines spezifischen Pins zu lesen, wenn der gelesene Pegel mit dem eingestellten HIGH/LOW übereinstimmt, dann führe die Blöcke im [do]-Block aus, sonst die im [else].

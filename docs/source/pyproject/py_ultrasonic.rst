@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein – gemeinsam mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Erhalte Hilfe bei technischen Herausforderungen und nach dem Kauf auftretenden Problemen durch unsere Community und unser Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Feierliche Aktionen und Gewinnspiele**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und werde Teil unserer Community!
 
 .. _py_ultrasonic:
 
-6.1 Measuring Distance with an Ultrasonic Sensor
-================================================
+6.1 Entfernungsmessung mit einem Ultraschallsensor
+=====================================================
 
-In this lesson, we'll learn how to use an **ultrasonic sensor module** with the Raspberry Pi Pico 2 to measure the distance to an object. Ultrasonic sensors are commonly used in robotics and automation systems for object detection and distance measurement.
+In dieser Lektion lernen wir, wie man ein **Ultraschallsensormodul** mit dem Raspberry Pi Pico 2 verwendet, um die Entfernung zu einem Objekt zu messen. Ultraschallsensoren werden häufig in Robotik- und Automatisierungssystemen zur Objekterkennung und Distanzmessung eingesetzt.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt werden folgende Komponenten benötigt.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch. Hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die folgenden Links erworben werden.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,42 +62,42 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_ultrasonic`
         - 1
         - |link_ultrasonic_buy|
 
-**Understanding the Ultrasonic Sensor**
+**Funktionsweise des Ultraschallsensors**
 
-The ultrasonic sensor works by emitting a short ultrasonic pulse from the **Trig** pin and listening for the echo on the **Echo** pin. By measuring the time it takes for the echo to return, we can calculate the distance to an object using the speed of sound.
+Der Ultraschallsensor sendet einen kurzen Ultraschallimpuls über den **Trig**-Pin aus und wartet auf das Echo am **Echo**-Pin. Durch die Messung der Zeit, die das Echo für die Rückkehr benötigt, kann die Entfernung zu einem Objekt anhand der Schallgeschwindigkeit berechnet werden.
 
 |ultrasonic_prin|
 
-* **Trigger Pulse**: A 10-microsecond high pulse on the Trig pin initiates the measurement.
-* **Ultrasonic Burst**: The sensor emits an 8-cycle ultrasonic burst at 40 kHz.
-* **Echo Reception**: The Echo pin goes high, and stays high until the echo is received back.
-* **Time Measurement**: By measuring the time the Echo pin stays high, we can calculate the distance.
+* **Triggerimpuls**: Ein 10-Mikrosekunden-High-Puls am Trig-Pin startet die Messung.
+* **Ultraschallimpuls**: Der Sensor sendet eine 8-Zyklen-Ultraschallwelle mit 40 kHz aus.
+* **Echoempfang**: Der Echo-Pin geht auf HIGH und bleibt so lange aktiv, bis das Echo zurückkehrt.
+* **Zeitmessung**: Durch die Dauer des HIGH-Signals am Echo-Pin kann die Entfernung berechnet werden.
 
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_ultrasonic|
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_ultrasonic|
 
 
-**Writing the Code**
+**Code schreiben**
 
-Let's write a MicroPython program to measure distance using the ultrasonic sensor.
+Nun schreiben wir ein MicroPython-Programm zur Entfernungsmessung mit dem Ultraschallsensor.
 
 .. note::
 
-    * Open the ``6.1_measuring_distance.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Öffne ``6.1_measuring_distance.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny, dann klicke auf "Run" oder drücke F5.
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
      
 
 .. code-block:: python
@@ -105,33 +105,33 @@ Let's write a MicroPython program to measure distance using the ultrasonic senso
     import machine
     import utime
 
-    # Define the pins connected to the sensor
+    # Definiere die Pins für den Sensor
     TRIG = machine.Pin(17, machine.Pin.OUT)
     ECHO = machine.Pin(16, machine.Pin.IN)
 
     def measure_distance():
-        # Ensure the trigger pin is low
+        # Stelle sicher, dass der Trigger-Pin LOW ist
         TRIG.low()
         utime.sleep_us(2)
-        # Send a 10µs pulse to trigger the measurement
+        # Sende einen 10µs-Puls zur Messung
         TRIG.high()
         utime.sleep_us(10)
         TRIG.low()
         
-        # Wait for the echo pin to go high (start of echo pulse)
+        # Warte auf den Start des Echos
         while ECHO.value() == 0:
             pass
         start_time = utime.ticks_us()
         
-        # Wait for the echo pin to go low (end of echo pulse)
+        # Warte auf das Ende des Echos
         while ECHO.value() == 1:
             pass
         end_time = utime.ticks_us()
         
-        # Calculate the duration of the echo pulse
+        # Berechne die Dauer des Echo-Impulses
         duration = utime.ticks_diff(end_time, start_time)
         
-        # Calculate the distance (speed of sound is 34300 cm/s)
+        # Berechne die Entfernung (Schallgeschwindigkeit: 34300 cm/s)
         distance = (duration * 0.0343) / 2
         return distance
 
@@ -140,11 +140,11 @@ Let's write a MicroPython program to measure distance using the ultrasonic senso
         print("Distance: {:.2f} cm".format(dist))
         utime.sleep(0.5)
 
-Once the code is running, the Thonny Shell should display the distance readings in centimeters. Move an object closer or farther from the sensor to see the readings change.
+Sobald der Code ausgeführt wird, zeigt die Thonny-Shell die gemessenen Entfernungswerte in Zentimetern an. Bewege ein Objekt näher an den Sensor heran oder weiter weg, um die veränderten Messwerte zu beobachten.
 
-**Understanding the Code**
+**Den Code verstehen**
 
-#. Import necessary modules and set up the trigger and echo pins:
+#. Notwendige Module importieren und die Trigger- und Echo-Pins einrichten:
 
    .. code-block:: python
    
@@ -155,45 +155,45 @@ Once the code is running, the Thonny Shell should display the distance readings 
        ECHO = machine.Pin(16, machine.Pin.IN)
 
 
-#. Measuring Distance:
+#. Entfernung messen:
 
-   * Sends a trigger pulse to initiate measurement.
-   * Waits for the echo response.
-   * Calculates the duration of the echo pulse.
-   * Computes the distance using the speed of sound.
+   * Sendet einen Triggerimpuls, um die Messung zu starten.
+   * Wartet auf das empfangene Echo.
+   * Berechnet die Dauer des Echo-Impulses.
+   * Ermittelt die Entfernung basierend auf der Schallgeschwindigkeit.
 
    .. code-block:: python
 
        def measure_distance():
-           # Ensure trigger is low
+           # Sicherstellen, dass der Trigger-Pin LOW ist
            TRIG.low()
            utime.sleep_us(2)
-           # Trigger a 10µs pulse
+           # 10µs-Impuls zur Messung senden
            TRIG.high()
            utime.sleep_us(10)
            TRIG.low()
            
-           # Wait for echo to start
+           # Auf den Beginn des Echo-Signals warten
            while ECHO.value() == 0:
                pass
            start_time = utime.ticks_us()
            
-           # Wait for echo to end
+           # Warten, bis das Echo endet
            while ECHO.value() == 1:
                pass
            end_time = utime.ticks_us()
            
-           # Calculate duration
+           # Dauer des Echo-Impulses berechnen
            duration = utime.ticks_diff(end_time, start_time)
-           # Calculate distance
+           # Entfernung berechnen
            distance = (duration * 0.0343) / 2
            return distance
 
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * Continuously measures and prints the distance.
-   * Pauses for half a second between measurements.
+   * Misst kontinuierlich die Entfernung und gibt sie aus.
+   * Legt eine halbe Sekunde Pause zwischen den Messungen ein.
 
    .. code-block:: python
    
@@ -202,23 +202,25 @@ Once the code is running, the Thonny Shell should display the distance readings 
            print("Distance: {:.2f} cm".format(dist))
            utime.sleep(0.5)
 
-**Understanding Limitations**
 
-* Blocking Code:
+**Einschränkungen verstehen**
 
-  * The while loops used to wait for the echo can block other code from running.
-  * For more advanced applications, consider using interrupts or asynchronous programming to avoid blocking.
 
-* Measurement Range:
+* Blockierender Code:
 
-  * The HC-SR04 sensor typically has a range of 2 cm to 400 cm.
-  * Objects closer than 2 cm or farther than 400 cm may not be detected accurately.
+  * Die while-Schleifen zum Warten auf das Echo können verhindern, dass andere Codeabschnitte parallel ausgeführt werden.
+  * Für fortgeschrittene Anwendungen sollten Interrupts oder asynchrone Programmierung in Betracht gezogen werden, um Blockierungen zu vermeiden.
 
-* Environmental Factors:
+* Messbereich:
 
-  * Temperature and humidity can affect the speed of sound.
-  * For precise measurements, adjust the speed of sound based on ambient conditions.
+  * Der HC-SR04-Sensor hat typischerweise einen Messbereich von 2 cm bis 400 cm.
+  * Objekte, die näher als 2 cm oder weiter als 400 cm entfernt sind, werden möglicherweise nicht genau erkannt.
 
-**Conclusion**
+* Umwelteinflüsse:
 
-You've successfully used an ultrasonic sensor to measure distance with the Raspberry Pi Pico 2. This fundamental skill is widely applicable in robotics, automation, and interactive projects.
+  * Temperatur und Luftfeuchtigkeit können die Schallgeschwindigkeit beeinflussen.
+  * Für genauere Messungen kann die Schallgeschwindigkeit an die Umgebungsbedingungen angepasst werden.
+
+**Fazit**
+
+Du hast erfolgreich einen Ultraschallsensor genutzt, um mit dem Raspberry Pi Pico 2 Entfernungen zu messen. Diese grundlegende Fähigkeit findet breite Anwendung in der Robotik, Automatisierung und interaktiven Projekten.

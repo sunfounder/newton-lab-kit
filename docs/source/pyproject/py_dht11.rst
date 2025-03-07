@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 mit anderen Technikbegeisterten ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugriff auf neue Produktankündigungen und Sneak Peeks.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu experimentieren und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _py_dht11:
 
-6.2 Measuring Temperature and Humidity with DHT11
-=======================================================
+6.2 Messen von Temperatur und Luftfeuchtigkeit mit dem DHT11
+===============================================================
 
-In this lesson, we'll learn how to use a **DHT11 temperature and humidity sensor** with the Raspberry Pi Pico 2. The DHT11 is a basic, low-cost digital sensor that can measure ambient temperature and humidity, providing a calibrated digital output.
+In dieser Lektion lernen wir, wie man den **DHT11 Temperatur- und Luftfeuchtigkeitssensor** mit dem Raspberry Pi Pico 2 verwendet. Der DHT11 ist ein kostengünstiger digitaler Sensor, der die Umgebungstemperatur und Luftfeuchtigkeit messen und ein kalibriertes digitales Signal ausgeben kann.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein komplettes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Du kannst sie auch einzeln über die folgenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_dht11`
@@ -70,35 +70,35 @@ You can also buy them separately from the links below.
         - |link_dht22_buy|
 
 
-**Understanding the DHT11 Sensor**
+**Verständnis des DHT11-Sensors**
 
-The **DHT11** sensor uses a capacitive humidity sensor and a thermistor to measure the surrounding air. It outputs a digital signal on the data pin, and it's fairly simple to use, but requires precise timing to read data.
+Der **DHT11** Sensor verwendet einen kapazitiven Feuchtigkeitssensor und einen Thermistor, um die Umgebungsluft zu messen. Er gibt ein digitales Signal über den Datenpin aus und ist relativ einfach zu verwenden, erfordert jedoch eine präzise Timing-Steuerung.
 
-* Temperature Range: 0–50 °C with ±2 °C accuracy
-* Humidity Range: 20–80% RH with ±5% accuracy
-* Sampling Rate: 1 Hz (once every second)
+* Temperaturbereich: 0–50 °C mit ±2 °C Genauigkeit
+* Luftfeuchtigkeitsbereich: 20–80 % RH mit ±5 % Genauigkeit
+* Abtastrate: 1 Hz (einmal pro Sekunde)
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_dht11|
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_dht11|
 
-**Writing the Code**
+**Code schreiben**
 
-Let's write a MicroPython program to read temperature and humidity values from the DHT11 sensor.
+Lass uns ein MicroPython-Programm schreiben, um Temperatur- und Luftfeuchtigkeitswerte vom DHT11-Sensor zu lesen.
 
 .. note::
 
-    * Open the ``6.2_temperature_humidity.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Öffne ``6.2_temperature_humidity.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny und klicke dann auf „Run“ oder drücke F5.
 
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
-     
-    
-    * Here you need to use the library called ``dht.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+
+
+    * Hier benötigst du die Bibliothek ``dht.py``. Überprüfe, ob sie bereits auf den Pico hochgeladen wurde. Eine detaillierte Anleitung findest du unter :ref:`add_libraries_py`.
 
 .. code-block:: python
 
@@ -106,24 +106,24 @@ Let's write a MicroPython program to read temperature and humidity values from t
    import utime
    import dht
 
-   # Initialize the DHT11 sensor
+   # Initialisierung des DHT11-Sensors
    sensor = dht.DHT11(Pin(16))
 
    while True:
       try:
-         # Trigger measurement
+         # Messung auslösen
          sensor.measure()
-         # Read values
+         # Werte auslesen
          temperature = sensor.temperature  # In Celsius
-         humidity = sensor.humidity        # In Percent
-         # Print values
+         humidity = sensor.humidity        # In Prozent
+         # Werte ausgeben
          print("Temperature: {}°C   Humidity: {}%".format(temperature, humidity))
       except OSError as e:
          print("Failed to read sensor.")
-      # Wait before the next reading
+      # Wartezeit vor der nächsten Messung
       utime.sleep(2)
 
-Once the code is running, the temperature and humidity readings will display in the Thonny Shell.
+Sobald der Code läuft, werden die Temperatur- und Luftfeuchtigkeitswerte in der Thonny-Shell angezeigt.
 
 .. code-block::
 
@@ -134,28 +134,28 @@ Once the code is running, the temperature and humidity readings will display in 
   Temperature: 29.2°C   Humidity: 60.0%
   Temperature: 29.3°C   Humidity: 60.0%
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Import Modules:
+#. Module importieren:
 
-   * ``machine.Pin``: For controlling the GPIO pins.
-   * ``utime``: Contains time-related functions.
-   * ``dht``: The library for DHT sensors.
+   * ``machine.Pin``: Steuert die GPIO-Pins.
+   * ``utime``: Enthält zeitbezogene Funktionen.
+   * ``dht``: Bibliothek für DHT-Sensoren.
 
-#. Initialize the Sensor:
+#. Initialisierung des Sensors:
 
    .. code-block:: python
 
       sensor = dht.DHT11(Pin(16))
       Creates an instance of the DHT11 sensor connected to GP16.
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * ``sensor.measure()``: Triggers the sensor to take a measurement.
-   * ``sensor.temperature``: Reads the temperature in Celsius.
-   * ``sensor.humidity``: Reads the humidity percentage.
-   * ``Exception Handling``: Catches any errors that occur during reading.
-   * ``utime.sleep(2)``: Waits 2 seconds between readings.
+   * ``sensor.measure()``: Löst eine Messung aus.
+   * ``sensor.temperature``: Liest die Temperatur in Celsius aus.
+   * ``sensor.humidity``: Liest die Luftfeuchtigkeit in Prozent aus.
+   * ``Exception Handling``: Fängt Fehler beim Lesen des Sensors ab.
+   * ``utime.sleep(2)``: Wartet 2 Sekunden zwischen den Messungen.
 
    .. code-block:: python
 
@@ -169,41 +169,41 @@ Once the code is running, the temperature and humidity readings will display in 
             print("Failed to read sensor.")
          utime.sleep(2)
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* Convert Temperature to Fahrenheit:
+* Umwandlung der Temperatur in Fahrenheit:
 
    .. code-block:: python
 
       temperature_f = temperature * 9 / 5 + 32
       print("Temperature: {}°F   Humidity: {}%".format(temperature_f, humidity))
 
-* Display Readings on an LCD:
+* Messwerte auf einem LCD anzeigen:
 
-  Integrate an LCD display to show the readings without a computer.
+  Integriere ein LCD-Display, um die Werte ohne einen Computer anzuzeigen.
 
 
-* Set Up Alerts:
+* Warnmeldungen einrichten:
 
-  Use an LED or buzzer to alert when temperature or humidity exceeds certain thresholds.
+  Nutze eine LED oder einen Summer, um zu warnen, wenn Temperatur oder Luftfeuchtigkeit bestimmte Schwellenwerte überschreiten.
 
-**Troubleshooting Tips**
+**Fehlersuche**
 
-* Incorrect Readings:
+* Falsche Werte:
 
-  * Ensure the sensor is connected properly.
-  * Check for loose wires or poor connections.
+  * Stelle sicher, dass der Sensor korrekt angeschlossen ist.
+  * Überprüfe lose Verbindungen oder schlechte Kontakte.
 
-* Failed to Read Sensor:
+* Fehler beim Lesen des Sensor:
 
-  This may happen occasionally due to timing issues. The code includes a try-except block to handle this.
+  Dies kann gelegentlich aufgrund von Timing-Problemen auftreten. Der Code enthält eine try-except-Routine, um dies zu handhaben.
 
-* Pull-Up Resistor:
+* Pull-Up-Widerstand:
 
-  If the sensor doesn't work, ensure that a pull-up resistor is connected between VCC and Data pins if your sensor requires it.
+  Falls der Sensor nicht funktioniert, überprüfe, ob ein Pull-Up-Widerstand zwischen VCC und Daten-Pin erforderlich ist.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use the DHT11 temperature and humidity sensor with the Raspberry Pi Pico 2. Monitoring environmental conditions is a fundamental aspect of many projects, from weather stations to home automation systems.
+In dieser Lektion hast du gelernt, wie du den DHT11 Temperatur- und Luftfeuchtigkeitssensor mit dem Raspberry Pi Pico 2 verwendest. Die Überwachung von Umweltbedingungen ist eine grundlegende Funktion für viele Projekte, von Wetterstationen bis hin zu Hausautomatisierungssystemen.
 
 * `Try Statement - Python Docs <https://docs.python.org/3/reference/compound_stmts.html?#the-try-statement>`_

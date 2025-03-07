@@ -1,38 +1,38 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_button:
 
-Button
+Taster
 ==========
 
 |img_button|
 
-Buttons are a common component used to control electronic devices. They are usually used as switches to connect or break circuits. Although buttons come in a variety of sizes and shapes, the one used here is a 6mm mini-button as shown in the following pictures.
-Pin 1 is connected to pin 2 and pin 3 to pin 4. So you just need to connect either of pin 1 and pin 2 to pin 3 or pin 4.
+Taster sind eine gängige Komponente zur Steuerung elektronischer Geräte. Sie werden üblicherweise als Schalter verwendet, um Stromkreise zu schließen oder zu öffnen. Obwohl Taster in verschiedenen Größen und Formen erhältlich sind, wird hier ein 6-mm-Mini-Taster verwendet, wie in den folgenden Bildern gezeigt.
+Pin 1 ist mit Pin 2 verbunden und Pin 3 mit Pin 4. Sie müssen also nur entweder Pin 1 mit Pin 3 oder Pin 2 mit Pin 4 verbinden.
 
-The following is the internal structure of a button. The symbol on the right below is usually used to represent a button in circuits. 
+Folgendes ist die interne Struktur eines Tasters. Das Symbol rechts unten wird üblicherweise verwendet, um einen Taster in Schaltkreisen darzustellen.
 
 |img_button_symbol|
 
-Since the pin 1 is connected to pin 2, and pin 3 to pin 4, when the button is pressed, the 4 pins are connected, thus closing the circuit.
+Da Pin 1 mit Pin 2 und Pin 3 mit Pin 4 verbunden ist, werden beim Drücken des Tasters die 4 Pins verbunden, wodurch der Stromkreis geschlossen wird.
 
 |img_button2|
 
 
 
-**Example**
+**Beispiel**
 
 * :ref:`py_button` (For MicroPython User)
 * :ref:`ar_button` (For Arduino User)

@@ -1,51 +1,51 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein – gemeinsam mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Erhalte Hilfe bei technischen Herausforderungen und nach dem Kauf auftretenden Problemen durch unsere Community und unser Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Feierliche Aktionen und Gewinnspiele**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und werde Teil unserer Community!
 
 .. _py_water:
 
-2.14 Water Level Detection
-============================
+2.14 Wasserstandserkennung
+=============================
 
-In this lesson, we will learn how to use a **water sensor** with the Raspberry Pi Pico 2 to detect the presence of water or measure the water level. This sensor is commonly used in projects related to rainfall detection, water level monitoring, and liquid leakage alerts.
+In dieser Lektion lernen wir, wie man einen **Wassersensor** mit dem Raspberry Pi Pico 2 verwendet, um das Vorhandensein von Wasser zu erkennen oder den Wasserstand zu messen. Dieser Sensor wird häufig in Projekten zur Niederschlagserkennung, Wasserstandsüberwachung und Flüssigkeitsleckagen eingesetzt.
 
-**How the Water Sensor Works**
+**Funktionsweise des Wassersensors**
 
-The water sensor has a series of exposed parallel wire traces that detect water droplets or measure the volume of water. As water comes into contact with these traces, the sensor outputs an analog signal. The more water that comes into contact with the sensor, the higher the output value, which can be read by the Raspberry Pi Pico 2's analog-to-digital converter (ADC).
+Der Wassersensor verfügt über eine Reihe offener, paralleler Leiterbahnen, die Wassertröpfchen erkennen oder das Wasservolumen messen. Sobald Wasser mit diesen Leiterbahnen in Kontakt kommt, gibt der Sensor ein analoges Signal aus. Je mehr Wasser den Sensor berührt, desto höher ist der ausgegebene Wert, der vom Analog-Digital-Wandler (ADC) des Raspberry Pi Pico 2 ausgelesen werden kann.
 
 |img_water_sensor|
 
-* Do not fully submerge the sensor in water. Only the area with the exposed traces should come into contact with water.
-* Using the sensor in a humid environment while powered may cause the probe to corrode faster, so it is recommended to power the sensor only when taking readings.
+* Tauche den Sensor nicht vollständig ins Wasser ein. Nur der Bereich mit den offenen Leiterbahnen sollte mit Wasser in Berührung kommen.
+* Die Nutzung des Sensors in feuchten Umgebungen kann zu schnellerer Korrosion der Sonde führen. Es wird daher empfohlen, den Sensor nur während der Messung mit Strom zu versorgen.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt werden folgende Komponenten benötigt.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist praktisch, ein komplettes Kit zu kaufen. Hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die folgenden Links erworben werden.
 
 
 .. list-table::
@@ -53,8 +53,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -71,7 +71,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_water_level`
@@ -79,87 +79,86 @@ You can also buy them separately from the links below.
         - 
 
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_water|
 
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 
 |wiring_water|
 
+**Code schreiben**
 
-**Writing the Code**
 
-We'll write a simple MicroPython program to read the analog value from the water sensor and print it to the console. As the water sensor is submerged, the value read by GP28 will increase.
+Wir schreiben ein einfaches MicroPython-Programm, um den analogen Wert des Wassersensors auszulesen und ihn auf der Konsole anzuzeigen. Je weiter der Sensor ins Wasser eingetaucht wird, desto höher wird der ausgelesene Wert von GP28.
 
 .. note::
 
-    * Open the ``2.14_feel_the_water_level.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Öffne ``2.14_feel_the_water_level.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny und klicke auf "Run" oder drücke F5.
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize ADC on GP28
+    # Initialisiere ADC auf GP28
     sensor = machine.ADC(28)
 
     while True:
-        # Read the analog value from the sensor
+        # Lese den analogen Wert des Sensors aus
         value = sensor.read_u16()
         print("Water level reading:", value)
-        utime.sleep(0.2)  # Delay to avoid flooding the console with data
+        utime.sleep(0.2)  # Verzögerung zur Vermeidung einer überfluteten Konsole
 
 
-When the code is running, slowly submerge the water sensor into water, watching the values printed to the console. As the sensor detects more water, the printed value will increase.
+Wenn der Code ausgeführt wird, tauche den Wassersensor langsam ins Wasser und beobachte die auf der Konsole angezeigten Werte. Je mehr Wasser der Sensor erkennt, desto höher wird der ausgegebene Wert.
 
-**Learn More: Using the Sensor for Leak Detection**
+**Erweiterung: Nutzung des Sensors zur Leckerkennung**
 
-We can also use the water sensor to detect liquid leakage by treating it like a digital sensor. Here's how:
+Der Wassersensor kann auch zur Erkennung von Flüssigkeitsleckagen verwendet werden, indem er als digitaler Sensor fungiert:
 
-#. Measure the Baseline Value:
+#. Bestimmung des Basiswerts:
 
-   * First, take a reading from the water sensor in a completely dry environment. Record this value to use as a threshold.
-   * If the sensor's reading goes above the baseline threshold, we can assume that the sensor is in contact with water, indicating a potential leak.
+   * Nimm zuerst eine Messung mit dem Wassersensor in einer komplett trockenen Umgebung vor. Dieser Wert dient als Schwellenwert.
+   * Falls der Sensor später einen höheren Wert als diesen Basiswert ausgibt, deutet dies auf den Kontakt mit Wasser hin, was auf eine mögliche Leckage hindeutet.
 
-#. Leak Detection Code:
+#. Code zur Leckerkennung:
 
-   In this example, we'll check if the sensor's reading exceeds the threshold value (which you'll need to set based on your environment).
+   In diesem Beispiel prüfen wir, ob der gemessene Wert den festgelegten Schwellenwert überschreitet.
 
    .. code-block:: python
 
       import machine
       import utime
   
-      # Initialize ADC on GP28
+      # Initialisiere ADC auf GP28
       sensor = machine.ADC(28)
   
-      # Set a threshold value based on dry readings (adjust as needed)
+      # Setze einen Schwellenwert basierend auf den Messwerten im Trockenzustand (bei Bedarf anpassen)
       threshold = 30000
   
       while True:
-          # Read the analog value from the sensor
+          # Lese den analogen Wert des Sensors aus
           value = sensor.read_u16()
           
-          # Check if the value exceeds the threshold, indicating water exposure
+          # Prüfe, ob der Wert den Schwellenwert überschreitet, was auf Wasser hinweist
           if value > threshold:
               print("Liquid leakage detected!")
           
-          utime.sleep(0.2)  # Delay for readability
+          utime.sleep(0.2)  # Verzögerung zur besseren Lesbarkeit
     
 
-   The program checks if the sensor's value exceeds a predefined threshold. If the value is higher, it prints a message indicating water or liquid leakage.
+   Das Programm überprüft, ob der Sensorwert den festgelegten Schwellenwert übersteigt. Falls ja, gibt es eine Meldung aus, die auf Wasser oder eine Leckage hinweist.
 
-**Practical Applications**
+**Anwendungsfälle**
 
-* **Leak Detection**: Place the sensor near water pipes, and it can alert you if a pipe starts leaking.
-* **Water Level Monitoring**: Use the sensor in tanks or containers to monitor the water level and trigger alerts or actions.
-* **Rain Detection**: Install the sensor outdoors (with appropriate protection) to detect rainfall.
+* **Leckage-Erkennung**: Platziere den Sensor in der Nähe von Wasserleitungen, um Lecks frühzeitig zu erkennen.
+* **Wasserstandsmessung**: Verwende den Sensor in Tanks oder Behältern, um den Wasserstand zu überwachen und bei Bedarf Alarme oder Aktionen auszulösen.
+* **Regenmessung**: Installiere den Sensor im Freien (mit geeignetem Schutz), um Regenfälle zu detektieren.
 
-**Conclusion**
+**Fazit**
 
-The water sensor is a simple yet powerful tool for detecting water levels or potential liquid leakage. By integrating it with the Raspberry Pi Pico 2, you can create responsive and useful water detection systems for a variety of applications.
-
+Der Wassersensor ist ein einfaches, aber effektives Werkzeug zur Messung von Wasserständen oder zur Erkennung von Flüssigkeitsleckagen. In Kombination mit dem Raspberry Pi Pico 2 lassen sich vielseitige und nützliche Wassererkennungssysteme für verschiedene Anwendungen realisieren.

@@ -1,55 +1,51 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_dot_matrix:
 
-LED Dot Matrix
+LED-Punktmatrix
 ==========================
 
 |img_led_matrix|
 
-Generally, LED dot matrix can be categorized into two types: common
-cathode (CC) and common anode (CA). They look much alike, but internally
-the difference lies. You can tell by test. A CA one is used in this kit.
-You can see 788BS labeled at the side.
+Generell gibt es zwei Arten von LED-Punktmatrizen: gemeinsame Kathode (Common Cathode, CC) 
+und gemeinsame Anode (Common Anode, CA). Sie sehen sich sehr ähnlich, unterscheiden sich jedoch intern. 
+Man kann dies durch Tests feststellen. In diesem Kit wird eine CA-Variante verwendet. 
+Sie können die Beschriftung 788BS an der Seite sehen.
 
-See the figure below. The pins are arranged at the two ends at the back.
-Take the label side for reference: pins on this end are pin 1-8, and oh
-the other are pin 9-16.
+Siehe die Abbildung unten. Die Pins sind an den beiden Enden auf der Rückseite angeordnet. 
+Nehmen Sie die beschriftete Seite als Referenz: Pins an diesem Ende sind Pin 1-8, und am 
+anderen Ende sind es Pin 9-16.
 
-The external view:
+Die externe Ansicht:
 
 |img_788bs_i|
 
 
-Below the figures show their internal structure. You can see in a CA LED
-dot matrix, ROW represents the anode of the LED, and COL is cathode;
-it's contrary for a CC one. One thing in common: for both types, pin 13,
-3, 4, 10, 6, 11, 15, and 16 are all COL, when pin 9, 14, 8, 12, 1, 7, 2,
-and 5 are all ROW. If you want to turn on the first LED at the top left
-corner, for a CA LED dot matrix, just set pin 9 as High and pin 13 as
-Low, and for a CC one, set pin 13 as High and pin 9 as Low. If you want
-to light up the whole first column, for CA, set pin 13 as Low and ROW 9,
-14, 8, 12, 1, 7, 2, and 5 as High, when for CC, set pin 13 as High and
-ROW 9, 14, 8, 12, 1, 7, 2, and 5 as Low. Consider the following figures
-for better understanding.
+Unten zeigen die Abbildungen ihre interne Struktur. In einer CA-LED-Punktmatrix repräsentiert ROW 
+die Anode der LED und COL ist die Kathode; bei einer CC ist es umgekehrt. Eine Gemeinsamkeit besteht 
+darin, dass für beide Typen die Pins 13, 3, 4, 10, 6, 11, 15 und 16 alle COL sind, während Pin 9, 14, 8, 12, 1, 7, 2 und 5 alle ROW sind. 
+Wenn Sie die erste LED in der oberen linken Ecke einschalten möchten, setzen Sie bei einer CA-LED-Punktmatrix Pin 9 auf Hoch und Pin 13 auf Niedrig, 
+und bei einer CC setzen Sie Pin 13 auf Hoch und Pin 9 auf Niedrig. Wenn Sie die gesamte erste Spalte beleuchten möchten, setzen Sie bei CA Pin 13 auf 
+Niedrig und die ROW 9, 14, 8, 12, 1, 7, 2 und 5 auf Hoch, bei CC setzen Sie Pin 13 auf Hoch und die ROW 9, 14, 8, 12, 1, 7, 2 und 5 auf Niedrig. 
+Betrachten Sie die folgenden Abbildungen für ein besseres Verständnis.
 
-The internal view:
+Die interne Ansicht:
 
 |img_788bs_sche|
 
-Pin numbering corresponding to the above rows and columns:
+Pinnummerierung entsprechend den oben genannten Reihen und Spalten:
 
 =========== ====== ====== ===== ====== ===== ====== ====== ======
 **COL**     **1**  **2**  **3** **4**  **5** **6**  **7**  **8**
@@ -58,11 +54,11 @@ Pin numbering corresponding to the above rows and columns:
 **Pin No.** **9**  **14** **8** **12** **1** **7**  **2**  **5**
 =========== ====== ====== ===== ====== ===== ====== ====== ======
 
-In addition, two 74HC595 chips are used here. One is to control the rows
-of the LED dot matrix while the other, the columns.
+Zusätzlich werden hier zwei 74HC595-Chips verwendet. Einer steuert die Reihen der LED-Punktmatrix, 
+der andere die Spalten.
 
 
-**Example**
+**Beispiel**
 
 * :ref:`py_74hc_788bs` (For MicroPython User)
 * :ref:`py_bubble_level` (For MicroPython User)

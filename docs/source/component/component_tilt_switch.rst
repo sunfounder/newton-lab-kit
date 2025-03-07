@@ -1,27 +1,27 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_tilt:
 
-Tilt Switch
+Neigungsschalter
 =============================
 
 |img_tilt| 
 
-The tilt switch used here is a ball one with a metal ball inside. It is used to detect inclinations of a small angle.
+Der hier verwendete Neigungsschalter ist ein Kugelschalter mit einer Metallkugel im Inneren. Er dient dazu, Neigungen eines kleinen Winkels zu erkennen.
 
-The principle is very simple. When the switch is tilted in a certain angle, the ball inside rolls down and touches the two contacts connected to the pins outside, thus triggering circuits. Otherwise the ball will stay away from the contacts, thus breaking the circuits.
+Das Prinzip ist sehr einfach. Wenn der Schalter in einem bestimmten Winkel geneigt wird, rollt die Kugel nach unten und berührt die beiden mit den äußeren Pins verbundenen Kontakte, wodurch Schaltkreise ausgelöst werden. Andernfalls bleibt die Kugel von den Kontakten entfernt, wodurch die Schaltkreise unterbrochen werden.
 
 |img_tilt_symbol|
 
@@ -30,7 +30,7 @@ The principle is very simple. When the switch is tilted in a certain angle, the 
 .. * :ref:`Reading Button Value`
 
 
-**Example**
+**Beispiel**
 
 * :ref:`py_tilt` (For MicroPython User)
 * :ref:`py_10_second` (For MicroPython User)

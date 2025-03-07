@@ -1,51 +1,49 @@
-.. note::
+.. note:: 
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein, zusammen mit anderen Enthusiasten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_rfid:
 
-6.5 Interfacing RFID
+6.5 Schnittstelle zu RFID
 ===========================================
 
-In this lesson, we'll explore how to use **Radio Frequency Identification (RFID)** technology with the Raspberry Pi Pico 2. RFID allows for wireless communication between a reader and tags, which can be used for identification, authentication, and data storage.
+In dieser Lektion erkunden wir, wie man die **Radio Frequency Identification (RFID)** Technologie mit dem Raspberry Pi Pico 2 verwendet. RFID ermöglicht eine drahtlose Kommunikation zwischen einem Lesegerät und Tags, die zur Identifikation, Authentifizierung und Datenspeicherung verwendet werden können.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+Sie können sie auch einzeln über die unten stehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +51,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB Kabel
         - 1
         - 
     *   - 3
@@ -62,47 +60,47 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_mfrc522`
         - 1
         - |link_rfid_buy|
 
-**Understanding RFID**
+**Verständnis von RFID**
 
-RFID technology uses electromagnetic fields to automatically identify and track tags attached to objects. The tags contain electronically stored information, which can be read from a distance without direct line-of-sight.
+RFID-Technologie nutzt elektromagnetische Felder, um automatisch Tags zu identifizieren und zu verfolgen, die an Objekten angebracht sind. Die Tags enthalten elektronisch gespeicherte Informationen, die aus der Ferne gelesen werden können, ohne dass eine direkte Sichtverbindung erforderlich ist.
 
-* **RFID Reader (MFRC522):** A device that emits radio waves to communicate with RFID tags.
-* **RFID Tag:** A small object, such as a card or key fob, that contains a microchip and antenna. It can be passive (no battery) or active (battery-powered).
+* **RFID-Lesegerät (MFRC522):** Ein Gerät, das Radiowellen aussendet, um mit RFID-Tags zu kommunizieren.
+* **RFID-Tag:** Ein kleines Objekt, wie eine Karte oder ein Schlüsselanhänger, das einen Mikrochip und eine Antenne enthält. Es kann passiv (ohne Batterie) oder aktiv (mit Batterie) sein.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_rfid|
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_rfid|
 
 
-**Writing the Code**
+**Schreiben des Codes**
 
-We'll write two programs that initializes the MFRC522 RFID reader, listens for RFID tags, and reads their unique identifiers (UID).
+Wir werden zwei Programme schreiben, die den MFRC522 RFID-Leser initialisieren, auf RFID-Tags warten und deren eindeutige Kennungen (UIDs) lesen.
 
 .. note::
 
-   * The ``MFRC522`` library is used here, you can install it from the **Library Manager**.
+   * Die ``MFRC522`` Bibliothek wird hier verwendet, Sie können sie über den **Library Manager** installieren.
 
       .. image:: img/lib_mfrc522.png
 
 
-1. Writing Information to RFID Tags:
+1. Informationen auf RFID-Tags schreiben:
 
    .. note::
    
-      * You can open the file ``6.5_rfid_read.ino`` from ``newton-lab-kit/arduino/6.5_rfid_read``. 
-      * Or copy this code into **Arduino IDE**.
-      * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+      * Sie können die Datei ``6.5_rfid_read.ino`` aus ``newton-lab-kit/arduino/6.5_rfid_read`` öffnen. 
+      * Oder kopieren Sie diesen Code in **Arduino IDE**.
+      * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port, dann klicken Sie auf "Upload".
    
    .. code-block:: arduino
    
@@ -181,34 +179,34 @@ We'll write two programs that initializes the MFRC522 RFID reader, listens for R
          }
        }
 
-   After uploading the code, the following occurs:
+   Nach dem Hochladen des Codes passiert Folgendes:
    
-   * In the Serial Monitor, you will see:
+   * Im seriellen Monitor sehen Sie:
    
      .. code-block::
 
         RFID Reader Initialized!
         Place your RFID tag near the reader...
    
-   * Input the data you want to write to the RFID tag, ending with the ``#`` character. For example:
+   * Geben Sie die Daten ein, die Sie auf das RFID-Tag schreiben möchten, und beenden Sie mit dem Zeichen ``#``. Zum Beispiel:
    
      .. code-block::
    
         Hello World#
    
-   * Place the RFID tag near the reader. Observe the confirmation message in the Serial Monitor:
+   * Legen Sie das RFID-Tag in die Nähe des Lesers. Beobachten Sie die Bestätigungsnachricht im seriellen Monitor:
    
      .. code-block::
        
         Data written successfully!
 
-2. Reading RFID Tags:
+2. Lesen von RFID-Tags:
 
    .. note::
    
-      * You can open the file ``6.5_rfid_read.ino`` from ``newton-lab-kit/arduino/6.5_rfid_read``. 
-      * Or copy this code into **Arduino IDE**.
-      * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+      * Sie können die Datei ``6.5_rfid_read.ino`` aus ``newton-lab-kit/arduino/6.5_rfid_read`` öffnen. 
+      * Oder kopieren Sie diesen Code in **Arduino IDE**.
+      * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port, dann klicken Sie auf "Upload".
    
    .. code-block:: arduino
 
@@ -264,62 +262,62 @@ We'll write two programs that initializes the MFRC522 RFID reader, listens for R
           }
         }
 
-   After uploading the code, the following occurs:
+   Nach dem Hochladen des Codes passiert Folgendes:
    
-   * In the Serial Monitor, you will see:
+   * Im seriellen Monitor sehen Sie:
    
      .. code-block::
    
         RFID Reader Initialized!
    
-   * Place an RFID tag (e.g., a key fob or card) near the MFRC522 RFID module. The Serial Monitor should display both the UID and the data stored on the tag:
+   * Legen Sie ein RFID-Tag (z. B. einen Schlüsselanhänger oder eine Karte) in die Nähe des MFRC522 RFID-Moduls. Der serielle Monitor sollte sowohl die UID als auch die auf dem Tag gespeicherten Daten anzeigen:
    
      .. code-block::
    
         UID tag : 04 A3 1B 7C 3E
         Data on tag: HelloWorld
 
-**Troubleshooting**
+**Fehlersuche**
 
-* No Readings Displayed:
+* Keine Anzeige von Lesungen:
 
-  * Check all wiring connections, especially the SPI lines (SCK, MOSI, MISO, SS).
-  * Ensure the RFID module is receiving power (VCC and GND connections).
-  * Verify that the correct GPIO pins are defined in the code.
+  * Überprüfen Sie alle Verdrahtungsverbindungen, insbesondere die SPI-Leitungen (SCK, MOSI, MISO, SS).
+  * Stellen Sie sicher, dass das RFID-Modul mit Strom versorgt wird (VCC- und GND-Verbindungen).
+  * Überprüfen Sie, ob die richtigen GPIO-Pins im Code definiert sind.
 
-* Incorrect Readings:
+* Falsche Lesungen:
 
-  * Ensure that the RFID tags are compatible with the MFRC522 module.
-  * Use a different RFID tag to rule out tag-specific issues.
+  * Stellen Sie sicher, dass die RFID-Tags mit dem MFRC522-Modul kompatibel sind.
+  * Verwenden Sie einen anderen RFID-Tag, um tagspezifische Probleme auszuschließen.
 
-* Write Failures:
+* Schreibfehler:
 
-  * Ensure the RFID tag is not locked or write-protected.
-  * Verify that the authentication key matches the tag's key.
-  * Check that the data buffer is correctly formatted and does not exceed 16 bytes.
+  * Stellen Sie sicher, dass das RFID-Tag nicht gesperrt oder schreibgeschützt ist.
+  * Überprüfen Sie, ob der Authentifizierungsschlüssel mit dem Schlüssel des Tags übereinstimmt.
+  * Überprüfen Sie, ob der Datenpuffer korrekt formatiert ist und 16 Bytes nicht überschreitet.
 
-* Signal Interference:
+* Signalstörungen:
 
-  * Avoid placing the RFID module near other electronic devices that might cause interference.
-  * Ensure there are no physical obstructions blocking the RFID tag's communication with the reader.
+  * Vermeiden Sie es, das RFID-Modul in der Nähe anderer elektronischer Geräte zu platzieren, die Störungen verursachen könnten.
+  * Stellen Sie sicher, dass keine physischen Hindernisse die Kommunikation zwischen dem RFID-Tag und dem Lesegerät blockieren.
 
-**Further Exploration**
+**Weitere Erkundungen**
 
-* Access Control Systems: 
+* Zugangskontrollsysteme: 
 
-  Implement door lock mechanisms controlled by RFID tags.
+  Implementieren Sie Türschlossmechanismen, die durch RFID-Tags gesteuert werden.
 
-* Inventory Management: 
+* Bestandsverwaltung: 
 
-  Track and manage inventory items using RFID tags for automated counting and monitoring.
+  Verfolgen und verwalten Sie Bestandsartikel mithilfe von RFID-Tags für automatisiertes Zählen und Überwachen.
 
-* RFID-Based Authentication:
-  Create secure authentication systems for user login or device access.
+* RFID-basierte Authentifizierung:
+  Erstellen Sie sichere Authentifizierungssysteme für Benutzeranmeldungen oder Gerätezugriff.
 
-* Combining with Other Sensors:
+* Kombination mit anderen Sensoren:
 
-  Integrate RFID with other sensors like temperature or motion sensors for comprehensive monitoring systems.
+  Integrieren Sie RFID mit anderen Sensoren wie Temperatur- oder Bewegungssensoren für umfassende Überwachungssysteme.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to interface an RFID system using the MFRC522 RFID module with the Raspberry Pi Pico. By leveraging the SPI communication protocol and the MFRC522 library, you can effortlessly read and write data to RFID tags, enabling a wide range of applications such as access control systems, inventory management, and interactive projects.
+In dieser Lektion haben Sie gelernt, wie man ein RFID-System mit dem MFRC522 RFID-Modul und dem Raspberry Pi Pico interfaced. Durch die Nutzung des SPI-Kommunikationsprotokolls und der MFRC522-Bibliothek können Sie mühelos Daten auf RFID-Tags lesen und schreiben, was eine breite Palette von Anwendungen wie Zugangskontrollsysteme, Bestandsverwaltung und interaktive Projekte ermöglicht.

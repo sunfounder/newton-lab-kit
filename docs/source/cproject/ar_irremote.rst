@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_irremote:
 
-6.4 Using an Infrared Remote Control
+6.4 Verwendung einer Infrarot-Fernbedienung
 ==========================================================
 
-In this lesson, we'll learn how to use an **infrared (IR) remote control** and an **IR receiver** with the Raspberry Pi Pico 2. This will allow us to receive and decode signals from an IR remote, enabling us to control our projects wirelessly.
+In dieser Lektion lernen wir, wie man eine **Infrarot-(IR)-Fernbedienung** und einen **IR-Empfänger** mit dem Raspberry Pi Pico 2 verwendet. Dadurch können wir Signale einer IR-Fernbedienung empfangen und dekodieren, um unsere Projekte drahtlos zu steuern.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Bauteile.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE IM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die untenstehenden Links erworben werden.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,39 +62,39 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_ir_receiver`
         - 1
         - |link_receiver_buy|
 
-**Understanding Infrared Communication**
+**Funktionsweise der Infrarotkommunikation**
 
-Infrared communication involves transmitting data wirelessly using infrared light. Common household devices like TVs and DVD players use IR remote controls for operation.
+Die Infrarotkommunikation erfolgt durch das drahtlose Übertragen von Daten mithilfe von Infrarotlicht. Viele Haushaltsgeräte wie Fernseher und DVD-Player werden mit IR-Fernbedienungen gesteuert.
 
-* **IR Transmitter (Remote Control):** Emits modulated infrared light when a button is pressed.
-* **IR Receiver:** Detects the modulated IR light and converts it into electrical signals that can be decoded.
+* **IR-Sender (Fernbedienung):** Sendet moduliertes Infrarotlicht aus, wenn eine Taste gedrückt wird.
+* **IR-Empfänger:** Erkennt das modulierte IR-Signal und wandelt es in elektrische Signale um, die dekodiert werden können.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_irrecv|
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_irrecv|
 
 
-**Writing the Code**
+**Code schreiben**
 
-We'll write a program that initializes the IR receiver, listens for incoming IR signals, decodes them, and prints the corresponding button presses to the Serial Monitor.
+Wir schreiben ein Programm, das den IR-Empfänger initialisiert, eingehende IR-Signale empfängt, dekodiert und die erkannten Tastendrücke im Seriellen Monitor anzeigt.
 
 .. note::
 
-    * You can open the file ``6.4_ir_remote_control.ino`` from ``newton-lab-kit/arduino/6.4_ir_remote_control``. 
-    * Or copy this code into **Arduino IDE**.
-    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-    * The ``IRremote`` library is used here, you can install it from the **Library Manager**.
+    * Sie können die Datei ``6.4_ir_remote_control.ino`` aus dem Verzeichnis ``newton-lab-kit/arduino/6.4_ir_remote_control`` öffnen. 
+    * Oder diesen Code in die **Arduino IDE** kopieren.
+    * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port aus und klicken Sie auf „Hochladen“.
+    * Die ``IRremote`` wird hier verwendet und kann über den **Library Manager** installiert werden.
 
       .. image:: img/lib_ir.png
 
@@ -154,7 +154,7 @@ We'll write a program that initializes the IR receiver, listens for incoming IR 
       }
     }
 
-After uploading the code, press buttons on the IR remote control. Observe the corresponding key labels printed in the Serial Monitor.
+Nach dem Hochladen des Codes drücken Sie Tasten auf der IR-Fernbedienung und beobachten die zugehörigen Tastennamen im Seriellen Monitor.
 
 .. code-block:: arduino
 
@@ -168,36 +168,36 @@ After uploading the code, press buttons on the IR remote control. Observe the co
 
 .. note::
 
-  The new remote control may have a plastic piece at the end to isolate the battery. Pull out this plastic piece to activate the remote.
+  Neue Fernbedienungen haben möglicherweise eine Plastiklasche, um die Batterie zu isolieren. Ziehen Sie diese heraus, um die Fernbedienung zu aktivieren.
 
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Header and Constants:
+#. Header und Konstanten:
 
-   * ``#define SEND_PWM_BY_TIMER``: This line appears to define a macro for sending PWM signals by using a timer. However, it is not used anywhere in the code, so it might be a leftover or a placeholder.
-   * ``#include <IRremote.hpp>``: Includes the ``IRremote`` library, which provides functionalities for sending and receiving IR signals.
-   * ``const int receiverPin = 17;``: Defines the pin (17) that the IR receiver module is connected to on the Arduino.
+   * ``#define SEND_PWM_BY_TIMER``: Definiert eine Makrovariable, die hier nicht weiter verwendet wird.
+   * ``#include <IRremote.hpp>``: Inkludiert die IRremote-Bibliothek, um IR-Signale zu senden und zu empfangen.
+   * ``const int receiverPin = 17;``: Weist den IR-Empfänger dem GPIO-Pin 17 zu.
 
-#. Setup Function:
+#. Setup-Funktion:
 
-   * ``Serial.begin(115200);``: Initializes serial communication at a baud rate of 115200, which allows the Arduino to communicate with a computer for debugging purposes.
-   * ``IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);``: Initializes the IR receiver on ``receiverPin`` and enables LED feedback, which will light up an LED when the IR receiver gets a signal.
-
-   .. code-block:: arduino
+   * ``Serial.begin(115200);``: Startet die serielle Kommunikation mit 115200 Baud.
+   * ``IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);``: Initialisiert den IR-Empfänger und aktiviert die LED-Feedback-Funktion.
+   
+      .. code-block:: arduino
 
       void setup() {
         Serial.begin(115200);
         IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);
       }
-
+  
 #. Loop Function: 
 
-   * ``if (IrReceiver.decode())``: Checks if the IR receiver has received a valid IR signal. If it has, the function proceeds to decode it.
-   * ``decodeKeyValue(IrReceiver.decodedIRData.command)``: Calls a function to convert the received IR command into a more human-readable key (like "POWER" or "MUTE").
-   * ``Serial.println(key);``: Prints the decoded key to the serial monitor.
-   * ``delay(100);``: Adds a short delay to avoid printing the same signal multiple times.
-   * ``IrReceiver.resume();``: Prepares the IR receiver to receive the next signal by clearing the previous one.
+   * ``if (IrReceiver.decode())``: Überprüft, ob der IR-Empfänger ein gültiges IR-Signal empfangen hat. Falls ja, wird das Signal dekodiert.
+   * ``decodeKeyValue(IrReceiver.decodedIRData.command)``: Ruft eine Funktion auf, die den empfangenen IR-Befehl in eine lesbare Taste (z. B. "POWER" oder "MUTE") umwandelt.
+   * ``Serial.println(key);``: Gibt die dekodierte Taste im Seriellen Monitor aus.
+   * ``delay(100);``: Fügt eine kurze Verzögerung hinzu, um Mehrfachausgaben desselben Signals zu vermeiden.
+   * ``IrReceiver.resume();``: Bereitet den IR-Empfänger darauf vor, das nächste Signal zu empfangen, indem das vorherige gelöscht wird.
 
    .. code-block:: arduino
 
@@ -213,11 +213,11 @@ After uploading the code, press buttons on the IR remote control. Observe the co
         }
       }
 
-#. ``decodeKeyValue`` Function:
+#. ``decodeKeyValue``-Funktion:
 
-   * This function takes a long value result (the raw IR command) and uses a switch statement to map it to a specific key name. Each case corresponds to a different button on the remote.
-   * For example, 0x45 maps to "POWER," and 0x47 maps to "MUTE."
-   * If the command does not match any known key, the function returns "ERROR."
+   * Diese Funktion nimmt einen lon-Wert (den rohen IR-Befehl) und ordnet ihn über eine switch-Anweisung einer bestimmten Taste zu. Jeder Fall entspricht einer anderen Taste auf der Fernbedienung.
+   * Zum Beispiel entspricht 0x45 der Taste "POWER", und 0x47 der Taste "MUTE".
+   * Falls der empfangene Befehl keiner bekannten Taste zugeordnet werden kann, gibt die Funktion "ERROR" zurück.
 
    .. code-block:: arduino
 
@@ -233,45 +233,44 @@ After uploading the code, press buttons on the IR remote control. Observe the co
         }
       }
 
-**Troubleshooting**
+**Fehlersuche**
 
-* No Readings Displayed:
+* Keine Signale werden angezeigt:
 
-  * Ensure the IR receiver is properly connected to GPIO 17.
-  * Verify that the IR receiver is receiving power (VCC and GND connections).
-  * Check that the correct GPIO pin is defined in the code (``receiverPin``).
+  * Überprüfen Sie, ob der IR-Empfänger korrekt mit GPIO 17 verbunden ist.
+  * Stellen Sie sicher, dass der IR-Empfänger mit VCC und GND richtig verbunden ist.
+  * Prüfen Sie, ob der richtige GPIO-Pin im Code definiert ist (``receiverPin``).
 
-* Incorrect Readings:
+* Falsche Signale:
 
-  * Confirm that the remote control is compatible with the IR receiver.
-  * Check that the ``decodeKeyValue`` function correctly maps the IR codes from your specific remote.
-  * Use a universal remote to ensure compatibility.
+  * Vergewissern Sie sich, dass die Fernbedienung mit dem IR-Empfänger kompatibel ist.
+  * Prüfen Sie, ob die ``decodeKeyValue``-Funktion die IR-Codes Ihrer Fernbedienung korrekt zuordnet.
+  * Nutzen Sie eine universelle Fernbedienung, um Kompatibilitätsprobleme auszuschließen.
 
-* Unknown Commands:
+* Unbekannte Befehle:
 
-  * Update the ``decodeKeyValue`` function to include the IR codes specific to your remote control.
-  * Use an IR decoding tool or reference to find the correct codes emitted by your remote.
+  * Aktualisieren Sie die ``decodeKeyValue``-Funktion, um die spezifischen IR-Codes Ihrer Fernbedienung hinzuzufügen.
+  * Verwenden Sie ein IR-Decoder-Tool oder eine Referenz, um die exakten Codes Ihrer Fernbedienung zu ermitteln.
 
-* Signal Interference:
+* Signalstörungen:
 
-  * Ensure there are no obstructions between the remote and the IR receiver.
-  * Avoid placing the sensor near other IR-emitting devices that might cause interference.
+  * Achten Sie darauf, dass sich keine Hindernisse zwischen der Fernbedienung und dem IR-Empfänger befinden.
+  * Platzieren Sie den Sensor nicht in der Nähe anderer IR-emittierender Geräte, um Interferenzen zu vermeiden.
 
-**Further Exploration**
+**Weitere Experimente**
 
-* Controlling Devices with IR Signals:
+* Geräte mit IR-Signalen steuern:
 
-  Use decoded IR signals to control LEDs, motors, servos, or other actuators based on remote inputs.
+  Verwenden Sie dekodierte IR-Signale, um LEDs, Motoren, Servos oder andere Aktoren basierend auf Fernbedienungseingaben zu steuern.
 
-* Creating a Universal Remote:
+* Eine universelle Fernbedienung erstellen:
 
-  Expand the ``decodeKeyValue()`` function to support multiple remotes by mapping a broader range of IR codes.
+  Erweitern Sie die ``decodeKeyValue()``-Funktion, um mehrere Fernbedienungen zu unterstützen, indem Sie eine größere Anzahl an IR-Codes zuordnen.
 
-* Adding Feedback Mechanisms:
+* Feedback-Mechanismen hinzufügen:
 
-  Implement LCD or OLED displays to show the current state or received commands.
+  Integrieren Sie ein LCD- oder OLED-Display, um den aktuellen Status oder empfangene Befehle anzuzeigen.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use an infrared (IR) remote control and an IR receiver with the Raspberry Pi Pico to receive and decode IR signals. By integrating the IRremote library, you can easily interpret remote control inputs and use them to interact with your projects wirelessly. This setup is foundational for creating remote-controlled devices, automated systems, and user-friendly interfaces in various applications.
-
+In dieser Lektion haben Sie gelernt, wie Sie eine Infrarot-(IR)-Fernbedienung und einen IR-Empfänger mit dem Raspberry Pi Pico verwenden, um IR-Signale zu empfangen und zu dekodieren. Durch die Nutzung der IRremote-Bibliothek können Sie Fernbedienungseingaben einfach interpretieren und zur Steuerung Ihrer Projekte nutzen. Dieses Setup ist eine grundlegende Technik für die Entwicklung ferngesteuerter Geräte, automatisierter Systeme und benutzerfreundlicher Schnittstellen.

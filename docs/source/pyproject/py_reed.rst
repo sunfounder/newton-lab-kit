@@ -1,52 +1,55 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook!  
+    Tauche tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein – gemeinsam mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Erhalte Hilfe bei technischen Herausforderungen und nach dem Kauf auftretenden Problemen durch unsere Community und unser Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Feierliche Aktionen und Gewinnspiele**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und werde Teil unserer Community!
 
 .. _py_reed:
 
-2.9 Feel the Magnetism
+2.9 Magnetismus spüren
 ===============================
 
-In this lesson, we'll explore how to use a **reed switch** with the Raspberry Pi Pico 2 to detect the presence of a magnetic field. A reed switch is a simple electrical switch that operates using a magnetic field. When a magnet comes near the switch, its internal contacts close, completing an electrical circuit.
+In dieser Lektion erforschen wir, wie ein **Reed-Schalter** mit dem Raspberry Pi Pico 2 verwendet wird, um ein Magnetfeld zu erkennen.  
+Ein Reed-Schalter ist ein einfacher elektrischer Schalter, der durch ein Magnetfeld aktiviert wird.  
+Wenn ein Magnet in die Nähe des Schalters kommt, schließen sich die internen Kontakte und vervollständigen den Stromkreis.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt werden folgende Komponenten benötigt.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch. Hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
 
+Alternativ können die Komponenten auch einzeln über die folgenden Links erworben werden.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -54,7 +57,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -63,138 +66,138 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_reed`
         - 1
         - 
 
+**Funktionsweise des Reed-Schalters**
 
-**Understanding the Reed Switch**
+Ein Reed-Schalter besteht aus zwei dünnen Metallzungen, die in einer Glasröhre eingeschlossen sind. Diese Zungen bestehen aus ferromagnetischem Material und sind leicht voneinander getrennt. Ohne Magnetfeld bleiben sie getrennt, und der Schalter ist **offen**. Kommt ein Magnet in die Nähe, magnetisieren sich die Zungen, ziehen sich gegenseitig an und schließen den Stromkreis.
 
-A reed switch consists of two thin metal reeds sealed within a glass capsule. These reeds are made of ferromagnetic material and are positioned slightly apart. In the absence of a magnetic field, the reeds are separated, and the switch is **open**. When a magnet comes near the switch, the reeds become magnetized, attract each other, and close the circuit.
-
-* **No Magnet Nearby**: Switch is **open**; the circuit is incomplete.
-* **Magnet Nearby**: Switch is **closed**; the circuit is complete.
+* **Kein Magnet in der Nähe**: Schalter ist **offen**; der Stromkreis ist unterbrochen.
+* **Magnet in der Nähe**: Schalter ist **geschlossen**; der Stromkreis ist verbunden.
 
 |img_reed_sche|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_reed|
 
-By default, GP14 is low; and will go high when the magnet is near the reed switch.
+Standardmäßig ist GP14 auf LOW und wird HIGH, wenn sich ein Magnet in der Nähe des Reed-Schalters befindet.
 
-The purpose of the 10K resistor is to keep the GP14 at a steady low level when no magnet is near.
+Der 10K-Widerstand dient dazu, GP14 auf einem stabilen niedrigen Pegel zu halten, wenn sich kein Magnet in der Nähe befindet.
 
-* **No Magnet Nearby**:
+* **Kein Magnet in der Nähe**:
 
-  * The reed switch is **open**.
-  * **GP14** is connected to **GND** through the pull-down resistor.
-  * The GPIO pin reads **LOW** (0).
+  * Der Reed-Schalter ist **offen**.
+  * **GP14** ist über den Pull-down-Widerstand mit **GND** verbunden.
+  * Der GPIO-Pin liest **LOW** (0).
 
-* **Magnet Nearby**:
+* **Magnet in der Nähe**:
 
-  * The reed switch is **closed**.
-  * **GP14** is connected to **3.3V** through the reed switch.
-  * The GPIO pin reads **HIGH** (1).
+  * Der Reed-Schalter ist **geschlossen**.
+  * **GP14** ist über den Reed-Schalter mit **3.3V** verbunden.
+  * Der GPIO-Pin liest **HIGH** (1).
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_reed|
 
-**Writing the Code**
+**Code schreiben**
 
-We'll write a MicroPython program that detects when a magnet is near the reed switch and prints a message accordingly.
+Wir schreiben ein MicroPython-Programm, das erkennt, wenn sich ein Magnet in der Nähe des Reed-Schalters befindet, und eine entsprechende Nachricht ausgibt.
 
 .. note::
 
-  * Open the ``2.9_feel_the_magnetism.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-  
+  * Öffne die Datei ``2.9_feel_the_magnetism.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny, dann klicke auf „Run“ oder drücke F5.
+  * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
+
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin
+    # Initialisierung von GP14 als Eingangs-Pin
     reed_switch = machine.Pin(14, machine.Pin.IN)
 
     while True:
         if reed_switch.value() == 1:
             print("Magnet detected!")
-            utime.sleep(1)  # Delay to avoid multiple detections
+            utime.sleep(1)  # Verzögerung, um Mehrfacherkennungen zu vermeiden
 
-When the code is running, you will observe the following phenomenon:
+Wenn der Code ausgeführt wird, kannst du Folgendes beobachten:
 
-* **No Magnet Nearby**: No message should appear.
-* **Bring a Magnet Close**: "Magnet detected!" should appear in the console.
-* **Move Magnet Away**: The message stops appearing.
+* **Kein Magnet in der Nähe**: Es erscheint keine Meldung.
+* **Magnet annähern**: „"Magnet detected!"“ erscheint in der Konsole.
+* **Magnet entfernen**: Die Meldung wird nicht mehr angezeigt.
 
-**Understanding the Code**
+**Verständnis des Codes** 
 
-#. Import Modules:
+#. Importiere Module:
 
-   * ``import machine``: Access to hardware functions.
-   * ``import utime``: Time-related functions.
+   * ``import machine``: Zugriff auf Hardwarefunktionen.
+   * ``import utime``: Zeitbezogene Funktionen.
 
-#. Initialize the Reed Switch Pin:
+#. Initialisiere den Reed-Schalter-Pin:
 
-   * ``reed_switch = machine.Pin(14, machine.Pin.IN)``: Sets up GP14 as an input pin.
+   * ``reed_switch = machine.Pin(14, machine.Pin.IN)``: Setzt GP14 als Eingangs-Pin.
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * ``while True``: Starts an infinite loop.
-   * ``if reed_switch.value() == 1``: Checks if a magnet is near (GPIO pin reads HIGH).
-   * ``print("Magnet detected!")``: Outputs a message.
-   * ``utime.sleep(1)``: Adds a delay to prevent rapid repeated messages.
+   * ``while True``: Startet eine Endlosschleife.
+   * ``if reed_switch.value() == 1``: Prüft, ob sich ein Magnet in der Nähe befindet (GPIO-Pin liest HIGH).
+   * ``print("Magnet detected!")``: Gibt eine Nachricht aus.
+   * ``utime.sleep(1)``: Fügt eine Verzögerung hinzu, um wiederholte Meldungen zu vermeiden.
 
-**Using Interrupts for Efficient Detection**
+**Verwendung von Interrupts für eine effiziente Erkennung**
 
-Instead of constantly polling the reed switch in a loop, we can use an interrupt to detect changes in the reed switch state more efficiently.
+Anstatt den Reed-Schalter ständig in einer Schleife abzufragen, können wir einen Interrupt verwenden, um Änderungen des Schalterzustands effizienter zu erkennen.
 
-Using interrupts enhances efficiency by eliminating the need for continuous checking of the reed switch state and improves responsiveness by immediately calling the handler function when the event occurs.
+Die Verwendung von Interrupts verbessert die Effizienz, indem sie die Notwendigkeit der kontinuierlichen Überprüfung des Reed-Schalters eliminiert und sofort die Handler-Funktion aufruft, wenn das Ereignis eintritt.
 
-Modified code using interrupts. When you bring a magnet close to the reed switch, "Magnet detected!" will appear. The main program remains free to perform other tasks.
+Modifizierter Code mit Interrupts: Wenn sich ein Magnet dem Reed-Schalter nähert, erscheint „Magnet erkannt!“. Das Hauptprogramm bleibt frei für andere Aufgaben.
 
 .. code-block:: python
 
     import machine
 
-    # Initialize GP14 as an input pin with internal pull-down resistor
+    # Initialisiere GP14 als Eingangs-Pin mit internem Pull-down-Widerstand
     reed_switch = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
     def magnet_detected(pin):
         print("Magnet detected!")
 
-    # Set up an interrupt on the rising edge (LOW to HIGH transition)
+    # Richte einen Interrupt für die steigende Flanke (LOW zu HIGH) ein
     reed_switch.irq(trigger=machine.Pin.IRQ_RISING, handler=magnet_detected)
 
-* ``def magnet_detected(pin)``: This function is called automatically when the interrupt is triggered.
+* ``def magnet_detected(pin)``: Diese Funktion wird automatisch aufgerufen, wenn der Interrupt ausgelöst wird.
     
-  * ``print("Magnet detected!")``: Outputs a message when a magnet is detected.
+  * ``print("Magnet detected!")``: Gibt eine Meldung aus, wenn ein Magnet erkannt wird.
 
-* ``reed_switch.irq(trigger=machine.Pin.IRQ_RISING, handler=magnet_detected)``: Configures an interrupt on the reed switch pin.
+* ``reed_switch.irq(trigger=machine.Pin.IRQ_RISING, handler=magnet_detected)``: Konfiguriert einen Interrupt für den Reed-Schalter-Pin.
      
-  * ``trigger=machine.Pin.IRQ_RISING``: The interrupt triggers on a rising edge (when the pin value goes from LOW to HIGH).
-  * ``handler=magnet_detected``: Specifies the function to call when the interrupt occurs.
+  * ``trigger=machine.Pin.IRQ_RISING``: Der Interrupt wird ausgelöst, wenn der Pin von LOW auf HIGH wechselt.
+  * ``handler=magnet_detected``: Gibt die Funktion an, die beim Interrupt ausgelöst wird.
 
-**Practical Applications**
+**Praktische Anwendungen**
 
-* **Security Systems**: Detect when a door or window is opened.
-* **Position Sensing**: Determine the position of moving parts in machinery.
-* **Proximity Detection**: Trigger events when a magnetic object comes near.
+* **Sicherheitssysteme**: Erkennen, wenn eine Tür oder ein Fenster geöffnet wird.
+* **Positionssensoren**: Bestimmen der Position beweglicher Maschinenteile.
+* **Näherungserkennung**: Ereignisse auslösen, wenn sich ein magnetisches Objekt nähert.
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* Control an LED:
+* Steuerung einer LED:
 
-  Connect an LED to another GPIO pin (e.g., GP15) with a suitable resistor. Modify the interrupt handler to turn the LED on when a magnet is detected.
+  Schließe eine LED an einen anderen GPIO-Pin (z. B. GP15) mit einem geeigneten Widerstand an.  
+  Ändere den Interrupt-Handler so, dass die LED eingeschaltet wird, wenn ein Magnet erkannt wird.
   
   .. code-block:: python
   
@@ -204,21 +207,21 @@ Modified code using interrupts. When you bring a magnet close to the reed switch
       led = machine.Pin(15, machine.Pin.OUT)
   
       def magnet_detected(pin):
-          led.value(1)  # Turn on the LED
+          led.value(1)  # LED einschalten
   
-      # Set up an interrupt on the rising edge
+      # Interrupt für steigende Flanke setzen
       reed_switch.irq(trigger=machine.Pin.IRQ_RISING, handler=magnet_detected)
   
-      # Main loop
+      # Hauptschleife
       while True:
-          # Turn off the LED when the magnet is not present
+          # LED ausschalten, wenn kein Magnet in der Nähe ist
           if reed_switch.value() == 0:
               led.value(0)
           machine.sleep(100)
         
-* Detect Magnet Removal:
+* Erkennung der Magnetentfernung:
 
-  Set up another interrupt for the falling edge (when the magnet is moved away).
+  Richte einen weiteren Interrupt für die fallende Flanke ein (wenn der Magnet entfernt wird).
 
   .. code-block:: python
 
@@ -227,10 +230,10 @@ Modified code using interrupts. When you bring a magnet close to the reed switch
 
     reed_switch.irq(trigger=machine.Pin.IRQ_FALLING, handler=magnet_removed)
 
-**Conclusion**
+**Fazit**
 
-Using a reed switch with the Raspberry Pi Pico 2 allows you to detect the presence of a magnetic field, enabling a wide range of applications from security systems to interactive projects. Understanding how to wire the reed switch and utilize interrupts enhances your ability to create efficient and responsive programs.
+Die Verwendung eines Reed-Schalters mit dem Raspberry Pi Pico 2 ermöglicht die Erkennung von Magnetfeldern und eröffnet vielfältige Einsatzmöglichkeiten – von Sicherheitssystemen bis hin zu interaktiven Projekten. Das Verständnis der Verdrahtung und der Nutzung von Interrupts verbessert die Effizienz und Reaktionsfähigkeit deiner Programme.
 
-**References**
+**Referenzen**
 
 * |link_mpython_irq|

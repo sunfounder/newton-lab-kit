@@ -1,50 +1,50 @@
-.. _per_setup_pico:
+.. _per_setup_pico: 
 
-1.1 Set up the Pico
-----------------------
+1.1 Den Pico einrichten
+--------------------------
 
-First, visit Piper Make through the following link: 
+Zuerst besuchen Sie Piper Make über den folgenden Link:
 
 https://make.playpiper.com/
 
-In the pop-up page, if you don't need to subscribe for more tutorials, you can just click **Let's Go!** or the **x** button.
+Auf der Popup-Seite, wenn Sie keine weiteren Tutorials abonnieren möchten, können Sie einfach auf **Los geht's!** oder den **x**-Button klicken.
 
 |media1|
 
 
 .. note::
-    If you see a different pop-up window, your browser version is not supported, please update your browser and try again. 
+    Wenn Sie ein anderes Popup-Fenster sehen, wird Ihre Browser-Version nicht unterstützt, bitte aktualisieren Sie Ihren Browser und versuchen Sie es erneut.
 
 
-Find the ``SETUP MY PICO`` button, click it, and follow the prompts to configure it.
+Finden Sie den Button ``SETUP MY PICO``, klicken Sie darauf und folgen Sie den Anweisungen zur Konfiguration.
 
 |media2-s|
 
 
-Click **Next** to start configuring your Pico W, even if you have set it up before, these are the same steps you will use to update your Pico W firmware.
+Klicken Sie auf **Weiter**, um die Konfiguration Ihres Pico W zu starten, auch wenn Sie ihn zuvor eingerichtet haben, sind dies die gleichen Schritte, die Sie verwenden werden, um Ihre Pico W-Firmware zu aktualisieren.
 
 |media3|
 
-In this step, you need to make sure that your Pico W is unplugged from your computer, as it needs to be plugged in in a specific way in the next step. Make sure your cable can handle power and data, as many micro USB cables only have power.
+In diesem Schritt müssen Sie sicherstellen, dass Ihr Pico W nicht an Ihren Computer angeschlossen ist, da er im nächsten Schritt auf eine spezielle Weise angeschlossen werden muss. Stellen Sie sicher, dass Ihr Kabel sowohl Strom als auch Daten übertragen kann, da viele Micro-USB-Kabel nur Strom liefern.
 
 |media4|
 
-Now, press and hold the RST (white) button on the Pico W and plug the Pico W into your computer. Once plugged in, you can release the button.
+Jetzt drücken und halten Sie die RST (weiße) Taste am Pico W und stecken Sie den Pico W in Ihren Computer. Sobald er angeschlossen ist, können Sie die Taste loslassen.
 
 |media5|
 
-Your Pico W will appear as a USB drive, click **Next** after that select **RPI-RP2** drive.
+Ihr Pico W wird als USB-Laufwerk angezeigt, klicken Sie danach auf **Weiter** und wählen Sie das **RPI-RP2**-Laufwerk.
 
 .. note::
-    After select **RPI-RP2** drive, there will be a pop up window at the top that you need to allow the web page to view files.
+    Nachdem Sie das **RPI-RP2**-Laufwerk ausgewählt haben, erscheint oben ein Popup-Fenster, das Sie erlauben müssen, damit die Webseite Dateien anzeigen kann.
 
 |media6|
 
-Now Piper Make will load the firmware to your Pico W, again you need to allow save changes to the hard drive where the Pico W is located.
+Nun wird Piper Make die Firmware auf Ihren Pico W laden, erneut müssen Sie Änderungen auf dem Festplattenlaufwerk, auf dem der Pico W liegt, speichern lassen.
 
 |media7|
 
-When this prompt appears, it means your Pico W is set up and you can start using it.
+Wenn diese Aufforderung erscheint, bedeutet das, dass Ihr Pico W eingerichtet ist und Sie ihn verwenden können.
 
 
 |media8|

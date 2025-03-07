@@ -1,43 +1,42 @@
-.. note::
+.. note:: 
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie Ihre Kenntnisse über Raspberry Pi, Arduino und ESP32 gemeinsam mit anderen Enthusiasten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Sonderangebote**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_reed:
 
-2.9 Feel the Magnetism
+2.9 Den Magnetismus fühlen
 ===============================
 
-In this lesson, we'll explore how to use a **reed switch** with the Raspberry Pi Pico 2 to detect the presence of a magnetic field. A reed switch is a simple electrical switch that operates using a magnetic field. When a magnet comes near the switch, its internal contacts close, completing an electrical circuit.
+In dieser Lektion werden wir untersuchen, wie man einen **Reedschalter** mit dem Raspberry Pi Pico 2 verwendet, um das Vorhandensein eines Magnetfelds zu erkennen. Ein Reedschalter ist ein einfacher elektrischer Schalter, der mit einem Magnetfeld betrieben wird. Nähert sich ein Magnet dem Schalter, schließen sich seine internen Kontakte und vervollständigen den Stromkreis.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die unten stehenden Links kaufen.
 
 
 .. list-table::
@@ -45,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -54,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB Kabel
         - 1
         - 
     *   - 3
@@ -63,11 +62,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_reed`
@@ -75,47 +74,47 @@ You can also buy them separately from the links below.
         - 
 
 
-**Understanding the Reed Switch**
+**Verständnis des Reedschalters**
 
-A reed switch consists of two thin metal reeds sealed within a glass capsule. These reeds are made of ferromagnetic material and are positioned slightly apart. In the absence of a magnetic field, the reeds are separated, and the switch is **open**. When a magnet comes near the switch, the reeds become magnetized, attract each other, and close the circuit.
+Ein Reedschalter besteht aus zwei dünnen Metallzungen, die in einer Glasampulle versiegelt sind. Diese Zungen sind aus ferromagnetischem Material gefertigt und leicht voneinander entfernt positioniert. In Abwesenheit eines Magnetfelds sind die Zungen getrennt und der Schalter ist **offen**. Nähert sich ein Magnet dem Schalter, werden die Zungen magnetisiert, ziehen sich an und schließen den Stromkreis.
 
-* **No Magnet Nearby**: Switch is **open**; the circuit is incomplete.
-* **Magnet Nearby**: Switch is **closed**; the circuit is complete.
+* **Kein Magnet in der Nähe**: Schalter ist **offen**; der Stromkreis ist unvollständig.
+* **Magnet in der Nähe**: Schalter ist **geschlossen**; der Stromkreis ist vollständig.
 
 |img_reed_sche|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_reed|
 
-By default, GP14 is low; and will go high when the magnet is near the reed switch.
+Standardmäßig ist GP14 niedrig; er wird hoch, wenn der Magnet in der Nähe des Reedschalters ist.
 
-The purpose of the 10K resistor is to keep the GP14 at a steady low level when no magnet is near.
+Der Zweck des 10K-Widerstands ist es, den GP14 auf einem konstanten niedrigen Niveau zu halten, wenn kein Magnet in der Nähe ist.
 
-* **No Magnet Nearby**:
+* **Kein Magnet in der Nähe**:
 
-  * The reed switch is **open**.
-  * **GP14** is connected to **GND** through the pull-down resistor.
-  * The GPIO pin reads **LOW** (0).
+  * Der Reedschalter ist **offen**.
+  * **GP14** ist durch den Pull-down-Widerstand mit **GND** verbunden.
+  * Der GPIO-Pin liest **LOW** (0).
 
-* **Magnet Nearby**:
+* **Magnet in der Nähe**:
 
-  * The reed switch is **closed**.
-  * **GP14** is connected to **3.3V** through the reed switch.
-  * The GPIO pin reads **HIGH** (1).
+  * Der Reedschalter ist **geschlossen**.
+  * **GP14** ist durch den Reedschalter mit **3.3V** verbunden.
+  * Der GPIO-Pin liest **HIGH** (1).
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_reed|
 
 
-**Writing the Code**
+**Schreiben des Codes**
 
 .. note::
 
-   * You can open the file ``2.9_feel_the_magnetism.ino`` from ``newton-lab-kit/arduino/2.9_feel_the_magnetism``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``2.9_feel_the_magnetism.ino`` aus ``newton-lab-kit/arduino/2.9_feel_the_magnetism`` öffnen. 
+   * Oder kopieren Sie diesen Code in **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port, dann klicken Sie auf "Upload".
 
 .. code-block:: Arduino
 
@@ -139,40 +138,40 @@ The purpose of the 10K resistor is to keep the GP14 at a steady low level when n
      delay(500);  // Delay to avoid flooding the Serial Monitor
    }
 
-When the code is running and the Serial Monitor is open:
+Wenn der Code läuft und die serielle Überwachung geöffnet ist:
 
-* **No Magnet Nearby**: The Serial Monitor will display "No Magnet."
-* **Magnet Nearby**: Bring a magnet close to the reed switch. The Serial Monitor will display "Magnet Detected!"
+* **Kein Magnet in der Nähe**: Die serielle Überwachung zeigt "Kein Magnet."
+* **Magnet in der Nähe**: Bringen Sie einen Magnet in die Nähe des Reedschalters. Die serielle Überwachung zeigt "Magnet erkannt!"
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Initializing Serial Communication:
+#. Serielle Kommunikation initialisieren:
 
-   Starts serial communication at a baud rate of 115200. This allows us to print messages to the Serial Monitor.
+   Startet die serielle Kommunikation mit einer Baudrate von 115200. Dies ermöglicht es uns, Nachrichten auf der seriellen Überwachung anzuzeigen.
 
    .. code-block:: Arduino
 
         Serial.begin(115200);
 
-#. Setting Up the Reed Pin:
+#. Den Reedschalter-Pin einrichten:
  
-   Configures reedPin (GP14) as an input to read the reed switch state.
+   Konfiguriert reedPin (GP14) als Eingang, um den Zustand des Reedschalters zu lesen.
 
    .. code-block:: Arduino
 
         pinMode(reedPin, INPUT);
 
-#. Reading the Reed Switch State:
+#. Den Zustand des Reedschalters lesen:
 
-   Reads the current state of the reed switch. It will be HIGH when the magnet is near (switch closed) and LOW when no magnet is near (switch open).
+   Liest den aktuellen Zustand des Reedschalters. Er wird HIGH, wenn der Magnet in der Nähe ist (Schalter geschlossen) und LOW, wenn kein Magnet in der Nähe ist (Schalter offen).
 
    .. code-block:: Arduino
 
         reedState = digitalRead(reedPin);
 
-#. Responding to Magnet Presence:
+#. Auf Magnetpräsenz reagieren:
 
-   Prints a message based on whether the magnet is near the reed switch.
+   Gibt eine Nachricht aus, je nachdem, ob ein Magnet in der Nähe des Reedschalters ist.
 
    .. code-block:: Arduino
 
@@ -183,21 +182,21 @@ When the code is running and the Serial Monitor is open:
         }
 
 
-**Learn More: Using Interrupts with the Reed Switch**
+**Mehr lernen: Unterbrechungen mit dem Reedschalter verwenden**
 
-* **Introduction to Interrupts**
+* **Einführung in Unterbrechungen**
 
-  Imagine you're reading a book, fully immersed in the story. Suddenly, someone taps you on the shoulder to ask a question. You pause your reading, address the question, and then return to your book. This interruption is similar to how interrupts work in microcontrollers.
+  Stellen Sie sich vor, Sie lesen ein Buch und sind vollkommen in die Geschichte vertieft. Plötzlich tippt Ihnen jemand auf die Schulter, um eine Frage zu stellen. Sie pausieren Ihr Lesen, beantworten die Frage und kehren dann zu Ihrem Buch zurück. Diese Unterbrechung ähnelt der Arbeitsweise von Unterbrechungen in Mikrocontrollern.
   
-  An interrupt allows a program to respond immediately to important events, pausing the main program flow to execute a special function called an Interrupt Service Routine (ISR). After handling the interrupt, the program resumes where it left off.
+  Eine Unterbrechung ermöglicht es einem Programm, sofort auf wichtige Ereignisse zu reagieren, den Hauptprogrammfluss zu pausieren und eine spezielle Funktion namens Interrupt Service Routine (ISR) auszuführen. Nach der Behandlung der Unterbrechung setzt das Programm dort fort, wo es unterbrochen wurde.
   
-* **Why Use Interrupts?**
+* **Warum Unterbrechungen verwenden?**
 
-  Using interrupts with the reed switch allows the microcontroller to respond instantly when a magnet is detected, rather than continuously polling (checking) the reed switch in the ``loop()`` function. This is more efficient and can save power in battery-powered applications.
+  Die Verwendung von Unterbrechungen mit dem Reedschalter ermöglicht es dem Mikrocontroller, sofort zu reagieren, wenn ein Magnet erkannt wird, anstatt den Reedschalter kontinuierlich in der ``loop()``-Funktion zu überprüfen. Dies ist effizienter und kann Strom in batteriebetriebenen Anwendungen sparen.
 
-* **Writing the Code with Interrupts**
+* **Den Code mit Unterbrechungen schreiben**
 
-  Let's modify our program to use an interrupt to detect the magnet.
+  Lassen Sie uns unser Programm modifizieren, um eine Unterbrechung zur Erkennung des Magneten zu verwenden.
 
   .. code-block:: Arduino
 
@@ -229,23 +228,22 @@ When the code is running and the Serial Monitor is open:
 
         attachInterrupt(digitalPinToInterrupt(reedPin), onMagnetChange, CHANGE);
     
-  * ``digitalPinToInterrupt(reedPin)``: Converts the pin number to the appropriate interrupt number.
-  * ``onMagnetChange``: The name of the ISR function to call when the interrupt occurs.
-  * ``CHANGE``: The interrupt will trigger when the pin has any change.
+  * ``digitalPinToInterrupt(reedPin)``: Konvertiert die Pin-Nummer in die entsprechende Unterbrechungsnummer.
+  * ``onMagnetChange``: Der Name der ISR-Funktion, die aufgerufen wird, wenn die Unterbrechung auftritt.
+  * ``CHANGE``: Die Unterbrechung wird ausgelöst, wenn sich der Pin ändert.
 
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use a reed switch with the Raspberry Pi Pico to detect the presence of a magnetic field. You've also explored how interrupts can make your program more efficient by responding immediately to events without constantly checking the sensor in the main loop. Understanding how to use interrupts is a valuable skill in embedded programming, allowing you to create more responsive and efficient applications.
+In dieser Lektion haben Sie gelernt, wie man einen Reedschalter mit dem Raspberry Pi Pico verwendet, um das Vorhandensein eines Magnetfelds zu erkennen. Sie haben auch erforscht, wie Unterbrechungen Ihr Programm effizienter machen können, indem sie sofort auf Ereignisse reagieren, ohne den Sensor ständig im Hauptloop zu überprüfen. Das Verständnis der Verwendung von Unterbrechungen ist eine wertvolle Fähigkeit in der eingebetteten Programmierung, die es Ihnen ermöglicht, reaktionsfähigere und effizientere Anwendungen zu erstellen.
 
-**Further Exploration**
+**Weitere Erkundungen**
 
-* **Door Sensor**: Use the reed switch to create a simple door alarm that triggers when the door is opened.
-* **Counting Revolutions**: Attach a magnet to a rotating object and use the reed switch to count revolutions per minute (RPM).
-* **Security Systems**: Incorporate multiple reed switches to monitor windows and doors in a security system.
+* **Türsensor**: Verwenden Sie den Reedschalter, um einen einfachen Türalarm zu erstellen, der ausgelöst wird, wenn die Tür geöffnet wird.
+* **Umdrehungen zählen**: Befestigen Sie einen Magnet an einem rotierenden Objekt und verwenden Sie den Reedschalter, um die Umdrehungen pro Minute (RPM) zu zählen.
+* **Sicherheitssysteme**: Integrieren Sie mehrere Reedschalter, um Fenster und Türen in einem Sicherheitssystem zu überwachen.
 
-**Additional Resources**
+**Zusätzliche Ressourcen**
 
-* `attachInterrupt() - Arduino Reference <https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/>`_
-
+* `attachInterrupt() - Arduino Referenz <https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/>`_
 

@@ -1,44 +1,46 @@
+.. note:: 
 
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook!  
+    Tauche tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein – gemeinsam mit Gleichgesinnten.
 
-.. note::
+    **Warum beitreten?**
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    - **Expertenunterstützung**: Erhalte Hilfe bei technischen Herausforderungen und nach dem Kauf auftretenden Problemen durch unsere Community und unser Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Feierliche Aktionen und Gewinnspiele**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    **Why Join?**
-
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und werde Teil unserer Community!
 
 .. _py_reversing_aid:
 
-7.10 Building a Reversing Aid
-=================================
+7.10 Bau eines Einparkassistenten
+====================================
 
-In this project, we'll create a **Reversing Aid System** using the Raspberry Pi Pico 2, an ultrasonic sensor, an LED, and a buzzer. This system simulates how real-world parking sensors work by detecting the distance to an obstacle and providing audio and visual feedback that changes based on proximity. You can attach this setup to a remote-controlled car to mimic the experience of reversing into a garage.
+In diesem Projekt bauen wir ein **Einparkhilfe-System** mit dem Raspberry Pi Pico 2, einem Ultraschallsensor, einer LED und einem Buzzer.  
+Das System simuliert reale Parksensoren, indem es den Abstand zu einem Hindernis misst und akustische sowie visuelle Signale ausgibt.  
+Je näher das Objekt kommt, desto schneller blinkt die LED und desto häufiger ertönt der Buzzer.  
+Du kannst diese Schaltung an ein ferngesteuertes Auto anbringen, um das Einparken in eine Garage nachzustellen.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt werden folgende Komponenten benötigt.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch. Hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die folgenden Links erworben werden.
 
 
 .. list-table::
@@ -46,8 +48,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -55,7 +57,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -64,18 +66,18 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
-        - 1(S8050)
+        - 1 (S8050)
         - |link_transistor_buy|
     *   - 6
         - :ref:`cpn_resistor`
-        - 2(1KΩ, 220Ω)
+        - 2 (1KΩ, 220Ω)
         - |link_resistor_buy|
     *   - 7
-        - Active :ref:`cpn_buzzer`
+        - Aktiver :ref:`cpn_buzzer`
         - 1
         -
     *   - 8
@@ -87,49 +89,46 @@ You can also buy them separately from the links below.
         - 1
         - |link_ultrasonic_buy|
 
+**Funktionsweise der Komponenten**
 
-**Understanding the Components**
+* **Ultraschallsensor (HC-SR04):** Misst den Abstand zu einem Objekt, indem er Ultraschallwellen aussendet und die Zeit misst, bis das Echo zurückkehrt.
+* **Buzzer:** Gibt akustische Signale aus, die mit abnehmender Distanz schneller ertönen.
+* **LED:** Blinkt mit zunehmender Frequenz, je näher das Hindernis kommt.
 
-* **Ultrasonic Sensor (HC-SR04):** Measures the distance to an object by sending out ultrasonic waves and measuring the time it takes for the echo to return.
-* **Buzzer:** Provides audio feedback; beeps more frequently as the object gets closer.
-* **LED:** Provides visual feedback; blinks more rapidly as the object gets closer.
-
-
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_reversing_aid|
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_reversing_aid| 
 
+**Code schreiben**
 
-**Writing the Code**
+Wir schreiben ein MicroPython-Skript, das:
 
-We'll write a MicroPython script that:
-
-* Measures the distance using the ultrasonic sensor.
-* Adjusts the beep frequency of the buzzer and the blink rate of the LED based on the distance.
-* Provides continuous feedback as the object moves closer or further away.
+* Die Distanz mit dem Ultraschallsensor misst.
+* Die Frequenz des Buzzers und die Blinkgeschwindigkeit der LED basierend auf der Entfernung anpasst.
+* Kontinuierliches Feedback liefert, wenn sich das Objekt bewegt.
 
 .. note::
 
-    * Open the ``7.10_reversing_aid.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Öffne die Datei ``7.10_reversing_aid.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny, dann klicke auf „Run“ oder drücke F5.
 
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Set up pins
+    # Pins definieren
     trigger = machine.Pin(17, machine.Pin.OUT)
     echo = machine.Pin(16, machine.Pin.IN)
     buzzer = machine.Pin(15, machine.Pin.OUT)
     led = machine.Pin(14, machine.Pin.OUT)
 
-    # Function to measure distance
+    # Funktion zur Distanzmessung
     def measure_distance():
         # Ensure trigger is low
         trigger.low()
@@ -146,10 +145,10 @@ We'll write a MicroPython script that:
             signalon = utime.ticks_us()
 
         timepassed = utime.ticks_diff(signalon, signaloff)
-        distance = (timepassed * 0.0343) / 2  # Convert to cm
+        distance = (timepassed * 0.0343) / 2  # Umrechnung in cm
         return distance
 
-    # Function to control buzzer and LED
+    # Funktion zur Steuerung von Buzzer und LED
     def alert(interval):
         buzzer.high()
         led.high()
@@ -158,7 +157,7 @@ We'll write a MicroPython script that:
         led.low()
         utime.sleep(interval)
 
-    # Main loop
+    # Hauptschleife
     try:
         while True:
             dist = measure_distance()
@@ -167,80 +166,79 @@ We'll write a MicroPython script that:
                 print("Out of range")
                 utime.sleep(1)
             elif dist <= 10:
-                alert(0.2)  # Very close, alert rapidly
+                alert(0.2)  # Sehr nah, schnelles Signal
             elif dist <= 20:
-                alert(0.5)  # Close, alert moderately
+                alert(0.5)  # Nah, mittleres Signal
             elif dist <= 50:
-                alert(1)    # Not too close, alert slowly
+                alert(1)    # Weiter entfernt, langsames Signal
             else:
-                alert(2)    # Far away, alert infrequently
+                alert(2)    # Weit weg, sehr seltenes Signal
     except KeyboardInterrupt:
         print("Measurement stopped by User")
 
-Once the code is running, place an object at varying distances from the ultrasonic sensor.
-Observe the changes in the beep frequency and LED blink rate.
-The console will display the measured distance.
+Wenn das Skript läuft, platziere ein Objekt in verschiedenen Abständen zum Ultraschallsensor.  
+Beobachte, wie sich die Tonfrequenz des Buzzers und die Blinkgeschwindigkeit der LED verändern.  
+Die Konsole zeigt die gemessene Entfernung an.
 
-**Understanding the Code**
+**Den Code verstehen**
 
-#. Distance Measurement:
-
-   * The ``measure_distance()`` function sends a 10-microsecond pulse to the TRIG pin.
-   * It then measures the time until the ECHO pin goes high and then back low.
-   * Calculates the distance based on the time it takes for the ultrasonic pulse to return.
+#. Distanzmessung:
+   * Die Funktion ``measure_distance()`` sendet einen 10-Mikrosekunden-Puls an den TRIG-Pin. 
+   * Anschließend misst sie die Zeit, bis der ECHO-Pin auf HIGH geht und dann wieder auf LOW wechselt.
+   * Die Entfernung wird basierend auf der Zeit berechnet, die der Ultraschallimpuls für die Rückkehr benötigt.
 
    .. code-block:: python
 
         def measure_distance():
-            # Ensure trigger is low
+            # Sicherstellen, dass der Trigger auf LOW ist
             trigger.low()
             utime.sleep_us(2)
-            # Send 10us pulse to trigger
+            # Sende einen 10us-Puls an den Trigger
             trigger.high()
             utime.sleep_us(10)
             trigger.low()
 
-            # Measure the duration of the echo pulse
+            # Messe die Dauer des Echo-Impulses
             while echo.value() == 0:
                 signaloff = utime.ticks_us()
             while echo.value() == 1:
                 signalon = utime.ticks_us()
 
             timepassed = utime.ticks_diff(signalon, signaloff)
-            distance = (timepassed * 0.0343) / 2  # Convert to cm
+            distance = (timepassed * 0.0343) / 2  # Umrechnung in cm
             return distance
 
 
-#. Alert Function:
+#. Warnfunktion:
 
-   * The ``alert(interval)`` function turns the buzzer and LED on for 0.1 seconds and then off.
-   * The interval parameter adjusts the pause between alerts based on the distance.
+   * Die Funktion ``alert(interval)`` aktiviert den Buzzer und die LED für 0,1 Sekunden und schaltet sie dann wieder aus.
+   * Der Parameter interval steuert die Pause zwischen den Warnsignalen abhängig von der gemessenen Entfernung.
 
    .. code-block:: python
 
-        def measure_distance():
-            # Ensure trigger is low
+        def measure_distance(): 
+            # Sicherstellen, dass der Trigger auf LOW ist
             trigger.low()
             utime.sleep_us(2)
-            # Send 10us pulse to trigger
+            # Sende einen 10µs-Puls an den Trigger
             trigger.high()
             utime.sleep_us(10)
             trigger.low()
 
-            # Measure the duration of the echo pulse
+            # Messe die Dauer des Echo-Pulses
             while echo.value() == 0:
                 signaloff = utime.ticks_us()
             while echo.value() == 1:
                 signalon = utime.ticks_us()
 
             timepassed = utime.ticks_diff(signalon, signaloff)
-            distance = (timepassed * 0.0343) / 2  # Convert to cm
+            distance = (timepassed * 0.0343) / 2  # Umrechnung in cm
             return distance
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * Continuously measures the distance.
-   * Adjusts the alert frequency according to predefined distance thresholds.
+   * Misst kontinuierlich die Entfernung.
+   * Passt die Frequenz der Warnsignale entsprechend den vordefinierten Abstandsschwellen an.
 
    .. code-block:: python
 
@@ -252,44 +250,41 @@ The console will display the measured distance.
                     print("Out of range")
                     utime.sleep(1)
                 elif dist <= 10:
-                    alert(0.2)  # Very close, alert rapidly
+                    alert(0.2)  # Sehr nah, schnelles Warnsignal
                 elif dist <= 20:
-                    alert(0.5)  # Close, alert moderately
+                    alert(0.5)  # Nah, mittleres Warnsignal
                 elif dist <= 50:
-                    alert(1)    # Not too close, alert slowly
+                    alert(1)    # Weiter entfernt, langsames Warnsignal
                 else:
-                    alert(2)    # Far away, alert infrequently
+                    alert(2)    # Sehr weit entfernt, seltenes Warnsignal
         except KeyboardInterrupt:
             print("Measurement stopped by User")
         
-**Safety Considerations**
+**Sicherheitsaspekte**
 
-* Voltage Levels:
+* Spannungsebenen:
 
-  * Be cautious with the ECHO pin voltage from the ultrasonic sensor if using 5V.
-  * Use a voltage divider or level shifter to protect the Pico's GPIO pins.
+  * Achte darauf, dass der ECHO-Pin des Ultraschallsensors 5V ausgeben kann.
+  * Verwende einen Spannungsteiler oder Pegelwandler, um die GPIO-Pins des Pico zu schützen.
 
-* Power Supply:
+* Stromversorgung:
 
-  Ensure the power supply can handle the current requirements of all components.
+  Stelle sicher, dass die Stromquelle die Stromaufnahme aller Komponenten bewältigen kann.
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* Visual Display:
+* Visuelle Anzeige:
 
-  Add an LCD or OLED display to show the distance visually.
+  Ergänze ein LCD- oder OLED-Display zur grafischen Darstellung der Entfernung.
 
-* Multiple Sensors:
+* Mehrere Sensoren:
 
-  Use additional ultrasonic sensors to cover more directions.
+  Verwende zusätzliche Ultraschallsensoren, um mehrere Richtungen abzudecken.
 
-* Advanced Alerts:
+* Erweiterte Warnsignale:
 
-  Implement different tones or patterns on the buzzer for different distances.
+  Implementiere unterschiedliche Töne oder Signalmuster für verschiedene Entfernungen.
 
-**Conclusion**
+**Fazit**
 
-You've successfully built a Reversing Aid System using the Raspberry Pi Pico 2! This project demonstrates how sensors can be used to provide real-time feedback, a fundamental concept in robotics and automation.
-
-
-
+Du hast erfolgreich ein Einparkhilfe-System mit dem Raspberry Pi Pico 2 gebaut! Dieses Projekt zeigt, wie Sensoren genutzt werden können, um Echtzeit-Feedback bereitzustellen – ein grundlegendes Konzept in Robotik und Automatisierung.

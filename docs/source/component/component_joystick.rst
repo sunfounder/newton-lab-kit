@@ -1,34 +1,34 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_joystick:
 
-Joystick Module
+Joystick-Modul
 =======================
 
 |img_joystick_pic|
 
-The basic idea of a joystick is to translate the movement of a stick into electronic information that a computer can process.
+Die Grundidee eines Joysticks besteht darin, die Bewegung eines Sticks in elektronische Informationen umzusetzen, die ein Computer verarbeiten kann.
 
-In order to communicate a full range of motion to the computer, 
-a joystick needs to measure the stick's position on two axes – the X-axis (left to right) and the Y-axis (up and down). 
-Just as in basic geometry, the X-Y coordinates pinpoint the stick's position exactly.
+Um einem Computer eine vollständige Bewegungspalette mitzuteilen, 
+muss ein Joystick die Position des Sticks auf zwei Achsen messen – der X-Achse (links nach rechts) und der Y-Achse (oben nach unten).
+Wie in der Grundgeometrie geben die X-Y-Koordinaten genau die Position des Sticks an.
 
-To determine the location of the stick, the joystick control system simply monitors the position of each shaft. 
-The conventional analog joystick design does this with two potentiometers, or variable resistors.
+Um den Standort des Sticks zu bestimmen, überwacht das Joystick-Steuerungssystem einfach die Position jeder Achse.
+Das herkömmliche analoge Joystick-Design macht dies mit zwei Potentiometern oder variablen Widerständen.
 
-The joystick also has a digital input that is actuated when the joystick is pressed down.
+Der Joystick verfügt auch über einen digitalen Eingang, der betätigt wird, wenn der Joystick nach unten gedrückt wird.
 
 |img_joystick|
 
@@ -36,7 +36,8 @@ The joystick also has a digital input that is actuated when the joystick is pres
 *  `Joystick - Wikipedia <https://en.wikipedia.org/wiki/Analog_stick>`_
 
 
-**Example**
+**Beispiel**
+
 
 * :ref:`py_joystick` (For MicroPython User)
 * :ref:`ar_joystick` (For Arduino User)

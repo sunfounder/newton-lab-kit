@@ -1,49 +1,49 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_ac_buz:
 
-3.1 Make the Buzzer Beep!
-==========================
+3.1 Den Summer zum Piepen bringen!
+====================================
 
-In this lesson, we will learn how to make a **buzzer** beep using the Raspberry Pi Pico 2. A buzzer is a digital output device, just like an LED, and it's very simple to control. We'll use an **active buzzer** for this project, which generates sound when it receives a signal.
+In dieser Lektion lernen wir, wie man einen **Summer** mit dem Raspberry Pi Pico 2 steuert. Ein Summer ist ein digitales Ausgangsgerät, ähnlich einer LED, und sehr einfach zu bedienen. Wir verwenden einen **aktiven Summer**, der beim Anlegen eines Signals selbstständig einen Ton erzeugt.
 
-**What is an Active Buzzer?**
+**Was ist ein aktiver Summer?**
 
-An **active buzzer** has an internal oscillator that makes it easier to use. You only need to send a signal to the buzzer to make it beep—no complex frequency control is required. This is different from a **passive buzzer**, which requires an external signal to generate sound.
+Ein **aktiver Summer** besitzt einen internen Oszillator, wodurch er besonders einfach zu verwenden ist. Es genügt, ein Signal an den Summer zu senden, um ihn piepen zu lassen – eine komplexe Frequenzsteuerung ist nicht erforderlich. Im Gegensatz dazu benötigt ein **passiver Summer** ein externes Signal zur Klangerzeugung.
 
 |img_buzzer|
 
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Bauteile.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE IM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die untenstehenden Links erworben werden.
 
 
 .. list-table::
@@ -51,8 +51,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -60,7 +60,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -69,52 +69,52 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
-        - 1(S8050)
+        - 1 (S8050)
         - |link_transistor_buy|
     *   - 6
         - :ref:`cpn_resistor`
-        - 1(1KΩ)
+        - 1 (1KΩ)
         - |link_resistor_buy|
     *   - 7
-        - Active :ref:`cpn_buzzer`
+        - Aktiver :ref:`cpn_buzzer`
         - 1
         - 
 
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_buzzer|
 
-In this circuit, the buzzer is powered through a transistor (**S8050** NPN). The transistor amplifies the current, making the buzzer sound louder than if it were connected directly to the Pico. 
+In dieser Schaltung wird der Summer über einen **S8050 NPN-Transistor** mit Strom versorgt. Der Transistor verstärkt den Stromfluss, sodass der Summer lauter klingt, als wenn er direkt an den Pico angeschlossen wäre.
 
-Here's what happens:
+Funktionsweise:
 
-* **GP15** outputs a high signal to control the transistor.
-* When the transistor is activated, it allows current to flow through the buzzer, making it beep.
+* **GP15** gibt ein High-Signal aus, um den Transistor zu steuern.
+* Sobald der Transistor aktiviert wird, fließt Strom durch den Summer, wodurch ein Ton erzeugt wird.
 
-A **1kΩ resistor** is used to limit the current to protect the transistor.
+Ein **1kΩ-Widerstand** begrenzt den Strom, um den Transistor zu schützen.
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
-Make sure you are using the **active buzzer**. You can tell it's the correct one by looking for the sealed back (as opposed to the exposed PCB, which is a passive buzzer).
+Stellen Sie sicher, dass Sie den **aktiven Summer** verwenden. Sie können ihn daran erkennen, dass seine Rückseite versiegelt ist (im Gegensatz zum passiven Summer, bei dem die Platine sichtbar ist).
 
 |img_buzzer|
 
 |wiring_beep|
 
 
-**Writing the Code**
+**Code schreiben**
 
 
 .. note::
 
-   * You can open the file ``3.1_beep.ino`` from ``newton-lab-kit/arduino/3.1_beep``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``3.1_beep.ino`` aus dem Verzeichnis ``newton-lab-kit/arduino/3.1_beep`` öffnen. 
+   * Oder diesen Code in die **Arduino IDE** kopieren.
+   * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port aus und klicken Sie auf „Hochladen“.
 
 .. code-block:: Arduino
 
@@ -131,24 +131,25 @@ Make sure you are using the **active buzzer**. You can tell it's the correct one
       delay(1000);                    // Wait for 1 second
     }
 
-After uploading the code:
-The buzzer should beep for 1 second, then stay silent for 1 second, and repeat this pattern continuously.
-If you do not hear the buzzer, check the wiring to ensure all connections are correct.
-Make sure you are using an active buzzer.
+Nach dem Hochladen des Codes:
 
-**Understanding the Code**
+Der Summer sollte für 1 Sekunde piepen, dann für 1 Sekunde still bleiben und dieses Muster kontinuierlich wiederholen.
+Falls kein Ton zu hören ist, überprüfen Sie die Verkabelung und stellen Sie sicher, dass alle Verbindungen korrekt sind.
+Vergewissern Sie sich außerdem, dass ein aktiver Summer verwendet wird.
 
-#. Defining the Buzzer Pin:
+**Verständnis des Codes**
 
-   Assigns buzzerPin to GPIO 15, which controls the transistor and thus the buzzer.
+#. Definition des Summer-Pins:
+
+   Der ``buzzerPin`` wird GPIO 15 zugewiesen, welcher den Transistor steuert und damit den Summer.
 
    .. code-block:: Arduino
 
         const int buzzerPin = 15;  // GPIO pin connected to the transistor base
 
-#. Setting Up the Pin Mode:
+#. Konfiguration des Pins:
 
-   Configures buzzerPin as an output.
+   Der ``buzzerPin`` wird als Ausgang konfiguriert.
 
    .. code-block:: Arduino
 
@@ -156,41 +157,39 @@ Make sure you are using an active buzzer.
           pinMode(buzzerPin, OUTPUT);
         }
 
-#. Controlling the Buzzer: The ``loop()`` function repeats this process indefinitely, making the buzzer beep every second.
+#. Steuerung des Summers: Die ``loop()``-Funktion wiederholt das Ein- und Ausschalten des Summers.
 
-
-   * ``digitalWrite(buzzerPin, HIGH)``: Sets ``buzzerPin`` ``HIGH``, turning on the transistor, which allows current to flow through the buzzer, making it beep.
-   * ``delay(1000)``: Pauses the program for 1000 milliseconds (1 second).
-   * ``digitalWrite(buzzerPin, LOW)``: Sets ``buzzerPin`` ``LOW``, turning off the transistor, stopping the current flow, and silencing the buzzer.
+   * ``digitalWrite(buzzerPin, HIGH)``: Schaltet den ``buzzerPin`` auf HIGH, wodurch der Transistor durchschaltet und der Summer aktiviert wird.
+   * ``delay(1000)``: Wartet 1000 Millisekunden (1 Sekunde).
+   * ``digitalWrite(buzzerPin, LOW)``: Schaltet den ``buzzerPin`` auf LOW, wodurch der Transistor sperrt und der Summer ausgeschaltet wird.
 
    .. code-block:: Arduino
 
         void loop() {
-          digitalWrite(buzzerPin, HIGH);  // Turn the buzzer on
-          delay(1000);                    // Wait for 1 second
-          digitalWrite(buzzerPin, LOW);   // Turn the buzzer off
-          delay(1000);                    // Wait for 1 second
+          digitalWrite(buzzerPin, HIGH);  // Summer einschalten
+          delay(1000);                    // 1 Sekunde warten
+          digitalWrite(buzzerPin, LOW);   // Summer ausschalten
+          delay(1000);                    // 1 Sekunde warten
         }
 
 
-**Further Exploration**
+**Weitere Experimente**
 
-* Varying the Beep Duration:
+* Anpassung der Piepton-Dauer:
 
-  * Modify the ``delay()`` values to change how long the buzzer stays on and off.
-  * Experiment with shorter or longer durations.
+  * Ändern Sie die ``delay()``-Werte, um die Dauer des Pieptons zu variieren.
+  * Experimentieren Sie mit kürzeren oder längeren Wartezeiten.
 
-* Creating Patterns:
+* Erstellen von Mustern:
 
-  * Create more complex patterns by adjusting the timing in the ``loop()`` function.
-  * For example, create an SOS signal in Morse code.
+  * Erzeugen Sie komplexe Signalmuster durch Anpassung der ``loop()``-Funktion.
+  * Beispielsweise können Sie ein SOS-Signal im Morsecode erstellen.
 
-* Using a Passive Buzzer:
+* Verwendung eines passiven Summers:
 
-  * Try using a passive buzzer and the ``tone()`` function to generate different frequencies.
-  * Note that the wiring and code will be different for a passive buzzer.
+  * Testen Sie einen passiven Summer mit der ``tone()``-Funktion, um unterschiedliche Frequenzen zu erzeugen.
+  * Beachten Sie, dass die Verkabelung und der Code für einen passiven Summer anders sind.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to make an active buzzer beep using the Raspberry Pi Pico and a transistor. By controlling the transistor with a GPIO pin, you can safely switch the buzzer on and off without overloading the Pico's GPIO pins. This basic concept can be expanded upon to create more complex sounds or to use buzzers in alarms, notifications, and interactive projects.
-
+In dieser Lektion haben Sie gelernt, wie Sie einen aktiven Summer mit dem Raspberry Pi Pico und einem Transistor steuern. Durch die Verwendung eines GPIO-Pins zur Steuerung des Transistors kann der Summer sicher ein- und ausgeschaltet werden, ohne die GPIO-Pins des Pico zu überlasten. Dieses einfache Konzept kann erweitert werden, um komplexere Tonsignale zu erzeugen oder den Summer in Alarmanlagen, Benachrichtigungen oder interaktiven Projekten zu nutzen.

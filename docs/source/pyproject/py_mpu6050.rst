@@ -1,42 +1,41 @@
-.. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie sich gemeinsam mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_mpu6050:
 
-6.3 Read from the MPU-6050
+6.3 Daten vom MPU-6050 lesen
 ===============================
 
-In this lesson, we'll explore how to interface the **MPU-6050** 6-axis motion tracking sensor with the Raspberry Pi Pico 2. The MPU-6050 combines a 3-axis gyroscope and a 3-axis accelerometer, providing raw sensor data over the I2C communication protocol.
+In dieser Lektion werden wir lernen, wie man den **MPU-6050** 6-Achsen-Bewegungssensor mit dem Raspberry Pi Pico 2 verwendet. Der MPU-6050 kombiniert ein 3-Achsen-Gyroskop und einen 3-Achsen-Beschleunigungsmesser und übermittelt rohe Sensordaten über das I2C-Kommunikationsprotokoll.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +43,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,39 +61,39 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_mpu6050`
         - 1
         - 
 
-**Understanding the MPU-6050 Sensor**
+**Verständnis des MPU-6050 Sensors**
 
-The **MPU-6050** sensor is widely used in projects that require motion tracking and orientation detection, such as drones, robotics, and gaming devices.
+Der **MPU-6050** Sensor wird weit verbreitet in Projekten eingesetzt, die Bewegungserfassung und Orientierungsdetektion erfordern, wie z.B. Drohnen, Robotik und Gaming-Geräte.
 
-* **Accelerometer**: Measures acceleration forces along the X, Y, and Z axes. This includes gravitational acceleration, allowing you to determine the tilt or orientation of the sensor.
-* **Gyroscope**: Measures rotational velocity around the X, Y, and Z axes, providing information about how fast the sensor is spinning.
+* **Beschleunigungsmesser**: Misst Beschleunigungskräfte entlang der X-, Y- und Z-Achsen. Dies umfasst die Schwerkraftbeschleunigung, die es Ihnen ermöglicht, die Neigung oder Orientierung des Sensors zu bestimmen.
+* **Gyroskop**: Misst die Rotationsgeschwindigkeit um die X-, Y- und Z-Achsen und liefert Informationen darüber, wie schnell sich der Sensor dreht.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_mpu6050_ar|
 
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_mpu6050_ar|
 
-**Writing the Code**
+**Code schreiben**
 
-Let's write a MicroPython script to read accelerometer and gyroscope data from the MPU-6050 sensor.
+Lassen Sie uns ein MicroPython-Skript schreiben, um Beschleunigungsmesser- und Gyroskopdaten vom MPU-6050-Sensor zu lesen.
 
 .. note::
 
-    * Open the ``6.3_6axis_motion_tracking.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Öffnen Sie die Datei ``6.3_6axis_motion_tracking.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Run" oder drücken Sie F5.
+    * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
      
-    * Here you need to use the ``imu.py`` and ``vector3d.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * Hier benötigen Sie die Bibliothek ``imu.py`` und ``vector3d.py``, bitte überprüfen Sie, ob sie auf den Pico hochgeladen wurde, für ein detailliertes Tutorial siehe :ref:`add_libraries_py`.
 
 
 .. code-block:: python
@@ -103,10 +102,10 @@ Let's write a MicroPython script to read accelerometer and gyroscope data from t
    import utime
    from imu import MPU6050
 
-   # Initialize I2C interface (I2C0) with SDA on GP4 and SCL on GP5
+   # Initialisieren der I2C-Schnittstelle (I2C0) mit SDA auf GP4 und SCL auf GP5
    i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
 
-   # Initialize the MPU-6050 sensor
+   # Initialisieren des MPU-6050-Sensors
    mpu = MPU6050(i2c)
 
    def read_accelerometer():
@@ -122,73 +121,73 @@ Let's write a MicroPython script to read accelerometer and gyroscope data from t
    def main():
       """Main loop to read and print sensor data."""
       while True:
-         # Read accelerometer data
+         # Lesen der Daten des Beschleunigungsmessers
          ax, ay, az = read_accelerometer()
          print("Accelerometer (g) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(ax, ay, az))
          
-         # Pause for readability
+         # Pause zur besseren Lesbarkeit
          utime.sleep(0.5)
          
-         # Read gyroscope data
+         # Lesen der Daten des Gyroskops
          gx, gy, gz = read_gyroscope()
          print("Gyroscope (°/s) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(gx, gy, gz))
          
-         # Pause before the next set of readings
+         # Pause vor der nächsten Datensatz
          utime.sleep(0.5)
 
-   # Run the main function
+   # Die Hauptfunktion ausführen
    if __name__ == "__main__":
       main()
 
 
-The script prints accelerometer and gyroscope readings alternately every 0.5 seconds.
+Das Skript gibt abwechselnd alle 0,5 Sekunden Daten des Beschleunigungsmessers und des Gyroskops aus.
 
-* Accelerometer Output:
+* Ausgabe des Beschleunigungsmessers:
 
   .. code-block::
 
-     Accelerometer (g) - X: 0.000, Y: 0.000, Z: 1.000
+     Beschleunigungsmesser (g) - X: 0.000, Y: 0.000, Z: 1.000
 
-  At rest, you should see values close to 0 g on X and Y axes, and approximately 1 g on the Z-axis due to gravity.
+  Im Ruhezustand sollten Sie Werte nahe 0 g auf den X- und Y-Achsen und etwa 1 g auf der Z-Achse aufgrund der Schwerkraft sehen.
 
-* Gyroscope Output:
+* Ausgabe des Gyroskops:
 
   .. code-block::
 
      Gyroscope (°/s) - X: 0.000, Y: 0.000, Z: 0.000
 
-  When stationary, the gyroscope readings should be close to 0 °/s on all axes.
-  Rotating the sensor will change these values, reflecting the angular velocity.
+  Im Stillstand sollten die Gyroskopwerte nahe 0 °/s auf allen Achsen liegen.
+  Eine Drehung des Sensors wird diese Werte ändern und die Winkelgeschwindigkeit widerspiegeln.
 
-**Understanding the Code**
+**Code verstehen**
 
-#. Imports and Setup:
+#. Importe und Einrichtung:
 
 
-   * ``machine.I2C and machine.Pin``: For hardware interface.
-   * ``utime``: For timing functions.
-   * ``MPU6050``: The sensor class from the imu.py library.
+   * ``machine.I2C und machine.Pin``: Für die Hardware-Schnittstelle.
+   * ``utime``: Für Zeitfunktionen.
+   * ``MPU6050``: Die Sensorklasse aus der imu.py-Bibliothek.
 
-#. I2C Initialization:
+#. I2C-Initialisierung:
 
-   Sets up I2C bus 0 with SDA on GP4 and SCL on GP5. The frequency is set to 400 kHz for fast communication.
+   Richtet den I2C-Bus 0 mit SDA auf GP4 und SCL auf GP5 ein. Die Frequenz ist auf 400 kHz eingestellt für schnelle Kommunikation.
 
    .. code-block:: python
 
       i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
 
 
-#. Sensor Initialization:
+#. Sensor-Initialisierung:
 
-   Creates an instance of the MPU-6050 sensor using the I2C interface.
+   Erstellt eine Instanz des MPU-6050-Sensors mit der I2C-Schnittstelle.
 
    .. code-block:: python
 
       mpu = MPU6050(i2c)
 
-#. Reading Accelerometer Data:
+#. Beschleunigungsmessdaten lesen:
 
-   Accesses the accelerometer data and returns the X, Y, Z values.
+   Greift auf die Daten des Beschleunigungsmessers zu und gibt die Werte X, Y, Z zurück.
 
    .. code-block:: python
 
@@ -197,9 +196,9 @@ The script prints accelerometer and gyroscope readings alternately every 0.5 sec
          return accel.x, accel.y, accel.z
 
 
-#. Reading Gyroscope Data:
+#. Gyroskopdaten lesen:
    
-   Accesses the gyroscope data and returns the X, Y, Z values.
+   Greift auf die Daten des Gyroskops zu und gibt die Werte X, Y, Z zurück.
 
    .. code-block:: python
 
@@ -208,33 +207,33 @@ The script prints accelerometer and gyroscope readings alternately every 0.5 sec
          return gyro.x, gyro.y, gyro.z
 
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * Reads and prints accelerometer data.
-   * Waits for 0.5 seconds.
-   * Reads and prints gyroscope data.
-   * Waits for another 0.5 seconds before repeating.
+   * Liest und gibt die Daten des Beschleunigungsmessers aus.
+   * Wartet 0,5 Sekunden.
+   * Liest und gibt die Daten des Gyroskops aus.
+   * Wartet weitere 0,5 Sekunden, bevor der Vorgang wiederholt wird.
 
    .. code-block:: python
 
       def main():
          while True:
-            # Read and print accelerometer data
+            # Daten des Beschleunigungsmessers lesen und ausgeben
             ax, ay, az = read_accelerometer()
             print("Accelerometer (g) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(ax, ay, az))
             
             utime.sleep(0.5)
             
-            # Read and print gyroscope data
+            # Daten des Gyroskops lesen und ausgeben
             gx, gy, gz = read_gyroscope()
             print("Gyroscope (°/s) - X: {:.3f}, Y: {:.3f}, Z: {:.3f}".format(gx, gy, gz))
             
             utime.sleep(0.5)
 
 
-#. Program Entry Point:
+#. Programmentstiegspunkt:
 
-   Ensures that ``main()`` is called when the script is executed directly.
+   Stellt sicher, dass ``main()`` aufgerufen wird, wenn das Skript direkt ausgeführt wird.
 
    .. code-block:: python
 
@@ -242,42 +241,42 @@ The script prints accelerometer and gyroscope readings alternately every 0.5 sec
          main()
 
 
-**Experimenting Further**
+**Weiterführende Experimente**
 
-* **Focus on One Sensor**: To concentrate on either accelerometer or gyroscope data, you can comment out the print statements for the other sensor.
-* **Data Visualization**: Use tools or software to plot the sensor data in real-time for better visualization.
-* **Calculating Orientation**: Implement algorithms to calculate pitch and roll from the accelerometer data.
-* **Motion Detection**: Create a program that performs actions when certain motion thresholds are exceeded.
+* **Fokus auf einen Sensor**: Um sich auf die Daten des Beschleunigungsmessers oder des Gyroskops zu konzentrieren, können Sie die Ausgabeanweisungen für den anderen Sensor auskommentieren.
+* **Datenvisualisierung**: Verwenden Sie Werkzeuge oder Software, um die Sensordaten in Echtzeit zu visualisieren und so besser darzustellen.
+* **Orientierung berechnen**: Implementieren Sie Algorithmen zur Berechnung von Neigung und Rollen aus den Daten des Beschleunigungsmessers.
+* **Bewegungserkennung**: Erstellen Sie ein Programm, das Aktionen ausführt, wenn bestimmte Bewegungsschwellen überschritten werden.
 
-**Understanding Sensor Data**
+**Verständnis der Sensordaten**
 
-* Accelerometer:
+* Beschleunigungsmesser:
 
-  * Measures acceleration forces in g (gravitational force).
-  * Useful for detecting orientation, tilt, and linear motion.
+  * Misst Beschleunigungskräfte in g (Gravitationskraft).
+  * Nützlich zur Erkennung von Orientierung, Neigung und linearer Bewegung.
 
-* Gyroscope:
+* Gyroskop:
 
-  * Measures rotational velocity in degrees per second (°/s).
-  * Useful for detecting rotation and angular motion.
+  * Misst die Rotationsgeschwindigkeit in Grad pro Sekunde (°/s).
+  * Nützlich zur Erkennung von Rotation und Winkelbewegung.
 
-**Troubleshooting Tips**
+**Fehlerbehebungstipps**
 
-* No Output or Errors:
+* Keine Ausgabe oder Fehler:
 
-  * Verify the wiring connections, especially SDA and SCL lines.
-  * Ensure that the sensor is powered correctly.
+  * Überprüfen Sie die Verdrahtungsverbindungen, insbesondere die SDA- und SCL-Leitungen.
+  * Stellen Sie sicher, dass der Sensor korrekt mit Strom versorgt wird.
 
-* Static Readings:
+* Statische Messwerte:
 
-  * If the readings don't change when moving the sensor, check for loose connections.
-  * Make sure the correct I2C address is being used.
+  * Wenn sich die Messwerte bei Bewegung des Sensors nicht ändern, überprüfen Sie auf lockere Verbindungen.
+  * Stellen Sie sicher, dass die richtige I2C-Adresse verwendet wird.
 
-* Inconsistent Data:
+* Inkonsistente Daten:
 
-  * Environmental vibrations can affect sensor readings.
-  * Place the sensor on a stable surface when testing.
+  * Umgebungsbedingte Vibrationen können die Sensorwerte beeinflussen.
+  * Platzieren Sie den Sensor während des Tests auf einer stabilen Oberfläche.
 
-**Conclusion**
+**Schlussfolgerung**
 
-In this lesson, you've learned how to interface the MPU-6050 accelerometer and gyroscope sensor with the Raspberry Pi Pico 2. By reading the raw sensor data, you can explore a wide range of applications involving motion detection, orientation tracking, and more.
+In dieser Lektion haben Sie gelernt, wie man den MPU-6050 Beschleunigungsmesser und Gyroskop-Sensor mit dem Raspberry Pi Pico 2 verbindet. Durch das Lesen der rohen Sensordaten können Sie eine Vielzahl von Anwendungen erkunden, die Bewegungserkennung, Orientierungsverfolgung und mehr umfassen.

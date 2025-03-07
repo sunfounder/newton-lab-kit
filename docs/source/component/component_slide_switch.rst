@@ -1,41 +1,41 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_slide_switch:
 
-Slide Switch
-==============
+Schiebeschalter
+=================
 
 |img_slide|
 
-A slide switch, just as its name implies, is to slide the switch bar to connect or break the circuit, and further switch circuits. The common-used types are SPDT, SPTT, DPDT, DPTT etc. The slide switch is commonly used in low-voltage circuit. It has the features of flexibility and stability, and applies in electric instruments and electric toys widely.
+Ein Schiebeschalter, wie der Name schon sagt, wird verwendet, um durch Verschieben der Schaltleiste einen Stromkreis zu schließen oder zu unterbrechen und somit die Schaltkreise umzuschalten. Häufig verwendete Typen sind SPDT, SPTT, DPDT, DPTT usw. Schiebeschalter werden üblicherweise in Niederspannungskreisen verwendet. Sie zeichnen sich durch Flexibilität und Stabilität aus und finden breite Anwendung in elektrischen Instrumenten und Spielzeugen.
 
-How it works: Set the middle pin as the fixed one. When you pull the slide to the left, the two pins on the left are connected; when you pull it to the right, the two pins on the right are connected. Thus, it works as a switch connecting or disconnecting circuits. See the figure below:
+Funktionsweise: Der mittlere Pin dient als fester Anschluss. Wenn Sie den Schieber nach links ziehen, werden die zwei Pins auf der linken Seite verbunden; ziehen Sie ihn nach rechts, so verbinden sich die zwei Pins auf der rechten Seite. Dadurch funktioniert er als Schalter, der Schaltkreise verbindet oder trennt. Siehe die Abbildung unten:
 
 |img_slide_prin|
 
-The circuit symbol of the slide switch is shown as below. The pin2 in the figure refers to the middle pin.
+Das Schaltsymbol des Schiebeschalters wird unten dargestellt. Der Pin2 in der Abbildung bezieht sich auf den mittleren Pin.
 
 |img_slide_symbol|
 
-.. **Example**
+.. **Beispiel**
 
 .. * :ref:`Reading Button Value` (For MicroPython User)
 .. * :ref:`Warning Light` (For C/C++(Arduino) User)
 
 
-**Example**
+**Beispiel**
 
 * :ref:`py_slide` (For MicroPython User)
 * :ref:`py_alarm_lamp` (For MicroPython User)

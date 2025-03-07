@@ -1,43 +1,42 @@
-.. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie sich in Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_micro:
 
-2.8 Press Gently
+2.8 Sanft Drücken
 ==========================
 
-In this lesson, we'll learn how to use a **micro switch** (also known as a limit switch) with the Raspberry Pi Pico 2 to detect when it's pressed or released. Micro switches are commonly used in devices like microwave oven doors, printer covers, or as end stops in 3D printers because they are reliable and can handle frequent activation.
+In dieser Lektion lernen wir, wie man einen **Mikroschalter** (auch als Endschalter bekannt) mit dem Raspberry Pi Pico 2 verwendet, um zu erkennen, wann er gedrückt oder losgelassen wird. Mikroschalter werden häufig in Geräten wie Mikrowellentüröffnern, Druckerabdeckungen oder als Endanschläge in 3D-Druckern verwendet, weil sie zuverlässig sind und häufige Aktivierungen vertragen.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -45,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -54,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -63,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -78,52 +77,52 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Understanding the Micro Switch**
+**Verständnis des Mikroschalters**
 
-A micro switch typically has three pins:
+Ein Mikroschalter hat typischerweise drei Anschlüsse:
 
 |img_micro_switch|
 
-- **Common (C)**: The middle pin.
-- **Normally Open (NO)**: Connected to the common pin when the switch is **pressed**.
-- **Normally Closed (NC)**: Connected to the common pin when the switch is **not pressed**.
+- **Common (C)**: Der mittlere Pin.
+- **Normally Open (NO)**: Verbunden mit dem Common-Pin, wenn der Schalter **gedrückt** ist.
+- **Normally Closed (NC)**: Verbunden mit dem Common-Pin, wenn der Schalter **nicht gedrückt** ist.
 
-By connecting the switch appropriately, we can detect when it's pressed by reading the voltage level on a GPIO pin.
+Durch entsprechendes Verbinden des Schalters können wir erkennen, wann er gedrückt wird, indem wir die Spannung an einem GPIO-Pin ablesen.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_limit_sw|
 
-By default, GP14 is low and when pressed, GP14 is high.
+Standardmäßig ist GP14 niedrig und wenn gedrückt, wird GP14 hoch.
 
-The purpose of the 10K resistor is to keep the GP14 low during pressing.
+Der Zweck des 10K-Widerstands ist es, den GP14 während des Drückens niedrig zu halten.
 
-When you press a mechanical switch, the contacts may bounce, causing multiple rapid transitions between open and closed states. The capacitor connected between GP14 and GND helps filter out this noise.
+Wenn Sie einen mechanischen Schalter drücken, können die Kontakte prellen, was zu mehreren schnellen Übergängen zwischen offenen und geschlossenen Zuständen führt. Der Kondensator, der zwischen GP14 und GND geschaltet ist, hilft, dieses Rauschen zu filtern.
 
-* **Switch Not Pressed**:
+* **Schalter nicht gedrückt**:
 
-  * The **Common (C)** pin is connected to the **NC** pin, which is connected to **GND**.
-  * **GP14** reads **LOW** (0V).
+  * Der **Common (C)**-Pin ist mit dem **NC**-Pin verbunden, der mit **GND** verbunden ist.
+  * **GP14** liest **NIEDRIG** (0V).
 
-* **Switch Pressed**:
+* **Schalter gedrückt**:
 
-  * The **Common (C)** pin is connected to the **NO** pin, which is connected to **3.3V**.
-  * **GP14** reads **HIGH** (3.3V).
+  * Der **Common (C)**-Pin ist mit dem **NO**-Pin verbunden, der mit **3.3V** verbunden ist.
+  * **GP14** liest **HOCH** (3.3V).
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_limit_sw|
 
 
-**Writing the Code**
+**Code schreiben**
 
-We'll write a MicroPython program that detects when the micro switch is pressed and prints a message accordingly.
+Wir schreiben ein MicroPython-Programm, das erkennt, wann der Mikroschalter gedrückt wird und entsprechend eine Nachricht ausgibt.
 
 .. note::
 
-  * Open the ``2.8_micro_switch.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+  * Öffnen Sie die Datei ``2.8_micro_switch.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Ausführen" oder drücken Sie F5.
 
-  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+  * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
   
 
@@ -132,78 +131,78 @@ We'll write a MicroPython program that detects when the micro switch is pressed 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin
+    # Initialisieren von GP14 als Eingangspin
     switch = machine.Pin(14, machine.Pin.IN)
 
     while True:
         if switch.value() == 1:
             print("The switch is pressed!")
-            utime.sleep(0.5)  # Debounce delay
+            utime.sleep(0.5)  # Entprellverzögerung
 
-When the code is running, you will observe the following phenomenon:
+Wenn der Code läuft, wird das folgende Phänomen beobachtet:
 
-* **Not Pressed**: No message should appear.
-* **Pressed**: "The switch is pressed!" should appear in the console each time you press the switch.
+* **Nicht gedrückt**: Es sollte keine Nachricht erscheinen.
+* **Gedrückt**: "Der Schalter ist gedrückt!" sollte jedes Mal in der Konsole erscheinen, wenn der Schalter gedrückt wird.
 
-**Understanding the Code**
+**Code verstehen**
 
-#. Import Modules:
+#. Import-Module:
 
-   * ``import machine``: Access to hardware functions.
-   * ``import utime``: Time-related functions.
+   * ``import machine``: Zugang zu Hardware-Funktionen.
+   * ``import utime``: Zeitbezogene Funktionen.
 
-#. Initialize the Switch Pin:
+#. Initialisierung des Schalter-Pins:
 
-   * ``switch = machine.Pin(14, machine.Pin.IN)``: Sets up GP14 as an input pin.
+   * ``switch = machine.Pin(14, machine.Pin.IN)``: Stellt GP14 als Eingangspin ein.
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * ``while True``: Starts an infinite loop.
-   * ``if switch.value() == 1``: Checks if the switch is pressed (GP14 reads HIGH).
-   * ``print("The switch is pressed!")``: Outputs a message to the console.
-   * ``utime.sleep(0.5)``: Adds a delay to debounce the switch and prevent multiple detections from a single press.
+   * ``while True``: Startet eine unendliche Schleife.
+   * ``if switch.value() == 1``: Überprüft, ob der Schalter gedrückt ist (GP14 liest HOCH).
+   * ``print("The switch is pressed!")``: Gibt eine Nachricht in der Konsole aus.
+   * ``utime.sleep(0.5)``: Fügt eine Verzögerung hinzu, um den Schalter zu entprellen und mehrfache Erkennungen von einem einzigen Druck zu verhindern.
 
 
-**Alternative Wiring: Using Internal Pull-Down Resistor**
+**Alternative Verdrahtung: Verwendung des internen Pull-Down-Widerstands**
 
-If you prefer to simplify the wiring even further, you can rely solely on the internal pull-down resistor:
+Wenn Sie die Verdrahtung weiter vereinfachen möchten, können Sie sich ausschließlich auf den internen Pull-Down-Widerstand verlassen:
 
-* Modify the Circuit:
+* Schaltkreis ändern:
 
-  * Remove the external 10 kΩ resistor and 0.1 µF capacitor.
-  * Micro Switch Connections:
+  * Entfernen Sie den externen 10 kΩ-Widerstand und den 0.1 µF-Kondensator.
+  * Mikroschalterverbindungen:
 
-    * **Common (C) Terminal**: Connect to GP14 on the Pico.
-    * **Normally Open (NO) Terminal**: Connect to 3.3V on the Pico.
-    * **Normally Closed (NC) Terminal**: Leave unconnected.
+    * **Common (C) Terminal**: Verbinden mit GP14 am Pico.
+    * **Normally Open (NO) Terminal**: Verbinden mit 3.3V am Pico.
+    * **Normally Closed (NC) Terminal**: Unverbunden lassen.
 
-* Modified Code:
+* Geänderter Code:
 
   .. code-block:: python
 
       import machine
       import utime
 
-      # Initialize GP14 as an input pin with an internal pull-down resistor
+      # Initialisieren von GP14 als Eingangspin mit internem Pull-Down-Widerstand
       switch = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
       while True:
           if switch.value() == 1:
               print("The switch is pressed!")
-              utime.sleep(0.5)  # Debounce delay
+              utime.sleep(0.5)  # Entprellverzögerung
     
 
-**Practical Applications**
+**Praktische Anwendungen**
 
-* **Limit Detection**: Use the micro switch as an end stop in CNC machines or 3D printers to detect the limit of movement.
-* **Safety Interlocks**: Ensure a device operates only when certain conditions are met (e.g., a door is closed).
-* **User Input**: Incorporate into projects where a robust and reliable button is needed.
+* **Grenzerkennung**: Verwenden Sie den Mikroschalter als Endanschlag in CNC-Maschinen oder 3D-Druckern, um das Bewegungslimit zu erkennen.
+* **Sicherheitsverriegelungen**: Stellen Sie sicher, dass ein Gerät nur funktioniert, wenn bestimmte Bedingungen erfüllt sind (z. B. eine Tür ist geschlossen).
+* **Benutzereingabe**: Integrieren Sie ihn in Projekte, bei denen ein robuster und zuverlässiger Knopf benötigt wird.
 
-**Experimenting Further**
+**Weiterführende Experimente**
 
-* Control an LED:
+* Steuern einer LED:
 
-  Connect an LED to another GPIO pin (e.g., GP15) with a suitable resistor. Modify the code to turn the LED on when the switch is pressed.
+  Verbinden Sie eine LED mit einem anderen GPIO-Pin (z. B. GP15) mit einem geeigneten Widerstand. Ändern Sie den Code, um die LED einzuschalten, wenn der Schalter gedrückt wird.
   
   .. code-block:: python
     
@@ -215,17 +214,17 @@ If you prefer to simplify the wiring even further, you can rely solely on the in
 
     while True:
         if switch.value() == 1:
-            led.value(1)  # Turn on the LED
+            led.value(1)  # LED einschalten
             print("The switch is pressed!")
             utime.sleep(0.5)
         else:
-            led.value(0)  # Turn off the LED
+            led.value(0)  # LED ausschalten
 
-* Counting Presses:
+* Zählen von Drücken:
 
-  Modify the code to count how many times the switch has been pressed.
+  Ändern Sie den Code, um zu zählen, wie oft der Schalter gedrückt wurde.
 
-  * Control an LED:
+  * Steuern einer LED:
 
    .. code-block:: python
 
@@ -241,7 +240,6 @@ If you prefer to simplify the wiring even further, you can rely solely on the in
               print("Switch pressed {} times".format(count))
               utime.sleep(0.5)
 
-**Conclusion**
+**Schlussfolgerung**
 
-Using a micro switch with the Raspberry Pi Pico 2 allows you to detect physical interactions reliably. Understanding how to wire the switch and read its state in your code is essential for creating responsive and interactive projects.
-
+Die Verwendung eines Mikroschalters mit dem Raspberry Pi Pico 2 ermöglicht es Ihnen, physische Interaktionen zuverlässig zu erkennen. Das Verständnis, wie man den Schalter verdrahtet und seinen Zustand in Ihrem Code liest, ist entscheidend für die Erstellung reaktiver und interaktiver Projekte.

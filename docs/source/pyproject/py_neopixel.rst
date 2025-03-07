@@ -1,53 +1,52 @@
-.. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer ein in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_neopixel:
 
-3.3 Controlling an RGB LED Strip
+3.3 Steuerung eines RGB-LED-Streifens
 ===========================================================
 
-In this lesson, we'll learn how to control an **RGB LED strip** (specifically the WS2812 type) using the Raspberry Pi Pico 2 and MicroPython.
+In dieser Lektion lernen wir, wie man einen **RGB-LED-Streifen** (speziell den Typ WS2812) mit dem Raspberry Pi Pico 2 und MicroPython steuert.
 
-The WS2812 is a smart LED that integrates a control circuit and an RGB chip into a 5050-sized LED package. Each LED has its own built-in controller, which allows us to control each LED individually using a single data line. This means we can change the color and brightness of each LED on the strip independently.
+Der WS2812 ist eine intelligente LED, die einen Steuerkreis und einen RGB-Chip in einem 5050-LED-Gehäuse integriert. Jede LED verfügt über einen eigenen integrierten Controller, der es uns ermöglicht, jede LED individuell über eine einzige Datenleitung zu steuern. Das bedeutet, dass wir die Farbe und Helligkeit jeder LED auf dem Streifen unabhängig ändern können.
 
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -55,7 +54,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -64,35 +63,35 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_ws2812`
         - 1
         - |link_ws2812_buy|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_ws2812|
 
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_ws2812|
 
-Be cautious with the current draw. While the Pico's VBUS pin can supply power for a small number of LEDs (like 8), using more LEDs may require an external power supply to prevent overloading the Pico.
+Seien Sie vorsichtig mit dem Stromverbrauch. Während der VBUS-Pin des Pico Strom für eine kleine Anzahl von LEDs (wie 8) liefern kann, kann die Verwendung mehrerer LEDs eine externe Stromversorgung erfordern, um eine Überlastung des Pico zu vermeiden.
 
-**Writing the Code**
+**Code schreiben**
 
 .. note::
 
-    * Open the ``3.3_rgb_led_strip.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Öffnen Sie die Datei ``3.3_rgb_led_strip.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Run" oder drücken Sie F5.
 
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
      
     
-    * Here you need to use the library called ``ws2812.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * Hier benötigen Sie die Bibliothek namens ``ws2812.py``, bitte überprüfen Sie, ob sie auf den Pico hochgeladen wurde, für ein detailliertes Tutorial siehe :ref:`add_libraries_py`.
 
 
 .. code-block:: python
@@ -100,55 +99,55 @@ Be cautious with the current draw. While the Pico's VBUS pin can supply power fo
     import machine
     from ws2812 import WS2812
 
-    # Initialize the LED strip
-    led_strip = WS2812(machine.Pin(0), 8)  # Using GP0, 8 LEDs
+    # Initialisieren des LED-Streifens
+    led_strip = WS2812(machine.Pin(0), 8)  # Verwendung von GP0, 8 LEDs
 
-    # Set colors for each LED
-    led_strip[0] = [255, 0, 0]     # Red
-    led_strip[1] = [0, 255, 0]     # Green
-    led_strip[2] = [0, 0, 255]     # Blue
-    led_strip[3] = [255, 255, 0]   # Yellow
+    # Farben für jede LED einstellen
+    led_strip[0] = [255, 0, 0]     # Rot
+    led_strip[1] = [0, 255, 0]     # Grün
+    led_strip[2] = [0, 0, 255]     # Blau
+    led_strip[3] = [255, 255, 0]   # Gelb
     led_strip[4] = [0, 255, 255]   # Cyan
     led_strip[5] = [255, 0, 255]   # Magenta
-    led_strip[6] = [255, 255, 255] # White
-    led_strip[7] = [128, 128, 128] # Gray
+    led_strip[6] = [255, 255, 255] # Weiß
+    led_strip[7] = [128, 128, 128] # Grau
 
-    # Update the LED strip to show the colors
+    # Den LED-Streifen aktualisieren, um die Farben anzuzeigen
     led_strip.write()
 
-When this code is running, the WS2812 LED strip connected to pin GP0 with 8 LEDs will display the following colors:
+Wenn dieser Code ausgeführt wird, zeigt der mit dem Pin GP0 verbundene WS2812 LED-Streifen mit 8 LEDs folgende Farben:
 
-* **LED 0**: Red (255, 0, 0)
-* **LED 1**: Green (0, 255, 0)
-* **LED 2**: Blue (0, 0, 255)
-* **LED 3**: Yellow (255, 255, 0)
+* **LED 0**: Rot (255, 0, 0)
+* **LED 1**: Grün (0, 255, 0)
+* **LED 2**: Blau (0, 0, 255)
+* **LED 3**: Gelb (255, 255, 0)
 * **LED 4**: Cyan (0, 255, 255)
 * **LED 5**: Magenta (255, 0, 255)
-* **LED 6**: White (255, 255, 255)
-* **LED 7**: Gray (128, 128, 128)
+* **LED 6**: Weiß (255, 255, 255)
+* **LED 7**: Grau (128, 128, 128)
 
-**Understanding the Code**
+**Code verstehen**
 
-#. Import Libraries:
+#. Bibliotheken importieren:
 
-   * ``machine``: Provides access to hardware-related functions.
-   * ``WS2812``: The library to control the WS2812 LED strip.
+   * ``machine``: Bietet Zugang zu hardwarebezogenen Funktionen.
+   * ``WS2812``: Die Bibliothek zur Steuerung des WS2812 LED-Streifens.
 
-#. Initialize the LED Strip:
+#. LED-Streifen initialisieren:
 
-   * ``led_strip = WS2812(machine.Pin(0), 8)``: Initializes the LED strip connected to pin GP0 with 8 LEDs.
+   * ``led_strip = WS2812(machine.Pin(0), 8)``: Initialisiert den LED-Streifen, der mit Pin GP0 verbunden ist und 8 LEDs hat.
 
-#. Set Colors:
+#. Farben einstellen:
 
-   * ``led_strip[0] = [255, 0, 0]``: Assigns a color to each LED using RGB values (Red, Green, Blue), ranging from 0 to 255.
+   * ``led_strip[0] = [255, 0, 0]``: Weist jeder LED eine Farbe zu, die RGB-Werte verwendet (Rot, Grün, Blau), die von 0 bis 255 reichen.
 
-#. Update the LED Strip:
+#. LED-Streifen aktualisieren:
 
-   * ``led_strip.write()``: Sends the color data to the LED strip to display the colors.
+   * ``led_strip.write()``: Sendet die Farbdaten an den LED-Streifen, um die Farben anzuzeigen.
 
-**Let's Make a Flowing Rainbow Effect!**
+**Lassen Sie uns einen fließenden Regenbogeneffekt erstellen!**
 
-Now, we'll create a colorful flowing light effect by randomly generating colors and shifting them along the strip.
+Jetzt erstellen wir einen farbenfrohen fließenden Lichteffekt, indem wir zufällig Farben generieren und sie entlang des Streifens verschieben.
 
 .. code-block:: python
 
@@ -157,61 +156,58 @@ Now, we'll create a colorful flowing light effect by randomly generating colors 
     import utime
     import urandom
 
-    # Number of LEDs in the strip
+    # Anzahl der LEDs im Streifen
     NUM_LEDS = 8
 
-    # Initialize the LED strip with 8 LEDs
+    # LED-Streifen mit 8 LEDs initialisieren
     led_strip = WS2812(machine.Pin(0), NUM_LEDS)
 
     def flowing_light():
-        # Shift colors along the strip
+        # Farben entlang des Streifens verschieben
         for i in range(NUM_LEDS - 1, 0, -1):
             led_strip[i] = led_strip[i - 1]
-        # Generate a random color for the first LED
+        # Eine zufällige Farbe für die erste LED generieren
         led_strip[0] = [urandom.getrandbits(8), urandom.getrandbits(8), urandom.getrandbits(8)]
-        # Update the strip
+        # Den Streifen aktualisieren
         led_strip.write()
-        # Small delay for smooth animation
+        # Kleine Verzögerung für eine fließende Animation
         utime.sleep_ms(100)
 
-    # Main loop
+    # Hauptzyklus
     while True:
         flowing_light()
 
 
-When the code runs, the LED strip displays a flowing dynamic effect with random colors, where a new random color is introduced at the beginning and shifts towards the end with each cycle.
+Wenn der Code ausgeführt wird, zeigt der LED-Streifen einen dynamischen fließenden Effekt mit zufälligen Farben, bei dem eine neue zufällige Farbe am Anfang eingeführt und mit jedem Zyklus zum Ende verschoben wird.
 
-**Understanding the Code**
+**Code verstehen**
 
-#. Random Color Generation: Generates a random RGB color where each component ranges from 0 to 255.
+#. Zufällige Farbgenerierung: Erzeugt eine zufällige RGB-Farbe, bei der jede Komponente von 0 bis 255 reicht.
 
    .. code-block:: python
 
         [urandom.getrandbits(8), urandom.getrandbits(8), urandom.getrandbits(8)]
 
-#. Shifting Colors: Moves each LED's color to the next position, creating a flowing effect.
+#. Farben verschieben: Bewegt jede LED-Farbe auf die nächste Position und erzeugt einen fließenden Effekt.
 
    .. code-block:: python
 
         for i in range(NUM_LEDS - 1, 0, -1):
             led_strip[i] = led_strip[i - 1]
 
-#. Infinite Loop: Continuously updates the LED strip to keep the animation running.
+#. Endlosschleife: Aktualisiert kontinuierlich den LED-Streifen, um die Animation am Laufen zu halten.
 
    .. code-block:: python
 
         while True:
             flowing_light()
 
-**Experimenting Further**
+**Weiter experimentieren**
 
-* **Adjusting Speed**: Modify ``utime.sleep_ms(100)`` to make the flowing effect faster or slower.
-* **More LEDs**: If you have a longer strip, change the number in ``WS2812(machine.Pin(0), number_of_leds)`` accordingly.
-* **Custom Animations**: Experiment with different patterns and color combinations to create your own animations.
+* **Geschwindigkeit anpassen**: Ändern Sie ``utime.sleep_ms(100)``, um den fließenden Effekt schneller oder langsamer zu machen.
+* **Mehr LEDs**: Wenn Sie einen längeren Streifen haben, ändern Sie die Zahl in ``WS2812(machine.Pin(0), number_of_leds)`` entsprechend.
+* **Eigene Animationen**: Experimentieren Sie mit verschiedenen Mustern und Farbkombinationen, um Ihre eigenen Animationen zu erstellen.
 
-**Conclusion**
+**Schlussfolgerung**
 
-You've successfully learned how to control an RGB LED strip using the Raspberry Pi Pico 2 and MicroPython! This opens up a world of possibilities for creating stunning light displays, mood lighting, or even interactive art projects.
-
-
-
+Sie haben erfolgreich gelernt, wie man einen RGB-LED-Streifen mit dem Raspberry Pi Pico 2 und MicroPython steuert! Dies eröffnet eine Welt von Möglichkeiten für die Erstellung atemberaubender Lichtdisplays, Stimmungsbeleuchtung oder sogar interaktiver Kunstprojekte.

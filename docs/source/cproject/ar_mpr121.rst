@@ -1,29 +1,29 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Gewinnspiele**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_mpr121:
 
-4.3 Electrode Keyboard with MPR121
+4.3 Elektroden-Tastatur mit MPR121
 ========================================================
 
-In this lesson, we'll learn how to use the **MPR121 capacitive touch sensor** to create a touch-sensitive keyboard with the Raspberry Pi Pico 2. The MPR121 allows you to detect touch inputs on up to 12 electrodes, which can be connected to conductive materials like wires, foil, or even fruits like bananas!
+In dieser Lektion lernen wir, wie man den **MPR121 kapazitiven Berührungssensor** verwendet, um eine berührungsempfindliche Tastatur mit dem Raspberry Pi Pico 2 zu erstellen. Der MPR121 ermöglicht es Ihnen, Berührungseingaben auf bis zu 12 Elektroden zu erkennen, die mit leitfähigen Materialien wie Drähten, Folie oder sogar Früchten wie Bananen verbunden werden können!
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
@@ -36,7 +36,7 @@ It's definitely convenient to buy a whole kit, here's the link:
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
@@ -52,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -61,41 +61,41 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_mpr121`
         - 1
         - 
 
-**Understanding the MPR121 Sensor**
+**Verständnis des MPR121-Sensors**
 
-The **MPR121** is a capacitive touch sensor controller that communicates via the I2C interface. It can handle up to 12 touch inputs, making it ideal for creating interactive projects with multiple touch points.
+Der **MPR121** ist ein kapazitiver Berührungssensor-Controller, der über die I2C-Schnittstelle kommuniziert. Er kann bis zu 12 Berührungseingaben verarbeiten, was ihn ideal für interaktive Projekte mit mehreren Berührungspunkten macht.
 
-The MPR121 sensor detects changes in capacitance on its electrodes. When you touch an electrode, the capacitance changes, and the sensor registers a touch.The sensor communicates this information over I2C to the Raspberry Pi Pico 2.
+Der MPR121-Sensor erkennt Veränderungen in der Kapazität seiner Elektroden. Wenn Sie eine Elektrode berühren, ändert sich die Kapazität, und der Sensor registriert eine Berührung. Diese Information wird über I2C an den Raspberry Pi Pico 2 übermittelt.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_mpr121_ar|
 
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_mpr121_ar|
 
-* Connect wires or conductive materials to the electrode pins (labeled **E0** to **E11**) on the MPR121.
-* You can attach the other ends of the wires to conductive objects like fruits, aluminum foil shapes, or touchpads.
+* Verbinden Sie Drähte oder leitfähige Materialien mit den Elektrodenpins (markiert als **E0** bis **E11**) am MPR121.
+* Sie können die anderen Enden der Drähte mit leitfähigen Objekten wie Früchten, Aluminiumfolieformen oder Touchpads verbinden.
 
 
-**Writing the Code**
+**Schreiben des Codes**
 
 
 .. note::
 
-    * You can open the file ``4.3_electrode_keyboard.ino`` from ``newton-lab-kit/arduino/4.3_electrode_keyboard``. 
-    * Or copy this code into **Arduino IDE**.
-    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-    * The ``Adafruit MPR121`` library is used here, you can install it from the **Library Manager**.
+    * Sie können die Datei ``4.3_electrode_keyboard.ino`` aus ``newton-lab-kit/arduino/4.3_electrode_keyboard`` öffnen. 
+    * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+    * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port, dann klicken Sie auf "Upload".
+    * Die ``Adafruit MPR121``-Bibliothek wird hier verwendet, Sie können sie aus dem **Library Manager** installieren.
 
       .. image:: img/lib_mpr121.png
 
@@ -155,33 +155,33 @@ The MPR121 sensor detects changes in capacitance on its electrodes. When you tou
       delay(100); // Small delay to stabilize readings
     }
 
-After uploading the code, touch the electrodes connected to the MPR121 sensor. 
+Nach dem Hochladen des Codes berühren Sie die an den MPR121-Sensor angeschlossenen Elektroden. 
 
-* Observe the binary output in the Serial Monitor indicating which electrodes are being touched. 
-* For example, touching the first and eleventh electrodes will display ``100000000010``.
-
-
-**Understanding the Code**
-
-#. Including Libraries:
+* Beobachten Sie die binäre Ausgabe im seriellen Monitor, die anzeigt, welche Elektroden berührt werden. 
+* Zum Beispiel wird das Berühren der ersten und der elften Elektrode ``100000000010`` anzeigen.
 
 
-   * ``Wire.h``: Handles I2C communication.
-   * ``Adafruit_MPR121.h``: Provides functions to interact with the MPR121 sensor.
+**Verständnis des Codes**
 
-#. Initializing the MPR121 Sensor:
+#. Einbinden von Bibliotheken:
 
-   Creates an instance of the MPR121 sensor.
+
+   * ``Wire.h``: Handhabt die I2C-Kommunikation.
+   * ``Adafruit_MPR121.h``: Stellt Funktionen zur Interaktion mit dem MPR121-Sensor bereit.
+
+#. Initialisieren des MPR121-Sensors:
+
+   Erstellt eine Instanz des MPR121-Sensors.
 
    .. code-block:: arduino
 
       Adafruit_MPR121 cap = Adafruit_MPR121();
 
-#. Setup Function:
+#. Setup-Funktion:
 
-   * Starts serial communication for debugging.
-   * Initializes the MPR121 sensor with the I2C address 0x5A.
-   * If the sensor is not found, it prints an error message and halts the program.
+   * Startet die serielle Kommunikation zur Fehlerbehebung.
+   * Initialisiert den MPR121-Sensor mit der I2C-Adresse 0x5A.
+   * Wenn der Sensor nicht gefunden wird, wird eine Fehlermeldung ausgegeben und das Programm angehalten.
 
    .. code-block:: arduino
 
@@ -197,15 +197,15 @@ After uploading the code, touch the electrodes connected to the MPR121 sensor.
         Serial.println("MPR121 found!");
       }
 
-#. ``loop()`` Function: 
+#. ``loop()``-Funktion: 
 
-   * Retrieves the current touch state from the MPR121 sensor. Each bit in the ``currtouched`` variable represents the touch state of an electrode (1 for touched, 0 for not touched).
+   * Ruft den aktuellen Berührungsstatus vom MPR121-Sensor ab. Jedes Bit in der Variablen ``currtouched`` repräsentiert den Berührungsstatus einer Elektrode (1 für berührt, 0 für nicht berührt).
 
      .. code-block:: arduino
   
         currtouched = cap.touched();
 
-   * Checks if there has been a change in the touch state since the last loop iteration.
+   * Überprüft, ob sich der Berührungsstatus seit der letzten Schleifeniteration geändert hat.
 
      .. code-block:: arduino
 
@@ -213,7 +213,7 @@ After uploading the code, touch the electrodes connected to the MPR121 sensor.
           // Update touch states
         }
 
-   * Iterates through each electrode and updates the ``touchStates`` array based on whether each electrode is touched.
+   * Durchläuft jede Elektrode und aktualisiert das Array ``touchStates`` basierend darauf, ob jede Elektrode berührt wird.
 
      .. code-block:: arduino
 
@@ -225,7 +225,7 @@ After uploading the code, touch the electrodes connected to the MPR121 sensor.
           }
         }
 
-   * Prints the touch states as a 12-bit binary string to the Serial Monitor. For example, if the first and eleventh electrodes are touched, it will print 100000000010.
+   * Druckt die Berührungsstatus als 12-Bit-binären String auf den seriellen Monitor. Zum Beispiel, wenn die erste und die elfte Elektrode berührt werden, wird 100000000010 gedruckt.
 
      .. code-block:: arduino
 
@@ -234,42 +234,42 @@ After uploading the code, touch the electrodes connected to the MPR121 sensor.
         }
         Serial.println();
 
-   * Adds a short delay to stabilize the readings and prevent flooding the Serial Monitor.
+   * Fügt eine kurze Verzögerung hinzu, um die Messungen zu stabilisieren und den seriellen Monitor nicht zu überfluten.
 
      .. code-block:: arduino
 
         delay(100);
 
-**Extending the Electrodes**
+**Erweiterung der Elektroden**
 
-You can enhance your project by connecting the electrodes to various conductive materials:
+Sie können Ihr Projekt erweitern, indem Sie die Elektroden mit verschiedenen leitfähigen Materialien verbinden:
 
-* **Fruits**: Attach wires to bananas, apples, or other fruits to turn them into touch-sensitive inputs.
-* **Foil Shapes**: Cut shapes out of aluminum foil and attach them to the electrodes.
-* **Conductive Paint**: Draw patterns with conductive ink or paint.
+* **Früchte**: Befestigen Sie Drähte an Bananen, Äpfeln oder anderen Früchten, um sie zu berührungsempfindlichen Eingaben zu machen.
+* **Folienformen**: Schneiden Sie Formen aus Aluminiumfolie aus und befestigen Sie sie an den Elektroden.
+* **Leitfähige Farbe**: Zeichnen Sie Muster mit leitfähiger Tinte oder Farbe.
 
 .. note::
     
-    If you change the electrodes (e.g., connect different materials), you may need to reset the sensor to recalibrate the baseline values.
+    Wenn Sie die Elektroden ändern (z.B. unterschiedliche Materialien anschließen), müssen Sie möglicherweise den Sensor zurücksetzen, um die Baseline-Werte neu zu kalibrieren.
 
-**Further Exploration**
+**Weitere Erkundungen**
 
-* Creating Interactive Projects:
+* Interaktive Projekte erstellen:
 
-  Build a touch-controlled LED matrix where each electrode controls an individual LED.
+  Bauen Sie eine berührungsgesteuerte LED-Matrix, bei der jede Elektrode eine einzelne LED steuert.
 
-* Implementing Key Debouncing:
+* Implementierung von Key Debouncing:
 
-  Enhance the reliability of touch detection by implementing debouncing techniques to filter out false touches.
+  Verbessern Sie die Zuverlässigkeit der Berührungserkennung durch Implementierung von Entprelltechniken, um falsche Berührungen herauszufiltern.
 
-* Combining with Other Sensors:
+* Kombination mit anderen Sensoren:
 
-  Integrate the MPR121 with other sensors like temperature or light sensors to create more complex interactive systems.
+  Integrieren Sie den MPR121 mit anderen Sensoren wie Temperatur- oder Lichtsensoren, um komplexere interaktive Systeme zu erstellen.
 
-* Developing a Touch-Based Game Controller:
+* Entwicklung eines berührungsbasierten Spielcontrollers:
 
-  Use the touch inputs to control game elements, such as moving characters or selecting options.
+  Verwenden Sie die Berührungseingaben, um Spielelemente zu steuern, wie z.B. das Bewegen von Charakteren oder das Auswählen von Optionen.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use the MPR121 capacitive touch sensor with the Raspberry Pi Pico to create a touch-sensitive keyboard. By detecting touch inputs on multiple electrodes, you can build interactive interfaces for your projects, such as custom keypads, control panels, or creative input devices. Understanding how to read and process touch inputs is a valuable skill for developing responsive and user-friendly electronics projects.
+In dieser Lektion haben Sie gelernt, wie man den MPR121 kapazitiven Berührungssensor mit dem Raspberry Pi Pico verwendet, um eine berührungsempfindliche Tastatur zu erstellen. Durch das Erkennen von Berührungseingaben auf mehreren Elektroden können Sie interaktive Schnittstellen für Ihre Projekte erstellen, wie benutzerdefinierte Tastaturen, Bedienfelder oder kreative Eingabegeräte. Das Verständnis, wie man Berührungseingaben liest und verarbeitet, ist eine wertvolle Fähigkeit für die Entwicklung ansprechender und benutzerfreundlicher Elektronikprojekte.

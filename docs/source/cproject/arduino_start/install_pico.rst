@@ -1,49 +1,49 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _setup_pico_arduino:
 
-1.3 Setting Up the Raspberry Pi Pico 2 (Important)
-==================================================
+1.3 Einrichtung des Raspberry Pi Pico 2 (Wichtig)
+====================================================
 
-1. Installing the Board Package
---------------------------------------
+1. Installieren des Board-Pakets
+---------------------------------------
 
-To program the Raspberry Pi Pico 2, you need to install the appropriate board package in the Arduino IDE. Follow these steps to get started:
+Um den Raspberry Pi Pico 2 zu programmieren, müssen Sie das entsprechende Board-Paket in der Arduino IDE installieren. Folgen Sie diesen Schritten, um zu beginnen:
 
-#. Open the Arduino IDE and navigate to **File** -> **Preferences**.
+#. Öffnen Sie die Arduino IDE und navigieren Sie zu **Datei** -> **Voreinstellungen**.
 
    .. image:: img/arduino_pico_file.png
 
-#. In the dialog that appears, enter the following URL in the "Additional Boards Manager URLs" field: ``https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json``.
+#. Geben Sie im angezeigten Dialogfeld die folgende URL in das Feld „Zusätzliche Boardverwalter-URLs“ ein: ``https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json``.
 
    .. image:: img/arduino_pico_link.png
 
-#. Open the **Boards Manager** from the menu and search for **pico**. Click the **INSTALL** button to begin the installation. This will install the **Raspberry Pi Pico 2/RP2040** package, including support for Raspberry Pi Pico 2.
+#. Öffnen Sie den **Boardverwalter** über das Menü und suchen Sie nach **pico**. Klicken Sie auf den **INSTALLIEREN**-Button, um die Installation zu starten. Dadurch wird das Paket **Raspberry Pi Pico 2/RP2040** installiert, einschließlich der Unterstützung für den Raspberry Pi Pico 2.
 
    .. image:: img/arduino_pico_install.png
 
-#. During the installation process, several pop-up prompts may appear requesting you to install specific device drivers. Choose **"Install"**.
+#. Während des Installationsprozesses erscheinen möglicherweise mehrere Pop-up-Fenster, die Sie zur Installation spezifischer Gerätetreiber auffordern. Wählen Sie **"Installieren"**.
 
    .. image:: img/install_pico_sa.png
 
-#. Once the installation is complete, a notification will appear to confirm the successful setup.
+#. Nach Abschluss der Installation erscheint eine Benachrichtigung zur Bestätigung der erfolgreichen Einrichtung.
 
-2. Selecting the Board and Port
+2. Auswahl des Boards und Ports
 ------------------------------------------
 
-#. Hold down the **BOOTSEL** button, then unplug your Raspberry Pi Pico 2 and quickly plug it back in.
+#. Halten Sie die **BOOTSEL**-Taste gedrückt, trennen Sie dann den Raspberry Pi Pico 2 vom Computer und stecken Sie ihn schnell wieder ein.
 
    .. image:: img/led_onboard.png
         :width: 500
@@ -51,42 +51,42 @@ To program the Raspberry Pi Pico 2, you need to install the appropriate board pa
 
    .. warning::
         
-      * This step is crucial, especially for first-time users on the Arduino IDE. Skipping this step will result in a failed upload.
-      * Once you've successfully uploaded the code, your Pico will be recognized by the computer. For future uploads, simply plug it into the computer without holding the button.
+      * Dieser Schritt ist entscheidend, insbesondere für Erstnutzer der Arduino IDE. Wird dieser Schritt übersprungen, schlägt das Hochladen fehl.
+      * Sobald der Code erfolgreich hochgeladen wurde, wird Ihr Pico vom Computer erkannt. Für zukünftige Uploads reicht es, den Pico einfach ohne gedrückte Taste anzuschließen.
 
-#. To select the appropriate board, go to **Tools** -> **Board** -> **Raspberry Pi Pico 2/RP2040** -> **Raspberry Pi Pico 2**.
+#. Um das passende Board auszuwählen, gehen Sie zu **Werkzeuge** -> **Board** -> **Raspberry Pi Pico 2/RP2040** -> **Raspberry Pi Pico 2**.
 
    .. image:: img/arduino_pico_board.png
       :width: 800
       :align: center
 
-2. Next, select the correct port by navigating to **Tools** -> **Port** -> **UF2 Board**.
+2. Wählen Sie als Nächstes den richtigen Port aus, indem Sie zu **Werkzeuge** -> **Port** -> **UF2 Board** navigieren.
 
    .. note::
      
-     * For the first connection or when holding the **BOOTSEL** button, choose **UF2 Board**.
-     * After successfully uploading the code, your Pico 2 will be recognized by the computer. For future uses, select the corresponding **COMxx (Raspberry Pi Pico 2)**.
+     * Beim ersten Anschluss oder wenn die **BOOTSEL**-Taste gedrückt wird, wählen Sie **UF2 Board**.
+     * Nach dem erfolgreichen Hochladen des Codes wird Ihr Pico 2 vom Computer erkannt. Für zukünftige Verwendungen wählen Sie den entsprechenden **COMxx (Raspberry Pi Pico 2)**.
 
    .. image:: img/arduino_pico_port.png
 
 
-3. Uploading Code
+3. Hochladen des Codes
 --------------------------
 
-Now, let's move on to uploading code to your Raspberry Pi Pico 2.
+Nun geht es weiter mit dem Hochladen des Codes auf Ihren Raspberry Pi Pico 2.
 
-#. Open any ``.ino`` file, or use the blank sketch that appears by default. Then, click the **Upload** button.
+#. Öffnen Sie eine ``.ino``-Datei oder verwenden Sie den standardmäßig angezeigten leeren Sketch. Klicken Sie dann auf den **Upload**-Button.
 
    .. image:: img/install_pico_upload.png
 
-#. Once the upload is complete, a confirmation prompt will appear.
+#. Nach dem erfolgreichen Hochladen erscheint eine Bestätigungsmeldung.
 
    .. image:: img/install_pico_upload_done.png
 
-#. Your computer should now recognize the Pico 2 successfully.
+#. Ihr Computer sollte den Pico 2 nun erfolgreich erkennen.
 
    .. image:: img/arduino_pico_port_com.png
 
-#. Arduino 2.0 introduces a quick-select feature for easily setting the correct board and port.
+#. Die Arduino IDE 2.0 bietet eine Schnellwahlfunktion, mit der das richtige Board und der richtige Port einfach eingestellt werden können.
 
    .. image:: img/install_pico_select.png

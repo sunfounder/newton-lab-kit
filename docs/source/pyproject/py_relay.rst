@@ -1,44 +1,45 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook!  
+    Tauche tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein – gemeinsam mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Erhalte Hilfe bei technischen Herausforderungen und nach dem Kauf auftretenden Problemen durch unsere Community und unser Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Feierliche Aktionen und Gewinnspiele**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und werde Teil unserer Community!
 
 .. _py_relay:
 
+2.16 Steuerung eines anderen Stromkreises mit einem Relais
+==============================================================
 
-2.16 Control Another Circuit with a Relay
-=========================================
+In dieser Lektion lernen wir, wie man mit einem **Relais** und dem Raspberry Pi Pico 2 einen anderen Stromkreis steuert.  
+Ein Relais fungiert als Schalter, der von einem Niederspannungskreis (wie dem Pico) gesteuert wird, um einen Hochspannungskreis zu schalten.  
+Zum Beispiel kannst du mit einem Relais eine Lampe oder ein anderes Gerät ein- und ausschalten, wodurch sich elektrische Haushaltsgeräte automatisieren lassen.
 
-In this lesson, we will learn how to control another circuit using a **relay** and the Raspberry Pi Pico 2. A relay acts like a switch controlled by a low-voltage circuit (like Pico) to operate a high-voltage circuit. For example, you can use a relay to turn on a lamp or any other device, making it possible to automate electrical appliances.
+**Benötigte Komponenten**
 
+Für dieses Projekt werden folgende Komponenten benötigt.
 
-**What You'll Need**
-
-In this project, we need the following components. 
-
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch. Hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die folgenden Links erworben werden.
 
 
 .. list-table::
@@ -46,8 +47,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -55,7 +56,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -64,11 +65,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
-        - 1(S8050)
+        - 1 (S8050)
         - |link_transistor_buy|
     *   - 6
         - :ref:`cpn_diode`
@@ -79,108 +80,108 @@ You can also buy them separately from the links below.
         - 1
         - |link_relay_buy|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_relay_1|
 
-* Relay Activation:
+* Relais-Aktivierung:
 
-  * The relay's coil is energized by the transistor when the Pico outputs a **high signal** (3.3V) to GP15.
-  * The transistor allows current to flow through the relay, activating the switch inside.
-  * The relay makes a "click" sound when switching, indicating the control of the load circuit.
+  * Die Relaisspule wird über den Transistor aktiviert, wenn der Pico an GP15 ein **hohes Signal** (3,3V) ausgibt.
+  * Der Transistor ermöglicht den Stromfluss durch das Relais und schaltet den internen Schalter.
+  * Beim Umschalten gibt das Relais ein hörbares "Klick" von sich, das anzeigt, dass der Laststromkreis gesteuert wird.
 
-* Flyback Diode:
+* Freilaufdiode:
 
-  * The diode is placed across the relay coil to protect the transistor from voltage spikes that occur when the relay is turned off.
+  * Die Diode wird parallel zur Relaisspule platziert, um den Transistor vor Spannungsspitzen zu schützen, die beim Abschalten des Relais entstehen.
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_relay_1|
 
-**Writing the Code**
+**Code schreiben**
 
-The following code will control the relay, switching the connected circuit on and off every two seconds.
+Das folgende Skript steuert das Relais und schaltet den angeschlossenen Stromkreis alle zwei Sekunden ein und aus.
 
 .. note::
 
-    * Open the ``2.16_control_another_circuit.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Öffne die Datei ``2.16_control_another_circuit.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny, dann klicke auf „Run“ oder drücke F5.
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize the relay pin on GP15
+    # Initialisierung des Relais an GP15
     relay = machine.Pin(15, machine.Pin.OUT)
 
     while True:
-        relay.value(1)  # Turn the relay on
-        utime.sleep(2)  # Wait for 2 seconds
-        relay.value(0)  # Turn the relay off
-        utime.sleep(2)  # Wait for 2 seconds
+        relay.value(1)  # Relais einschalten
+        utime.sleep(2)  # 2 Sekunden warten
+        relay.value(0)  # Relais ausschalten
+        utime.sleep(2)  # 2 Sekunden warten
 
-When the code is running, you should hear a "click" sound from the relay every two seconds, indicating the circuit is being switched on and off.
+Wenn der Code ausgeführt wird, solltest du alle zwei Sekunden ein "Klick"-Geräusch vom Relais hören, das anzeigt, dass der Stromkreis ein- und ausgeschaltet wird.
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* **Set a Timer**: Modify the code to turn the relay on for 10 minutes and then automatically turn it off.
-* **Control Home Appliances**: With appropriate guidance, you can connect high-voltage devices to the relay for automation tasks such as turning lights or fans on and off.
+* **Timer setzen**: Ändere den Code so, dass das Relais für 10 Minuten eingeschaltet bleibt und sich dann automatisch ausschaltet.
+* **Steuerung von Haushaltsgeräten**: Mit entsprechender Vorsicht kannst du Hochspannungsgeräte an das Relais anschließen, um Automatisierungsaufgaben wie das Ein- und Ausschalten von Lampen oder Ventilatoren zu realisieren.
 
-  * The circuit should look like this: To demonstrate controlling an external circuit safely, we'll add an external 5V power supply (through a breadboard power module) to power an LED. This simulates how you could control higher voltage devices (like home appliances) using the relay. Here's how to modify the circuit:
+  * Der Schaltkreis könnte folgendermaßen aussehen: Um die sichere Steuerung eines externen Stromkreises zu demonstrieren, fügen wir eine externe 5V-Stromversorgung (über ein Breadboard-Netzteil) hinzu, um eine LED zu betreiben. Dies simuliert, wie du mit einem Relais Hochspannungsgeräte (z. B. Haushaltsgeräte) steuern kannst. So kannst du den Schaltkreis anpassen:
 
     |sch_relay_2|
   
     |wiring_relay_2|
 
-  * Code to Control the Relay:
+  * Code zur Steuerung des Relais:
 
     .. code-block:: python
 
         import machine
         import utime
 
-        # Initialize the relay pin on GP15
+        # Initialisierung des Relais an GP15
         relay = machine.Pin(15, machine.Pin.OUT)
 
         while True:
-            relay.value(1)  # Turn the relay on
-            utime.sleep(2)  # Wait for 2 seconds
-            relay.value(0)  # Turn the relay off
-            utime.sleep(2)  # Wait for 2 seconds
+            relay.value(1)  # Relais einschalten
+            utime.sleep(2)  # 2 Sekunden warten
+            relay.value(0)  # Relais ausschalten
+            utime.sleep(2)  # 2 Sekunden warten
 
-    When the relay is activated (GP15 outputs high), the Normally Open (NO) and Common (C) pins of the relay connect, allowing the external 5V power to flow through the LED. The LED will light up, simulating how a relay can control an external appliance.
+    Wenn das Relais aktiviert wird (GP15 gibt HIGH aus), verbinden sich die "Normally Open" (NO) und "Common" (C) Pins des Relais. Dadurch kann der externe 5V-Strom durch die LED fließen und sie leuchtet auf – das simuliert, wie ein Relais ein externes Gerät steuern kann.
 
-    When the relay is deactivated (GP15 outputs low), the Normally Open (NO) pin disconnects from the Common (C) pin, cutting off the external power, and the LED turns off.
+    Wenn das Relais deaktiviert wird (GP15 gibt LOW aus), trennen sich die NO- und C-Pins wieder, der externe Stromfluss wird unterbrochen und die LED erlischt.
 
-**Safety Considerations for Controlling Real Appliances**
+**Sicherheitsüberlegungen bei der Steuerung realer Haushaltsgeräte**
 
-This example uses an LED and a 5V power source to demonstrate relay control. If you are controlling higher voltage devices (like household appliances), ensure:
+Dieses Beispiel verwendet eine LED und eine 5V-Stromquelle zur Demonstration der Relaissteuerung. Falls du Hochspannungsgeräte steuern möchtest, beachte folgende Sicherheitsrichtlinien:
 
-* **Proper Voltage Rating**: Use a relay rated for the appropriate voltage and current for your appliance.
-* **Isolation**: For safety, ensure proper isolation between the low-voltage control circuit (like the Pico) and the high-voltage appliance circuit.
-* **Fuse Protection**: Consider adding fuses or circuit breakers to protect against short circuits or overloads.
-* **Professional Guidance**: When working with high-voltage circuits, always seek professional guidance to ensure safe operation.
+* **Passende Spannungswerte**: Verwende ein Relais mit einer für dein Gerät geeigneten Spannungs- und Stromstärke.
+* **Isolation**: Stelle sicher, dass der Niederspannungskreis (Pico) und der Hochspannungskreis des Geräts elektrisch voneinander getrennt sind.
+* **Sicherungsschutz**: Verwende Sicherungen oder Schutzschalter gegen Kurzschlüsse oder Überlastungen.
+* **Fachkundige Beratung**: Beim Arbeiten mit Hochspannung immer professionelle Unterstützung einholen, um sichere Bedienung zu gewährleisten.
 
-This project can serve as the basis for home automation, such as controlling lamps, fans, or other devices based on timers or sensors connected to the Raspberry Pi Pico 2.
+Dieses Projekt kann als Grundlage für Heimautomatisierung dienen, z. B. zur Steuerung von Lampen, Ventilatoren oder anderen Geräten, basierend auf Timern oder Sensoren, die mit dem Raspberry Pi Pico 2 verbunden sind.
 
-**Using the NC Terminal**
+**Verwendung des NC-Terminals**
 
-* If you connect your controlled circuit between COM and NC:
+* Wenn du deinen gesteuerten Stromkreis zwischen COM und NC anschließt:
 
-  * The circuit will be closed (ON) when the relay is not energized.
-  * The circuit will be open (OFF) when the relay is energized.
-  * Example: Controlling an External Device
-  * Warning: Do not attempt to control high-voltage devices without proper knowledge and safety precautions.
+  * Der Stromkreis ist geschlossen (EIN), wenn das Relais nicht aktiviert ist.
+  * Der Stromkreis ist geöffnet (AUS), wenn das Relais aktiviert ist.
+  * Beispiel: Steuerung eines externen Geräts.
+  * Warnung: Versuche nicht, Hochspannungsgeräte ohne ausreichendes Wissen und entsprechende Sicherheitsmaßnahmen zu steuern.
 
-* If you want to control a small DC motor or another device:
+* Falls du einen kleinen Gleichstrommotor oder ein anderes Gerät steuern möchtest:
 
-  * Replace the LED with the device you want to control.
-  * Ensure the device's voltage and current requirements are compatible.
-  * Provide an appropriate power supply for the device.
-  * Connect the device in series with the relay's COM and NO (or NC) terminals.
+  * Ersetze die LED durch das Gerät, das du steuern möchtest.
+  * Stelle sicher, dass die Spannungs- und Stromanforderungen des Geräts kompatibel sind.
+  * Verwende eine geeignete Stromversorgung für das Gerät.
+  * Schließe das Gerät in Reihe mit den COM- und NO- (oder NC-)Anschlüssen des Relais.
 
+**Fazit**
 
-**Conclusion**
+Durch die Verwendung eines Relais zur Steuerung eines externen Stromkreises hast du gelernt, wie man Geräte ein- und ausschaltet, von LEDs bis hin zu Hochspannungsgeräten. Dies eröffnet Möglichkeiten für automatisierte Steuerungssysteme, die per Code gesteuert werden – eine wichtige Grundlage für Heimautomatisierung und viele weitere Projekte.
 
-By using the relay to control an external circuit, you've learned how to switch on and off external devices, such as LEDs or even higher voltage appliances. This opens the door to creating automated smart devices that can be controlled through code, offering endless possibilities for home automation and other projects.

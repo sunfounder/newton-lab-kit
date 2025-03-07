@@ -1,56 +1,56 @@
+.. note:: 
 
-.. note::
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _download_upload:
 
-1.4 Download and Upload the Code
+1.4 Code herunterladen und hochladen
 ===============================================
 
-**Download the Code**
+**Code herunterladen**
 
-Download the relevant code from the link below.
+Laden Sie den relevanten Code von untenstehendem Link herunter.
 
 
-* :download:`SunFounder Newton Lab Kit Example <https://github.com/sunfounder/newton-lab-kit/archive/refs/heads/main.zip>`
+* :download:`SunFounder Newton Lab Kit Beispiel <https://github.com/sunfounder/newton-lab-kit/archive/refs/heads/main.zip>`
 
-* Or check out the code at `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_
+* Oder sehen Sie sich den Code auf `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_ an
 
 .. _add_libraries_py:
 
-Upload the Libraries to Pico
-----------------------------------
-In some projects, you will need additional libraries. Here, we will first upload these libraries to the Raspberry Pi Pico 2, and then we can run the code directly later.
+Bibliotheken auf den Pico hochladen
+---------------------------------------
 
-#. Use a Micro USB cable to connect the Raspberry Pi Pico 2 to your computer. (Do not hold down **BOOTSEL**; you already dragged the MicroPython firmware to Pico 2 in the previous step, so just plug it in directly.)
+In einigen Projekten benötigen Sie zusätzliche Bibliotheken. Hier werden wir zuerst diese Bibliotheken auf den Raspberry Pi Pico 2 hochladen, damit wir später den Code direkt ausführen können.
 
-#. Open the Thonny IDE and select "MicroPython (Raspberry Pi Pico).COMxx.COMxx" from the interpreter selection button in the bottom right corner.
+#. Verbinden Sie den Raspberry Pi Pico 2 mit einem Micro USB-Kabel mit Ihrem Computer. (Drücken Sie nicht **BOOTSEL**; Sie haben bereits die MicroPython-Firmware auf Pico 2 im vorherigen Schritt gezogen, also stecken Sie es direkt ein.)
+
+#. Öffnen Sie die Thonny IDE und wählen Sie "MicroPython (Raspberry Pi Pico).COMxx.COMxx" über den Interpreter-Auswahlknopf in der unteren rechten Ecke.
 
    .. image:: img/th_select_com.png
 
-#. Click **View** -> **Files** in the top navigation bar of the Thonny IDE.
+#. Klicken Sie in der oberen Navigationsleiste der Thonny IDE auf **Ansicht** -> **Dateien**.
 
    .. image:: img/th_open_files.png
 
-#. Navigate to the folder where you previously downloaded the code package, and then go to the ``newton-lab-kit-main/libs`` folder.
+#. Navigieren Sie zu dem Ordner, in dem Sie zuvor das Codepaket heruntergeladen haben, und gehen Sie dann in den Ordner ``newton-lab-kit-main/libs``.
 
    .. image:: img/th_open_code.png
 
-#. Now, select all the files in the ``libs\`` folder and upload them to the Raspberry Pi Pico 2. It will take a while for the files to upload.
+#. Wählen Sie nun alle Dateien im Ordner ``libs\`` aus und laden Sie sie auf den Raspberry Pi Pico 2 hoch. Das Hochladen der Dateien wird eine Weile dauern.
 
    .. image:: img/th_upload_libs.png
 
-#. Now you will see the files you just uploaded inside your drive labeled ``Raspberry Pi Pico 2``.
+#. Nun werden Sie die Dateien, die Sie gerade hochgeladen haben, auf Ihrem Laufwerk mit der Bezeichnung ``Raspberry Pi Pico 2`` sehen.
 
    .. image:: img/th_pico_libs.png

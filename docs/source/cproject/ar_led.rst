@@ -1,30 +1,30 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_led:
 
-2.1 Hello, LED!
-=================
+2.1 Hallo, LED!
+===================
 
-Welcome to your first hardware project with the Raspberry Pi Pico 2! In this lesson, we'll learn how to make an LED blink using MicroPython. This simple project is a great way to get started with physical computing and understand how to control hardware with code.
+Willkommen zu Ihrem ersten Hardware-Projekt mit dem Raspberry Pi Pico 2! In dieser Lektion lernen wir, wie man eine LED mit MicroPython blinken lässt. Dieses einfache Projekt ist ein großartiger Einstieg in die physikalische Computertechnik und vermittelt, wie man Hardware mit Code steuert.
 
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
@@ -37,7 +37,7 @@ It's definitely convenient to buy a whole kit, here's the link:
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -54,7 +54,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -63,34 +63,34 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(220Ω)
+        - 1 (220Ω)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_led`
         - 1
         - |link_led_buy|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_led|
 
-By setting the GPIO pin high or low, you're controlling the voltage output of that pin. When the pin is high, current flows through the LED (limited by the resistor), causing it to light up. When the pin is low, no current flows, and the LED turns off.
+Durch das Setzen des GPIO-Pins auf hoch oder niedrig steuern Sie die Spannungsausgabe dieses Pins. Wenn der Pin hoch ist, fließt Strom durch die LED (begrenzt durch den Widerstand), was dazu führt, dass sie leuchtet. Wenn der Pin niedrig ist, fließt kein Strom, und die LED erlischt.
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_led|
 
-**Writing the Code**
+**Schreiben des Codes**
 
 .. note::
 
-   * You can open the file ``2.1_hello_led.ino`` from ``newton-lab-kit/arduino/2.1_hello_led``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``2.1_hello_led.ino`` aus ``newton-lab-kit/arduino/2.1_hello_led`` öffnen.
+   * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port, dann klicken Sie auf "Upload".
 
 .. code-block:: Arduino
 
@@ -107,21 +107,21 @@ By setting the GPIO pin high or low, you're controlling the voltage output of th
       delay(1000);                 // Wait for 1 second
     }
 
-After uploading the code, you should see the LED turn on for 1 second and turn off for 1 second.
+Nach dem Hochladen des Codes sollten Sie sehen, wie die LED 1 Sekunde lang eingeschaltet und 1 Sekunde lang ausgeschaltet wird.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Variable Declaration:
+#. Variablendeklaration:
 
-   Declare a constant integer ``ledPin`` and assign it the value 15, which corresponds to GPIO pin 15 where the LED is connected.
+   Deklarieren Sie eine konstante Ganzzahl ``ledPin`` und weisen Sie ihr den Wert 15 zu, der dem GPIO-Pin 15 entspricht, an dem die LED angeschlossen ist.
 
    .. code-block:: Arduino
 
         const int ledPin = 15;
 
-#. Setup Function:
+#. Setup-Funktion:
 
-   The ``setup()`` function runs once when the board is powered on or reset. Here, we initialize ``ledPin`` as an output pin using ``pinMode()``.
+   Die ``setup()``-Funktion wird einmal ausgeführt, wenn das Board eingeschaltet oder zurückgesetzt wird. Hier initialisieren wir ``ledPin`` als Ausgangspin mit ``pinMode()``.
 
    .. code-block:: Arduino
 
@@ -129,11 +129,11 @@ After uploading the code, you should see the LED turn on for 1 second and turn o
           pinMode(ledPin, OUTPUT);
         }
 
-#. Loop Function:
+#. Loop-Funktion:
 
-   * The ``loop()`` function runs repeatedly after ``setup()``.
-   * Use ``digitalWrite()`` to set the voltage of ``ledPin``. Setting it to ``HIGH`` provides 3.3V, turning the LED on. Setting it to ``LOW`` drops the voltage to 0V, turning the LED off. 
-   * The ``delay(1000)`` function creates a 1-second pause between the on and off states.
+   * Die ``loop()``-Funktion wird wiederholt nach ``setup()`` ausgeführt.
+   * Verwenden Sie ``digitalWrite()`` um die Spannung von ``ledPin`` einzustellen. Durch das Setzen auf ``HIGH`` wird 3,3V bereitgestellt, was die LED einschaltet. Durch das Setzen auf ``LOW`` fällt die Spannung auf 0V, was die LED ausschaltet.
+   * Die Funktion ``delay(1000)`` erzeugt eine 1-sekündige Pause zwischen den Ein- und Ausschaltzuständen.
 
    .. code-block:: Arduino
 
@@ -144,12 +144,12 @@ After uploading the code, you should see the LED turn on for 1 second and turn o
           delay(1000);
         }
 
-**Additional Tips**
+**Zusätzliche Tipps**
 
-* **Understanding the Resistor**: The 220Ω resistor limits the current flowing through the LED, preventing it from burning out.
-* **Polarity Matters**: Ensure the LED is connected correctly. The longer leg is the positive anode and should be connected to the resistor leading to the GPIO pin.
-* **Experiment**: Try changing the ``delay(1000)`` values to make the LED blink faster or slower.
+* **Verständnis des Widerstands**: Der 220Ω-Widerstand begrenzt den Stromfluss durch die LED und verhindert, dass sie durchbrennt.
+* **Polarität beachten**: Stellen Sie sicher, dass die LED richtig angeschlossen ist. Das längere Bein ist die positive Anode und sollte mit dem Widerstand verbunden sein, der zum GPIO-Pin führt.
+* **Experimentieren**: Versuchen Sie, die ``delay(1000)``-Werte zu ändern, um die LED schneller oder langsamer blinken zu lassen.
 
-**Conclusion**
+**Fazit**
 
-Congratulations! You've built your first hardware project with the Raspberry Pi Pico 2. This simple LED blinking project is a fundamental step into the world of physical computing. From here, you can explore more complex projects by adding buttons, sensors, and other components.
+Herzlichen Glückwunsch! Sie haben Ihr erstes Hardware-Projekt mit dem Raspberry Pi Pico 2 aufgebaut. Dieses einfache LED-Blinkprojekt ist ein grundlegender Schritt in die Welt der physikalischen Computertechnik. Von hier aus können Sie komplexere Projekte erkunden, indem Sie Tasten, Sensoren und andere Komponenten hinzufügen.

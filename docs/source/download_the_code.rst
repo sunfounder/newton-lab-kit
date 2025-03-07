@@ -1,12 +1,10 @@
-Download the Code
+Download the Code 
 ===========================
 
-Here is the complete code package for this Kit. You can click on the following link to download it:
+Hier findest du das vollständige Code-Paket für dieses Kit. Klicke auf den folgenden Link, um es herunterzuladen:
 
-* :download:`SunFounder Newton Lab Kit Example <https://github.com/sunfounder/newton-lab-kit/archive/refs/heads/main.zip>`
+* :download:`SunFounder Newton Lab Kit Beispielcode <https://github.com/sunfounder/newton-lab-kit/archive/refs/heads/main.zip>`
 
-* Or check out the code at `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_
+* Oder sieh dir den Code direkt auf `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_ an.
 
-Once the download is complete, unzip the file and open the relevant example code or project files in the corresponding software. This will allow you to browse and utilize all the code and resources provided by the kit.
-
-
+Nach dem Abschluss des Downloads entpacke die Datei und öffne die relevanten Beispielcodes oder Projektdateien in der entsprechenden Software. Dadurch kannst du alle im Kit enthaltenen Codes und Ressourcen durchsuchen und nutzen.

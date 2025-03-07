@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein, gemeinsam mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie nach dem Kauf aufgetretene Probleme und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _per_light_display:
 
-2.8 Light Intensity Display
+2.8 Helligkeitsanzeige
 =====================================
 
-In this project, we use a photoresistor and the LED Bar Graph to make a light intensity display, where the stronger the light is the more the number of the LED Bar Graph lights up.
+In diesem Projekt verwenden wir einen Fotowiderstand und die LED-Balkenanzeige, um eine Helligkeitsanzeige zu erstellen, bei der die Anzahl der beleuchteten LEDs der LED-Balkenanzeige mit zunehmender Lichtstärke steigt.
 
-**Required Components**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ELEMENTE IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB Kabel
         - 1
         - 
     *   - 3
@@ -62,11 +62,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 11(10-220Ω, 1-10KΩ)
+        - 11 (10-220Ω, 1-10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_led_bar`
@@ -77,41 +77,41 @@ You can also buy them separately from the links below.
         - 1
         - |link_photoresistor_buy|
 
-**Wiring**
+**Verkabelung**
 
 |light_intensity_display0|
 
 
-* The LED Bar Graph consists of 10 LEDs, with the side with the label as the anode and the other side as the cathode.
-* The anode of the LED Bar Graph are connected to GP6~GP15. The cathode are connected to a 220 ohm resistor and then to GND.
-* Connect one end of the photoresistor to 3.3V and the other end to GP26 (A0). At the same time, GP26 needs to be connected to another 10K resistor to GND. This way, when the light is stronger, the resistance of the photoresistor decreases and the voltage of A0 increases.
+* Die LED-Balkenanzeige besteht aus 10 LEDs, wobei die Seite mit der Beschriftung die Anode und die gegenüberliegende Seite die Kathode ist.
+* Die Anoden der LED-Balkenanzeige sind mit GP6~GP15 verbunden. Die Kathoden sind mit einem 220-Ohm-Widerstand verbunden und dann mit GND.
+* Ein Ende des Fotowiderstands wird mit 3,3V verbunden und das andere Ende mit GP26 (A0). Gleichzeitig muss GP26 mit einem weiteren 10K-Widerstand mit GND verbunden werden. Auf diese Weise erhöht sich die Spannung von A0, wenn das Licht stärker wird.
 
 
-**Writing the Code**
+**Den Code schreiben**
 
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.8_light_intensity_display.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * Sie können sich das untenstehende Bild ansehen, um den Code per Drag-and-Drop zu schreiben.
+    * Importieren Sie ``2.8_light_intensity_display.png`` aus dem Pfad ``kepler-kit-main\piper``. Für detaillierte Tutorials siehe :ref:`import_code_piper`.
 
 |light_intensity_display|
 
-* After connecting Pico W, click the **Start** button and the code starts to run.
-* When the light is stronger, more LEDs are lit on the LED Bar Graph. 
-* If running the code does not light up properly, you can try flipping the led bar.
+* Nachdem Sie Pico W angeschlossen haben, klicken Sie auf den **Start**-Button und der Code beginnt zu laufen.
+* Wenn das Licht stärker ist, leuchten mehr LEDs auf der LED-Balkenanzeige. 
+* Wenn der Code nicht richtig leuchtet, können Sie versuchen, die LED-Leiste umzudrehen.
 
 
 
-**Understanding the Code**
+**Den Code verstehen**
 
 |light_intensity_display1|
 
-Set the pins of LED Bar Graph connected to GP6 ~ GP15.
+Stellen Sie die Pins der LED-Balkenanzeige, die mit GP6 ~ GP15 verbunden sind, ein.
 
 
 |light_intensity_display2|
 
-Store the voltage value of A0 (GP26) read into the variable [photo_vol].  Use the [map value () from () to ()] block to map the variable [photo_vol] from 0 to 3.3V to 0 to 10 (the number of LEDs on the LED Bar Graph).
+Speichern Sie den Spannungswert von A0 (GP26), der in die Variable [photo_vol] eingelesen wird. Verwenden Sie den Block [Wert () von () bis () umwandeln], um die Variable [photo_vol] von 0 bis 3,3V auf 0 bis 10 (Anzahl der LEDs auf der LED-Balkenanzeige) umzuwandeln.
 
-* [map value () from () to ()]: map a value from one range to another.
+* [Wert () von () bis () umwandeln]: mappt einen Wert von einem Bereich in einen anderen.

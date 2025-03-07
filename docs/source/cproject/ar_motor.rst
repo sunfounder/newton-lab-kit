@@ -1,29 +1,29 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_motor:
 
-3.5 Controlling a Small Fan (DC Motor)
-======================================
+3.5 Steuerung eines kleinen Ventilators (Gleichstrommotor)
+==============================================================
 
-In this lesson, we'll learn how to control a **DC motor** (like a small fan) using the Raspberry Pi Pico 2 and an **L293D motor driver**. The L293D allows us to control the direction of the motor rotation—both clockwise and counterclockwise. Since DC motors require more current than the Pico can provide directly, we'll use an external power supply to safely power the motor.
+In dieser Lektion lernen wir, wie man einen **Gleichstrommotor** (wie einen kleinen Ventilator) mit dem Raspberry Pi Pico 2 und einem **L293D Motortreiber** steuert. Der L293D ermöglicht es uns, die Drehrichtung des Motors zu steuern – sowohl im Uhrzeigersinn als auch gegen den Uhrzeigersinn. Da Gleichstrommotoren mehr Strom benötigen, als der Pico direkt liefern kann, verwenden wir eine externe Stromversorgung, um den Motor sicher zu betreiben.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
@@ -36,7 +36,7 @@ It's definitely convenient to buy a whole kit, here's the link:
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
@@ -52,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -61,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_l293d`
@@ -76,36 +76,36 @@ You can also buy them separately from the links below.
         - 1
         -  
     *   - 8
-        - 9V Battery
+        - 9V Batterie
         - 1
         - 
  
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_motor|
 
 
-L293D is a motor driver chip, EN is connected to 5V to make L293D work. 1A and 2A are the inputs connected to GP15 and GP14 respectively; 1Y and 2Y are the outputs connected to the two ends of the motor.
+Der L293D ist ein Motortreiber-Chip, EN ist mit 5V verbunden, damit der L293D funktioniert. 1A und 2A sind die Eingänge, die jeweils mit GP15 und GP14 verbunden sind; 1Y und 2Y sind die Ausgänge, die mit den beiden Enden des Motors verbunden sind.
 
-Y (output) is in phase with A (input), so if GP15 and GP14 are given different levels respectively, the direction of motor rotation can be changed.
+Y (Ausgang) ist in Phase mit A (Eingang), also kann die Drehrichtung des Motors geändert werden, wenn GP15 und GP14 unterschiedliche Pegel erhalten.
 
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_motor|
 
-In this circuit, you will see that the button is connected to the RUN pin. This is because the motor is operating with too much current, which may cause the Pico to disconnect from the computer, and the button needs to be pressed (for the Pico's **RUN** pin to receive a low level) to reset.
+In diesem Schaltkreis sehen Sie, dass der Knopf mit dem RUN-Pin verbunden ist. Dies liegt daran, dass der Motor mit zu viel Strom arbeitet, was dazu führen kann, dass der Pico sich vom Computer trennt, und der Knopf muss gedrückt werden (damit der RUN-Pin des Pico ein niedriges Level erhält), um zurückzusetzen.
 
-Since DC motors require a high current, we use a power supply module to power the motor here for safety reasons.
+Da Gleichstrommotoren einen hohen Strom benötigen, verwenden wir hier aus Sicherheitsgründen ein Stromversorgungsmodul, um den Motor zu betreiben.
 
 
-**Writing the Code**
+**Schreiben des Codes**
 
 .. note::
 
-   * You can open the file ``3.5_small_fan.ino`` from ``newton-lab-kit/arduino/3.5_small_fan``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``3.5_small_fan.ino`` aus ``newton-lab-kit/arduino/3.5_small_fan`` öffnen. 
+   * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port, dann klicken Sie auf "Upload".
 
 .. code-block:: arduino
 
@@ -139,23 +139,23 @@ Since DC motors require a high current, we use a power supply module to power th
       delay(1000); // Stop for 1 second
     }
 
-After uploading the code:
+Nach dem Hochladen des Codes:
 
-* The motor should rotate in one direction for 2 seconds.
-* Then, it will stop for 1 second.
-* Then, it will rotate in the opposite direction for 2 seconds.
-* This cycle repeats indefinitely.
+* Sollte sich der Motor 2 Sekunden lang in eine Richtung drehen.
+* Dann hält er für 1 Sekunde an.
+* Dann dreht er sich 2 Sekunden lang in die entgegengesetzte Richtung.
+* Dieser Zyklus wiederholt sich unendlich.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Defining Control Pins:
+#. Definieren der Steuerpins:
 
    .. code-block:: arduino
 
         const int IN1 = 15; // Connected to Input 1A
         const int IN2 = 14; // Connected to Input 2A
 
-#. Setting Pin Modes:
+#. Einstellen der Pin-Modi:
 
    .. code-block:: arduino
 
@@ -164,16 +164,16 @@ After uploading the code:
           pinMode(IN2, OUTPUT);
         }
 
-#. Controlling Motor Direction:
+#. Steuern der Motordrehrichtung:
 
-   * **Clockwise Rotation**: Sets IN1 HIGH and IN2 LOW, causing the motor to rotate in one direction.
+   * **Drehung im Uhrzeigersinn**: Setzt IN1 auf HIGH und IN2 auf LOW, was den Motor in eine Richtung dreht.
 
    .. code-block:: arduino
 
         digitalWrite(IN1, HIGH);
         digitalWrite(IN2, LOW);
 
-   * **Counterclockwise Rotation**: Sets IN1 LOW and IN2 HIGH, causing the motor to rotate in the opposite direction.
+   * **Drehung gegen den Uhrzeigersinn**: Setzt IN1 auf LOW und IN2 auf HIGH, was den Motor in die entgegengesetzte Richtung dreht.
 
    .. code-block:: arduino
 
@@ -181,51 +181,51 @@ After uploading the code:
         digitalWrite(IN2, HIGH);
 
 
-#. Stopping the Motor:
+#. Anhalten des Motors:
 
-   Sets both inputs LOW, stopping the motor.
+   Setzt beide Eingänge auf LOW, was den Motor anhält.
 
    .. code-block:: arduino
 
         digitalWrite(IN1, LOW);
         digitalWrite(IN2, LOW);
 
-**Further Exploration**
+**Weitere Erkundungen**
 
-* Speed Control:
+* Geschwindigkeitssteuerung:
 
-  Use Pulse Width Modulation (PWM) to control the speed of the motor by connecting the EN1 pin to a PWM-capable GPIO pin and varying the duty cycle.
+  Verwenden Sie die Pulsweitenmodulation (PWM), um die Geschwindigkeit des Motors zu steuern, indem Sie den EN1-Pin mit einem PWM-fähigen GPIO-Pin verbinden und den Tastgrad variieren.
 
-* Controlling Multiple Motors:
+* Steuerung mehrerer Motoren:
 
-  The L293D can control two motors. Try adding a second motor and controlling it independently.
+  Der L293D kann zwei Motoren steuern. Versuchen Sie, einen zweiten Motor hinzuzufügen und ihn unabhängig zu steuern.
 
-* Sensor Integration:
+* Integration von Sensoren:
 
-  Incorporate sensors (e.g., limit switches, encoders) to create more advanced motor control systems.
+  Integrieren Sie Sensoren (z. B. Endschalter, Encoder), um komplexere Motorsysteme zu erstellen.
 
 
-**Safety Precautions**
+**Sicherheitsvorkehrungen**
 
-* Power Supply:
+* Stromversorgung:
 
-  * Ensure that the external power supply voltage matches the motor's voltage rating.
-  * Do not power the motor directly from the Pico's 3.3V pin.
+  * Stellen Sie sicher, dass die Spannung der externen Stromversorgung mit der Spannungsbewertung des Motors übereinstimmt.
+  * Speisen Sie den Motor nicht direkt vom 3,3V-Pin des Pico.
 
-* Current Draw:
+* Stromaufnahme:
 
-  * Motors can draw significant current, especially during startup or when stalled.
-  * Ensure that your power supply can handle the motor's current requirements.
+  * Motoren können insbesondere beim Start oder bei Blockierung erheblichen Strom ziehen.
+  * Stellen Sie sicher, dass Ihre Stromversorgung den Strombedarf des Motors bewältigen kann.
 
-* Resetting the Pico:
+* Zurücksetzen des Pico:
 
-  * In some cases, the motor's current draw may cause voltage dips, leading the Pico to reset or disconnect.
-  * If you encounter issues uploading code after running the motor, you can manually reset the Pico by connecting the RUN pin to GND momentarily.
+  * In einigen Fällen kann der Stromverbrauch des Motors zu Spannungseinbrüchen führen, die dazu führen, dass der Pico zurückgesetzt wird oder die Verbindung abbricht.
+  * Wenn Sie Probleme haben, Code hochzuladen, nachdem der Motor gelaufen ist, können Sie den Pico manuell zurücksetzen, indem Sie den RUN-Pin kurzzeitig mit GND verbinden.
 
   |wiring_run_reset|
 
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to control a DC motor using the Raspberry Pi Pico and the L293D motor driver. By controlling the inputs to the L293D, you can change the direction of the motor's rotation. This fundamental concept is essential in robotics, automation, and many other applications involving motors.
+In dieser Lektion haben Sie gelernt, wie man einen Gleichstrommotor mit dem Raspberry Pi Pico und dem L293D Motortreiber steuert. Durch Steuern der Eingänge des L293D können Sie die Drehrichtung des Motors ändern. Dieses grundlegende Konzept ist wesentlich in der Robotik, Automatisierung und vielen anderen Anwendungen, die Motoren verwenden.
 

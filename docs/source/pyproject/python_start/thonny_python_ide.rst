@@ -1,85 +1,83 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _thonny_ide:
 
-1.2 Install and Introduce Thonny IDE
-=======================================
+1.2 Installation und Vorstellung der Thonny IDE
+===================================================
 
-To program Pico with MicroPython, you need an integrated development environment (IDE), here we recommend Thonny. Python 3.7 is pre-installed in Thonny IDE, so all you need to do is install it.
+Um den Pico mit MicroPython zu programmieren, benötigen Sie eine integrierte Entwicklungsumgebung (IDE). Hier empfehlen wir Thonny. Python 3.7 ist bereits in der Thonny IDE vorinstalliert, sodass Sie sie nur installieren müssen.
 
-Download from Web
-------------------------
+Herunterladen aus dem Web
+----------------------------
 
-Before you can start to program Pico with MicroPython, you need an integrated development environment (IDE), here we recommend Thonny. Thonny comes with Python 3.7 built in, just one simple installer is needed and you're ready to learn programming.
-
+Bevor Sie anfangen können, den Pico mit MicroPython zu programmieren, benötigen Sie eine integrierte Entwicklungsumgebung (IDE). Hier empfehlen wir Thonny. Thonny kommt mit Python 3.7 eingebaut, es ist nur ein einfacher Installer notwendig und Sie sind bereit zum Programmieren.
 
 .. note::
 
-    Since the Raspberry Pi Pico 2 interpreter only works with Thonny version 3.3.3 or later, you can skip this chapter if you have it; otherwise, please update or install it.
+    Da der Raspberry Pi Pico 2 Interpreter nur mit der Thonny-Version 3.3.3 oder höher funktioniert, können Sie dieses Kapitel überspringen, wenn Sie diese bereits haben; andernfalls aktualisieren oder installieren Sie sie bitte.
 
 
-#. You can download it by visiting the |link_thonny| website. Once open the page, you will see a light gray box in the upper right corner, click on the link that applies to your operating system.
+#. Sie können sie von der |link_thonny| Webseite herunterladen. Wenn Sie die Seite öffnen, sehen Sie oben rechts ein hellgraues Feld, klicken Sie auf den Link, der zu Ihrem Betriebssystem passt.
 
    .. image:: img/download_thonny.png
     :width: 400
 
-
-#. The installers have been signed with a new certificate which hasn't built up its reputation yet. You may need to click through your browser warning (e.g. choose "Keep" instead of "Discard" in Chrome) and Windows Defender warning (**More info** ⇒ **Run anyway**).
+#. Die Installationsprogramme wurden mit einem neuen Zertifikat signiert, das noch keinen Ruf aufgebaut hat. Möglicherweise müssen Sie die Warnung Ihres Browsers durchklicken (z. B. „Behalten“ statt „Verwerfen“ in Chrome) und die Windows Defender-Warnung (**Mehr Info** ⇒ **Trotzdem ausführen**).
 
    .. image:: img/install_thonny1.png
 
-#. Next, click **Next** and **Install** to finish installing Thonny.
+#. Klicken Sie anschließend auf **Weiter** und **Installieren**, um die Installation von Thonny abzuschließen.
 
    .. image:: img/install_thonny6.png
 
-Thonny IDE Introduction
+Einführung in die Thonny IDE
 ----------------------------------
 
 * Ref: `realpython <https://realpython.com/micropython/>`_
 
 .. image:: img/thonny_ide.jpg
 
-* **A**: The menu bar containing New, Save, Edit, View, Run, Debug, etc.
-* **B**: This paper icon allows you to create a new file.
-* **C**: If your Raspberry Pi Pico 2 is already plugged into your computer, you can open files that already exist on your computer or Pico.
-* **D**: Click on the floppy disk icon to save the code. You can also choose whether to save the code to your computer or the Raspberry Pi Pico 2.
-* **E**: The play icon allows you to run the code. Before running the code, save it if you have not already done so.
-* **F**: The Debug icon allows you to debug your code. When writing code, you will inevitably encounter errors. There are many forms of errors, including incorrect syntax and logical errors. Debugging is the tool for finding and investigating errors.
+* **A**: Die Menüleiste mit Neu, Speichern, Bearbeiten, Ansicht, Ausführen, Debuggen usw.
+* **B**: Dieses Papier-Symbol ermöglicht es Ihnen, eine neue Datei zu erstellen.
+* **C**: Wenn Ihr Raspberry Pi Pico 2 bereits mit Ihrem Computer verbunden ist, können Sie Dateien öffnen, die bereits auf Ihrem Computer oder Pico existieren.
+* **D**: Klicken Sie auf das Diskettensymbol, um den Code zu speichern. Sie können auch wählen, ob Sie den Code auf Ihrem Computer oder dem Raspberry Pi Pico 2 speichern möchten.
+* **E**: Das Wiedergabe-Symbol ermöglicht es Ihnen, den Code auszuführen. Speichern Sie den Code, bevor Sie ihn ausführen, falls Sie dies noch nicht getan haben.
+* **F**: Das Debug-Symbol ermöglicht es Ihnen, Ihren Code zu debuggen. Beim Schreiben von Code werden unweigerlich Fehler auftreten. Es gibt viele Arten von Fehlern, einschließlich falscher Syntax und logischer Fehler. Debuggen ist das Werkzeug zum Finden und Untersuchen von Fehlern.
 
 .. note::
 
-    When MicroPython (Raspberry Pi Pico).COMxx is selected as the interpreter, the Debug tool cannot be used. 
+    Wenn MicroPython (Raspberry Pi Pico).COMxx als Interpreter ausgewählt ist, kann das Debug-Tool nicht verwendet werden.
     
-    To debug your code, select the interpreter as the default interpreter and save it to your computer after debugging.
+    Um Ihren Code zu debuggen, wählen Sie den Interpreter als Standardinterpreter und speichern Sie ihn nach dem Debuggen auf Ihrem Computer.
 
-    You can now save the debugged code to your Raspberry Pi Pico 2 by selecting the MicroPython (Raspberry Pi Pico).COMxx interpreter again, clicking the save as button, and clicking the save button again. 
+    Sie können nun den debuggten Code auf Ihren Raspberry Pi Pico 2 speichern, indem Sie den Interpreter MicroPython (Raspberry Pi Pico).COMxx erneut auswählen, auf die Schaltfläche Speichern unter klicken und erneut auf die Schaltfläche Speichern klicken.
 
-* When you click on the Degug icon, you can run the program step by step using the G, H, and I arrow icons. When you click on each arrow, a yellow highlighted bar will appear to indicate which Python line or section is being evaluated.
+* Wenn Sie auf das Debug-Symbol klicken, können Sie das Programm Schritt für Schritt mit den Pfeilsymbolen G, H und I ausführen. Wenn Sie auf jedes Pfeilsymbol klicken, erscheint eine gelb hervorgehobene Leiste, um anzuzeigen, welche Python-Zeile oder welcher Abschnitt bewertet wird.
 
-    * **G**: Take a big step, which means jumping to the next line or block of code.  
-    * **H**: Take a small step means expressing each component in depth.  
-    * **I**: Exit out of the debugger.  
-* **J**: Click it to return from debug mode to play mode.
-* **K**: Use the stop icon to stop running code. 
-* **L**: Script Area, where you can write your Python code.
-* **M**: Python Shell, where you can type a single command, and when you press the Enter key, the single command will run and provide information about the running program. This is also known as REPL, which means "Read, Evaluate, Print, and Loop."
-* **N**: Interpreter, where the current version of Python used to run your program is displayed, can be changed manually to another version by clicking on it.
+    * **G**: Einen großen Schritt machen, was bedeutet, zur nächsten Zeile oder zum nächsten Block von Code zu springen.
+    * **H**: Einen kleinen Schritt machen bedeutet, jeden Bestandteil in der Tiefe auszudrücken.
+    * **I**: Aus dem Debugger aussteigen.
+* **J**: Klicken Sie darauf, um vom Debug-Modus in den Wiedergabe-Modus zurückzukehren.
+* **K**: Verwenden Sie das Stopp-Symbol, um den laufenden Code zu stoppen.
+* **L**: Skriptbereich, in dem Sie Ihren Python-Code schreiben können.
+* **M**: Python-Shell, in der Sie einen einzelnen Befehl eingeben können, und wenn Sie die Eingabetaste drücken, wird der einzelne Befehl ausgeführt und Informationen über das laufende Programm bereitgestellt. Dies wird auch als REPL bezeichnet, was für "Read, Evaluate, Print und Loop" steht.
+* **N**: Interpreter, in dem die aktuelle Version von Python angezeigt wird, die verwendet wird, um Ihr Programm auszuführen. Sie können manuell auf eine andere Version umschalten, indem Sie darauf klicken.
 
 .. note::
 
-   **NO MicroPython(Raspberry Pi Pico 2) Interpreter Option ?**
+   **Keine MicroPython(Raspberry Pi Pico 2) Interpreter-Option?**
 
-   * Make sure your Pico is plugged into your computer via a USB cable.
-   * The Raspberry Pi Pico 2 interpreter is only available in version 3.3.3 or higher version of Thonny. If you are running an older version, please update.
+   * Stellen Sie sicher, dass Ihr Pico über ein USB-Kabel mit Ihrem Computer verbunden ist.
+   * Der Raspberry Pi Pico 2 Interpreter ist nur in der Thonny-Version 3.3.3 oder höher verfügbar. Wenn Sie eine ältere Version verwenden, aktualisieren Sie bitte.

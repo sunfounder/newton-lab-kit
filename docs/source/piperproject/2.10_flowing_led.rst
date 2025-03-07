@@ -1,46 +1,46 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein, gemeinsam mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie nach dem Kauf aufgetretene Probleme und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _per_flowing_leds:
 
 
-2.10 Flowing LEDs
-====================
+2.10 Fließende LEDs
+======================
 
-The kit is equipped with a WS2812 RGB LED Strip, which can display colorful colors, and each LED can be independently controlled. 
+Das Kit ist mit einem WS2812 RGB-LED-Streifen ausgestattet, der farbenfrohe Farben anzeigen kann, und jede LED kann unabhängig gesteuert werden.
 
-Here we try to use the tilt switch to control the flow direction of the LEDs on the WS2812 RGB LED Strip.
+Hier versuchen wir, den Neigungsschalter zu verwenden, um die Fließrichtung der LEDs auf dem WS2812 RGB-LED-Streifen zu steuern.
 
-**Required Components**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ELEMENTE IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -48,8 +48,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -57,7 +57,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB Kabel
         - 1
         - 
     *   - 3
@@ -66,7 +66,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -82,56 +82,56 @@ You can also buy them separately from the links below.
         - |link_ws2812_buy|
 
 
-**Wiring**
+**Verkabelung**
 
 |WS2812_Flow_friz|
 
 
-**Writing the Code**
+**Den Code schreiben**
 
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.10_flowing_led.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * Sie können sich das untenstehende Bild ansehen, um den Code per Drag-and-Drop zu schreiben.
+    * Importieren Sie ``2.10_flowing_led.png`` aus dem Pfad ``kepler-kit-main\piper``. Für detaillierte Tutorials siehe :ref:`import_code_piper`.
 
 |neopixel|
 
-After connecting Pico W, click the **Start** button and the code starts to run.
+Nachdem Sie Pico W angeschlossen haben, klicken Sie auf den **Start**-Button und der Code beginnt zu laufen.
 
-When the tilt switch is placed vertically, it makes the LEDs on the WS2812 RGB LED Strip light up one by one in green, and when the tilt switch is placed horizontally, the LEDs light up one by one in the opposite direction in green.
-
-
-
-**Programming**
+Wenn der Neigungsschalter senkrecht platziert wird, leuchten die LEDs auf dem WS2812 RGB-LED-Streifen nacheinander in Grün auf, und wenn der Neigungsschalter waagerecht platziert wird, leuchten die LEDs in der entgegengesetzten Richtung nacheinander in Grün auf.
 
 
-**Step 1**: Use the [setup neopixel pin() pixels()] block in the **Actions** palette to initialize the WS2812 RGB LED Strip. **0** means the connected pin is GP0 and **8** means there are 8 RGB LEDs on the WS2812 RGB LED Strip.
+
+**Programmierung**
+
+
+**Schritt 1**: Verwenden Sie den Block [setup neopixel pin() pixels()] in der **Actions**-Palette, um den WS2812 RGB-LED-Streifen zu initialisieren. **0** bedeutet, dass der verbundene Pin GP0 ist und **8** bedeutet, dass es 8 RGB-LEDs auf dem WS2812 RGB-LED-Streifen gibt.
 
 |neo1|
 
-**Step 2**: In the **Variables** palette, click the **Create variable** button to create a variable called **i** to represent the LEDs on the WS2812 RGB LED Strip. 
+**Schritt 2**: In der **Variables**-Palette klicken Sie auf den Button **Create variable**, um eine Variable namens **i** zu erstellen, die die LEDs auf dem WS2812 RGB-LED-Streifen repräsentiert.
 
 |neo2|
 
-**Step 3**: Set the initial value of variable **i** to 1 (the LED near the wires), then in [repeat forever] block, use [() mod ()] to set the value of i from 0 to 7. e.g. 1 mod 8 = 1... 8 mod 8 =0, 9 mod 8 =1, etc.
+**Schritt 3**: Setzen Sie den Anfangswert der Variablen **i** auf 1 (die LED in der Nähe der Drähte), dann verwenden Sie im Block [repeat forever] [() mod ()], um den Wert von i von 0 bis 7 einzustellen. z.B. 1 mod 8 = 1... 8 mod 8 =0, 9 mod 8 =1, usw.
 
-* [() mod ()]: This is the modulo operator block, from the **Loops** palette, drop down [() = ()] to select **mod**.
+* [() mod ()]: Dies ist der Modulo-Operator-Block, aus der **Loops**-Palette, klicken Sie auf [() = ()], um **mod** auszuwählen.
 
 |neo3|
 
-**Step 4**: Set all neopixels to black to make all LEDs go off, then use [updates neopixels] to make this effect update to the WS2812 RGB LED Strip.
+**Schritt 4**: Stellen Sie alle Neopixel auf Schwarz, um alle LEDs auszuschalten, dann verwenden Sie [updates neopixels], um diesen Effekt auf den WS2812 RGB-LED-Streifen zu übertragen.
 
 |neo4|
 
-* [set all neopixels to ()]: Use to set a color for all LEDs, there are 13*9 colors, the top right color is black to make LEDs to go off.
-* [updates neopixels]: Update the effect to the WS2812 RGB LED Strip.
+* [set all neopixels to ()]: Wird verwendet, um eine Farbe für alle LEDs einzustellen, es gibt 13*9 Farben, die Farbe oben rechts ist Schwarz, um die LEDs auszuschalten.
+* [updates neopixels]: Aktualisiert den Effekt auf den WS2812 RGB-LED-Streifen.
 
-**Step 5**: If pin14 is read high, let the LEDs on the WS2812 RGB LED Strip light up one by one in green, otherwise light up green one by one in the opposite direction.
+**Schritt 5**: Wenn Pin14 hoch gelesen wird, lassen Sie die LEDs auf dem WS2812 RGB-LED-Streifen nacheinander in Grün aufleuchten, sonst leuchten sie nacheinander in der entgegengesetzten Richtung in Grün auf.
 
 |neo5|
 
-* [change () by ()]: Used to increase (positive) or decrease (negative) the value of a variable by a specific step.
+* [change () by ()]: Wird verwendet, um den Wert einer Variablen um einen bestimmten Schritt zu erhöhen (positiv) oder zu verringern (negativ).
 
 
 

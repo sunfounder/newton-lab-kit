@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und herzlich willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 ein und tausche dich mit anderen Technikbegeisterten aus.
 
-    **Why Join?**
+    **Warum solltest du beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Experten-Support**: Erhalte Hilfe von unserer Community und unserem Team, um Probleme nach dem Kauf und technische Herausforderungen zu lösen.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugriff auf neue Produktankündigungen und exklusive Einblicke.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Feiertagsaktionen und Gewinnspiele**: Nimm an Verlosungen und Sonderaktionen zu Feiertagen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _py_button:
 
-2.5 Reading Button Value
+2.5 Tasterwert auslesen
 =============================
 
-In this lesson, we'll learn how to read input from a pushbutton using the Raspberry Pi Pico 2. So far, we've used the GPIO pins mainly for output, like lighting up LEDs. Now, we'll use a GPIO pin as an input to detect when a button is pressed. This is a fundamental skill for creating interactive projects.
+In dieser Lektion lernen wir, wie man Eingaben von einem Taster mit dem Raspberry Pi Pico 2 liest. Bisher haben wir die GPIO-Pins hauptsächlich für Ausgaben genutzt, beispielsweise um LEDs zu steuern. Nun verwenden wir einen GPIO-Pin als Eingang, um zu erkennen, wann ein Taster gedrückt wird. Dies ist eine grundlegende Fähigkeit für interaktive Projekte.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir folgende Komponenten:
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist auf jeden Fall praktisch, ein komplettes Kit zu kaufen. Hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE
         - LINK
     *   - Newton Lab Kit	
-        - 450+
+        - 450+	
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ kannst du die Komponenten auch einzeln erwerben:
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,11 +62,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_button`
@@ -74,93 +74,95 @@ You can also buy them separately from the links below.
         - |link_button_buy|
 
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_button|
 
-As long as one side of the button pin is connected to 3.3v, and the other side pin is connected to GP14, then when the button is pressed, GP14 will be high. However, when the button is not pressed, GP14 is in a suspended state and may be high or low. In order to get a stable low level when the button is not pressed, GP14 needs to be reconnected to GND through a 10K pull-down resistor.
+Solange eine Seite des Tasters mit 3,3 V verbunden ist und die andere mit GP14, wird GP14 beim Drücken des Tasters HIGH.  
+Wenn der Taster nicht gedrückt wird, befindet sich GP14 in einem undefinierten Zustand und kann HIGH oder LOW sein.  
+Damit GP14 im nicht gedrückten Zustand stabil auf LOW bleibt, wird ein 10KΩ-Pull-down-Widerstand zwischen GP14 und GND angeschlossen.
 
-* **Button Not Pressed**: The GP14 pin is connected to GND through the resistor, so it reads **LOW (0)**.
-* **Button Pressed**: The GP14 pin is connected to 3.3V through the button, so it reads **HIGH (1)**.
+* **Taster nicht gedrückt**: GP14 ist über den Widerstand mit GND verbunden und liest **LOW (0)**.
+* **Taster gedrückt**: GP14 wird direkt mit 3,3 V verbunden und liest **HIGH (1)**.
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
-A four-pin button is shaped like an H. Its left two pins or right two pins are connected, which means that when it crosses the central gap, it connects two half rows with the same row number. (For example, in my circuit, E23 and F23 are already connected, as are E25 and F25).
+Ein vierpoliger Taster hat die Form eines „H“. Die beiden linken oder rechten Pins sind miteinander verbunden. Das bedeutet, dass beim Überbrücken der zentralen Lücke zwei halbe Reihen mit derselben Reihennummer verbunden werden. (Zum Beispiel sind in meiner Schaltung E23 und F23 bereits verbunden, ebenso wie E25 und F25).
 
-Until the button is pressed, the left and right pins are independent of each other and current cannot flow from one side to the other.
+Solange der Taster nicht gedrückt wird, bleiben die linken und rechten Pins voneinander isoliert, sodass kein Strom von einer Seite zur anderen fließen kann.
 
 |wiring_button|
 
 
-**Writing the Code**
+**Code schreiben**
 
-We'll write a simple program that prints a message when the button is pressed.
+Wir schreiben ein einfaches Programm, das eine Nachricht ausgibt, wenn der Taster gedrückt wird.
 
 .. note::
 
-  * Open the ``2.5_read_button_value.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+  * Öffne die Datei ``2.5_read_button_value.py`` aus ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny. Klicke dann auf "Run" oder drücke F5.
+  * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx.
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin
+    # Initialisiere GP14 als Eingabepin
     button = machine.Pin(14, machine.Pin.IN)
 
     while True:
         if button.value() == 1:
             print("Button pressed!")
-            utime.sleep(0.2)  # Debounce delay
+            utime.sleep(0.2)  # Entprellverzögerung
 
-When the code is running, you will observe the following phenomenon:
+Wenn der Code ausgeführt wird, passiert Folgendes:
 
-* **Not Pressed**: No message should appear.
-* **Pressed**: "Button pressed!" should appear in the console each time you press the switch.
+* **Nicht gedrückt**: Keine Ausgabe in der Konsole.
+* **Gedrückt**: "Taster gedrückt!" erscheint in der Konsole.
 
 
 
-**Understanding the Code**
+**Den Code verstehen**
 
-#. Import Modules:
+#. Module importieren:
 
-   * ``machine``: Provides access to the hardware functions.
-   * ``utime``: Allows us to use time-related functions like delays.
+   * ``machine``: Ermöglicht den Zugriff auf die Hardwarefunktionen.
+   * ``utime``: Bietet Zeitfunktionen wie Verzögerungen.
 
-#. Set Up the Button Pin:
+#. Taster-Pin konfigurieren:
 
-   * ``button = machine.Pin(14, machine.Pin.IN)``: Initializes GPIO pin 14 as an input.
+   * ``button = machine.Pin(14, machine.Pin.IN)``: Initialisiert GPIO14 als Eingang.
 
-#. Main Loop:
+#. Hauptschleife:
 
-   * ``while True``: Creates an infinite loop.
-   * ``if button.value() == 1``: Checks if the button is pressed.
-   * ``button.value()`` returns 1 when the pin reads high (button pressed).
-   * ``print("Button pressed!")``: Prints a message to the console.
-   * ``utime.sleep(0.2)``: Waits for 200 milliseconds to debounce the button.
+   * ``while True``: Erstellt eine Endlosschleife.
+   * ``if button.value() == 1``: Überprüft, ob der Taster gedrückt wurde.
+   * ``button.value()`` gibt 1 zurück, wenn der Pin auf HIGH (Taster gedrückt) steht.
+   * ``print("Button pressed!")``: Gibt eine Nachricht in der Konsole aus.
+   * ``utime.sleep(0.2)``: Wartet 200 Millisekunden, um den Taster zu entprellen.
 
-**Alternate Wiring: Pull-Up Resistor**
+**Alternative Verkabelung mit Pull-up-Widerstand**
 
-You can also wire the button using a pull-up resistor configuration.
+Der Taster kann auch mit einem Pull-up-Widerstand angeschlossen werden:
 
-#. Connect a 10kΩ resistor between GP14 and the 3.3V rail. This pulls the pin high when the button is not pressed.
+#. Schalte einen 10KΩ-Widerstand zwischen GP14 und 3,3 V, sodass der Pin HIGH bleibt, wenn der Taster nicht gedrückt wird.
 
     |sch_button_pullup|
 
     |wiring_button_pullup|
 
-   * **Button Not Pressed**: The GP14 pin is connected to 3.3V through the resistor, so it reads HIGH (1).
-   * **Button Pressed**: The GP14 pin is connected to GND through the button, so it reads LOW (0).
+  * **Taster nicht gedrückt**: Der GP14-Pin ist über den Widerstand mit 3,3 V verbunden und wird daher als HIGH (1) gelesen.
+  * **Taster gedrückt**: Der GP14-Pin ist über den Taster mit GND verbunden und wird daher als LOW (0) gelesen.
 
-#. Modified Code for Pull-Up Configuration.
+#. Angepasster Code für Pull-up-Konfiguration:
 
    .. code-block:: python
    
        import machine
        import utime
    
-       # Initialize GP14 as an input pin
+       # Initialisiere GP14 als Eingangspin
        button = machine.Pin(14, machine.Pin.IN)
    
        while True:
@@ -168,20 +170,20 @@ You can also wire the button using a pull-up resistor configuration.
                print("Button pressed!")
                utime.sleep(0.2)
 
-**Using Internal Pull-Up/Pull-Down Resistors**
+**Interne Pull-up/Pull-down-Widerstände nutzen**
 
-The Raspberry Pi Pico 2 allows you to enable internal pull-up or pull-down resistors, eliminating the need for external resistors.
+Der Raspberry Pi Pico 2 ermöglicht das Aktivieren interner Pull-up- oder Pull-down-Widerstände, sodass externe Widerstände überflüssig werden.
 
-Using internal resistors simplifies wiring and saves space by eliminating the need for additional external resistors on the breadboard.
+Die Verwendung interner Widerstände vereinfacht die Verdrahtung und spart Platz, da keine zusätzlichen externen Widerstände auf dem Breadboard erforderlich sind.
 
-* Enabling Internal Pull-Down Resistor:
+* Interner Pull-down-Widerstand:
 
   .. code-block:: python
   
       import machine
       import utime
   
-      # Initialize GP14 as an input with an internal pull-down resistor
+      # Initialisiere GP14 mit internem Pull-down-Widerstand
       button = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_DOWN)
   
       while True:
@@ -189,14 +191,14 @@ Using internal resistors simplifies wiring and saves space by eliminating the ne
               print("Button pressed!")
               utime.sleep(0.2)
 
-* Enabling Internal Pull-Up Resistor:
+* Interner Pull-up-Widerstand:
 
   .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input with an internal pull-up resistor
+    # Initialisiere GP14 mit internem Pull-up-Widerstand
     button = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_UP)
 
     while True:
@@ -204,10 +206,10 @@ Using internal resistors simplifies wiring and saves space by eliminating the ne
             print("Button pressed!")
             utime.sleep(0.2)
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* **Multiple Buttons**: Connect additional buttons to other GPIO pins and modify the code to handle multiple inputs.
-* **LED Control**: Combine button input with LED output to toggle the LED state when the button is pressed.
+* **Mehrere Taster verwenden**: Verbinde zusätzliche Taster mit anderen GPIO-Pins und erweitere den Code entsprechend.
+* **LED-Steuerung**: Kombiniere die Tastereingabe mit einer LED-Ausgabe, um die LED mit dem Taster umzuschalten.
 
 .. code-block:: python
 
@@ -220,10 +222,10 @@ Using internal resistors simplifies wiring and saves space by eliminating the ne
 
     while True:
         if button.value() == 1:
-            led_state = not led_state  # Toggle LED state
+            led_state = not led_state  # LED-Zustand umschalten
             led.value(led_state)
             utime.sleep(0.2)
 
-**Conclusion**
+**Fazit**
 
-Reading input from a button is a fundamental skill in microcontroller programming. It allows you to make your projects interactive and responsive to user input. Understanding how to use pull-up and pull-down resistors ensures reliable and stable readings from your input devices.
+Das Lesen von Eingaben über einen Taster ist eine grundlegende Fähigkeit bei der Mikrocontroller-Programmierung. Mit Pull-up- und Pull-down-Widerständen kann man stabile Eingaben sicherstellen, um interaktive Projekte zu erstellen.

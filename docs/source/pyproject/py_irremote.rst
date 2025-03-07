@@ -1,43 +1,43 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in Raspberry Pi, Arduino und ESP32 ein mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Nachverkaufsprobleme und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_irremote:
 
 
-6.4 Using an Infrared Remote Control
+6.4 Verwendung einer Infrarot-Fernbedienung
 ==========================================================
 
-In this lesson, we'll learn how to use an **infrared (IR) remote control** and an **IR receiver module** with the Raspberry Pi Pico 2. This will allow us to receive and decode signals from an IR remote, enabling us to control our projects wirelessly.
+In dieser Lektion lernen wir, wie man eine **Infrarot (IR) Fernbedienung** und ein **IR-Empfängermodul** mit dem Raspberry Pi Pico 2 verwendet. Dies ermöglicht es uns, Signale von einer IR-Fernbedienung zu empfangen und zu dekodieren, um unsere Projekte drahtlos zu steuern.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -45,8 +45,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -54,7 +54,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -63,57 +63,57 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_ir_receiver`
         - 1
         - |link_receiver_buy|
 
-**Understanding Infrared Communication**
+**Verständnis der Infrarot-Kommunikation**
 
-Infrared communication involves transmitting data wirelessly using infrared light. Common household devices like TVs and DVD players use IR remote controls for operation.
+Die Infrarot-Kommunikation beinhaltet die drahtlose Übertragung von Daten mittels Infrarotlicht. Allgemeine Haushaltsgeräte wie Fernseher und DVD-Player verwenden IR-Fernbedienungen zur Bedienung.
 
-* **IR Transmitter (Remote Control):** Emits modulated infrared light when a button is pressed.
-* **IR Receiver Module:** Detects the modulated IR light and converts it into electrical signals that can be decoded.
+* **IR-Sender (Fernbedienung):** Sendet moduliertes Infrarotlicht, wenn eine Taste gedrückt wird.
+* **IR-Empfängermodul:** Erkennt das modulierte IR-Licht und wandelt es in elektrische Signale um, die dekodiert werden können.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_irrecv|
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_irrecv|
 
-**Writing the Code**
+**Code schreiben**
 
-Let's write a MicroPython script to receive and decode IR signals from the remote control.
+Schreiben wir ein MicroPython-Skript, um IR-Signale von der Fernbedienung zu empfangen und zu dekodieren.
 
 .. note::
 
-    * Open the ``6.4_ir_remote_control.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the libraries in ``ir_rx`` folder, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * Öffnen Sie die Datei ``6.4_ir_remote_control.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Run" oder drücken Sie F5.
+    * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Hier müssen Sie die Bibliotheken im Ordner ``ir_rx`` verwenden, bitte prüfen Sie, ob sie auf den Pico hochgeladen wurden, für eine detaillierte Anleitung siehe :ref:`add_libraries_py`.
 
 .. code-block:: python
 
     import time
     from machine import Pin
-    from ir_rx.nec import NEC_8  # Adjust based on your remote's protocol
+    from ir_rx.nec import NEC_8  # Passen Sie dies an das Protokoll Ihrer Fernbedienung an
     from ir_rx.print_error import print_error
 
-    # Initialize the IR receiver pin
+    # Initialisieren Sie den IR-Empfänger-Pin
     ir_pin = Pin(17, Pin.IN)
 
-    # Callback function to handle received data
+    # Callback-Funktion zur Behandlung der empfangenen Daten
     def ir_callback(data, addr, ctrl):
-        if data < 0:  # Repeat code or error
+        if data < 0:  # Wiederholungscode oder Fehler
             pass
         else:
             key = decode_key(data)
             print("Received Key:", key)
 
-    # Function to decode the received data into key presses
+    # Funktion zum Dekodieren der empfangenen Daten in Tastendrücke
     def decode_key(data):
         key_codes = {
             0x45: "POWER",
@@ -138,29 +138,29 @@ Let's write a MicroPython script to receive and decode IR signals from the remot
             0x52: "8",
             0x4A: "9",
             0x0: "ERROR",
-            # Add more key codes based on your remote
+            # Fügen Sie weitere Tastencodes basierend auf Ihrer Fernbedienung hinzu
         }
         return key_codes.get(data, "UNKNOWN")
 
-    # Instantiate the IR receiver
+    # Instanziieren Sie den IR-Empfänger
     ir = NEC_8(ir_pin, ir_callback)
-    ir.error_function(print_error)  # Optional: to print errors
+    ir.error_function(print_error)  # Optional: um Fehler auszudrucken
 
     try:
         while True:
-            time.sleep(1)  # Keep the main thread alive
+            time.sleep(1)  # Halten Sie den Hauptthread am Leben
     except KeyboardInterrupt:
         ir.close()
         print("Program terminated")
 
-When you run this code and press buttons on your infrared remote control, the Thonny Shell (or any other serial monitor) will display the name of the key you pressed. For example, if you press the "PLAY" button on the remote, the Shell will show "Received Key: PLAY".
+Wenn Sie diesen Code ausführen und Tasten auf Ihrer Infrarot-Fernbedienung drücken, zeigt die Thonny Shell (oder ein anderer serieller Monitor) den Namen der Taste an, die Sie gedrückt haben. Zum Beispiel, wenn Sie die "PLAY"-Taste auf der Fernbedienung drücken, zeigt die Shell "Empfangener Schlüssel: PLAY" an.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Import Modules:
+#. Import-Module:
 
-   * ``ir_rx.nec.NEC_8``: The NEC protocol decoder for 8-bit addresses.
-   * ``print_error``: Function to print error messages.
+   * ``ir_rx.nec.NEC_8``: Der NEC-Protokolldekoder für 8-Bit-Adressen.
+   * ``print_error``: Funktion zum Ausdrucken von Fehlermeldungen.
 
    .. code-block:: python
 
@@ -169,28 +169,28 @@ When you run this code and press buttons on your infrared remote control, the Th
         from ir_rx.nec import NEC_8
         from ir_rx.print_error import print_error
 
-#. Initialize IR Receiver Pin:
+#. Initialisieren Sie den IR-Empfänger-Pin:
 
    .. code-block:: python
 
         ir_pin = Pin(17, Pin.IN)
 
-#. Define Callback Function:
+#. Definieren Sie die Callback-Funktion:
 
-   This function is called automatically when data is received. The data parameter contains the key code.
+   Diese Funktion wird automatisch aufgerufen, wenn Daten empfangen werden. Der Datenparameter enthält den Tastencode.
 
    .. code-block:: python
 
         def ir_callback(data, addr, ctrl):
             if data < 0:
-                pass  # Ignore repeat codes
+                pass  # Ignorieren Sie Wiederholungscodes
             else:
                 key = decode_key(data)
                 print("Received Key:", key)
 
-#. Decode Key Function:
+#. Dekodieren Sie die Funktionstaste:
 
-   Maps received key codes to human-readable labels.
+   Ordnet empfangene Tastencodes menschenlesbaren Beschriftungen zu.
 
    .. code-block:: python
 
@@ -218,13 +218,13 @@ When you run this code and press buttons on your infrared remote control, the Th
             0x52: "8",
             0x4A: "9",
             0x0: "ERROR",
-            # Add more key codes based on your remote
+            # Fügen Sie weitere Tastencodes basierend auf Ihrer Fernbedienung hinzu
             }
             return key_codes.get(data, "UNKNOWN")
 
-#. Instantiate IR Receiver:
+#. Instanziieren Sie den IR-Empfänger:
 
-   Sets up the IR receiver with the callback function.
+   Richtet den IR-Empfänger mit der Callback-Funktion ein.
 
    .. code-block:: python
 
@@ -232,9 +232,9 @@ When you run this code and press buttons on your infrared remote control, the Th
         ir.error_function(print_error)
 
 
-#. Main Loop:
+#. Hauptprogrammschleife:
 
-   Keeps the program running to listen for IR signals. Gracefully handles program termination.
+   Hält das Programm am Laufen, um auf IR-Signale zu hören. Behandelt das Programmende anmutig.
 
    .. code-block:: python
 
@@ -245,14 +245,14 @@ When you run this code and press buttons on your infrared remote control, the Th
             ir.close()
             print("Program terminated")
 
-**Applications**
+**Anwendungen**
 
-* **Control Projects Wirelessly**: Use the IR remote to control LEDs, motors, or other peripherals.
-* **Build a Universal Remote Decoder**: Expand the code to handle multiple protocols or remotes.
+* **Projekte drahtlos steuern**: Verwenden Sie die IR-Fernbedienung, um LEDs, Motoren oder andere Peripheriegeräte zu steuern.
+* **Einen universellen Fernbedienungsdecoder bauen**: Erweitern Sie den Code, um mehrere Protokolle oder Fernbedienungen zu handhaben.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use an IR receiver with the Raspberry Pi Pico 2 to decode signals from an infrared remote control. This enables you to add wireless control to your projects using common household remotes.
+In dieser Lektion haben Sie gelernt, wie man einen IR-Empfänger mit dem Raspberry Pi Pico 2 verwendet, um Signale von einer Infrarot-Fernbedienung zu dekodieren. Dies ermöglicht es Ihnen, drahtlose Steuerung zu Ihren Projekten hinzuzufügen, die gängige Haushaltsfernbedienungen verwenden.
 
 * `Callback Function - Wikipedia <https://en.wikipedia.org/wiki/Callback_(computer_programming)>`_
 

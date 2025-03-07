@@ -1,42 +1,41 @@
-.. note::
+.. note:: 
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefe dich mit Gleichgesinnten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Anleitungen aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genieße exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Beteilige dich an Gewinnspielen und Feiertagsaktionen.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicke auf [|link_sf_facebook|] und tritt uns heute bei!
 
 .. _py_fruit_piano:
 
-7.9 Building a Fruit Piano
+7.9 Bau eines Fruchtklaviers
 =================================================
 
-In this project, we'll create a **Fruit Piano** using the Raspberry Pi Pico 2, an MPR121 capacitive touch sensor, a buzzer, and an RGB LED. By connecting fruits (or any conductive objects) to the capacitive touch sensor, we'll transform them into piano keys that play musical notes and display colorful lights when touched.
+In diesem Projekt werden wir ein **Fruchtklavier** mit dem Raspberry Pi Pico 2, einem MPR121-Kapazitätssensor, einem Summer und einer RGB-LED erstellen. Indem wir Früchte (oder andere leitfähige Objekte) mit dem Kapazitätssensor verbinden, verwandeln wir sie in Klaviertasten, die beim Berühren musikalische Noten spielen und farbenfrohe Lichter anzeigen.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +43,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
@@ -73,7 +72,7 @@ You can also buy them separately from the links below.
         - 4(1-1KΩ, 1-330Ω, 2-220Ω)
         - |link_resistor_buy|
     *   - 7
-        - Passive :ref:`cpn_buzzer`
+        - Passiver :ref:`cpn_buzzer`
         - 1
         - |link_passive_buzzer_buy|
     *   - 8
@@ -86,44 +85,43 @@ You can also buy them separately from the links below.
         - 
 
 
-**Understanding the Components**
+**Verständnis der Komponenten**
 
-*  **MPR121 Capacitive Touch Sensor**: A capacitive touch sensor controller that can handle up to 12 touch inputs. It detects changes in capacitance caused by touching connected electrodes.
-*  **Passive Buzzer**: An electronic component that produces sound when driven with a PWM signal. We'll use it to play different musical notes.
-*  **RGB LED**: An LED that combines red, green, and blue LEDs into one package. By adjusting the intensity of each color, we can produce a wide range of colors.
-*  **Fruits or Conductive Objects**: Items like fruits, metal objects, or even water can act as conductive touch inputs when connected to the MPR121.
+*  **MPR121 Kapazitätssensor**: Ein Controller für Kapazitätssensoren, der bis zu 12 Berührungseingaben verarbeiten kann. Er erkennt Veränderungen in der Kapazität, die durch das Berühren verbundener Elektroden verursacht werden.
+*  **Passiver Summer**: Eine elektronische Komponente, die Töne erzeugt, wenn sie mit einem PWM-Signal angesteuert wird. Wir verwenden sie, um verschiedene musikalische Noten zu spielen.
+*  **RGB-LED**: Eine LED, die rote, grüne und blaue LEDs in einem Gehäuse kombiniert. Durch die Anpassung der Intensität jeder Farbe können wir eine breite Palette von Farben erzeugen.
+*  **Früchte oder leitfähige Objekte**: Gegenstände wie Früchte, Metallgegenstände oder sogar Wasser können als leitfähige Berührungseingaben fungieren, wenn sie mit dem MPR121 verbunden sind.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_fruit_piano| 
 
-To turn the fruit into a piano key, you still need to connect the electrodes on the MPR121 to the fruit (e.g. into the banana handle).
+Um die Frucht in eine Klaviertaste zu verwandeln, müssen Sie noch die Elektroden am MPR121 mit der Frucht verbinden (z.B. in den Bananengriff).
 
-In the beginning, MPR121 will initialize and each electrode will get a value based on the current charge; when a conductor (such as a human body) touches an electrode, the charge will shift and rebalance.
-As a result, the electrode's value is different from its initial value, telling the main control board that it has been touched.
-During this process, ensure that the wiring of each electrode is stable so that its charge is balanced when initializing.
+Zu Beginn wird der MPR121 initialisiert und jede Elektrode erhält einen Wert basierend auf der aktuellen Ladung; wenn ein Leiter (wie ein menschlicher Körper) eine Elektrode berührt, verschiebt sich die Ladung und gleicht sich neu aus.
+Als Ergebnis ist der Wert der Elektrode anders als sein Ausgangswert, was dem Hauptsteuerbrett mitteilt, dass sie berührt wurde.
+Während dieses Prozesses stellen Sie sicher, dass die Verkabelung jeder Elektrode stabil ist, damit ihre Ladung bei der Initialisierung ausgeglichen ist.
 
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 
 |wiring_fruit_piano| 
 
+**Code schreiben**
 
-**Writing the Code**
+Wir werden ein MicroPython-Skript schreiben, das:
 
-We'll write a MicroPython script that:
-
-* Initializes the MPR121 touch sensor.
-* Detects touch inputs from the connected fruits.
-* Plays corresponding musical notes on the buzzer.
-* Lights up the RGB LED with random colors.
+* Den MPR121-Berührungssensor initialisiert.
+* Berührungseingaben von den angeschlossenen Früchten erkennt.
+* Entsprechende musikalische Noten auf dem Summer spielt.
+* Die RGB-LED mit zufälligen Farben beleuchtet.
 
 .. note::
 
-    * Open the ``7.9_fruit_piano.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the library called ``mpr121.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * Öffne die Datei ``7.9_fruit_piano.py`` aus dem ``newton-lab-kit/micropython`` oder kopiere den Code in Thonny, dann klicke auf "Ausführen" oder drücke F5.
+    * Stelle sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx.
+    * Hier musst du die Bibliothek ``mpr121.py`` verwenden, bitte prüfe, ob sie auf den Pico hochgeladen wurde. Für eine detaillierte Anleitung siehe :ref:`add_libraries_py`.
 
 .. code-block:: python
 
@@ -132,11 +130,11 @@ We'll write a MicroPython script that:
     import time
     import urandom
 
-    # Initialize I2C connection for MPR121 capacitive touch sensor
+    # I2C-Verbindung für MPR121-Kapazitätssensor initialisieren
     i2c = I2C(1, sda=Pin(6), scl=Pin(7))
     mpr = MPR121(i2c)
 
-    # Define note frequencies (in Hertz)
+    # Notenfrequenzen definieren (in Hertz)
     NOTE_FREQUENCIES = [
         220,  # A3
         247,  # B3
@@ -152,44 +150,44 @@ We'll write a MicroPython script that:
         659   # E5
     ]
 
-    # Initialize PWM for buzzer on GP15
+    # PWM für Summer auf GP15 initialisieren
     buzzer = PWM(Pin(15))
 
-    # Initialize PWM for RGB LED on GP13 (Red), GP12 (Green), GP11 (Blue)
+    # PWM für RGB-LED auf GP13 (Rot), GP12 (Grün), GP11 (Blau) initialisieren
     red = PWM(Pin(13))
     green = PWM(Pin(12))
     blue = PWM(Pin(11))
 
-    # Set PWM frequency for LEDs
+    # PWM-Frequenz für LEDs festlegen
     red.freq(1000)
     green.freq(1000)
     blue.freq(1000)
 
-    # Function to play a tone
+    # Funktion, um einen Ton abzuspielen
     def play_tone(frequency):
         if frequency == 0:
             buzzer.duty_u16(0)
         else:
             buzzer.freq(frequency)
-            buzzer.duty_u16(32768)  # 50% duty cycle
+            buzzer.duty_u16(32768)  # 50% Tastverhältnis
 
-    # Function to stop the tone
+    # Funktion, um den Ton zu stoppen
     def stop_tone():
         buzzer.duty_u16(0)
 
-    # Function to set a random color on the RGB LED
+    # Funktion, um eine zufällige Farbe auf der RGB-LED einzustellen
     def set_random_color():
         red.duty_u16(urandom.getrandbits(16))
         green.duty_u16(urandom.getrandbits(16))
         blue.duty_u16(urandom.getrandbits(16))
 
-    # Function to turn off the RGB LED
+    # Funktion, um die RGB-LED auszuschalten
     def turn_off_led():
         red.duty_u16(0)
         green.duty_u16(0)
         blue.duty_u16(0)
 
-    # Main loop
+    # Hauptloop
     try:
         last_touched = mpr.touched()
         while True:
@@ -197,12 +195,12 @@ We'll write a MicroPython script that:
             for i in range(12):
                 pin_bit = 1 << i
                 if current_touched & pin_bit and not last_touched & pin_bit:
-                    # Electrode i was just touched
+                    # Elektrode i wurde gerade berührt
                     print("Pin {} touched".format(i))
                     play_tone(NOTE_FREQUENCIES[i])
                     set_random_color()
                 if not current_touched & pin_bit and last_touched & pin_bit:
-                    # Electrode i was just released
+                    # Elektrode i wurde gerade losgelassen
                     print("Pin {} released".format(i))
                     stop_tone()
                     turn_off_led()
@@ -214,93 +212,94 @@ We'll write a MicroPython script that:
         stop_tone()
         turn_off_led()
 
-
 .. note::
     
-    Do not touch the fruits or conductive objects before running the program to ensure proper initialization.
+    Berühre die Früchte oder leitfähigen Objekte nicht, bevor das Programm gestartet wird, um eine ordnungsgemäße Initialisierung zu gewährleisten.
 
-After the program starts, gently touch the fruits.
+Nachdem das Programm gestartet wurde, berühre die Früchte sanft.
 
-* The buzzer will play the corresponding musical note.
-* The RGB LED will light up with a random color.
-* Experiment by touching different fruits to play different notes.
+* Der Summer wird die entsprechende musikalische Note spielen.
+* Die RGB-LED wird mit einer zufälligen Farbe aufleuchten.
+* Experimentiere, indem du verschiedene Früchte berührst, um unterschiedliche Noten zu spielen.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Initialization:
+#. Initialisierung:
 
-   * **I2C Connection**: Sets up communication with the MPR121 sensor.
-   * **PWM Setup**: Initializes PWM for the buzzer and RGB LED pins.
+   * **I2C-Verbindung**: Richtet die Kommunikation mit dem MPR121-Sensor ein.
+   * **PWM-Einrichtung**: Initialisiert PWM für den Summer und die RGB-LED-Pins.
 
-#. Note Frequencies:
+#. Notenfrequenzen:
 
-   A list of frequencies corresponding to musical notes (A3 to E5).
+   Eine Liste von Frequenzen, die den musikalischen Noten (A3 bis E5) entsprechen.
 
-#. Functions:
+#. Funktionen:
 
-   * ``play_tone(frequency)``: Starts playing a tone at the specified frequency.
-   * ``stop_tone()``: Stops the buzzer.
-   * ``set_random_color()``: Sets the RGB LED to a random color.
-   * ``turn_off_led()``: Turns off the RGB LED.
+   * ``play_tone(frequency)``: Beginnt einen Ton bei der angegebenen Frequenz zu spielen.
+   * ``stop_tone()``: Stoppt den Summer.
+   * ``set_random_color()``: Stellt die RGB-LED auf eine zufällige Farbe ein.
+   * ``turn_off_led()``: Schaltet die RGB-LED aus.
 
-#. Main Loop:
+#. Hauptloop:
 
-   * **Touch Detection**: Continuously checks for touch events on the electrodes.
-   * **Touch Handling**:
+   * **Berührungserkennung**: Überprüft kontinuierlich die Berührungsereignisse an den Elektroden.
+   * **Berührungsverarbeitung**:
 
-     * When an electrode is touched, plays the corresponding note and lights up the RGB LED.
-     * When an electrode is released, stops the tone and turns off the LED.
+     * Wenn eine Elektrode berührt wird, spielt sie die entsprechende Note und beleuchtet die RGB-LED.
+     * Wenn eine Elektrode losgelassen wird, stoppt der Ton und die LED wird ausgeschaltet.
 
-   * **Debouncing**: A short delay (``time.sleep(0.01)``) to prevent bouncing issues.
+   * **Prellen vermeiden**: Eine kurze Verzögerung (``time.sleep(0.01)``), um Prellprobleme zu verhindern.
 
-#. Exception Handling:
+#. Ausnahmebehandlung:
 
-   * Uses a try block to allow for graceful exit on a keyboard interrupt.
-   * Ensures that the buzzer and LED are turned off in the finally block.
+   * Verwendet einen Try-Block, um einen geordneten Ausstieg bei einem Tastaturinterrupt zu ermöglichen.
+   * Stellt sicher, dass der Summer und die LED im Finally-Block ausgeschaltet werden.
 
 
-**Troubleshooting**
+**Fehlerbehebung**
 
-* No Sound or Lights:
+* Kein Ton oder Licht:
 
-  * Check all wiring connections.
-  * Ensure that the MPR121 is properly connected to the Pico.
-  * Verify that the fruits are connected securely to the electrodes.
-  * Ensure that ``mpr121.py`` is correctly uploaded to the Pico.
+  * Überprüfe alle Verdrahtungsverbindungen.
+  * Stelle sicher, dass der MPR121 korrekt mit dem Pico verbunden ist.
+  * Überprüfe, ob die Früchte sicher mit den Elektroden verbunden sind.
+  * Stelle sicher, dass ``mpr121.py`` korrekt auf den Pico hochgeladen wurde.
 
-* Touch Not Detected:
+* Berührung wird nicht erkannt:
 
-  * Make sure you're not touching multiple electrodes simultaneously.
-  * Avoid touching the wires directly; touch the fruits or conductive objects.
-  * Ensure that the fruits are not too dry; moist fruits conduct better.
+  * Stelle sicher, dass du nicht gleichzeitig mehrere Elektroden berührst.
+  * Vermeide direktes Berühren der Drähte; berühre die Früchte oder leitfähigen Objekte.
+  * Stelle sicher, dass die Früchte nicht zu trocken sind; feuchte Früchte leiten besser.
 
-* Unstable Behavior:
+* Unstabiles Verhalten:
 
-  * Ensure that the Pico and sensor are not exposed to static electricity.
-  * Keep the wires and connections stable to maintain consistent capacitance readings.
+  * Stelle sicher, dass der Pico und der Sensor keiner statischen Elektrizität ausgesetzt sind.
+  * Halte die Drähte und Verbindungen stabil, um konsistente Kapazitätswerte zu gewährleisten.
 
-**Experimenting Further**
+**Weiteres Experimentieren**
 
-* Expand the Instrument:
+* Instrument erweitern:
 
-  * Use different conductive materials (e.g., water, metal objects) to act as keys.
-  * Increase the number of notes by mapping more frequencies to the electrodes.
+  * Verwende verschiedene leitfähige Materialien (z.B. Wasser, Metallgegenstände) als Tasten.
+  * Erhöhe die Anzahl der Noten, indem du mehr Frequenzen den Elektroden zuordnest.
 
-* Visual Effects:
+* Visuelle Effekte:
 
-  * Modify the ``set_random_color()`` function to create specific color patterns.
-  * Add more LEDs to enhance the visual experience.
+  * Modifiziere die Funktion ``set_random_color()``, um spezifische Farbmuster zu erstellen.
+  * Füge weitere LEDs hinzu, um das visuelle Erlebnis zu verbessern.
 
-* Adjust Sensitivity:
+* Empfindlichkeit anpassen:
 
-  Experiment with the MPR121's touch threshold settings to adjust sensitivity.
+  Experimentiere mit den Berührungsschwelleneinstellungen des MPR121, um die Empfindlichkeit anzupassen.
 
-* Combine with Other Sensors:
+* Kombination mit anderen Sensoren:
 
-  Integrate other sensors (e.g., light sensors) to modify the sound or light effects based on environmental conditions.
+  Integriere andere Sensoren (z.B. Lichtsensoren), um die Ton- oder Lichte
 
-**Conclusion**
+ffekte basierend auf den Umgebungsbedingungen zu modifizieren.
 
-You've successfully built a Fruit Piano using the Raspberry Pi Pico 2! This project demonstrates how capacitive touch sensing can be combined with sound and light to create interactive experiences. It's a fun way to explore the principles of conductivity, touch sensing, and creative coding.
+**Fazit**
 
-Feel free to expand upon this project by adding new features, experimenting with different materials, or integrating additional components.
+Du hast erfolgreich ein Fruchtklavier mit dem Raspberry Pi Pico 2 gebaut! Dieses Projekt zeigt, wie kapazitive Berührungserkennung mit Ton und Licht kombiniert werden kann, um interaktive Erlebnisse zu schaffen. Es ist eine unterhaltsame Art, die Prinzipien der Leitfähigkeit, Berührungserkennung und kreativen Programmierung zu erforschen.
+
+Fühle dich frei, dieses Projekt zu erweitern, indem du neue Funktionen hinzufügst, mit verschiedenen Materialien experimentierst oder zusätzliche Komponenten integrierst.

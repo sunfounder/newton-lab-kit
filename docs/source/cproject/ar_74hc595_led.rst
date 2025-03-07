@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_74hc_led:
 
-5.1 Using the 74HC595 Shift Register
+5.1 Verwendung des 74HC595-Schieberegisters
 ===========================================================
 
-In this lesson, we'll learn how to use the **74HC595 shift register** to control multiple LEDs with just a few GPIO pins on the Raspberry Pi Pico 2. The 74HC595 is an integrated circuit (IC) that allows you to expand the number of digital outputs using a serial input. This is incredibly useful when you want to control many outputs but have limited GPIO pins available.
+In dieser Lektion lernen wir, wie man das **74HC595-Schieberegister** verwendet, um mehrere LEDs mit nur wenigen GPIO-Pins am Raspberry Pi Pico 2 zu steuern. Der 74HC595 ist ein integrierter Schaltkreis (IC), der es ermöglicht, die Anzahl der digitalen Ausgänge durch serielle Eingabe zu erweitern. Dies ist besonders nützlich, wenn viele Ausgänge gesteuert werden müssen, aber nur begrenzte GPIO-Pins zur Verfügung stehen.
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Bauteile.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE IM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die untenstehenden Links erworben werden.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,11 +62,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 8(220Ω)
+        - 8 (220Ω)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_led`
@@ -77,102 +77,100 @@ You can also buy them separately from the links below.
         - 1
         - |link_74hc595_buy|
 
+**Funktionsweise des 74HC595-Schieberegisters**
 
+Das **74HC595** ist ein 8-Bit-Serial-In, Parallel-Out-Schieberegister mit Ausgangsspeicher. Es ermöglicht die Umwandlung von seriellen Daten in parallele Ausgaben und erlaubt somit die Steuerung von bis zu 8 Ausgängen mit nur 3 GPIO-Pins des Pico.
 
-**Understanding the 74HC595 Shift Register**
-
-The **74HC595** is an 8-bit serial-in, parallel-out shift register with output latches. It has the ability to take serial data input and convert it into parallel output, allowing you to control 8 outputs using only 3 GPIO pins from the Pico.
-
-**Key Pins on the 74HC595:**
+**Wichtige Pins des 74HC595:**
 
 |img_74jc595_pin|
 
-* **DS (Pin 14)**: Serial Data Input
-* **SHCP (Pin 11)**: Shift Register Clock Input
-* **STCP (Pin 12)**: Storage Register Clock Input (Latch Pin)
-* **OE (Pin 13)**: Output Enable (Active Low, connect to GND)
-* **MR (Pin 10)**: Master Reset (Active Low, connect to 3.3V)
-* **Q0-Q7 (Pins 15, 1-7)**: Parallel Outputs
-* **VCC (Pin 16)**: Connect to 3.3V
-* **GND (Pin 8)**: Connect to GND
+* **DS (Pin 14)**: Serielle Dateneingabe
+* **SHCP (Pin 11)**: Schieberegister-Takteingang
+* **STCP (Pin 12)**: Speicheregister-Takteingang (Latch-Pin)
+* **OE (Pin 13)**: Ausgangsaktivierung (Low-aktiv, mit GND verbinden)
+* **MR (Pin 10)**: Master-Reset (Low-aktiv, mit 3.3V verbinden)
+* **Q0-Q7 (Pins 15, 1-7)**: Parallele Ausgänge
+* **VCC (Pin 16)**: Mit 3.3V verbinden
+* **GND (Pin 8)**: Mit GND verbinden
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_74hc_led|
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_74hc_led|
 
-**Writing the Code**
+**Code schreiben**
 
-We'll write a program that controls the LEDs connected to the 74HC595 shift register by sending serial data from the Pico. The LEDs will light up one after another in a sequence.
+Wir schreiben ein Programm, das die LEDs steuert, die mit dem 74HC595-Schieberegister verbunden sind. Dabei werden die LEDs nacheinander eingeschaltet.
 
 .. note::
 
-   * You can open the file ``5.1_microchip_74hc595.ino`` from ``newton-lab-kit/arduino/5.1_microchip_74hc595``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``5.1_microchip_74hc595.ino`` aus dem Verzeichnis ``newton-lab-kit/arduino/5.1_microchip_74hc595`` öffnen.
+   * Oder diesen Code in die **Arduino IDE** kopieren.
+   * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port aus und klicken Sie auf „Hochladen“.
 
 .. code-block:: arduino
 
-  // Define the pins connected to the 74HC595
+  // Pins für das 74HC595 definieren
   const int DS = 0;   // GPIO 0 -> DS (Pin 14)
   const int SHCP = 1; // GPIO 1 -> SHCP (Pin 11)
   const int STCP = 2; // GPIO 2 -> STCP (Pin 12)
 
-  // Array of binary patterns to control LEDs
+  // Binäre Muster zur LED-Steuerung
   int datArray[] = {
-    0b00000000, // All LEDs off
-    0b00000001, // LED 0 on
-    0b00000011, // LEDs 0 and 1 on
-    0b00000111, // LEDs 0, 1, and 2 on
-    0b00001111, // LEDs 0, 1, 2, and 3 on
-    0b00011111, // LEDs 0 to 4 on
-    0b00111111, // LEDs 0 to 5 on
-    0b01111111, // LEDs 0 to 6 on
-    0b11111111  // All LEDs on
+    0b00000000, // Alle LEDs aus
+    0b00000001, // LED 0 an
+    0b00000011, // LEDs 0 und 1 an
+    0b00000111, // LEDs 0, 1 und 2 an
+    0b00001111, // LEDs 0, 1, 2 und 3 an
+    0b00011111, // LEDs 0 bis 4 an
+    0b00111111, // LEDs 0 bis 5 an
+    0b01111111, // LEDs 0 bis 6 an
+    0b11111111  // Alle LEDs an
   };
 
   void setup() {
-    // Initialize the control pins as outputs
+    // Steuerpins als Ausgänge initialisieren
     pinMode(DS, OUTPUT);
     pinMode(SHCP, OUTPUT);
     pinMode(STCP, OUTPUT);
   }
 
   void loop() {
-    // Iterate through each pattern in datArray
+    // Muster aus datArray durchlaufen
     for (int num = 0; num < 9; num++) {
-      // Set STCP to LOW to prepare for data
+      // STCP auf LOW setzen, um Daten vorzubereiten
       digitalWrite(STCP, LOW);
 
-      // Shift out the data to the shift register
+      // Daten ins Schieberegister schieben
       shiftOut(DS, SHCP, MSBFIRST, datArray[num]);
 
-      // Set STCP to HIGH to latch the data to the output pins
+      // STCP auf HIGH setzen, um die Daten zu übernehmen
       digitalWrite(STCP, HIGH);
 
-      delay(500); // Wait for half a second before the next pattern
+      delay(500); // 500 ms warten, bevor das nächste Muster angezeigt wird
     }
 
-    // Turn off all LEDs after the sequence
+    // Nach der Sequenz alle LEDs ausschalten
     digitalWrite(STCP, LOW);
     shiftOut(DS, SHCP, MSBFIRST, 0b00000000);
     digitalWrite(STCP, HIGH);
     delay(500);
   }
 
-After uploading the code, the LEDs connected to the 74HC595 should light up one after another, following the patterns defined in ``datArray``.
-After all LEDs are turned on, they will turn off in sequence.
+Nach dem Hochladen des Codes sollten die mit dem 74HC595 verbundenen LEDs nacheinander aufleuchten, entsprechend den im ``datArray`` definierten Mustern. 
+Sobald alle LEDs eingeschaltet sind, werden sie der Reihe nach wieder ausgeschaltet.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Defining Control Pins:
+#. Definition der Steuerpins:
 
-   * ``DS (Data Serial Input)``: Receives the serial data.
-   * ``SHCP (Shift Register Clock Input)``: Controls the shifting of data into the register.
-   * ``STCP (Storage Register Clock Input)``: Controls the latching of data to the output pins.
+   * ``DS (Data Serial Input)``: Empfängt serielle Daten.
+   * ``SHCP (Shift Register Clock Input)``: Steuert das Verschieben der Daten in das Register.
+   * ``STCP (Storage Register Clock Input)``: Steuert das Übernehmen der Daten zu den Ausgangspins.
 
    .. code-block:: arduino
 
@@ -180,53 +178,53 @@ After all LEDs are turned on, they will turn off in sequence.
       const int SHCP = 1; // GPIO 1 -> SHCP (Pin 11)
       const int STCP = 2; // GPIO 2 -> STCP (Pin 12)
 
-#. Creating Data Patterns:
+#. Erstellung von Datenmustern:
 
-   * An array ``datArray`` holds different binary patterns to control the LEDs.
-   * Each bit represents the state of an LED (1 for on, 0 for off).
+   * Ein Array ``datArray`` speichert verschiedene Binärmuster zur Steuerung der LEDs.
+   * Jedes Bit repräsentiert den Zustand einer LED (1 = an, 0 = aus).
 
    .. code-block:: arduino
 
       int datArray[] = {
-        0b00000000, // All LEDs off
-        0b00000001, // LED 0 on
-        0b00000011, // LEDs 0 and 1 on
-        0b00000111, // LEDs 0, 1, and 2 on
-        0b00001111, // LEDs 0, 1, 2, and 3 on
-        0b00011111, // LEDs 0 to 4 on
-        0b00111111, // LEDs 0 to 5 on
-        0b01111111, // LEDs 0 to 6 on
-        0b11111111  // All LEDs on
+        0b00000000, // Alle LEDs aus
+        0b00000001, // LED 0 an
+        0b00000011, // LEDs 0 und 1 an
+        0b00000111, // LEDs 0, 1 und 2 an
+        0b00001111, // LEDs 0, 1, 2 und 3 an
+        0b00011111, // LEDs 0 bis 4 an
+        0b00111111, // LEDs 0 bis 5 an
+        0b01111111, // LEDs 0 bis 6 an
+        0b11111111  // Alle LEDs an
       };
   
-#. Setup Function:
+#. Setup-Funktion:
 
-   Sets the ``DS``, ``SHCP``, and ``STCP`` pins as outputs to send data to the shift register.
+   * Setzt die Pins ``DS``, ``SHCP`` und ``STCP`` als Ausgänge zur Steuerung des Schieberegisters.
 
    .. code-block:: arduino
 
       void setup() {
-        // Initialize the control pins as outputs
+        // Initialisieren der Steuerpins als Ausgänge
         pinMode(DS, OUTPUT);
         pinMode(SHCP, OUTPUT);
         pinMode(STCP, OUTPUT);
       }
 
-#. Loop Function: The ``for`` loop cycles through each pattern in the ``datArray`` array.
+#. Loop-Funktion: Die ``for``-Schleife durchläuft jedes Muster im ``datArray``-Array.
 
-   * Shifting Out Data:
+   * Datenübertragung:
 
-     * ``shiftOut`` sends the byte of data one bit at a time.
-     * ``MSBFIRST`` indicates that the most significant bit is sent first.
+     * ``shiftOut`` sendet die Daten bitweise an das Schieberegister.
+     * ``MSBFIRST`` gibt an, dass das höchstwertige Bit zuerst gesendet wird.
 
      .. code-block:: arduino
 
         shiftOut(DS, SHCP, MSBFIRST, datArray[num]);
 
-   * Latching Data:
+   * Datenübernahme:
 
-     * Setting ``STCP`` ``LOW`` prepares the shift register for new data.
-     * After shifting out the data, setting ``STCP`` ``HIGH`` latches the data to the output pins, updating the LED states.
+     * ``STCP`` wird auf ``LOW`` gesetzt, um das Schieberegister auf neue Daten vorzubereiten.
+     * Nach dem Übertragen der Daten wird ``STCP`` auf ``HIGH`` gesetzt, um die neuen Werte zu übernehmen und die LED-Zustände zu aktualisieren.
 
      .. code-block:: arduino
 
@@ -234,13 +232,13 @@ After all LEDs are turned on, they will turn off in sequence.
         // shiftOut(...)
         digitalWrite(STCP, HIGH);
 
-   * Delay:
+   * Verzögerung:
    
-     ``delay(500);`` adds a half-second pause between each pattern for visibility.
+     ``delay(500);`` sorgt für eine halbe Sekunde Pause zwischen den Mustern für eine bessere Sichtbarkeit.
 
-   * Turning Off LEDs: 
+   * Ausschalten der LEDs: 
      
-     After cycling through all patterns, turns off all LEDs by sending 0b00000000.
+     Nachdem alle Muster durchlaufen wurden, werden alle LEDs ausgeschaltet, indem ``0b00000000`` gesendet wird.
 
      .. code-block:: arduino
 
@@ -249,41 +247,41 @@ After all LEDs are turned on, they will turn off in sequence.
         digitalWrite(STCP, HIGH);
         delay(500);
 
-**Troubleshooting**
+**Fehlersuche**
 
-* No LEDs Lighting Up:
+* Keine LEDs leuchten auf:
 
-  * Check all wiring connections.
-  * Ensure the 74HC595 is properly powered.
-  * Verify that the GPIO pins on the Pico are correctly connected to the shift register.
+  * Überprüfen Sie alle Kabelverbindungen.
+  * Stellen Sie sicher, dass der 74HC595 richtig mit Strom versorgt wird.
+  * Vergewissern Sie sich, dass die GPIO-Pins des Pico korrekt mit dem Schieberegister verbunden sind.
 
-* Incorrect LED Behavior:
+* Falsches LED-Verhalten:
 
-  * Double-check the binary patterns in ``datArray``.
-  * Ensure that the resistors are correctly placed to limit current to the LEDs.
+  * Kontrollieren Sie die Binärmuster im ``datArray``.
+  * Prüfen Sie, ob die Widerstände korrekt platziert sind, um den Strom zu begrenzen.
 
-**Further Exploration**
+**Weitere Möglichkeiten zur Erweiterung**
 
-* Controlling Other Devices:
+* Steuerung anderer Geräte:
 
-  Use the 74HC595 to control relays, motors, or other high-power devices.
+  Verwenden Sie den 74HC595 zur Ansteuerung von Relais, Motoren oder anderen leistungsstarken Geräten.
 
-* Chaining Shift Registers:
+* Verkettung mehrerer Schieberegister:
 
-  Connect multiple 74HC595s in series to control even more outputs with the same three GPIO pins.
+  Mehrere 74HC595 hintereinanderschalten, um mit denselben drei GPIO-Pins noch mehr Ausgänge zu steuern.
 
-* Creating LED Patterns:
+* Erstellung von LED-Mustern:
 
-  Design and implement more complex LED animations and patterns by modifying the datArray.
+  Entwickeln und implementieren Sie komplexere LED-Animationen und Muster durch Anpassung des ``datArray``.
 
-* Integrating with Sensors:
+* Integration mit Sensoren:
 
-  Combine the shift register with various sensors to create responsive and interactive systems.
+  Kombinieren Sie das Schieberegister mit verschiedenen Sensoren, um reaktionsschnelle und interaktive Systeme zu entwickeln.
 
-* Building a LED Matrix Display:
+* Aufbau einer LED-Matrix-Anzeige:
 
-  Use multiple shift registers to build a larger LED matrix for displays or signage.
+  Mehrere Schieberegister verwenden, um eine größere LED-Matrix für Anzeigen oder Beschilderungen zu erstellen.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use the 74HC595 shift register with the Raspberry Pi Pico to control multiple LEDs using just three GPIO pins. This technique allows you to expand the number of digital outputs, enabling more complex and interactive projects without the need for additional GPIO resources. By understanding how to send serial data and latch it into parallel outputs, you can efficiently manage multiple actuators, displays, or other peripherals in your electronics projects.
+In dieser Lektion haben Sie gelernt, wie Sie das 74HC595-Schieberegister mit dem Raspberry Pi Pico nutzen, um mehrere LEDs mit nur drei GPIO-Pins zu steuern. Diese Technik ermöglicht eine Erweiterung der digitalen Ausgänge und eröffnet neue Möglichkeiten für komplexe und interaktive Projekte, ohne dass zusätzliche GPIO-Ressourcen erforderlich sind. Durch das Verständnis der seriellen Datenübertragung und das Speichern von Daten in parallelen Ausgängen können Sie effizient eine Vielzahl von Aktoren, Anzeigen oder anderen Peripheriegeräten in Ihre Elektronikprojekte integrieren.

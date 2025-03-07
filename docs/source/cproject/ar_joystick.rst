@@ -1,50 +1,50 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_joystick:
 
-4.1 Reading Values from a Joystick
-==================================
+4.1 Werte eines Joysticks auslesen
+======================================
 
-In this lesson, we'll learn how to use a **joystick** with the Raspberry Pi Pico 2 to read analog values and detect button presses. A joystick is a common input device that allows you to control movement along two axes (X and Y) and often includes a button when pressed down (Z-axis).
+In dieser Lektion lernen wir, wie man einen **Joystick** mit dem Raspberry Pi Pico 2 verwendet, um analoge Werte auszulesen und Tastendrücke zu erkennen. Ein Joystick ist ein weit verbreitetes Eingabegerät, mit dem Bewegungen entlang zwei Achsen (X und Y) gesteuert werden können. Viele Joysticks verfügen zudem über eine Drucktaste (Z-Achse).
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Bauteile.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE IM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die untenstehenden Links erworben werden.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -52,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -61,44 +61,44 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_joystick`
         - 1
         - 
 
-**Understanding the Joystick**
+**Funktionsweise des Joysticks**
 
-A typical joystick module consists of two potentiometers positioned at right angles to each other:
+Ein typisches Joystick-Modul enthält zwei Potentiometer, die in einem 90-Grad-Winkel zueinander stehen:
 
-* **X-axis potentiometer**: Measures left-right movement.
-* **Y-axis potentiometer**: Measures up-down movement.
-* **Z-axis (Switch)**: A digital button activated when you press down on the joystick.
+* **X-Achse (VRx-Potentiometer)**: Misst die Links-Rechts-Bewegung.
+* **Y-Achse (VRy-Potentiometer)**: Misst die Auf-Ab-Bewegung.
+* **Z-Achse (Schalter)**: Eine digitale Taste, die durch Drücken des Joysticks ausgelöst wird.
 
-By reading the analog values from the X and Y axes, you can determine the position of the joystick. The Z-axis button allows you to detect when the joystick is pressed down.
+Durch das Auslesen der analogen Werte der X- und Y-Achse kann die Position des Joysticks bestimmt werden. Der Z-Achsen-Schalter erkennt, wenn der Joystick gedrückt wird.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_joystick|
 
-The SW pin is connected to a 10K pull-up resistor, the reason is to be able to get a stable high level on the SW pin (Z axis) when the joystick is not pressed; otherwise the SW is in a suspended state and the output value may vary between 0/1.
+Der **SW-Pin** des Joysticks ist mit einem 10KΩ-Pull-up-Widerstand verbunden, um im nicht gedrückten Zustand einen stabilen HIGH-Zustand zu gewährleisten. Ohne diesen Widerstand könnte sich der Zustand zwischen HIGH und LOW unvorhersehbar ändern.
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_joystick|
 
-**Writing the Code**
+**Code schreiben**
 
 .. note::
 
-   * You can open the file ``4.1_toggle_the_joyostick.ino`` from ``newton-lab-kit/arduino/4.1_toggle_the_joyostick``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``4.1_toggle_the_joystick.ino`` aus dem Verzeichnis ``newton-lab-kit/arduino/4.1_toggle_the_joystick`` öffnen. 
+   * Oder diesen Code in die **Arduino IDE** kopieren.
+   * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port aus und klicken Sie auf „Hochladen“.
 
 .. code-block:: arduino
 
@@ -135,23 +135,23 @@ The SW pin is connected to a 10K pull-up resistor, the reason is to be able to g
      delay(500); // Wait for half a second before the next reading
    }
 
-When the code is running and the Serial Monitor is open:
+Sobald der Code läuft und der serielle Monitor geöffnet ist:
 
-* Move the joystick in different directions (left, right, up, down) and observe the X and Y values changing accordingly in the Serial Monitor.
-* Press the joystick button (Z-axis) and observe the button state changing from "Released" to "Pressed".
+* Bewegen Sie den Joystick in verschiedene Richtungen (links, rechts, oben, unten) und beobachten Sie, wie sich die X- und Y-Werte im seriellen Monitor ändern.
+* Drücken Sie den Joystick nach unten (Z-Achse) und beobachten Sie, wie sich der Tastenstatus von „Losgelassen“ auf „Gedrückt“ ändert.
 
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Defining Pins:
+#. Definieren der Pins:
 
-   * ``joystickX`` and ``joystickY``: Analog pins connected to the joystick's X and Y axes.
-   * ``joystickSW``: Digital pin connected to the joystick's button (Z-axis).
+   * ``joystickX`` und ``joystickY``: Analoge Eingänge für die Achsen X und Y.
+   * ``joystickSW``: Digitaler Eingang für den Taster (Z-Achse).
 
-#. Setup Function:
+#. Setup-Funktion:
 
-   * Initializes serial communication for debugging and monitoring.
-   * Sets the joystick button pin as input with an internal pull-up resistor to stabilize the input.
+   * Initialisiert die serielle Kommunikation für Debugging und Datenanzeige.
+   * Setzt den Joystick-Taster als Eingang mit internem Pull-up-Widerstand zur Stabilisierung des Signals.
 
    .. code-block:: arduino
 
@@ -160,29 +160,29 @@ When the code is running and the Serial Monitor is open:
           pinMode(joystickSW, INPUT_PULLUP); // Set joystick button as input with pull-up resistor
         }
   
-#. ``loop()`` Function:
+#. ``loop()``-Funktion:
 
-   * Reading Analog Values:
+   * Analoge Werte auslesen:
        
-     Reads the current position of the joystick along the X and Y axes. The values range from 0 to 1023, corresponding to the analog voltage levels.
-   
+     Liest die aktuelle Position des Joysticks entlang der X- und Y-Achse. Die Werte liegen zwischen 0 und 1023, entsprechend den Spannungswerten.
+
      .. code-block:: arduino
    
            int xValue = analogRead(joystickX);
            int yValue = analogRead(joystickY);
        
-   * Reading Button State:
+   * Tastenstatus auslesen:
        
-     Reads the state of the joystick's button. ``LOW`` indicates pressed, and ``HIGH`` indicates released.
-   
+     Prüft, ob der Joystick gedrückt wurde. ``LOW`` bedeutet gedrückt, ``HIGH`` bedeutet nicht gedrückt.
+
      .. code-block:: arduino
    
            int buttonState = digitalRead(joystickSW);
        
-   * Printing to Serial Monitor:
+   * Werte im seriellen Monitor ausgeben:
        
-     Outputs the current joystick position and button state to the Serial Monitor for debugging and monitoring.
-   
+     Gibt die aktuellen X-, Y-Werte sowie den Tastenstatus aus.
+
      .. code-block:: arduino
    
        Serial.print("X: ");
@@ -192,26 +192,20 @@ When the code is running and the Serial Monitor is open:
        Serial.print(" | Button: ");
        Serial.println(buttonState == LOW ? "Pressed" : "Released");
 
-**Further Exploration**
+**Weitere Experimente**
 
-* Mapping Analog Values to Actions:
-  
-  * Use the joystick's position to control servos, LEDs, or other actuators based on movement direction and magnitude.
+* Joystick-Werte zur Steuerung von Aktionen nutzen:  
+  Verwenden Sie den Joystick zur Steuerung von Servos, LEDs oder Motoren basierend auf Bewegungsrichtung und Intensität.
 
-* Dead Zone Implementation:
-  
-  * Implement a dead zone around the center position to prevent unintentional movements due to slight joystick fluctuations.
+* Deadzone implementieren:  
+  Definieren Sie eine Totzone, um ungewollte Bewegungen aufgrund von kleinen Joystick-Fluktuationen zu vermeiden.
 
-* Combining with Other Sensors:
-  
-  * Integrate the joystick with other sensors (e.g., accelerometers, distance sensors) to create more complex interactions.
+* Joystick mit weiteren Sensoren kombinieren:  
+  Integrieren Sie den Joystick mit Bewegungssensoren oder Distanzsensoren, um komplexere Steuerungssysteme zu entwickeln.
 
-* Creating a Game Controller:
-  
-  * Use multiple joysticks and buttons to build a custom game controller for simple games or robotic control.
+* Game-Controller erstellen: 
+  Nutzen Sie mehrere Joysticks und Taster, um einen benutzerdefinierten Controller für einfache Spiele oder Robotersteuerung zu bauen.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to interface a joystick with the Raspberry Pi Pico to read analog values from the X and Y axes and detect button presses on the Z-axis. This setup can be used as an input method for various projects, including remote controls, robotics, and interactive installations. By understanding how to read and interpret the joystick's values, you can create responsive and dynamic applications.
-
-
+In dieser Lektion haben Sie gelernt, wie man einen Joystick mit dem Raspberry Pi Pico verbindet, um analoge Werte der X- und Y-Achse zu lesen und Tastendrücke auf der Z-Achse zu erkennen. Dieses Wissen kann für Fernsteuerungen, Robotik und interaktive Installationen

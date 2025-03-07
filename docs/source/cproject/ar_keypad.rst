@@ -1,50 +1,49 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt des Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie nach dem Verkauf aufkommende Probleme und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _ar_keypad:
 
-4.2 Using a 4x4 Keypad
+4.2 Nutzung eines 4x4-Tastenfelds
 =================================================
 
-In this lesson, we'll learn how to interface a **4x4 matrix keypad** with the Raspberry Pi Pico 2 to detect which keys are pressed. Matrix keypads are commonly used in devices like calculators, telephones, vending machines, and security systems for numerical input.
+In dieser Lektion lernen wir, wie man ein **4x4-Matrix-Tastenfeld** mit dem Raspberry Pi Pico 2 verbindet, um zu erkennen, welche Tasten gedrückt werden. Matrix-Tastaturen werden häufig in Geräten wie Taschenrechnern, Telefonen, Verkaufsautomaten und Sicherheitssystemen für die numerische Eingabe verwendet.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
+    *   - Name
         - ITEMS IN THIS KIT
         - LINK
-    *   - Newton Lab Kit	
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
+        - COMPONENT
         - QUANTITY
         - LINK
 
@@ -53,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,49 +61,49 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_keypad`
         - 1
         - |link_keypad_buy|
 
-**Understanding the 4x4 Keypad**
+**Verständnis des 4x4-Tastenfelds**
 
-A 4x4 keypad consists of:
+Ein 4x4-Tastenfeld besteht aus:
 
-* **16 keys** arranged in 4 rows and 4 columns.
-* **8 pins**: 4 connected to rows and 4 connected to columns.
+* **16 Tasten**, angeordnet in 4 Reihen und 4 Spalten.
+* **8 Pins**: 4 verbunden mit den Reihen und 4 mit den Spalten.
 
-When you press a key, it connects a specific row and column, allowing us to identify the key based on the row and column numbers.
+Wenn Sie eine Taste drücken, wird eine spezifische Reihe und Spalte verbunden, was es uns ermöglicht, die Taste basierend auf den Reihen- und Spaltennummern zu identifizieren.
 
-Here's how the keys are arranged:
+So sind die Tasten angeordnet:
 
 |img_keypad|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_keypad_ar|
 
 
-The rows of the keyboard (G2 ~ G5) are programmed to go high; if one of G6 ~ G9 is read high, then we know which key is pressed.
+Die Reihen der Tastatur (G2 ~ G5) sind so programmiert, dass sie hoch gehen; wenn einer von G6 ~ G9 hoch gelesen wird, dann wissen wir, welche Taste gedrückt ist.
 
-For example, if G6 is read high, then numeric key 1 is pressed; this is because the control pins of numeric key 1 are G2 and G6, when numeric key 1 is pressed, G2 and G6 will be connected together and G6 is also high.
+Beispielsweise, wenn G6 hoch gelesen wird, dann wird die numerische Taste 1 gedrückt; dies liegt daran, dass die Steuerpins der numerischen Taste 1 G2 und G6 sind, wenn die numerische Taste 1 gedrückt wird, werden G2 und G6 zusammen verbunden und G6 ist auch hoch.
 
-**Wiring**
+**Verdrahtung**
 
 |wiring_keypad_ar|
 
 
-**Writing the Code**
+**Schreiben des Codes**
 
 
 .. note::
 
-    * You can open the file ``4.2_4x4_keypad.ino`` from ``newton-lab-kit/arduino/4.2_4x4_keypad``. 
-    * Or copy this code into **Arduino IDE**.
-    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-    * The ``Adafruit Keypad`` library is used here, you can install it from the **Library Manager**.
+    * Sie können die Datei ``4.2_4x4_keypad.ino`` aus ``newton-lab-kit/arduino/4.2_4x4_keypad`` öffnen.
+    * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+    * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port, dann klicken Sie auf "Upload".
+    * Die ``Adafruit Keypad``-Bibliothek wird hier verwendet, Sie können sie aus dem **Library Manager** installieren.
 
       .. image:: img/lib_ad_keypad.png
 
@@ -160,23 +159,23 @@ For example, if G6 is read high, then numeric key 1 is pressed; this is because 
       delay(10); // Short delay to improve stability
     }
 
-After uploading the code, press any key on the keypad. The corresponding key label (e.g., '1', 'A') should appear in the Serial Monitor.
+Nach dem Hochladen des Codes drücken Sie eine beliebige Taste auf dem Tastenfeld. Das entsprechende Tastenlabel (z. B. '1', 'A') sollte im Seriellen Monitor erscheinen.
 
-Ensure that each key press is accurately detected and displayed. Test all keys to confirm proper functionality.
+Stellen Sie sicher, dass jeder Tastendruck genau erkannt und angezeigt wird. Testen Sie alle Tasten, um die korrekte Funktionalität zu bestätigen.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Including the Library:
+#. Einschließen der Bibliothek:
 
-   This line includes the Adafruit Keypad library, which provides functions to interact with the keypad.
+   Diese Zeile schließt die Adafruit Keypad-Bibliothek ein, die Funktionen zur Interaktion mit dem Tastenfeld bietet.
 
    .. code-block:: arduino
 
       #include "Adafruit_Keypad.h"
 
-#. Defining the Keypad Layout:
+#. Definition des Tastenfeld-Layouts:
 
-   ``ROWS`` and ``COLS`` define the dimensions of the keypad. ``keys`` is a 2D array representing the label of each key on the keypad.
+   ``ROWS`` und ``COLS`` definieren die Abmessungen des Tastenfelds. ``keys`` ist ein 2D-Array, das das Label jeder Taste auf dem Tastenfeld darstellt.
 
    .. code-block:: arduino
 
@@ -190,26 +189,26 @@ Ensure that each key press is accurately detected and displayed. Test all keys t
         { '*', '0', '#', 'D' }
       };
 
-#. Connecting the Keypad to GPIO Pins:
+#. Anschließen des Tastenfelds an GPIO-Pins:
 
-   ``rowPins`` and ``colPins`` are arrays that store the GPIO pins connected to the keypad's rows and columns, respectively.
+   ``rowPins`` und ``colPins`` sind Arrays, die die GPIO-Pins speichern, die mit den Reihen und Spalten des Tastenfelds verbunden sind.
 
    .. code-block:: arduino
 
       byte rowPins[ROWS] = { 2, 3, 4, 5 };
       byte colPins[COLS] = { 6, 7, 8, 9 };
 
-#. Initializing the Keypad Object:
+#. Initialisieren des Tastenfeld-Objekts:
 
-   This line creates an instance of the ``Adafruit_Keypad`` class, initializing it with the keymap and pin configurations.
+   Diese Zeile erstellt eine Instanz der Klasse ``Adafruit_Keypad``, die mit dem Tastenfeldschema und den Pin-Konfigurationen initialisiert wird.
 
    .. code-block:: arduino
 
       Adafruit_Keypad myKeypad = Adafruit_Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
-#. Setup Function:
+#. Setup-Funktion:
 
-   Initializes serial communication for debugging and starts the keypad.
+   Initialisiert die serielle Kommunikation für das Debugging und startet das Tastenfeld.
 
    .. code-block:: arduino
 
@@ -218,10 +217,10 @@ Ensure that each key press is accurately detected and displayed. Test all keys t
         myKeypad.begin();        // Initialize the keypad
       }
 
-#. Loop Function:
+#. Loop-Funktion:
 
-   * Continuously checks for key events.
-   * When a key is pressed, it prints the key value to the Serial Monitor.
+   * Überprüft kontinuierlich auf Tastenereignisse.
+   * Wenn eine Taste gedrückt wird, wird der Tastenwert im Seriellen Monitor angezeigt.
 
    .. code-block:: arduino
 
@@ -238,24 +237,24 @@ Ensure that each key press is accurately detected and displayed. Test all keys t
         delay(10); // Short delay to improve stability
       }
 
-**Further Exploration**
+**Weiterführende Untersuchungen**
 
-* Implementing Key Debouncing:
+* Implementierung der Tasten-Entprellung:
 
-  Improve the reliability of key detection by implementing debouncing techniques to filter out false triggers caused by mechanical noise.
+  Verbessern Sie die Zuverlässigkeit der Tastenerkennung, indem Sie Entprelltechniken implementieren, um falsche Auslösungen durch mechanisches Rauschen zu filtern.
 
-* Creating a Password Entry System:
+* Erstellung eines Passworteingabesystems:
 
-  Use the keypad to enter a password and control access to certain functionalities in your project.
+  Verwenden Sie das Tastenfeld zur Eingabe eines Passworts und zur Steuerung des Zugangs zu bestimmten Funktionen in Ihrem Projekt.
 
-* Integrating with Other Components:
+* Integration mit anderen Komponenten:
 
-  Combine the keypad with LCD displays, LEDs, or buzzers to create more complex user interfaces.
+  Kombinieren Sie das Tastenfeld mit LCD-Displays, LEDs oder Summer, um komplexere Benutzeroberflächen zu erstellen.
 
-* Building a Simple Calculator:
+* Bau eines einfachen Taschenrechners:
 
-  Use the keypad to input numbers and perform basic arithmetic operations displayed on an LCD.
+  Verwenden Sie das Tastenfeld, um Zahlen einzugeben und grundlegende Rechenoperationen durchzuführen, die auf einem LCD angezeigt werden.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to interface a 4x4 matrix keypad with the Raspberry Pi Pico using the Adafruit Keypad library. By detecting key presses, you can create interactive projects such as key-based input systems, password entry mechanisms, and more. Understanding how to read and process keypad inputs is essential for building user-friendly interfaces in your electronics projects.
+In dieser Lektion haben Sie gelernt, wie man ein 4x4-Matrix-Tastenfeld mit dem Raspberry Pi Pico unter Verwendung der Adafruit Keypad-Bibliothek verbindet. Durch die Erkennung von Tastendrücken können Sie interaktive Projekte wie tastaturbasierte Eingabesysteme, Passworteingabemechanismen und mehr erstellen. Das Verständnis, wie Tasteneingaben gelesen und verarbeitet werden, ist wesentlich für den Bau benutzerfreundlicher Schnittstellen in Ihren Elektronikprojekten.

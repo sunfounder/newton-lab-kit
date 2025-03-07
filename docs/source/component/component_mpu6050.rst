@@ -1,107 +1,98 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_mpu6050:
 
-MPU6050 Module
+MPU6050 Modul
 ===========================
 
 **MPU6050**
 
 |img_mpu6050|
 
-The MPU-6050 is a 6-axis(combines 3-axis Gyroscope, 3-axis
-Accelerometer) motion tracking devices.
+Der MPU-6050 ist ein 6-Achsen-Bewegungssensor, der einen 3-Achsen-Gyroskop und 
+einen 3-Achsen-Beschleunigungsmesser kombiniert.
 
-Its three coordinate systems are defined as follows:
+Seine drei Koordinatensysteme sind wie folgt definiert:
 
-Put MPU6050 flat on the table, assure that the face with label is upward
-and a dot on this surface is on the top left corner. Then the upright
-direction upward is the z-axis of the chip. The direction from left to
-right is regarded as the X-axis. Accordingly the direction from back to
-front is defined as the Y-axis.
+Legen Sie den MPU6050 flach auf den Tisch, sodass die Seite mit dem Etikett nach 
+oben zeigt und ein Punkt auf dieser Oberfläche sich in der oberen linken Ecke befindet. 
+Dann ist die aufrechte Richtung nach oben die Z-Achse des Chips. Die Richtung von links 
+nach rechts gilt als X-Achse. Entsprechend wird die Richtung von hinten nach vorne als Y-Achse definiert.
 
 |img_mpu6050_a| 
 
 
-**3-axis Accelerometer**
+**3-Achsen-Beschleunigungsmesser**
 
-The accelerometer works on the principle of piezo electric effect, the
-ability of certain materials to generate an electric charge in response
-to applied mechanical stress.
+Der Beschleunigungsmesser funktioniert nach dem Prinzip des piezoelektrischen Effekts, 
+der Fähigkeit bestimmter Materialien, eine elektrische Ladung als Reaktion auf mechanischen Druck zu erzeugen.
 
-Here, imagine a cuboidal box, having a small ball inside it, like in the
-picture above. The walls of this box are made with piezo electric
-crystals. Whenever you tilt the box, the ball is forced to move in the
-direction of the inclination, due to gravity. The wall with which the
-ball collides, creates tiny piezo electric currents. There are totally,
-three pairs of opposite walls in a cuboid. Each pair corresponds to an
-axis in 3D space: X, Y and Z axes. Depending on the current produced
-from the piezo electric walls, we can determine the direction of
-inclination and its magnitude.
+Stellen Sie sich hier eine quaderförmige Box vor, die eine kleine Kugel enthält, 
+wie im obigen Bild. Die Wände dieser Box bestehen aus piezoelektrischen Kristallen. 
+Wenn Sie die Box kippen, wird die Kugel durch die Schwerkraft gezwungen, sich in 
+Richtung der Neigung zu bewegen. Die Wand, mit der die Kugel kollidiert, erzeugt 
+winzige piezoelektrische Ströme. Es gibt insgesamt drei Paare gegenüberliegender 
+Wände in einem Quader. Jedes Paar entspricht einer Achse im 3D-Raum: X-, Y- und 
+Z-Achsen. Abhängig von den Strömen, die von den piezoelektrischen Wänden erzeugt 
+werden, können wir die Richtung der Neigung und deren Stärke bestimmen.
 
 |img_mpu6050_a2|
 
 
-We can use the MPU6050 to detect its acceleration on each coordinate
-axis (in the stationary desktop state, the Z-axis acceleration is 1
-gravity unit, and the X and Y axes are 0). If it is tilted or in a
-weightless/overweight condition, the corresponding reading will change.
+Wir können den MPU6050 verwenden, um seine Beschleunigung auf jeder Koordinatenachse zu erkennen 
+(im stationären Zustand auf dem Schreibtisch ist die Beschleunigung der Z-Achse 1
+Gravitationseinheit, und die X- und Y-Achsen sind 0). Wenn er geneigt ist oder sich 
+in einem schwerelosen/überlasteten Zustand befindet, ändert sich der entsprechende Wert.
 
-There are four kinds of measuring ranges that can be selected
-programmatically: +/-2g, +/-4g, +/-8g, and +/-16g (2g by default)
-corresponding to each precision. Values range from -32768 to 32767.
+Es gibt vier wählbare Messbereiche: +/-2g, +/-4g, +/-8g und +/-16g (standardmäßig 2g), die jeweils einer bestimmten Präzision entsprechen. Die Werte reichen von -32768 bis 32767.
 
-The reading of accelerometer is converted to an acceleration value by
-mapping the reading from the reading range to the measuring range.
+Die Beschleunigungsablesung wird in einen Beschleunigungswert umgewandelt, indem die Ablesung aus dem Ablesungsbereich in den Messbereich abgebildet wird.
 
-Acceleration = (Accelerometer axis raw data / 65536 \* full scale
-Acceleration range) g
+Beschleunigung = (Rohdaten der Beschleunigungsmesserachse / 65536 * voller Skalenbeschleunigungsbereich) g
 
-Take the X-axis as an example, when Accelerometer X axis raw data is
-16384 and the range is selected as +/-2g:
+Nehmen Sie als Beispiel die X-Achse, wenn die Rohdaten der Beschleunigungsmesser X-Achse 16384 betragen und der Bereich als +/-2g ausgewählt ist:
 
-**Acceleration along the X axis = (16384 / 65536 \* 4) g**  **=1g**
+**Beschleunigung entlang der X-Achse = (16384 / 65536 * 4) g** **=1g**
 
-**3-axis Gyroscope**
+**3-Achsen-Gyroskop**
 
-Gyroscopes work on the principle of Coriolis acceleration. Imagine that
-there is a fork like structure, that is in constant back and forth
-motion. It is held in place using piezo electric crystals. Whenever, you
-try to tilt this arrangement, the crystals experience a force in the
-direction of inclination. This is caused as a result of the inertia of
-the moving fork. The crystals thus produce a current in consensus with
-the piezo electric effect, and this current is amplified.
+Gyroskope funktionieren nach dem Prinzip der Coriolis-Beschleunigung. 
+Stellen Sie sich vor, dass es eine gabelähnliche Struktur gibt, die sich 
+ständig hin und her bewegt. Sie wird mit piezoelektrischen Kristallen an 
+Ort und Stelle gehalten. Wenn Sie versuchen, diese Anordnung zu kippen, 
+erfahren die Kristalle eine Kraft in Richtung der Neigung. Dies ist auf 
+die Trägheit der sich bewegenden Gabel zurückzuführen. Die Kristalle erzeugen 
+daher einen Strom im Einklang mit dem piezoelektrischen Effekt, und dieser 
+Strom wird verstärkt.
 
 |img_mpu6050_g|
 
-The Gyroscope also has four kinds of measuring ranges: +/- 250, +/- 500,
-+/- 1000, +/- 2000. The calculation method and Acceleration are
-basically consistent.
+Das Gyroskop hat auch vier wählbare Messbereiche: +/- 250, +/- 500,
++/- 1000, +/- 2000. Die Berechnungsmethode und Beschleunigung sind
+im Wesentlichen konsistent.
 
-The formula for converting the reading into angular velocity is as
-follows:
+Die Formel zur Umrechnung der Ablesung in Winkelgeschwindigkeit lautet wie folgt:
 
-Angular velocity = (Gyroscope axis raw data / 65536 \* full scale
-Gyroscope range) °/s
+Winkelgeschwindigkeit = (Rohdaten der Gyroskopachse / 65536 * voller Skalengyroskopbereich) °/s
 
-The X axis, for example, the Accelerometer X axis raw data is 16384 and
-ranges + / - 250°/ s:
+Zum Beispiel, die Beschleunigungsmesser X-Achse Rohdaten betragen 16384 und
+Bereiche + / - 250°/ s:
 
-**Angular velocity along the X axis = (16384 / 65536 \* 500)°/s** **=125°/s**
+**Winkelgeschwindigkeit entlang der X-Achse = (16384 / 65536 * 500)°/s** **=125°/s**
 
-**Example**
+**Beispiel**
 
 * :ref:`py_mpu6050` (For MicroPython User)
 * :ref:`py_somato_controller` (For MicroPython User)

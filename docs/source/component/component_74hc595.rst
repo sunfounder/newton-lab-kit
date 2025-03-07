@@ -1,16 +1,16 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_74hc595:
 
@@ -19,36 +19,36 @@
 
 |img_74hc595|
 
-The 74HC595 consists of an 8−bit shift register and a storage register with three−state parallel outputs. It converts serial input into parallel output so you can save IO ports of an MCU.
+Der 74HC595 besteht aus einem 8-Bit-Schieberegister und einem Speicherregister mit dreizuständigen parallelen Ausgängen. Er wandelt serielle Eingaben in parallele Ausgaben um, sodass Sie IO-Ports eines MCUs einsparen können.
 
-* When MR (pin10) is high level and OE (pin13) is low level, data is input in the rising edge of SHcp and goes to the memory register through the rising edge of SHcp. 
-* If the two clocks are connected together, the shift register is always one pulse earlier than the memory register. 
-* There is a serial shift input pin (Ds), a serial output pin (Q) and an asynchronous reset button (low level) in the memory register. 
-* The memory register outputs a Bus with a parallel 8-bit and in three states. 
-* When OE is enabled (low level), the data in memory register is output to the bus(Q0 ~ Q7).
+* Wenn MR (Pin10) auf hohem Pegel und OE (Pin13) auf niedrigem Pegel ist, werden Daten am ansteigenden Rand von SHcp eingegeben und gehen durch den ansteigenden Rand von SHcp ins Speicherregister über. 
+* Wenn die beiden Uhren zusammengelegt werden, ist das Schieberegister immer einen Impuls früher als das Speicherregister. 
+* Es gibt einen seriellen Schiebeeingangspin (Ds), einen seriellen Ausgangspin (Q) und eine asynchrone Zurücksetztaste (niedriger Pegel) im Speicherregister. 
+* Das Speicherregister gibt einen Bus mit einem parallelen 8-Bit und in drei Zuständen aus. 
+* Wenn OE aktiviert ist (niedriger Pegel), werden die Daten im Speicherregister auf den Bus (Q0 ~ Q7) ausgegeben.
 
-* `74HC595 Datasheet <https://www.ti.com/lit/ds/symlink/cd74hc595.pdf?ts=1617341564801>`_
+* `74HC595 Datenblatt <https://www.ti.com/lit/ds/symlink/cd74hc595.pdf?ts=1617341564801>`_
 
 |img_74jc595_pin|
 
-Pins of 74HC595 and their functions:
+Pins des 74HC595 und ihre Funktionen:
 
-* **Q0-Q7**: 8-bit parallel data output pins, able to control 8 LEDs or 8 pins of 7-segment display directly.
-* **Q7'**: Series output pin, connected to DS of another 74HC595 to connect multiple 74HC595s in series
-* **MR**: Reset pin, active at low level; 
-* **SHcp**: Time sequence input of shift register. On the rising edge, the data in shift register moves successively one bit, i.e. data in Q1 moves to Q2, and so forth. While on the falling edge, the data in shift register remain unchanged.
-* **STcp**: Time sequence input of storage register. On the rising edge, data in the shift register moves into memory register.
-* **CE**: Output enable pin, active at low level. 
-* **DS**: Serial data input pin
-* **VCC**: Positive supply voltage.
-* **GND**: Ground.
+* **Q0-Q7**: 8-Bit parallele Datenausgänge, können direkt 8 LEDs oder 8 Pins einer 7-Segment-Anzeige steuern.
+* **Q7'**: Serieller Ausgangspin, verbunden mit DS eines weiteren 74HC595, um mehrere 74HC595 in Serie zu verbinden
+* **MR**: Zurücksetzpin, aktiv bei niedrigem Pegel;
+* **SHcp**: Zeitsequenzeingang des Schieberegisters. Am ansteigenden Rand bewegen sich die Daten im Schieberegister sukzessive um ein Bit, d.h. Daten in Q1 bewegen sich zu Q2 und so weiter. Am abfallenden Rand bleiben die Daten im Schieberegister unverändert.
+* **STcp**: Zeitsequenzeingang des Speicherregisters. Am ansteigenden Rand bewegen sich Daten im Schieberegister ins Speicherregister.
+* **CE**: Ausgabefreigabepin, aktiv bei niedrigem Pegel.
+* **DS**: Serieller Dateneingangspin
+* **VCC**: Positive Versorgungsspannung.
+* **GND**: Erdung.
 
-.. Example
+.. Beispiel
 .. -------------------
 
 .. :ref:`Microchip - :ref:`cpn_74hc595``
 
-**Example**
+**Beispiel**
 
 * :ref:`py_74hc_led` (For MicroPython User)
 * :ref:`py_74hc_7seg` (For MicroPython User)

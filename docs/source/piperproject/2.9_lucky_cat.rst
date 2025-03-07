@@ -1,50 +1,50 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein, gemeinsam mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie nach dem Kauf aufgetretene Probleme und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _per_lucky_cat:
 
-2.9 Lucky Cat
+2.9 Glückskatze
 ==========================
 
-In this project, we use pir and servo to make a lucky cat. The PIR Module is used to detect the visitors and servo is used to imitate the beckoning motion of the lucky cat.
+In diesem Projekt verwenden wir ein PIR-Modul und ein Servo, um eine Glückskatze zu machen. Das PIR-Modul wird verwendet, um Besucher zu erkennen, und das Servo ahmt die winkende Bewegung der Glückskatze nach.
 
-**Required Components**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ELEMENTE IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -52,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB Kabel
         - 1
         - 
     *   - 3
@@ -61,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_servo`
@@ -73,48 +73,48 @@ You can also buy them separately from the links below.
         - |link_pir_buy|
 
 
-**Wiring**
+**Verkabelung**
 
 |lucky_cat0|
 
 
-* The orange wire (signal) of the servo is connected to GP15, the red wire (power) is connected to VBUS, and the brown wire (ground) is connected to GND. 
-* The middle pin of the PIR module is connected to the GP3.
+* Das orangefarbene Kabel (Signal) des Servos ist mit GP15 verbunden, das rote Kabel (Strom) mit VBUS und das braune Kabel (Masse) mit GND. 
+* Der mittlere Pin des PIR-Moduls ist mit dem GP3 verbunden.
 
-**Writing the Code**
+**Den Code schreiben**
 
 
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.9_lucky_cat.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * Sie können sich das untenstehende Bild ansehen, um den Code per Drag-and-Drop zu schreiben.
+    * Importieren Sie ``2.9_lucky_cat.png`` aus dem Pfad ``kepler-kit-main\piper``. Für detaillierte Tutorials siehe :ref:`import_code_piper`.
 
 |lucky_cat|
 
 
 
-* After connecting Pico W, click the **Start** button and the code starts to run.
-* When the PIR module detects a customer arrival, the servo oscillates back and forth five times and then stops.
+* Nachdem Sie Pico W angeschlossen haben, klicken Sie auf den **Start**-Button und der Code beginnt zu laufen.
+* Wenn das PIR-Modul die Ankunft eines Kunden erkennt, schwingt das Servo fünfmal hin und her und stoppt dann.
 
 
-**Understanding the Code**
+**Den Code verstehen**
 
 
 |lucky_cat1|
 
-Set the rotation speed of pin15 (servo) to 15%.
+Die Drehgeschwindigkeit von Pin15 (Servo) auf 15% einstellen.
 
 |lucky_cat2|
 
-If GP14 is low, set the variable [prestate] to 0. When the variable [prestate] is 0 and GP14 is high (human detected), set the variable [prestate] to 1.
+Wenn GP14 niedrig ist, setzen Sie die Variable [prestate] auf 0. Wenn die Variable [prestate] 0 ist und GP14 hoch ist (Mensch erkannt), setzen Sie die Variable [prestate] auf 1.
 
-The purpose of this is to make the main code work only when the GP14 changes from low to high, and to respond only once if the PIR module keeps detecting people.
+Der Zweck davon ist, dass der Hauptcode nur arbeitet, wenn der GP14 von niedrig auf hoch wechselt, und nur einmal reagiert, wenn das PIR-Modul weiterhin Menschen erkennt.
 
 |lucky_cat3|
 
-Make the servo cycle 5 times from 0 to 180 degrees rotation.
+Das Servo zyklisch 5-mal von 0 bis 180 Grad drehen lassen.
 
-* [repeat () times do]: Loop through the code inside the do block a finite number of times.
+* [repeat () times do]: Wiederholt den Code innerhalb des Do-Blocks eine bestimmte Anzahl von Malen.
 
 

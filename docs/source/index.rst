@@ -1,44 +1,51 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein – gemeinsam mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Erhalte Hilfe bei technischen Herausforderungen und nach dem Kauf auftretenden Problemen durch unsere Community und unser Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Profitiere von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Feierliche Aktionen und Gewinnspiele**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu kreieren? Klicke auf [|link_sf_facebook|] und werde Teil unserer Community!
 
-SunFounder |link_newton_lab_kit| for Raspberry Pi Pico 2
+SunFounder |link_newton_lab_kit| für Raspberry Pi Pico 2
 ===========================================================
 
 * |link_Newton_lab_kit|
 
-Thank you for choosing the SunFounder |link_newton_lab_kit|!
+Vielen Dank, dass du dich für das SunFounder |link_newton_lab_kit| entschieden hast!
 
-This advanced learning kit, built around the Raspberry Pi Pico 2, offers a wide range of components, including displays, sound modules, drivers, controllers, and sensors, designed to give you a deep understanding of electronic devices.
+.. note:: 
 
-We’ve prepared numerous exciting and practical projects, along with extensive, expert-level resources to guide you. Simply power up your computer, and you’ll be learning programming in no time.
+    Dieses Dokument ist in den folgenden Sprachen verfügbar.
 
-To accommodate different preferences, we provide two programming languages: MicroPython and C/C++ (Arduino). Each language comes with its own set of engaging projects, allowing you to choose the one that best suits your interests.
+        * |link_german_tutorials|
+        * |link_jp_tutorials|
+        * |link_en_tutorials|
+    
+    Bitte klicken Sie auf die entsprechenden Links, um das Dokument in Ihrer bevorzugten Sprache aufzurufen.
 
-If you'd like to explore additional projects not yet included, feel free to email us. We are continually updating our online tutorials and are always open to suggestions.
+Dieses fortschrittliche Lernkit basiert auf dem Raspberry Pi Pico 2 und enthält eine Vielzahl von Komponenten – darunter Displays, Soundmodule, Treiber, Controller und Sensoren –, die dir ein tiefgehendes Verständnis für elektronische Geräte vermitteln.
 
-For inquiries or suggestions, contact us at: service@sunfounder.com.
+Wir haben zahlreiche spannende und praxisnahe Projekte vorbereitet, begleitet von umfassenden und fachkundigen Ressourcen, die dich Schritt für Schritt begleiten. Schalte einfach deinen Computer ein, und schon kannst du mit dem Programmieren loslegen.
 
+Um verschiedene Vorlieben zu berücksichtigen, bieten wir zwei Programmiersprachen an: MicroPython und C/C++ (Arduino). Jede Sprache verfügt über eine eigene Sammlung an interaktiven Projekten, sodass du diejenige wählen kannst, die deinen Interessen am besten entspricht.
 
+Falls du zusätzliche Projekte erkunden möchtest, die noch nicht im Kit enthalten sind, kannst du uns gerne per E-Mail kontaktieren. Wir aktualisieren regelmäßig unsere Online-Tutorials und sind immer offen für Vorschläge.
 
-**Source Code**
+Für Fragen oder Anregungen erreichst du uns unter: service@sunfounder.com.
 
-* :download:`SunFounder Newton Lab Kit Example <https://github.com/sunfounder/newton-lab-kit/archive/refs/heads/main.zip>`
+**Quellcode**
 
-* Or check out the code at `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_
+* :download:`SunFounder Newton Lab Kit Beispielcode <https://github.com/sunfounder/newton-lab-kit/archive/refs/heads/main.zip>`
 
+* Oder sieh dir den Code auf `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_ an.
 
-**Content**
+**Inhalt**
 
 .. toctree::
     :maxdepth: 2
@@ -52,9 +59,7 @@ For inquiries or suggestions, contact us at: service@sunfounder.com.
     component/what_is_included_in_this_kit
     faq
 
-
-Copyright Notice
+Copyright-Hinweis
 --------------------------
 
-All contents including but not limited to texts, images, and code in this manual are owned by the SunFounder Company. You should only use it for personal study,investigation, enjoyment, or other non-commercial or nonprofit purposes, under therelated regulations and copyrights laws, without infringing the legal rights of the author and relevant right holders. For any individual or organization that uses these for commercial profit without permission, the Company reserves the right to take legal action.
-
+Alle Inhalte dieses Handbuchs, einschließlich, aber nicht beschränkt auf Texte, Bilder und Code, sind Eigentum der SunFounder Company. Sie dürfen diese ausschließlich für persönliche Studienzwecke, Forschungsarbeiten, den eigenen Gebrauch oder andere nicht-kommerzielle bzw. gemeinnützige Zwecke nutzen, unter Einhaltung der geltenden Vorschriften und Urheberrechtsgesetze, ohne die gesetzlichen Rechte des Autors oder anderer Rechteinhaber zu verletzen. Jede nicht autorisierte kommerzielle Nutzung durch Einzelpersonen oder Organisationen wird rechtlich verfolgt.

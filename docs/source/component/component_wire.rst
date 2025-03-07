@@ -1,30 +1,30 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_wire:
 
-Jumper Wires
+Jumperkabel
 ==================
-Wires that connect two terminals are called jumper wires. There are various kinds of jumper wires. Here we focus on those used in breadboard. Among others, they are used to transfer electrical signals from anywhere on the breadboard to the input/output pins of a microcontroller.
+Kabel, die zwei Anschlüsse verbinden, werden als Jumperkabel bezeichnet. Es gibt verschiedene Arten von Jumperkabeln. Hier konzentrieren wir uns auf diejenigen, die auf Steckbrettern verwendet werden. Unter anderem werden sie genutzt, um elektrische Signale von einem beliebigen Punkt auf dem Steckbrett zu den Ein-/Ausgangspins eines Mikrocontrollers zu übertragen.
 
-Jump wires are fitted by inserting their “end connectors” into the slots provided in the breadboard, beneath whose surface there are a few sets of parallel plates that connect the slots in groups of rows or columns depending on the area. The “end connectors” are inserted into the breadboard, without soldering, in the particular slots that need to be connected in the specific prototype.
+Jumperkabel werden eingesetzt, indem man ihre „Endstecker“ in die vorgesehenen Schlitze im Steckbrett einfügt, unter dessen Oberfläche sich mehrere Sätze paralleler Platten befinden, die die Schlitze in Gruppen von Reihen oder Spalten verbinden, je nach Bereich. Die „Endstecker“ werden ohne Löten in die spezifischen Schlitze eingefügt, die im jeweiligen Prototyp miteinander verbunden werden müssen.
 
-There are three types of jumper wire: Female-to-Female, Male-to-Male, and Male-to-Female. The reason we call it Male-to-Female is because it has the outstanding tip in one end as well as a sunk female end. Male-to-Male means both side are male and Female-to-Female means both ends are female.
+Es gibt drei Arten von Jumperkabeln: Weiblich-zu-Weiblich, Männlich-zu-Männlich und Männlich-zu-Weiblich. Der Grund, warum wir es Männlich-zu-Weiblich nennen, liegt daran, dass es an einem Ende einen herausstehenden Stecker und am anderen ein eingesunkenes weibliches Ende hat. Männlich-zu-Männlich bedeutet, dass beide Seiten männlich sind und Weiblich-zu-Weiblich bedeutet, dass beide Enden weiblich sind.
 
 |img_wire|
 
 .. note::
 
-    * More than one type of them may be used in a project.
-    * The color of the jump wires is different but it doesn't mean their function is different accordingly; it's just designed so to better identify the connection between each circuit.
+    * Mehr als eine Art davon kann in einem Projekt verwendet werden.
+    * Die Farbe der Jumperkabel ist unterschiedlich, aber das bedeutet nicht, dass ihre Funktion entsprechend unterschiedlich ist; sie sind lediglich so gestaltet, um die Verbindung zwischen den einzelnen Schaltkreisen besser zu identifizieren.

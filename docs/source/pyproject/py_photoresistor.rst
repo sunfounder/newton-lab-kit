@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in die Welt des Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Löse After-Sales-Probleme und technische Herausforderungen mit Hilfe unserer Community und unserem Team.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genieße exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nimm an Gewinnspielen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bist du bereit, mit uns zu erkunden und zu kreieren? Klicke auf [|link_sf_facebook|] und trete heute bei!
 
 .. _py_photoresistor:
 
-2.12 Feel the Light
+2.12 Fühle das Licht
 =====================
 
-In this lesson, we'll learn how to use a **photoresistor** (also known as a light-dependent resistor or LDR) with the Raspberry Pi Pico 2 to measure light intensity. A photoresistor changes its resistance based on the amount of light it receives: the brighter the light, the lower the resistance. This makes it ideal for detecting changes in ambient light.
+In dieser Lektion lernen wir, wie man einen **Fotowiderstand** (auch bekannt als lichtabhängiger Widerstand oder LDR) mit dem Raspberry Pi Pico 2 verwendet, um die Lichtintensität zu messen. Ein Fotowiderstand ändert seinen Widerstand abhängig von der Menge des empfangenen Lichts: je heller das Licht, desto geringer der Widerstand. Dies macht ihn ideal für die Erkennung von Veränderungen im Umgebungslicht.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
+    *   - Name
+        - ARTIKEL IN DIESEM KIT
         - LINK
-    *   - Newton Lab Kit	
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Du kannst sie auch separat über die untenstehenden Links kaufen.
 
 
 .. list-table::
@@ -44,8 +44,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE
+        - MENGE
         - LINK
 
     *   - 1
@@ -53,7 +53,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -74,80 +74,80 @@ You can also buy them separately from the links below.
         - |link_photoresistor_buy|
 
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_photoresistor|
 
 
-In this circuit, a 10K resistor and a photoresistor are connected in series, forming a voltage divider. GP28 reads the voltage across the photoresistor, while the 10K resistor provides protection by limiting current.
+In diesem Schaltkreis sind ein 10K-Widerstand und ein Fotowiderstand in Serie geschaltet, was einen Spannungsteiler bildet. GP28 liest die Spannung über den Fotowiderstand, während der 10K-Widerstand Schutz bietet, indem er den Strom begrenzt.
 
-* **Bright Light**: The photoresistor's resistance decreases, lowering its voltage and the GP28 reading. In strong light, its resistance approaches zero, and GP28 reads close to 0. At this time, the 10K resistor plays a protective role, so that 3.3V and GND are not connected together, resulting in a short circuit.
-* **Darkness**: The photoresistor's resistance increases, raising its voltage and the GP28 value. In complete darkness, its resistance is nearly infinite (the 10K resistor is negligible), and GP28 reads close to 65535.
+* **Helles Licht**: Der Widerstand des Fotowiderstands verringert sich, senkt seine Spannung und den GP28-Wert. Bei starkem Licht nähert sich sein Widerstand null, und GP28 liest nahezu 0. In dieser Zeit spielt der 10K-Widerstand eine schützende Rolle, damit 3,3 V und GND nicht zusammen verbunden werden, was zu einem Kurzschluss führen würde.
+* **Dunkelheit**: Der Widerstand des Fotowiderstands erhöht sich, hebt seine Spannung und den GP28-Wert. In völliger Dunkelheit ist sein Widerstand nahezu unendlich (der 10K-Widerstand ist vernachlässigbar), und GP28 liest nahezu 65535.
 
-The calculation formula is shown below.
+Die Berechnungsformel wird unten gezeigt.
 
 .. code-block::
 
   Digital Value = (Analog Voltage/3.3V) * 65535
 
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_photoresistor|
 
-**Writing the Code**
+**Den Code schreiben**
 
-We'll write a MicroPython program to read the analog value from the photoresistor and display it.
+Wir werden ein MicroPython-Programm schreiben, um den analogen Wert vom Fotowiderstand zu lesen und anzuzeigen.
 
 .. note::
 
-  * Open the ``2.12_feel_the_light.py`` file under the path ``newton-lab-kit/micropython`` or copy the code below into Thonny. Then click "Run Current Script" or press **F5** to run it.
-  * Ensure that the "MicroPython (Raspberry Pi Pico).COMxx" interpreter is selected in the bottom right corner of Thonny.
-  * For detailed instructions, refer to :ref:`open_run_code_py`.
+  * Öffne die Datei ``2.12_feel_the_light.py`` im Ordner ``newton-lab-kit/micropython`` oder kopiere den untenstehenden Code in Thonny. Dann klicke auf "Aktuelles Skript ausführen" oder drücke **F5**, um es zu starten.
+  * Stelle sicher, dass der Interpreter "MicroPython (Raspberry Pi Pico).COMxx" in der unteren rechten Ecke von Thonny ausgewählt ist.
+  * Für detaillierte Anweisungen siehe :ref:`open_run_code_py`.
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize ADC on GP28
+    # Initialisiere ADC auf GP28
     photoresistor = machine.ADC(28)
 
     while True:
-        # Read the analog value (0-65535)
+        # Lies den analogen Wert (0-65535)
         light_value = photoresistor.read_u16()
         print("Light value:", light_value)
         utime.sleep(0.5)
 
-When the code is running, observe the values printed in the console.
+Während der Code läuft, beobachte die in der Konsole ausgegebenen Werte.
 
-* Cover the photoresistor with your hand to simulate darkness; the value should increase.
-* Shine a light or a flashlight on the photoresistor; the value should decrease.
+* Bedecke den Fotowiderstand mit deiner Hand, um Dunkelheit zu simulieren; der Wert sollte zunehmen.
+* Leuchte mit einer Lampe oder einer Taschenlampe auf den Fotowiderstand; der Wert sollte abnehmen.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Import Modules:
+#. Module importieren:
 
-   * ``machine``: Provides access to hardware-related functions.
-   * ``utime``: Allows us to use time-related functions like sleep.
+   * ``machine``: Bietet Zugriff auf hardwarebezogene Funktionen.
+   * ``utime``: Ermöglicht die Nutzung von zeitbezogenen Funktionen wie Schlaf.
 
-#. Initialize the ADC Pin:
+#. Initialisiere den ADC-Pin:
 
-   * ``photoresistor = machine.ADC(28)``: Sets up GP28 as an analog input to read voltage levels.
+   * ``photoresistor = machine.ADC(28)``: Richtet GP28 als analogen Eingang ein, um Spannungspegel zu lesen.
 
-#. Main Loop:
+#. Hauptschleife:
 
-   ``while True``: Starts an infinite loop.
-   ``light_value = photoresistor.read_u16()``: Reads the analog value from the photoresistor. The value ranges from 0 (0V) to 65535 (3.3V).
-   ``print("Light value:", light_value)``: Outputs the light value to the console.
-   ``utime.sleep(0.5)``: Pauses the loop for 0.5 seconds before the next reading.
+   ``while True``: Startet eine unendliche Schleife.
+   ``light_value = photoresistor.read_u16()``: Liest den analogen Wert vom Fotowiderstand. Der Wert reicht von 0 (0V) bis 65535 (3.3V).
+   ``print("Light value:", light_value)``: Gibt den Lichtwert in der Konsole aus.
+   ``utime.sleep(0.5)``: Pausiert die Schleife für 0.5 Sekunden vor der nächsten Messung.
 
 
-**Experimenting Further**
+**Weiteres Experimentieren**
 
-* Calibrating the Readings: 
+* Kalibrierung der Messwerte:
 
-  Map the analog values to a percentage or a more meaningful scale.
+  Ordne die analogen Werte einem Prozentwert oder einer aussagekräftigeren Skala zu.
 
   .. code-block:: python
   
@@ -162,9 +162,9 @@ When the code is running, observe the values printed in the console.
           print("Light level: {:.2f}%".format(light_percentage))
           utime.sleep(0.5)
 
-* Control an LED Based on Light Intensity:
+* Steuere eine LED basierend auf der Lichtintensität:
 
-  Use the light sensor to turn an LED on in the dark and off in bright light.
+  Nutze den Lichtsensor, um eine LED im Dunkeln einzuschalten und bei hellem Licht auszuschalten.
 
   .. code-block:: python
 
@@ -177,15 +177,15 @@ When the code is running, observe the values printed in the console.
     while True:
         light_value = photoresistor.read_u16()
         if light_value > 50000:
-            led.value(1)  # Turn on LED in darkness
+            led.value(1)  # LED im Dunkeln einschalten
         else:
-            led.value(0)  # Turn off LED in bright light
+            led.value(0)  # LED bei hellem Licht ausschalten
         utime.sleep(0.5)
 
-* Create a Light-Activated Alarm or Notification: Trigger an action when light levels change significantly.
+* Erstelle einen lichtaktivierten Alarm oder eine Benachrichtigung: Löse eine Aktion aus, wenn sich die Lichtpegel deutlich ändern.
 
-**Conclusion**
+**Schlussfolgerung**
 
-By using a photoresistor with the Raspberry Pi Pico 2, you've learned how to read analog inputs and respond to changes in environmental light. This knowledge can be applied to various projects, such as automatic lighting systems, light-following robots, or security devices that react to changes in lighting.
+Durch die Verwendung eines Fotowiderstands mit dem Raspberry Pi Pico 2 hast du gelernt, wie man analoge Eingänge liest und auf Änderungen in der Umgebungsbeleuchtung reagiert. Dieses Wissen kann auf verschiedene Projekte angewendet werden, wie automatische Beleuchtungssysteme, lichtfolgende Roboter oder Sicherheitsgeräte, die auf Lichtänderungen reagieren.
 
 

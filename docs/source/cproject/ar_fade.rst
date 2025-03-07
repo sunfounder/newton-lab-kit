@@ -1,69 +1,69 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Vertiefen Sie sich mit anderen Enthusiasten in die Welt von Raspberry Pi, Arduino und ESP32.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Anleitungen zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Giveaways und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_fade:
 
-2.3 Fading LED
-========================
+2.3 LED-Helligkeit mit PWM steuern
+======================================
 
-In this lesson, we'll learn how to control the brightness of an LED using Pulse Width Modulation (PWM) on the Raspberry Pi Pico 2. This is a fundamental technique in electronics that allows us to control devices like LEDs and motors with varying intensities.
+In dieser Lektion lernen wir, wie man die Helligkeit einer LED mithilfe der Pulsweitenmodulation (PWM) auf dem Raspberry Pi Pico 2 steuert. PWM ist eine grundlegende Technik in der Elektronik, die es ermöglicht, Geräte wie LEDs und Motoren mit variablen Intensitäten zu betreiben.
 
-**What is PWM?**
+**Was ist PWM?**
 
-**Pulse Width Modulation (PWM)** is a method of controlling the amount of power delivered to an electronic device by cycling the power on and off at a high frequency. The "width" of the pulse (the duration it stays on) determines how much power the device receives.
+**Pulsweitenmodulation (PWM)** ist eine Methode zur Steuerung der Leistung, die an ein elektronisches Gerät geliefert wird. Dabei wird die Spannung in schnellen Intervallen ein- und ausgeschaltet. Die „Breite“ des Impulses (die Dauer, in der er eingeschaltet ist) bestimmt, wie viel Leistung das Gerät erhält.
 
 |img_pwm_duty_cycle|
 
-* **Duty Cycle**: The percentage of one period in which a signal is active. A 100% duty cycle means the signal is always on, and 0% means it's always off.
-* **Frequency**: How often the signal cycles on and off per second.
+* **Duty Cycle (Tastverhältnis)**: Der prozentuale Anteil eines Zyklus, in dem das Signal aktiv ist. Ein 100 %-Duty Cycle bedeutet, dass das Signal immer an ist, ein 0 %-Duty Cycle, dass es immer aus ist.
+* **Frequenz**: Gibt an, wie oft das Signal pro Sekunde zwischen Ein und Aus wechselt.
 
-By adjusting the duty cycle, we can simulate analog output using digital signals. For example, if we rapidly turn an LED on and off, our eyes perceive varying brightness levels depending on how long the LED stays on during each cycle.
+Durch Anpassen des Duty Cycles können wir analoge Signale mit digitalen Mitteln simulieren. Zum Beispiel: Wenn eine LED sehr schnell ein- und ausgeschaltet wird, nimmt unser Auge je nach Ein-Zeit der LED eine unterschiedliche Helligkeit wahr.
 
-**Why Use PWM?**
+**Warum PWM verwenden?**
 
-* **LED Brightness Control**: Smoothly adjust the brightness of LEDs.
-* **Motor Speed Control**: Control the speed of DC motors.
-* **Efficiency**: PWM is more efficient than using variable resistors because it reduces energy loss in the form of heat.
+* **LED-Helligkeitssteuerung**: Stufenlose Anpassung der LED-Helligkeit.
+* **Motorsteuerung**: Kontrolle der Geschwindigkeit von Gleichstrommotoren.
+* **Effizienz**: PWM ist energieeffizienter als variable Widerstände, da weniger Energie in Wärme umgewandelt wird.
 
-**Understanding PWM on the Raspberry Pi Pico 2**
+**PWM auf dem Raspberry Pi Pico 2**
 
-The Raspberry Pi Pico 2 has PWM capabilities on all its GPIO pins, but it actually has 8 PWM slices (from PWM0 to PWM7), each with two channels (A and B), giving a total of 16 independent PWM outputs.
+Der Raspberry Pi Pico 2 verfügt über PWM-Funktionalität auf allen GPIO-Pins, jedoch gibt es insgesamt 8 PWM-Slices (PWM0 bis PWM7), wobei jeder Slice über zwei Kanäle (A und B) verfügt. Dies ergibt 16 unabhängige PWM-Ausgänge.
 
 |pin_pwm|
 
 .. note::
-     Pins sharing the same PWM slice (like GP0 and GP16) cannot have different frequencies but can have different duty cycles.
+     Pins, die denselben PWM-Slice verwenden (z. B. GP0 und GP16), können unterschiedliche Duty Cycles haben, aber nicht unterschiedliche Frequenzen.
 
 
-**What You'll Need**
+**Benötigte Komponenten**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Bauteile.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Ein komplettes Kit ist besonders praktisch, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ENTHALTENE TEILE IM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Alternativ können die Komponenten auch einzeln über die untenstehenden Links erworben werden.
 
 
 .. list-table::
@@ -71,8 +71,8 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -80,7 +80,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -89,70 +89,69 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(220Ω)
+        - 1 (220Ω)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_led`
         - 1
         - |link_led_buy|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_led|
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_led|
 
-**Writing the Code**
+**Code schreiben**
 
 .. note::
 
-   * You can open the file ``2.3_fading_led.ino`` from ``newton-lab-kit/arduino/2.3_fading_led``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``2.3_fading_led.ino`` aus dem Verzeichnis ``newton-lab-kit/arduino/2.3_fading_led`` öffnen. 
+   * Oder diesen Code in die **Arduino IDE** kopieren.
+   * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port aus und klicken Sie auf „Hochladen“.
 
 .. code-block:: Arduino
 
-    const int ledPin = 15; // GPIO pin connected to the LED
+    const int ledPin = 15; // GPIO-Pin für die LED
 
     void setup() {
-      pinMode(ledPin, OUTPUT); // Initialize the GPIO pin as an output
+      pinMode(ledPin, OUTPUT); // GPIO-Pin als Ausgang festlegen
     }
 
     void loop() {
-      // Increase brightness
+      // Helligkeit erhöhen
       for (int value = 0; value <= 255; value += 5) {
-        analogWrite(ledPin, value); // Set the brightness
-        delay(30);                  // Wait for 30 milliseconds
+        analogWrite(ledPin, value); // Helligkeit setzen
+        delay(30);                  // 30 Millisekunden warten
       }
-      // Decrease brightness
+      // Helligkeit verringern
       for (int value = 255; value >= 0; value -= 5) {
         analogWrite(ledPin, value);
         delay(30);
       }
     }
 
-After uploading the code, you should see the LED gradually increase in brightness and then fade, creating a smooth pulsing effect.
+Nach dem Hochladen des Codes sollte die LED langsam heller werden und dann wieder dunkler werden, wodurch ein sanfter Pulsierungseffekt entsteht.
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Declaring the LED Pin:
+#. LED-Pin definieren:
    
-   Declare a constant integer ``ledPin`` and assign it the value 15, which corresponds to GPIO pin 15 where the LED is connected.
+   Erstellt eine Konstante ``ledPin`` mit dem Wert 15, welcher dem GPIO-Pin 15 entspricht.
 
    .. code-block:: Arduino
 
         const int ledPin = 15;
 
-
-#. Setting Up the Pin:
+#. Pin initialisieren:
    
-   The ``setup()`` function runs once when the board powers up. We initialize ``ledPin`` as an output using ``pinMode()``.
+   Die ``setup()``-Funktion wird einmal beim Start des Programms ausgeführt. Der ``ledPin`` wird als Ausgang definiert.
 
    .. code-block:: Arduino
 
@@ -160,16 +159,15 @@ After uploading the code, you should see the LED gradually increase in brightnes
           pinMode(ledPin, OUTPUT);
         }
 
-
-#. The Loop Function:
+#. Loop-Funktion:
    
-    The ``loop()`` function runs repeatedly. It contains two ``for`` loops:
+    Die ``loop()``-Funktion wird kontinuierlich wiederholt. Sie enthält zwei ``for``-Schleifen:
 
-     * Increasing Brightness: Starts with ``value = 0`` and increases by 5 until it reaches 255.
-     * Decreasing Brightness: Starts with value = 255 and decreases by 5 down to 0.
+     * Helligkeit erhöhen: Startet mit ``value = 0`` und erhöht sich in 5er-Schritten bis 255.
+     * Helligkeit verringern: Startet mit ``value = 255`` und verringert sich wieder in 5er-Schritten bis 0.
      
-   * The ``analogWrite()`` function writes a PWM signal to the specified pin. The value ranges from 0 (always off) to 255 (always on), allowing for 256 levels of brightness.
-   * Adding ``delay(30);`` slows down the loop, so the change in brightness is gradual and visible to the human eye.
+   * Die Funktion ``analogWrite()`` schreibt ein PWM-Signal an den angegebenen Pin. Der Wert reicht von 0 (aus) bis 255 (maximale Helligkeit).
+   * ``delay(30);`` sorgt für eine sichtbare Veränderung der Helligkeit.
 
    .. code-block:: Arduino
 
@@ -187,12 +185,12 @@ After uploading the code, you should see the LED gradually increase in brightnes
         }
 
 
-**Additional Tips**
+**Zusätzliche Tipps**
 
-* **Experiment**: Try changing the value increments or the delay duration to see how it affects the fading speed.
-* **Understanding PWM Limitations**: While all GPIO pins on the Pico support PWM, pins sharing the same PWM slice cannot have different frequencies but can have different duty cycles.
-* **Safety First**: Always use a resistor with the LED to prevent it from drawing too much current and burning out.
+* **Experimentieren Sie**: Ändern Sie die Inkrementwerte oder die Verzögerungszeit, um die Geschwindigkeit der Helligkeitsänderung zu steuern.
+* **PWM-Einschränkungen verstehen**: Obwohl alle GPIO-Pins des Pico PWM unterstützen, können Pins desselben PWM-Slices nur unterschiedliche Duty Cycles, aber nicht unterschiedliche Frequenzen haben.
+* **Sicherheit beachten**: Verwenden Sie immer einen Vorwiderstand mit der LED, um Schäden durch zu hohen Strom zu vermeiden.
 
-**Conclusion**
+**Fazit**
 
-You've successfully created a fading LED effect using PWM on the Raspberry Pi Pico 2. This project demonstrates how PWM can be used to simulate analog behavior with digital signals, a fundamental concept in electronics and programming microcontrollers.
+Sie haben erfolgreich einen sanften LED-Dimmeffekt mithilfe von PWM auf dem Raspberry Pi Pico 2 erstellt. Dieses Projekt demonstriert, wie PWM zur Simulation analoger Signale mit digitalen Mitteln genutzt wird – eine grundlegende Technik in der Mikrocontroller-Programmierung.

@@ -1,58 +1,58 @@
 .. note::
+   
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein mit Gleichgesinnten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Austausch von Tipps und Tutorials zur Verbesserung Ihrer Fähigkeiten.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _cpn_ir_receiver:
 
-Infrared Receiver
+Infrarot-Empfänger
 =================================
 
-IR Receiver
+IR-Empfänger
 ----------------------------
 
 |img_irrecv|
 
-* S: Signal output
+* S: Signalausgang
 * +: VCC
 * -: GND
 
-An infrared-receiver is a component which receives infrared signals and can independently receive infrared rays and output signals compatible with TTL level. It is similar with a normal plastic-packaged transistor in size and is suitable for all kinds of infrared remote control and infrared transmission.
+Ein Infrarot-Empfänger ist eine Komponente, die Infrarotsignale empfängt und unabhängig Infrarotstrahlen empfangen und Signale ausgeben kann, die mit TTL-Niveau kompatibel sind. Er ähnelt in Größe einem normal verpackten Transistor und eignet sich für alle Arten von Infrarot-Fernbedienungen und Infrarot-Übertragungen.
 
-Infrared, or IR, communication is a popular, low-cost, easy-to-use wireless communication technology. Infrared light has a slightly longer wavelength than visible light, so it is imperceptible to the human eye - ideal for wireless communication. A common modulation scheme for infrared communication is 38KHz modulation.
+Infrarotkommunikation, oder IR-Kommunikation, ist eine beliebte, kostengünstige und einfach zu verwendende drahtlose Kommunikationstechnologie. Infrarotlicht hat eine etwas längere Wellenlänge als sichtbares Licht, daher ist es für das menschliche Auge unsichtbar - ideal für drahtlose Kommunikation. Ein gängiges Modulationsschema für die Infrarotkommunikation ist die 38KHz-Modulation.
 
-* Adopted HX1838 IR Receiver Sensor, high sensitivity
-* Can be used for remote control
-* Power Supply: 3.3~5V
-* Interface: Digital
-* Modulate Frequency: 38Khz
+* Verwendet HX1838 IR-Empfängersensor, hohe Sensitivität
+* Kann für Fernbedienungen verwendet werden
+* Stromversorgung: 3.3~5V
+* Schnittstelle: Digital
+* Modulationsfrequenz: 38Khz
 
 
-Remote Control
+Fernbedienung
 -------------------------
 
 |img_controller|
 
-This is a Mini thin infrared wireless remote control with 21 function buttons and a transmitting distance of up to 8 meters, which is suitable for operating a wide range of devices in a kid's room.
+Dies ist eine Mini-dünne Infrarot-Fernbedienung mit 21 Funktionstasten und einer Übertragungsdistanz von bis zu 8 Metern, geeignet für die Bedienung einer Vielzahl von Geräten in einem Kinderzimmer.
 
-* Size: 85x39x6mm
-* Remote control range: 8-10m
-* Battery: 3V button type lithium manganese battery
-* Infrared carrier frequency: 38KHz
-* Surface paste material: 0.125mm PET
-* Effective life: more than 20,000 times
+* Größe: 85x39x6mm
+* Reichweite der Fernbedienung: 8-10m
+* Batterie: 3V Knopfzellen-Lithium-Mangan-Batterie
+* Infrarot-Trägerfrequenz: 38KHz
+* Oberflächenklebematerial: 0.125mm PET
+* Effektive Lebensdauer: mehr als 20.000 Mal
 
 
-**Example**
+**Beispiel**
 
 * :ref:`py_irremote` (For MicroPython User)
 * :ref:`ar_irremote` (For Arduino User)

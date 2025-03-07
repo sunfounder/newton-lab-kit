@@ -1,50 +1,49 @@
-.. note::
+.. note:: 
+    Hallo und herzlich willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Vertiefen Sie Ihre Kenntnisse über Raspberry Pi, Arduino und ESP32 gemeinsam mit anderen Enthusiasten.
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **Warum beitreten?**
 
-    **Why Join?**
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Sonderangebote**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Giveaways**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Sind Sie bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_pump:
 
-3.6 Controlling a Water Pump
-=============================
+3.6 Steuerung einer Wasserpumpe
+===================================
 
-In this lesson, we'll learn how to control a **small water pump** using the Raspberry Pi Pico 2 and an **L293D motor driver**. A small centrifugal pump can be used for projects like automatic plant watering systems or creating miniature water features. Controlling the pump is similar to controlling a DC motor, as it uses the same principles.
+In dieser Lektion lernen wir, wie man eine **kleine Wasserpumpe** mit dem Raspberry Pi Pico 2 und einem **L293D-Motortreiber** steuert. Eine kleine Zentrifugalpumpe kann für Projekte wie automatische Pflanzenbewässerungssysteme oder das Erstellen von Miniatur-Wassermerkmalen verwendet werden. Die Steuerung der Pumpe ähnelt der Steuerung eines Gleichstrommotors, da sie dieselben Prinzipien verwendet.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die unten stehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -52,7 +51,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB Kabel
         - 1
         - 
     *   - 3
@@ -61,7 +60,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_l293d`
@@ -72,7 +71,7 @@ You can also buy them separately from the links below.
         - 1
         -  
     *   - 7
-        - 9V Battery
+        - 9V Batterie
         - 1
         -  
     *   - 9
@@ -80,36 +79,36 @@ You can also buy them separately from the links below.
         - 1
         -  
 
-**Important Notes Before You Begin**
+**Wichtige Hinweise vor Beginn**
 
-* **Pump Setup**: Connect the tubing to the pump's outlet. Submerge the pump in water before powering it on.
-* **Avoid Dry Running**: Ensure the pump is always submerged. Running the pump dry can cause overheating and damage the motor.
-* **Prevent Clogging**: If you're using the pump for watering plants, make sure the water is free of debris to prevent clogging.
-* **Priming the Pump**: If water doesn't come out initially, there might be air trapped in the tubing. You may need to prime the pump by allowing water to flow through to remove air bubbles.
+* **Pumpenaufbau**: Schließen Sie den Schlauch an den Ausgang der Pumpe an. Tauchen Sie die Pumpe vor dem Einschalten ins Wasser.
+* **Trockenlauf vermeiden**: Stellen Sie sicher, dass die Pumpe immer untergetaucht ist. Trockenlauf kann Überhitzung verursachen und den Motor beschädigen.
+* **Verstopfung verhindern**: Wenn Sie die Pumpe zum Bewässern von Pflanzen verwenden, stellen Sie sicher, dass das Wasser frei von Schmutz ist, um Verstopfungen zu vermeiden.
+* **Ansaugen der Pumpe**: Wenn anfangs kein Wasser austritt, könnte Luft im Schlauch gefangen sein. Sie müssen möglicherweise die Pumpe ansaugen, indem Sie Wasser durchfließen lassen, um Luftblasen zu entfernen.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_pump|
 
-L293D is a motor driver chip, EN is connected to 5V to make L293D work. 1A and 2A are the inputs connected to GP15 and GP14 respectively; 1Y and 2Y are the outputs connected to the two ends of the motor.
+Der L293D ist ein Motortreiber-Chip, EN ist mit 5V verbunden, um den L293D zu betreiben. 1A und 2A sind die Eingänge, die mit GP15 bzw. GP14 verbunden sind; 1Y und 2Y sind die Ausgänge, die mit den beiden Enden des Motors verbunden sind.
 
-Y (output) is in phase with A (input), so if GP15 and GP14 are given different levels respectively, the direction of motor rotation can be changed.
+Y (Ausgang) ist in Phase mit A (Eingang), daher kann die Drehrichtung des Motors geändert werden, wenn GP15 und GP14 unterschiedliche Pegel erhalten.
 
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
 |wiring_pump|
 
-In this circuit, you will see that the button is connected to the RUN pin. This is because the motor is operating with too much current, which may cause the Pico to disconnect from the computer, and the button needs to be pressed (for the Pico's **RUN** pin to receive a low level) to reset.
+In diesem Schaltkreis sehen Sie, dass der Knopf mit dem RUN-Pin verbunden ist. Dies liegt daran, dass der Motor mit zu viel Strom betrieben wird, was dazu führen kann, dass sich der Pico vom Computer trennt, und der Knopf muss gedrückt werden (damit der RUN-Pin des Pico ein niedriges Niveau erhält), um zurückzusetzen.
 
 
-**Writing the Code**
+**Schreiben des Codes**
 
 .. note::
 
-   * You can open the file ``3.6_pumping.ino`` from ``newton-lab-kit/arduino/3.6_pumping``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``3.6_pumping.ino`` aus ``newton-lab-kit/arduino/3.6_pumping`` öffnen. 
+   * Oder kopieren Sie diesen Code in **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2** Board und den richtigen Port, dann klicken Sie auf "Upload".
 
 .. code-block:: arduino
 
@@ -133,52 +132,52 @@ In this circuit, you will see that the button is connected to the RUN pin. This 
       delay(5000); // Stop for 5 seconds
     }
 
-After uploading the code:
+Nach dem Hochladen des Codes:
 
-* The pump should run for 5 seconds, pumping water through the tubing.
-* Then, it will stop for 5 seconds.
-* This cycle repeats indefinitely.
-* If water doesn't flow initially, make sure the pump is submerged, and there are no air bubbles in the tubing.
+* Die Pumpe sollte 5 Sekunden lang laufen, Wasser durch den Schlauch pumpen.
+* Dann wird sie für 5 Sekunden stoppen.
+* Dieser Zyklus wiederholt sich unendlich.
+* Wenn anfänglich kein Wasser fließt, stellen Sie sicher, dass die Pumpe untergetaucht ist und keine Luftblasen im Schlauch sind.
 
-**Safety Precautions**
+**Sicherheitsvorkehrungen**
 
-* Water and Electricity:
+* Wasser und Elektrizität:
 
-  * Be extremely careful to keep water away from the Pico and other electronic components.
-  * Ensure all connections are secure and insulated if necessary.
+  * Seien Sie äußerst vorsichtig, Wasser von Pico und anderen elektronischen Komponenten fernzuhalten.
+  * Stellen Sie sicher, dass alle Verbindungen sicher und bei Bedarf isoliert sind.
 
-* Power Supply:
+* Stromversorgung:
 
-  * Use a power supply that matches the pump's voltage requirements (typically 3V-6V).
-  * Do not power the pump directly from the Pico's 3.3V pin.
+  * Verwenden Sie eine Stromquelle, die den Spannungsanforderungen der Pumpe entspricht (typischerweise 3V-6V).
+  * Betreiben Sie die Pumpe nicht direkt vom 3,3V-Pin des Pico.
 
-* Current Draw:
+* Stromaufnahme:
 
-  * Pumps can draw significant current.
-  * Ensure your power source can handle the pump's current requirements.
+  * Pumpen können einen erheblichen Strom ziehen.
+  * Stellen Sie sicher, dass Ihre Stromquelle die Stromanforderungen der Pumpe bewältigen kann.
 
-* Resetting the Pico:
+* Zurücksetzen des Pico:
 
-  If you encounter issues uploading code after running the pump, you can manually reset the Pico by connecting the RUN pin to GND momentarily.
+  Wenn Sie Probleme beim Hochladen von Code nach dem Betrieb der Pumpe haben, können Sie den Pico manuell zurücksetzen, indem Sie den RUN-Pin kurzzeitig mit GND verbinden.
 
   |wiring_run_reset|
 
-**Further Exploration**
+**Weitere Erkundungen**
 
-* Automated Plant Watering:
+* Automatische Pflanzenbewässerung:
 
-  Incorporate soil moisture sensors to automate the watering process based on soil dryness.
+  Integrieren Sie Bodenfeuchtigkeitssensoren, um den Bewässerungsprozess basierend auf der Trockenheit des Bodens zu automatisieren.
 
-* PWM Speed Control:
+* PWM-Geschwindigkeitskontrolle:
 
-  Use Pulse Width Modulation (PWM) to control the pump's speed by varying the voltage.
+  Verwenden Sie die Pulsweitenmodulation (PWM), um die Geschwindigkeit der Pumpe durch Veränderung der Spannung zu steuern.
 
-* Timing and Scheduling:
+* Zeitplanung und Planung:
 
-  Implement more complex timing using real-time clocks or schedulers.
+  Implementieren Sie komplexere Zeitpläne mit Echtzeituhren oder Planern.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to control a small water pump using the Raspberry Pi Pico and the L293D motor driver. This technique can be used in various projects like automated plant watering systems, fountains, or hydroponic setups.
+In dieser Lektion haben Sie gelernt, wie man eine kleine Wasserpumpe mit dem Raspberry Pi Pico und dem L293D-Motortreiber steuert. Diese Technik kann in verschiedenen Projekten wie automatischen Pflanzenbewässerungssystemen, Brunnen oder Hydrokulturanlagen verwendet werden.
 
 

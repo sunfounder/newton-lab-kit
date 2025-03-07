@@ -1,50 +1,50 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Nachverkaufsprobleme und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Promotionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _py_joystick:
 
-4.1 Reading Values from a Joystick
-==================================
+4.1 Auslesen von Werten eines Joysticks
+==========================================
 
-In this lesson, we'll learn how to use a **joystick** with the Raspberry Pi Pico 2 to read analog values and detect button presses. A joystick is a common input device that allows you to control movement along two axes (X and Y) and often includes a button when pressed down (Z-axis).
+In dieser Lektion lernen wir, wie man einen **Joystick** mit dem Raspberry Pi Pico 2 verwendet, um analoge Werte zu lesen und Tastendrücke zu erkennen. Ein Joystick ist ein gängiges Eingabegerät, das die Steuerung der Bewegung entlang zweier Achsen (X und Y) ermöglicht und oft einen Knopf umfasst, der beim Herunterdrücken aktiviert wird (Z-Achse).
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten.
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
     *   - Name	
-        - ITEMS IN THIS KIT
+        - ARTIKEL IN DIESEM KIT
         - LINK
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
+        - KOMPONENTE	
+        - MENGE
         - LINK
 
     *   - 1
@@ -52,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -61,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -72,35 +72,35 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Understanding the Joystick**
+**Verständnis des Joysticks**
 
-A typical joystick module consists of two potentiometers positioned at right angles to each other:
+Ein typisches Joystick-Modul besteht aus zwei Potentiometern, die rechtwinklig zueinander positioniert sind:
 
-* **X-axis potentiometer**: Measures left-right movement.
-* **Y-axis potentiometer**: Measures up-down movement.
-* **Z-axis (Switch)**: A digital button activated when you press down on the joystick.
+* **X-Achsen-Potentiometer**: Misst die Bewegung nach links und rechts.
+* **Y-Achsen-Potentiometer**: Misst die Bewegung nach oben und unten.
+* **Z-Achse (Schalter)**: Ein digitaler Knopf, der aktiviert wird, wenn man auf den Joystick drückt.
 
-By reading the analog values from the X and Y axes, you can determine the position of the joystick. The Z-axis button allows you to detect when the joystick is pressed down.
+Durch das Auslesen der analogen Werte von den X- und Y-Achsen können Sie die Position des Joysticks bestimmen. Der Z-Achsen-Knopf ermöglicht es Ihnen zu erkennen, wann der Joystick heruntergedrückt wird.
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_joystick|
 
-The SW pin is connected to a 10K pull-up resistor, the reason is to be able to get a stable high level on the SW pin (Z axis) when the joystick is not pressed; otherwise the SW is in a suspended state and the output value may vary between 0/1.
+Der SW-Pin ist mit einem 10K Pull-Up-Widerstand verbunden, um ein stabiles hohes Signal am SW-Pin (Z-Achse) zu erhalten, wenn der Joystick nicht gedrückt ist; andernfalls ist der SW in einem schwebenden Zustand und der Ausgabewert kann zwischen 0/1 variieren.
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
 |wiring_joystick|
 
-**Writing the Code**
+**Code schreiben**
 
-Let's write a MicroPython program to read the joystick's X and Y positions and detect button presses.
+Lassen Sie uns ein MicroPython-Programm schreiben, um die X- und Y-Positionen des Joysticks zu lesen und Tastendrücke zu erkennen.
 
 .. note::
 
-    * Open the ``4.1_toggle_the_joystick.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * Öffnen Sie die Datei ``4.1_toggle_the_joystick.py`` aus ``newton-lab-kit/micropython`` oder kopieren Sie den Code in Thonny, dann klicken Sie auf "Run" oder drücken Sie F5.
 
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * Stellen Sie sicher, dass der richtige Interpreter ausgewählt ist: MicroPython (Raspberry Pi Pico).COMxx. 
 
     
 
@@ -109,57 +109,57 @@ Let's write a MicroPython program to read the joystick's X and Y positions and d
     import machine
     import utime
 
-    # Initialize ADC for X and Y axes
+    # Initialisieren Sie ADC für die X- und Y-Achsen
     x_adc = machine.ADC(27)  # GP27
     y_adc = machine.ADC(26)  # GP26
 
-    # Initialize digital input for the switch
+    # Initialisieren Sie den digitalen Eingang für den Schalter
     z_button = machine.Pin(22, machine.Pin.IN, machine.Pin.PULL_UP)
 
     while True:
-        # Read the analog values (0-65535)
+        # Lesen Sie die analogen Werte (0-65535)
         x_value = x_adc.read_u16()
         y_value = y_adc.read_u16()
         
-        # Read the button state (0 or 1)
+        # Lesen Sie den Schalterzustand (0 oder 1)
         z_state = z_button.value()
         
-        # Print the values
+        # Drucken Sie die Werte
         print("X:", x_value, "Y:", y_value, "Button:", z_state)
         
-        # Small delay to make the output readable
+        # Kleine Verzögerung, um die Ausgabe lesbar zu machen
         utime.sleep(0.2)
 
 
-**Understanding the Code**
+**Verständnis des Codes**
 
-#. Import Modules:
+#. Importieren Sie Module:
 
-   * ``machine``: Provides access to hardware-related functions.
-   * ``utime``: Contains time-related functions for delays.
+   * ``machine``: Bietet Zugang zu hardwarebezogenen Funktionen.
+   * ``utime``: Enthält zeitbezogene Funktionen für Verzögerungen.
 
-#. Initialize the ADC Inputs:
+#. Initialisieren Sie die ADC-Eingänge:
 
-   We set up analog-to-digital converters (ADC) on pins GP27 and GP26 to read the joystick's X and Y positions.
+   Wir richten Analog-Digital-Wandler (ADC) an den Pins GP27 und GP26 ein, um die X- und Y-Positionen des Joysticks zu lesen.
 
    .. code-block:: python
 
-      x_adc = machine.ADC(27)  # X-axis connected to GP27
-      y_adc = machine.ADC(26)  # Y-axis connected to GP26
+      x_adc = machine.ADC(27)  # X-Achse an GP27 angeschlossen
+      y_adc = machine.ADC(26)  # Y-Achse an GP26 angeschlossen
 
-#. Initialize the Digital Input:
+#. Initialisieren Sie den Digitalen Eingang:
 
-   * Configure GP22 as a digital input with an internal pull-up resistor for the joystick's button (Z-axis).
-   * The ``machine.Pin.PULL_UP`` parameter ensures the pin reads high (1) when not pressed and low (0) when pressed.
+   * Konfigurieren Sie GP22 als digitalen Eingang mit einem internen Pull-Up-Widerstand für den Knopf des Joysticks (Z-Achse).
+   * Der Parameter ``machine.Pin.PULL_UP`` stellt sicher, dass der Pin hoch (1) liest, wenn er nicht gedrückt wird, und niedrig (0), wenn er gedrückt wird.
 
    .. code-block:: python
 
       z_button = machine.Pin(22, machine.Pin.IN, machine.Pin.PULL_UP)
 
-#. Main Loop to Read Values:
+#. Hauptschleife zum Lesen der Werte:
 
-   * Read Analog Values: ``read_u16()`` reads a 16-bit value (0 to 65535) representing the voltage level.
-   * Print the Values: Displays the X and Y positions and the button state in the console.
+   * Analoge Werte lesen: ``read_u16()`` liest einen 16-Bit-Wert (0 bis 65535), der das Spannungsniveau darstellt.
+   * Werte drucken: Zeigt die X- und Y-Positionen und den Schalterzustand in der Konsole an.
 
    .. code-block:: python
 
@@ -172,76 +172,75 @@ Let's write a MicroPython program to read the joystick's X and Y positions and d
           
           utime.sleep(0.2)
 
-After running the program, open the Shell or REPL window in Thonny.
+Nachdem das Programm ausgeführt wurde, öffnen Sie das Shell- oder REPL-Fenster in Thonny.
 
-* You should see the X, Y, and Button values being printed.
-* Move the joystick in different directions and press the button to see the values change.
+* Sie sollten sehen, wie die X-, Y- und Button-Werte ausgegeben werden.
+* Bewegen Sie den Joystick in verschiedene Richtungen und drücken Sie den Knopf, um zu sehen, wie sich die Werte ändern.
 
-**Interpreting the Values**
+**Werte interpretieren**
 
-* X and Y Values:
+* X- und Y-Werte:
 
-  * Range from 0 to 65535.
-  * Center Position: Around 32768.
-  * Full Left or Up: Close to 0.
-  * Full Right or Down: Close to 65535.
+  * Bereich von 0 bis 65535.
+  * Mittelposition: Um 32768.
+  * Ganz links oder oben: Nahe 0.
+  * Ganz rechts oder unten: Nahe 65535.
 
-* Button State:
+* Schalterzustand:
 
-  * Not Pressed: 1.
-  * Pressed: 0.
+  * Nicht gedrückt: 1.
+  * Gedrückt: 0.
 
-**Experimenting Further**
+**Weitere Experimente**
 
-* Normalize the Values:
+* Werte normalisieren:
 
-  Convert the raw ADC values to a range of -100 to 100 for easier interpretation.
+  Konvertieren Sie die rohen ADC-Werte in einen Bereich von -100 bis 100 für eine einfachere Interpretation.
 
   .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize ADC for X and Y axes
+    # Initialisieren Sie ADC für die X- und Y-Achsen
     x_adc = machine.ADC(27)  # GP27
     y_adc = machine.ADC(26)  # GP26
 
-    # Initialize digital input for the switch
+    # Initialisieren Sie den digitalen Eingang für den Schalter
     z_button = machine.Pin(22, machine.Pin.IN, machine.Pin.PULL_UP)
 
-    # Function to normalize ADC values to a range of -100 to 100
+    # Funktion zum Normalisieren der ADC-Werte in einen Bereich von -100 bis 100
     def normalize(value):
         return int((value - 32768) / 327.68)
 
     while True:
-        # Read the analog values (0-65535)
+        # Lesen Sie die analogen Werte (0-65535)
         x_value = x_adc.read_u16()
         y_value = y_adc.read_u16()
         
-        # Read the button state (0 or 1)
+        # Lesen Sie den Schalterzustand (0 oder 1)
         z_state = z_button.value()
         
-        # Normalize the values to -100 to 100
+        # Normalisieren Sie die Werte auf -100 bis 100
         x_normalized = normalize(x_value)
         y_normalized = normalize(y_value)
         
-        # Print the normalized values
+        # Drucken Sie die normalisierten Werte
         print("X:", x_normalized, "Y:", y_normalized, "Button:", z_state)
         
-        # Small delay to make the output readable
+        # Kleine Verzögerung, um die Ausgabe lesbar zu machen
         utime.sleep(0.2)
 
 
-* Control an Output:
+* Steuern Sie ein Ausgabeelement:
 
-  Use the joystick input to control an LED, servo, or motor. For example, move an object left or right based on the X-axis value.
+  Verwenden Sie den Joystick-Eingang, um eine LED, einen Servo oder einen Motor zu steuern. Beispielsweise können Sie ein Objekt basierend auf dem X-Achsen-Wert nach links oder rechts bewegen.
 
-* Create a Game Controller:
+* Erstellen Sie einen Spielcontroller:
 
-  Combine the joystick inputs to control a simple game or graphical output.
+  Kombinieren Sie die Joystick-Eingaben, um ein einfaches Spiel oder eine grafische Ausgabe zu steuern.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to read analog and digital inputs from a joystick using the Raspberry Pi Pico 2. This knowledge allows you to incorporate joystick controls into your projects, enabling interactive applications like robots, games, or remote controls.
-
+In dieser Lektion haben Sie gelernt, wie man analoge und digitale Eingänge eines Joysticks mit dem Raspberry Pi Pico 2 liest. Dieses Wissen ermöglicht es Ihnen, Joystick-Steuerungen in Ihre Projekte einzubinden und interaktive Anwendungen wie Roboter, Spiele oder Fernbedienungen zu ermöglichen.
 

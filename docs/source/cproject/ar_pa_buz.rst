@@ -1,29 +1,29 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie tiefer ein in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Verkauf und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und Einblicken.
+    - **Spezielle Rabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Werbegeschenke**: Nehmen Sie an Verlosungen und Feiertagsaktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu erkunden und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
 .. _ar_pa_buz:
 
-3.2 Play Custom Tones with a Passive Buzzer
-===========================================
+3.2 Individuelle Töne mit einem passiven Summer spielen
+============================================================
 
-In this lesson, we'll learn how to use a **passive buzzer** with the Raspberry Pi Pico 2 to play different tones and even simple melodies! Unlike an active buzzer, a passive buzzer needs a changing electrical signal to produce sound, which means we can control the pitch of the sound by changing the signal's frequency.
+In dieser Lektion lernen wir, wie man einen **passiven Summer** mit dem Raspberry Pi Pico 2 verwendet, um verschiedene Töne und sogar einfache Melodien zu spielen! Im Gegensatz zu einem aktiven Summer benötigt ein passiver Summer ein wechselndes elektrisches Signal, um Ton zu erzeugen, was bedeutet, dass wir die Tonhöhe des Sounds steuern können, indem wir die Frequenz des Signals ändern.
 
-**What You'll Need**
+**Was Sie benötigen**
 
-In this project, we need the following components. 
+Für dieses Projekt benötigen wir die folgenden Komponenten. 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+Es ist definitiv praktisch, ein ganzes Kit zu kaufen, hier ist der Link: 
 
 .. list-table::
     :widths: 20 20 20
@@ -36,8 +36,7 @@ It's definitely convenient to buy a whole kit, here's the link:
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+Sie können sie auch einzeln über die untenstehenden Links kaufen.
 
 .. list-table::
     :widths: 5 20 5 20
@@ -53,7 +52,7 @@ You can also buy them separately from the links below.
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro-USB-Kabel
         - 1
         - 
     *   - 3
@@ -62,56 +61,56 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - Mehrere
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
-        - 1(S8050)
+        - 1 (S8050)
         - |link_transistor_buy|
     *   - 6
         - :ref:`cpn_resistor`
-        - 1(1KΩ)
+        - 1 (1KΩ)
         - |link_resistor_buy|
     *   - 7
-        - Passive :ref:`cpn_buzzer`
+        - Passiver :ref:`cpn_buzzer`
         - 1
         - |link_passive_buzzer_buy|
 
-**Understanding the Passive Buzzer**
+**Verständnis des passiven Summers**
 
-A passive buzzer works like a tiny speaker. It doesn't produce sound on its own; instead, it needs an oscillating signal to make sound. By providing signals of different frequencies, we can make the buzzer produce different pitches, allowing us to play notes and melodies.
+Ein passiver Summer funktioniert wie ein kleiner Lautsprecher. Er erzeugt keinen Ton von sich aus; stattdessen benötigt er ein oszillierendes Signal, um Ton zu erzeugen. Durch die Bereitstellung von Signalen unterschiedlicher Frequenzen können wir den Summer verschiedene Tonhöhen erzeugen lassen, was es uns ermöglicht, Noten und Melodien zu spielen.
 
 |img_buzzer|
 
-**Circuit Diagram**
+**Schaltplan**
 
 |sch_buzzer|
 
-In this circuit, the passive buzzer is powered through a transistor (**S8050** NPN). The transistor amplifies the current, making the buzzer sound louder than if it were connected directly to the Pico. 
+In diesem Schaltkreis wird der passive Summer über einen Transistor (**S8050** NPN) mit Strom versorgt. Der Transistor verstärkt den Strom, sodass der Summer lauter klingt, als wäre er direkt an den Pico angeschlossen.
 
-Here's what happens:
+Hier ist, was passiert:
 
-* **GP15** outputs a high signal to control the transistor.
-* When the transistor is activated, it allows current to flow through the buzzer, making it beep.
+* **GP15** gibt ein hohes Signal aus, um den Transistor zu steuern.
+* Wenn der Transistor aktiviert ist, lässt er Strom durch den Summer fließen, was ihn zum Piepen bringt.
 
-A **1kΩ resistor** is used to limit the current to protect the transistor.
+Ein **1kΩ-Widerstand** wird verwendet, um den Strom zu begrenzen und den Transistor zu schützen.
 
-**Wiring Diagram**
+**Verdrahtungsplan**
 
-Make sure you are using the **passive buzzer**. You can tell it's the correct one by looking for the exposed PCB (as opposed to the sealed back, which is a active buzzer).
+Stellen Sie sicher, dass Sie den **passiven Summer** verwenden. Sie können erkennen, dass es der richtige ist, wenn Sie die freiliegende Leiterplatte sehen (im Gegensatz zur versiegelten Rückseite, die ein aktiver Summer wäre).
 
 |img_buzzer|
 
 |wiring_buzzer|
 
-**Writing the Code**
+**Schreiben des Codes**
 
 
 .. note::
 
-   * You can open the file ``3.2_custom_tone.ino`` from ``newton-lab-kit/arduino/3.2_custom_tone``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * Sie können die Datei ``3.2_custom_tone.ino`` aus ``newton-lab-kit/arduino/3.2_custom_tone`` öffnen. 
+   * Oder kopieren Sie diesen Code in die **Arduino IDE**.
+   * Wählen Sie das **Raspberry Pi Pico 2**-Board und den richtigen Port und klicken Sie dann auf "Upload".
 
 .. code-block:: arduino
 
@@ -129,27 +128,27 @@ Make sure you are using the **passive buzzer**. You can tell it's the correct on
       delay(1000);
     }
 
-The code plays a 440 Hz tone (standard A note) for 1 second, waits for 1 second, and repeats.
+Der Code spielt einen Ton mit 440 Hz (Standard-A-Note) für 1 Sekunde, wartet 1 Sekunde und wiederholt dies.
 
 * ``tone(pin, frequency, duration)``:
 
-  * ``pin``: The GPIO pin connected to the buzzer (through the transistor).
-  * ``frequency``: The frequency of the tone in hertz (Hz). Higher frequencies produce higher pitches.
-  * ``duration (optional)``: The duration to play the tone in milliseconds.
+  * ``pin``: Der GPIO-Pin, der mit dem Summer verbunden ist (über den Transistor).
+  * ``frequency``: Die Frequenz des Tons in Hertz (Hz). Höhere Frequenzen erzeugen höhere Tonhöhen.
+  * ``duration (optional)``: Die Dauer, für die der Ton in Millisekunden gespielt wird.
 
 
-**Playing a Melody**
+**Eine Melodie spielen**
 
-Let's expand the code to play a simple melody by defining the notes and their corresponding frequencies.
+Erweitern wir den Code, um eine einfache Melodie zu spielen, indem wir die Noten und ihre entsprechenden Frequenzen definieren.
 
-* An array ``melody[]`` holds the sequence of notes to play.
-* An array ``noteDurations[]`` defines the duration of each note. A duration of 4 represents a quarter note.
-* The ``for`` loop iterates through each note in the melody.
+* Ein Array ``melody[]`` hält die Reihenfolge der zu spielenden Noten.
+* Ein Array ``noteDurations[]`` definiert die Dauer jeder Note. Eine Dauer von 4 entspricht einer Viertelnote.
+* Die ``for``-Schleife iteriert durch jede Note in der Melodie.
 
-  * Calculates the note duration in milliseconds.
-  * Uses ``tone()`` to play each note.
-  * Uses ``delay()`` to pause between notes.
-  * Calls ``noTone()`` to stop the tone before moving to the next note.
+  * Berechnet die Notendauer in Millisekunden.
+  * Verwendet ``tone()`` zum Spielen jeder Note.
+  * Verwendet ``delay()`` zur Pause zwischen den Noten.
+  * Ruft ``noTone()`` auf, um den Ton zu stoppen, bevor zur nächsten Note übergegangen wird.
 
 .. code-block:: arduino
 
@@ -197,41 +196,41 @@ Let's expand the code to play a simple melody by defining the notes and their co
           delay(2000);
         }
 
-After uploading the code, you should hear the buzzer play the melody. If the sound is too quiet, ensure all connections are secure. Remember that passive buzzers may not produce very loud sounds.
+Nach dem Hochladen des Codes sollten Sie hören, wie der Summer die Melodie spielt. Wenn der Ton zu leise ist, stellen Sie sicher, dass alle Verbindungen sicher sind. Denken Sie daran, dass passive Summer möglicherweise keine sehr lauten Töne erzeugen.
 
 
-**Learn More**
+**Weiterführendes Lernen**
 
-* Creating Your Own Melodies:
+* Erstellen eigener Melodien:
 
-  You can create your own melodies by changing the ``melody[]`` and ``noteDurations[]`` arrays.
+  Sie können eigene Melodien erstellen, indem Sie die Arrays ``melody[]`` und ``noteDurations[]`` ändern.
 
-* Using the ``pitches.h`` Library:
+* Verwendung der ``pitches.h``-Bibliothek:
 
-  For convenience, you can include a library file ``pitches.h`` that contains definitions for many notes.
-  Create a file named ``pitches.h`` and include it in your sketch.
+  Für mehr Bequemlichkeit können Sie eine Bibliotheksdatei ``pitches.h`` einbinden, die Definitionen für viele Noten enthält.
+  Erstellen Sie eine Datei namens ``pitches.h`` und binden Sie sie in Ihren Sketch ein.
   
   .. code-block:: arduino
 
     #include "pitches.h"
 
-**Further Exploration**
+**Weitere Erkundungen**
 
-* Compose a Song:
+* Komponieren eines Liedes:
 
-  Try composing your own song by defining a new sequence of notes and durations.
+  Versuchen Sie, Ihr eigenes Lied zu komponieren, indem Sie eine neue Folge von Noten und Dauern definieren.
 
-* Interactive Music:
+* Interaktive Musik:
 
-  Add buttons or sensors to control the playback of the melody.
+  Fügen Sie Tasten oder Sensoren hinzu, um die Wiedergabe der Melodie zu steuern.
 
-* Visual Feedback:
+* Visuelles Feedback:
 
-  Integrate LEDs to light up in sync with the notes played.
+  Integrieren Sie LEDs, die im Takt der gespielten Noten aufleuchten.
 
-**Conclusion**
+**Fazit**
 
-In this lesson, you've learned how to use a passive buzzer with the Raspberry Pi Pico to play different tones and melodies. By controlling the frequency of the signal sent to the buzzer, you can produce various pitches and create music in your projects.
+In dieser Lektion haben Sie gelernt, wie man einen passiven Summer mit dem Raspberry Pi Pico verwendet, um verschiedene Töne und Melodien zu spielen. Durch die Steuerung der Frequenz des an den Summer gesendeten Signals können Sie verschiedene Tonhöhen erzeugen und Musik in Ihren Projekten kreieren.
 
 
 
