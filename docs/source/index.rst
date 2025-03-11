@@ -17,6 +17,15 @@ SunFounder |link_newton_lab_kit| for Raspberry Pi Pico 2
 
 * |link_Newton_lab_kit|
 
+.. note::
+    This document is available in the following languages.
+
+        * |link_german_tutorials|
+        * |link_jp_tutorials|
+        * |link_en_tutorials|
+    
+    Please click on the respective links to access the document in your preferred language.
+
 Thank you for choosing the SunFounder |link_newton_lab_kit|!
 
 This advanced learning kit, built around the Raspberry Pi Pico 2, offers a wide range of components, including displays, sound modules, drivers, controllers, and sensors, designed to give you a deep understanding of electronic devices.

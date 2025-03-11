@@ -623,6 +623,17 @@ rst_epilog += """
 
     <a href="https://www.raspberrypi.com/documentation/microcontrollers/micropython.html#drag-and-drop-micropython" target="_blank">method</a>
 
+.. |link_en_tutorials| raw:: html
+
+    <a href="https://docs.sunfounder.com/projects/newton-lab-kit/en/latest/" target="_blank">English Online-tutorials</a>
+
+.. |link_german_tutorials| raw:: html
+
+    <a href="https://docs.sunfounder.com/projects/newton-lab-kit/en/latest/" target="_blank">Deutsch Online-Kurs</a>
+
+.. |link_jp_tutorials| raw:: html
+
+    <a href="https://docs.sunfounder.com/projects/newton-lab-kit/ja/latest/" target="_blank">日本語オンライン教材</a>
 
 """
 
