@@ -1,43 +1,44 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community（Facebook）へようこそ！Raspberry Pi、Arduino、ESP32に情熱を持つ皆と一緒に、さらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的サポート**：コミュニティやチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学び＆共有**：技術的なヒントやチュートリアルを交換し、スキルアップを図りましょう。
+    - **独占的なプレビュー**：新製品の発表やプレビューに早期アクセス。
+    - **特別割引**：最新製品に対する独占的な割引を楽しめます。
+    - **祭りのプロモーションとギフト**：ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
 .. _ar_tilt:
 
-2.6 Tilt It!
+2.6 傾けてみよう！
 =======================
 
-In this lesson, we'll learn how to use a tilt switch with the Raspberry Pi Pico 2 to detect changes in orientation. A tilt switch is a simple device that can sense whether it is upright or tilted, making it useful for applications like motion detection, orientation sensing, or as a trigger based on position.
+このレッスンでは、Raspberry Pi Pico 2を使用して傾きスイッチで向きの変化を検出する方法を学びます。傾きスイッチは、直立しているか傾いているかを感知できる簡単なデバイスで、動きの検出、向きの感知、または位置に基づいてトリガーとして使用するのに便利です。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全てのキットを購入することは非常に便利です。リンクはこちらです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
+    *   - 名称
+        - このキットに含まれるアイテム
+        - リンク
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+また、以下のリンクから個別に購入することもできます。
+
 
 
 .. list-table::
@@ -45,16 +46,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB ケーブル
         - 1
         - 
     *   - 3
@@ -63,7 +64,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -74,85 +75,84 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_tilt|
 
-* **When Upright (Switch Closed)**:
+* **直立時（スイッチ閉）**：
 
-  * The tilt switch connects **3.3V** directly to **GP14**.
-  * The GPIO pin reads **HIGH** (1).
+  * 傾きスイッチは **3.3V** を直接 **GP14** に接続します。
+  * GPIOピンは **HIGH** （1）を読み取ります。
 
-* **When Tilted (Switch Open)**:
+* **傾いた時（スイッチ開）**：
 
-  * The tilt switch disconnects **3.3V** from **GP14**.
-  * The pull-down resistor pulls **GP14** to **GND**.
-  * The GPIO pin reads **LOW** (0).
+  * 傾きスイッチは **3.3V** から **GP14** の接続を切断します。
+  * プルダウン抵抗は **GP14** を **GND** に引っ張ります。
+  * GPIOピンは **LOW** （0）を読み取ります。
 
-**Wiring**
+**配線**
 
 |wiring_tilt|
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-   * You can open the file ``2.6_tilt_it.ino`` from ``newton-lab-kit/arduino/2.4_colorful_light``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``2.6_tilt_it.ino`` ファイルを ``newton-lab-kit/arduino/2.4_colorful_light`` から開くことができます。
+   * または、このコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定した後、「Upload」をクリックしてください。
 
 .. code-block:: Arduino
 
-   const int tiltPin = 14;  // GPIO pin connected to the tilt switch
+   const int tiltPin = 14;  // 傾きスイッチに接続されたGPIOピン
 
    void setup() {
-     Serial.begin(115200);       // Initialize Serial Monitor at 115200 baud
-     pinMode(tiltPin, INPUT);    // Set the tilt pin as input
+     Serial.begin(115200);       // シリアルモニターを115200ボーで初期化
+     pinMode(tiltPin, INPUT);    // 傾きピンを入力として設定
    }
 
    void loop() {
-     int tiltState = digitalRead(tiltPin);  // Read the state of the tilt switch
+     int tiltState = digitalRead(tiltPin);  // 傾きスイッチの状態を読み取る
 
      if (tiltState == HIGH) {
        Serial.println("The switch works!");
      }
-     delay(100);  // Small delay to avoid flooding the Serial Monitor
+     delay(100);  // シリアルモニターを過負荷にしないように少し遅延
    }
 
-When the code is running, and the Serial Monitor is open, tilt the breadboard or the tilt switch.
-Each time you tilt the switch to the upright position, "The switch works!" should appear in the Serial Monitor.
+コードが実行されているとき、シリアルモニターが開かれ、ブレッドボードまたは傾きスイッチを傾けると、「スイッチは動作しています！」がシリアルモニターに表示されます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Initializing Serial Communication:
+#. シリアル通信の初期化：
 
-   Starts serial communication at a baud rate of 115200. This allows us to print messages to the Serial Monitor.
+   115200ボーでシリアル通信を開始します。これにより、シリアルモニターにメッセージを出力できます。
 
    .. code-block:: Arduino
 
         Serial.begin(115200);
 
-#. Setting Up the Tilt Pin:
+#. 傾きピンの設定：
 
-   Configures ``tiltPin`` (GP14) as an input to read the state of the tilt switch.
+   ``tiltPin`` （GP14）を入力として設定し、傾きスイッチの状態を読み取ります。
 
    .. code-block:: Arduino
 
         pinMode(tiltPin, INPUT);
 
 
-#. Reading the Tilt Switch State:
+#. 傾きスイッチの状態の読み取り：
 
-   Reads the current state of the tilt switch. It will be ``HIGH`` when upright and ``LOW`` when tilted.
+   傾きスイッチの現在の状態を読み取ります。直立時は ``HIGH`` 、傾いた時は ``LOW`` になります。
 
    .. code-block:: Arduino
 
         int tiltState = digitalRead(tiltPin);
 
-#. Responding to Tilt:
+#. 傾きへの対応：
 
-   If the tilt switch is upright (closed), print a message to the Serial Monitor.
+   傾きスイッチが直立（閉）の場合、シリアルモニターにメッセージを表示します。
 
    .. code-block:: Arduino
 
@@ -160,14 +160,14 @@ Each time you tilt the switch to the upright position, "The switch works!" shoul
           Serial.println("The switch works!");
         }
 
-**Experimenting Further**
+**さらなる実験**
 
-* **Control an LED**: Modify the code to turn an LED on when the tilt switch is upright and off when tilted.
+* **LEDの制御**：傾きスイッチが直立しているときにLEDを点灯し、傾いたときに消灯するようにコードを変更します。
 
   .. code-block:: Arduino
 
-        const int tiltPin = 14;   // GPIO pin connected to the tilt switch
-        const int ledPin = 15;    // GPIO pin connected to an LED
+        const int tiltPin = 14;   // 傾きスイッチに接続されたGPIOピン
+        const int ledPin = 15;    // LEDに接続されたGPIOピン
 
         void setup() {
           Serial.begin(115200);
@@ -180,16 +180,15 @@ Each time you tilt the switch to the upright position, "The switch works!" shoul
 
           if (tiltState == HIGH) {
             Serial.println("The switch works!");
-            digitalWrite(ledPin, HIGH);  // Turn on LED
+            digitalWrite(ledPin, HIGH);  // LEDを点灯
           } else {
-            digitalWrite(ledPin, LOW);   // Turn off LED
+            digitalWrite(ledPin, LOW);   // LEDを消灯
           }
           delay(100);
         }
 
-* **Adjust Sensitivity**: Some tilt switches have different sensitivity levels. Experiment by adjusting the orientation to see at what angle the switch activates.
+* **感度の調整**：傾きスイッチは感度が異なる場合があります。傾きの角度を調整して、スイッチがどの角度で作動するかを実験してみてください。
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to use a tilt switch with the Raspberry Pi Pico to detect changes in orientation. This fundamental skill allows you to create projects that respond to movement or position, such as alarms, automatic lighting, or interactive devices.
-
+このレッスンでは、Raspberry Pi Picoを使用して傾きスイッチで向きの変化を検出する方法を学びました。この基本的なスキルを身につけることで、警報、自動照明、またはインタラクティブなデバイスなど、動きや位置に反応するプロジェクトを作成できます。

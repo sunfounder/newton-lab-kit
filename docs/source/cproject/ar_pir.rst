@@ -1,43 +1,43 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ人々とさらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**: コミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: 技術を磨くためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセスが可能です。
+    - **特別割引**: 最新製品を特別割引価格でお楽しみください。
+    - **祝祭プロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造しませんか？[|link_sf_facebook|]をクリックして今すぐ参加！
 
 .. _ar_pir:
 
-2.10 Detect Human Movement
+2.10 人間の動きを検出する
 ==========================
 
-In this lesson, we'll learn how to use a Passive Infrared (PIR) sensor with the Raspberry Pi Pico 2 to detect human movement. PIR sensors are commonly used in security systems, automatic lighting, and other applications where motion detection is required. They detect infrared radiation emitted by warm objects, such as humans or animals, in their field of view.
+このレッスンでは、Raspberry Pi Pico 2にパッシブ赤外線（PIR）センサーを使用して人間の動きを検出する方法を学びます。PIRセンサーは、セキュリティシステム、自動照明、その他の動きの検出が必要な用途で一般的に使用されています。これらは、視界内の人間や動物などの暖かい物体が放出する赤外線を検出します。
 
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全てのキットを購入するのが便利ですが、こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
+    *   - 名前
+        - このキットのアイテム
+        - リンク
+    *   - Newton Lab Kit
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+個別に購入することもできます。以下のリンクからどうぞ。
 
 
 .. list-table::
@@ -45,16 +45,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -63,7 +63,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_pir`
@@ -71,52 +71,52 @@ You can also buy them separately from the links below.
         - |link_pir_buy|
       
 
-**Circuit Diagram**
+**回路図**
 
 |sch_pir|
 
-When the PIR module detects someone passing by, GP14 will be high, otherwise it will be low.
+PIRモジュールが誰かの通過を検出すると、GP14は高電位になり、そうでない場合は低電位になります。
 
 .. note::
 
-    The PIR sensor have two potentiometers:
+    PIRセンサーには2つのポテンショメーターがあります：
 
-    * **Sensitivity Adjustment**: Controls the range of detection.
-    * **Time Delay Adjustment**: Controls how long the output remains HIGH after motion is detected.
+    * **感度調整**: 検出範囲を制御します。
+    * **時間遅延調整**: 動きが検出された後に出力がHIGHのままになる時間を制御します。
 
-    For initial testing, turn both potentiometers counterclockwise to their minimum positions. This sets the sensor to its most sensitive and shortest delay settings, allowing you to observe immediate responses.
+    初期テストでは、両方のポテンショメーターを反時計回りに最小位置に設定します。これにより、センサーは最も敏感で遅延時間が最短の設定になり、即座に反応を観察することができます。
 
 
     |img_PIR_TTE|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_pir|
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-   * You can open the file ``2.10_detect_human_movement.ino`` from ``newton-lab-kit/arduino/2.10_detect_human_movement``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ファイル ``2.10_detect_human_movement.ino`` を ``newton-lab-kit/arduino/2.10_detect_human_movement`` から開くことができます。
+   * あるいは、このコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードと正しいポートを選択し、「Upload」をクリックします。
 
 .. code-block:: python
 
-   const int pirPin = 14;     // PIR sensor output pin connected to GP14
-   int pirState = LOW;        // Current state of PIR sensor
-   int val = 0;               // Variable to store the PIR reading
+   const int pirPin = 14;     // PIRセンサー出力ピンをGP14に接続
+   int pirState = LOW;        // PIRセンサーの現在の状態
+   int val = 0;               // PIR読み取り値を格納する変数
 
    void setup() {
-     Serial.begin(115200);    // Initialize Serial Monitor
-     pinMode(pirPin, INPUT);  // Set the PIR pin as input
+     Serial.begin(115200);    // シリアルモニターを初期化
+     pinMode(pirPin, INPUT);  // PIRピンを入力として設定
      Serial.println("PIR Sensor Test");
-     delay(2000);             // Allow the PIR sensor to stabilize
+     delay(2000);             // PIRセンサーの安定化を待つ
    }
 
    void loop() {
-     val = digitalRead(pirPin);  // Read the PIR sensor
+     val = digitalRead(pirPin);  // PIRセンサーを読み取る
 
      if (val == HIGH) {
        if (pirState == LOW) {
@@ -129,28 +129,28 @@ When the PIR module detects someone passing by, GP14 will be high, otherwise it 
          pirState = LOW;
        }
      }
-     delay(500);  // Wait half a second before checking again
+     delay(500);  // 次のチェックまで半秒待つ
    }
 
-When the code is running and the Serial Monitor is open:
+コードが実行され、シリアルモニターが開かれているとき：
 
-* Move in front of the PIR sensor. The Serial Monitor should display "Motion detected!"
-* Stop moving or move out of the sensor's range. After a short delay, the Serial Monitor should display "Motion ended!"
+* PIRセンサーの前で動くと、「動きを検出！」とシリアルモニターに表示されます。
+* 動かなくなるか、センサーの範囲から出ると、短い遅延の後に「動きが終了！」と表示されます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Reading the PIR Sensor:
+#. PIRセンサーの読み取り：
 
-   Reads the current state of the PIR sensor. It will be HIGH when motion is detected and LOW when no motion is detected.
+   PIRセンサーの現在の状態を読み取ります。動きが検出されるとHIGHになり、検出されないとLOWになります。
 
    .. code-block:: Arduino
 
       val = digitalRead(pirPin);
 
-#. Detecting Motion:
+#. 動きの検出：
 
-   * When motion is detected, and it's the first detection, it prints "Motion detected!" and updates pirState.
-   * When motion ends, it prints "Motion ended!" and updates pirState.
+   * 動きが検出され、それが最初の検出である場合、「動きを検出！」と表示し、pirStateを更新します。
+   * 動きが終了した場合、「動きが終了！」と表示し、pirStateを更新します。
   
    .. code-block:: Arduino
 
@@ -167,29 +167,28 @@ When the code is running and the Serial Monitor is open:
       }
 
 
-**Practical Applications**
+**実用的な応用**
 
-* **Security Systems**: Detect intruders or unauthorized movement.
-* **Automatic Lighting**: Turn lights on when motion is detected.
-* **Energy Saving**: Power down devices when no movement is detected for a period.
+* **セキュリティシステム**: 侵入者や許可されていない動きを検出します。
+* **自動照明**: 動きが検出されたときに照明を点灯します。
+* **エネルギー節約**: 一定期間動きが検出されない場合にデバイスを電源オフにします。
 
-**Troubleshooting Tips**
+**トラブルシューティングのヒント**
 
-* False Triggers:
+* 誤トリガー：
 
-  * PIR sensors can be sensitive to environmental factors like temperature changes or sunlight.
-  * Avoid pointing the sensor directly at heat sources or windows.
+  * PIRセンサーは温度変化や日光などの環境要因に敏感です。
+  * センサーを熱源や窓に直接向けないでください。
 
-* Sensor Not Detecting Motion:
+* センサーが動きを検出しない：
 
-  * Ensure the sensor has had time to initialize (some sensors require up to 60 seconds).
-  * Adjust the sensitivity potentiometer.
+  * センサーが初期化されるのに時間がかかることがあります（一部のセンサーは最大で60秒必要です）。
+  * 感度のポテンショメーターを調整してください。
 
-* Interference: 
+* 干渉：
 
-  * Keep the sensor away from electronics that may cause electromagnetic interference.
+  * 電磁干渉を引き起こす可能性のある電子機器からセンサーを遠ざけてください。
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to use a PIR sensor with the Raspberry Pi Pico to detect human movement. You've set up the hardware, written code to read the sensor's output, and tested it to respond to motion. Understanding how to adjust the PIR sensor's settings allows you to tailor it to your specific application, whether it's for security, automation, or interactive projects.
-
+このレッスンでは、PIRセンサーをRaspberry Pi Picoと共に使用して人間の動きを検出する方法を学びました。ハードウェアのセットアップ、センサーの出力を読み取るコードの記述、そして動きに反応するテストを行いました。PIRセンサーの設定を調整する方法を理解することで、セキュリティ、自動化、またはインタラクティブなプロジェクトに合わせてカスタマイズできます。

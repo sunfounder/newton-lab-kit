@@ -1,58 +1,58 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてもっと深く探求し、同じ興味を持つ人々と交流しましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**：コミュニティやチームからの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**：スキルを高めるためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**：新製品の発表や先行公開に早期アクセスします。
+    - **特別割引**：最新製品に対する独占割引を楽しみます。
+    - **祭りのプロモーションとギブアウェイ**：ギブアウェイや祝祭のプロモーションに参加します。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造しませんか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _ar_motor:
 
-3.5 Controlling a Small Fan (DC Motor)
+3.5 小型ファン（DCモーター）の制御
 ======================================
 
-In this lesson, we'll learn how to control a **DC motor** (like a small fan) using the Raspberry Pi Pico 2 and an **L293D motor driver**. The L293D allows us to control the direction of the motor rotation—both clockwise and counterclockwise. Since DC motors require more current than the Pico can provide directly, we'll use an external power supply to safely power the motor.
+このレッスンでは、Raspberry Pi Pico 2と **L293Dモータードライバー** を使用して **DCモーター** （小型ファンのような）を制御する方法を学びます。L293Dを使えば、モーターの回転方向（時計回りと反時計回りの両方）を制御できます。DCモーターはPicoが直接提供できる電流よりも多くの電流を必要とするため、外部の電源を使用してモーターを安全に動かします。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全キットを購入する方が便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -61,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_l293d`
@@ -76,41 +76,41 @@ You can also buy them separately from the links below.
         - 1
         -  
     *   - 8
-        - 9V Battery
+        - 9V電池
         - 1
         - 
  
-**Circuit Diagram**
+**回路図**
 
 |sch_motor|
 
 
-L293D is a motor driver chip, EN is connected to 5V to make L293D work. 1A and 2A are the inputs connected to GP15 and GP14 respectively; 1Y and 2Y are the outputs connected to the two ends of the motor.
+L293Dはモータードライバーチップで、ENはL293Dが動作するために5Vに接続されます。1Aと2AはそれぞれGP15とGP14に接続された入力で、1Yと2Yはモーターの両端に接続された出力です。
 
-Y (output) is in phase with A (input), so if GP15 and GP14 are given different levels respectively, the direction of motor rotation can be changed.
+Y（出力）はA（入力）と位相が同じなので、GP15とGP14にそれぞれ異なるレベルが与えられた場合、モーターの回転方向を変更することができます。
 
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_motor|
 
-In this circuit, you will see that the button is connected to the RUN pin. This is because the motor is operating with too much current, which may cause the Pico to disconnect from the computer, and the button needs to be pressed (for the Pico's **RUN** pin to receive a low level) to reset.
+この回路では、ボタンがRUNピンに接続されているのが見られます。これは、モーターが多くの電流を使用して動作するため、Picoがコンピュータから切断される可能性があり、ボタンを押す必要がある（Picoの **RUN** ピンが低レベルを受け取る）ためです。
 
-Since DC motors require a high current, we use a power supply module to power the motor here for safety reasons.
+DCモーターは高電流を必要とするため、安全性を考慮してここでは電源モジュールを使用してモーターに電力を供給します。
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-   * You can open the file ``3.5_small_fan.ino`` from ``newton-lab-kit/arduino/3.5_small_fan``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ファイル ``3.5_small_fan.ino`` を ``newton-lab-kit/arduino/3.5_small_fan`` から開くことができます。
+   * またはこのコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2**ボードと正しいポートを選択し、「Upload」をクリックしてください。
 
 .. code-block:: arduino
 
-    const int IN1 = 15; // GPIO pin connected to Input 1A
-    const int IN2 = 14; // GPIO pin connected to Input 2A
+    const int IN1 = 15; // Input 1Aに接続されたGPIOピン
+    const int IN2 = 14; // Input 2Aに接続されたGPIOピン
 
     void setup() {
       pinMode(IN1, OUTPUT);
@@ -118,44 +118,44 @@ Since DC motors require a high current, we use a power supply module to power th
     }
 
     void loop() {
-      // Rotate motor clockwise
+      // モーターを時計回りに回転
       digitalWrite(IN1, HIGH);
       digitalWrite(IN2, LOW);
-      delay(2000); // Run for 2 seconds
+      delay(2000); // 2秒間動作
 
-      // Stop motor
+      // モーターを停止
       digitalWrite(IN1, LOW);
       digitalWrite(IN2, LOW);
-      delay(1000); // Stop for 1 second
+      delay(1000); // 1秒間停止
 
-      // Rotate motor counterclockwise
+      // モーターを反時計回りに回転
       digitalWrite(IN1, LOW);
       digitalWrite(IN2, HIGH);
-      delay(2000); // Run for 2 seconds
+      delay(2000); // 2秒間動作
 
-      // Stop motor
+      // モーターを停止
       digitalWrite(IN1, LOW);
       digitalWrite(IN2, LOW);
-      delay(1000); // Stop for 1 second
+      delay(1000); // 1秒間停止
     }
 
-After uploading the code:
+コードをアップロードした後：
 
-* The motor should rotate in one direction for 2 seconds.
-* Then, it will stop for 1 second.
-* Then, it will rotate in the opposite direction for 2 seconds.
-* This cycle repeats indefinitely.
+* モーターは一方向に2秒間回転します。
+* 次に、1秒間停止します。
+* 次に、反対方向に2秒間回転します。
+* このサイクルは無限に繰り返されます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Defining Control Pins:
+#. 制御ピンの定義：
 
    .. code-block:: arduino
 
-        const int IN1 = 15; // Connected to Input 1A
-        const int IN2 = 14; // Connected to Input 2A
+        const int IN1 = 15; // Input 1Aに接続
+        const int IN2 = 14; // Input 2Aに接続
 
-#. Setting Pin Modes:
+#. ピンモードの設定：
 
    .. code-block:: arduino
 
@@ -164,16 +164,16 @@ After uploading the code:
           pinMode(IN2, OUTPUT);
         }
 
-#. Controlling Motor Direction:
+#. モーター方向の制御：
 
-   * **Clockwise Rotation**: Sets IN1 HIGH and IN2 LOW, causing the motor to rotate in one direction.
+   * **時計回りの回転**：IN1をHIGHにし、IN2をLOWに設定することで、モーターが一方向に回転します。
 
    .. code-block:: arduino
 
         digitalWrite(IN1, HIGH);
         digitalWrite(IN2, LOW);
 
-   * **Counterclockwise Rotation**: Sets IN1 LOW and IN2 HIGH, causing the motor to rotate in the opposite direction.
+   * **反時計回りの回転**：IN1をLOWにし、IN2をHIGHに設定することで、モーターが反対方向に回転します。
 
    .. code-block:: arduino
 
@@ -181,51 +181,50 @@ After uploading the code:
         digitalWrite(IN2, HIGH);
 
 
-#. Stopping the Motor:
+#. モーターの停止：
 
-   Sets both inputs LOW, stopping the motor.
+   両方の入力をLOWに設定し、モーターを停止します。
 
    .. code-block:: arduino
 
         digitalWrite(IN1, LOW);
         digitalWrite(IN2, LOW);
 
-**Further Exploration**
+**さらなる探求**
 
-* Speed Control:
+* 速度制御：
 
-  Use Pulse Width Modulation (PWM) to control the speed of the motor by connecting the EN1 pin to a PWM-capable GPIO pin and varying the duty cycle.
+  PWM対応のGPIOピンにEN1ピンを接続し、デューティサイクルを変化させることでモーターの速度を制御します。
 
-* Controlling Multiple Motors:
+* 複数モーターの制御：
 
-  The L293D can control two motors. Try adding a second motor and controlling it independently.
+  L293Dは2つのモーターを制御できます。別のモーターを追加して独立して制御してみてください。
 
-* Sensor Integration:
+* センサーの統合：
 
-  Incorporate sensors (e.g., limit switches, encoders) to create more advanced motor control systems.
+  より高度なモーター制御システムを作るために、リミットスイッチやエンコーダーなどのセンサーを組み込みます。
 
 
-**Safety Precautions**
+**安全上の注意**
 
-* Power Supply:
+* 電源：
 
-  * Ensure that the external power supply voltage matches the motor's voltage rating.
-  * Do not power the motor directly from the Pico's 3.3V pin.
+  * 外部電源の電圧がモーターの定格電圧と一致することを確認してください。
+  * Picoの3.3Vピンから直接モーターを駆動しないでください。
 
-* Current Draw:
+* 電流の引き出し：
 
-  * Motors can draw significant current, especially during startup or when stalled.
-  * Ensure that your power supply can handle the motor's current requirements.
+  * モーターは特に起動時や停止時に大きな電流を引き出すことがあります。
+  * 電源がモーターの電流要件に対応できることを確認してください。
 
-* Resetting the Pico:
+* Picoのリセット：
 
-  * In some cases, the motor's current draw may cause voltage dips, leading the Pico to reset or disconnect.
-  * If you encounter issues uploading code after running the motor, you can manually reset the Pico by connecting the RUN pin to GND momentarily.
+  * 場合によっては、モーターの電流引き出しが原因で電圧が低下し、Picoがリセットされたり、接続が切断されたりすることがあります。
+  * モーターの実行後にコードのアップロードに問題が生じた場合は、RUNピンを瞬時にGNDに接続してPicoを手動でリセットできます。
 
   |wiring_run_reset|
 
 
-**Conclusion**
+**結論**
 
-In this lesson, you've learned how to control a DC motor using the Raspberry Pi Pico and the L293D motor driver. By controlling the inputs to the L293D, you can change the direction of the motor's rotation. This fundamental concept is essential in robotics, automation, and many other applications involving motors.
-
+このレッスンでは、Raspberry Pi PicoとL293Dモータードライバーを使用してDCモーターを制御する方法を学びました。L293Dへの入力を制御することで、モーターの回転方向を変更できます。この基本的な概念は、ロボティクス、オートメーション、モーターを使用する多くのアプリケーションにおいて不可欠です。

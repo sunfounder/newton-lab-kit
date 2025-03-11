@@ -1,52 +1,52 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _per_swing_servo:
 
 
-2.7 Swing Servo
+2.7 スイングサーボ
 =====================
 
-In this project, we use a servo and a potentiometer to simulate a steering wheel. Rotating the potentiometer will drive the servo to turn together.
+このプロジェクトでは、サーボとポテンショメーターを使用してハンドルをシミュレートします。ポテンショメーターを回転させると、サーボも一緒に回転します。
 
-**Required Components**
+**必要なコンポーネント**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_servo`
@@ -73,39 +73,39 @@ You can also buy them separately from the links below.
         - 1
         - |link_potentiometer_buy|
 
-**Wiring**
+**配線**
 
 |controllable_servo0|
 
 
-* The orange wire (signal) of the servo is connected to GP15, the red wire (power) is connected to VBUS, and the brown wire (ground) is connected to GND. 
-* Potentiometer is a resistive element with 3 terminals, the 2 side pins are connected to 5V and GND, and the middle pin is connected to GP26(A0).
+* サーボのオレンジ色のワイヤー（シグナル）はGP15に接続され、赤色のワイヤー（電力）はVBUSに接続され、茶色のワイヤー（グラウンド）はGNDに接続されます。
+* ポテンショメーターは3端子の抵抗素子で、両側の端子は5VとGNDに接続され、中央の端子はGP26（A0）に接続されます。
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.7_swing_servo.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * 以下の画像を参考にして、ドラッグアンドドロップでコードを書くことができます。
+    * ``kepler-kit-main\piper`` のパスから ``2.7_swing_servo.png`` をインポートしてください。詳細なチュートリアルについては :ref:`import_code_piper` を参照してください。
 
 |controllable_servo|
 
-* After connecting Pico W, click the **Start** button and the code starts to run.
-* Turn the potentiometer and the servo will follow. To see it clearly, you can insert a rocker arm in the servo shaft.
+* Pico Wに接続した後、 **Start** ボタンをクリックするとコードが実行されます。
+* ポテンショメーターを回すと、サーボもそれに応じて回転します。明確に見るために、サーボのシャフトにロッカーアームを挿入することができます。
 
-**Understanding the Code**
+**コードの理解**
 
 |controllable_servo1|
 
-Set the rotation speed of pin15 (servo) to 15%.
+pin15（サーボ）の回転速度を15％に設定します。
 
-* [servo pin() set speed to ()%]: Used to set the rotation speed of the servo pin, the range is 0%~100%.
+* [servo pin() set speed to ()%]: サーボピンの回転速度を設定するために使用され、範囲は0%〜100%です。
 
 |controllable_servo2|
 
-Create a variable [angle], then read the voltage of A0. Use the [map value () from () to ()] block, map the voltage of A0 from 0 to 3.3V voltage range to 0 to 180°, and then use the mapped angle as the rotation angle of the servo.
+変数[angle]を作成し、A0の電圧を読み取ります。[map value () from () to ()]ブロックを使用し、A0の電圧を0から3.3Vの範囲から0から180°の範囲にマッピングし、その後マッピングされた角度をサーボの回転角度として使用します。
 
-* [map value () from () to ()]: map a value from one range to another.
+* [map value () from () to ()]: ある範囲の値を別の範囲にマッピングするために使用されます。
 
 .. note::
-    The voltage of A0~A2 takes the range of 0~3.3V, even if your power supply is connected to VBUS (5V).
+    A0〜A2の電圧は0〜3.3Vの範囲を取りますが、電源がVBUS（5V）に接続されていてもその範囲です。

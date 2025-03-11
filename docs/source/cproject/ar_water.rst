@@ -1,51 +1,51 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間ともっと深く掘り下げましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決。
+    - **学びと共有**: スキル向上のためのヒントやチュートリアルを交換。
+    - **独占プレビュー**: 新製品の発表や先行情報をいち早く入手。
+    - **特別割引**: 最新製品の独占的な割引を楽しむ。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？クリックして今すぐ参加！[|link_sf_facebook|]
 
 .. _ar_water:
 
-2.14 Water Level Detection
+2.14 水位検出
 ============================
 
-In this lesson, we will learn how to use a **water sensor** with the Raspberry Pi Pico 2 to detect the presence of water or measure the water level. This sensor is commonly used in projects related to rainfall detection, water level monitoring, and liquid leakage alerts.
+このレッスンでは、Raspberry Pi Pico 2を使用して水の存在を検出したり、水位を測定する方法を学びます。このセンサーは、降雨検出、水位モニタリング、液体漏れアラートに関連するプロジェクトで一般的に使用されます。
 
-**How the Water Sensor Works**
+**水センサーの仕組み**
 
-The water sensor has a series of exposed parallel wire traces that detect water droplets or measure the volume of water. As water comes into contact with these traces, the sensor outputs an analog signal. The more water that comes into contact with the sensor, the higher the output value, which can be read by the Raspberry Pi Pico 2's analog-to-digital converter (ADC).
+水センサーには、水滴を検出したり水の量を測定したりするための露出した並列ワイヤートレースのシリーズがあります。水がこれらのトレースに接触すると、センサーはアナログ信号を出力します。センサーに接触する水の量が多いほど、出力値は高くなり、Raspberry Pi Pico 2のアナログ・デジタル変換器（ADC）で読み取ることができます。
 
 |img_water_sensor|
 
-* Do not fully submerge the sensor in water. Only the area with the exposed traces should come into contact with water.
-* Using the sensor in a humid environment while powered may cause the probe to corrode faster, so it is recommended to power the sensor only when taking readings.
+* センサーを水に完全に浸さないでください。露出したトレースのあるエリアのみが水に接触するようにしてください。
+* 電源を入れた状態で湿度の高い環境でセンサーを使用すると、プローブの腐食が早まる可能性があるため、測定時のみセンサーに電力を供給することをお勧めします。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが確かに便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+また、以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -53,9 +53,9 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -71,7 +71,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_water_level`
@@ -79,155 +79,155 @@ You can also buy them separately from the links below.
         - 
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_water|
 
 
-**Wiring Diagram**
+**配線図**
 
 
 |wiring_water|
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-   * You can open the file ``2.14_feel_the_water_level.ino`` from ``newton-lab-kit/arduino/2.14_feel_the_water_level``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``newton-lab-kit/arduino/2.14_feel_the_water_level`` から ``2.14_feel_the_water_level.ino`` ファイルを開くことができます。
+   * または、このコードを **Arduino IDE** にコピーします。
+   * **Raspberry Pi Pico 2** ボードと正しいポートを選択し、「アップロード」をクリックします。
 
 .. code-block:: arduino
 
    const int waterSensorPin = 28;  // Water sensor connected to GP28 (ADC2)
 
    void setup() {
-     Serial.begin(115200);  // Initialize Serial Monitor
+     Serial.begin(115200);  // シリアルモニターを初期化
    }
 
    void loop() {
-     // Read the analog value from the water sensor
+     // 水センサーからアナログ値を読み取る
      int sensorValue = analogRead(waterSensorPin);
-     // Print the sensor value to the Serial Monitor
-     Serial.print("Water Sensor Value: ");
+     // シリアルモニターにセンサー値を表示
+     Serial.print("水センサー値: ");
      Serial.println(sensorValue);
-     delay(500);  // Wait half a second before reading again
+     delay(500);  // 再読み取り前に0.5秒待つ
    }
 
-After uploading the code, open the Serial Monitor and you should see a stream of numbers representing the analog values from the water sensor.
+コードをアップロードした後、シリアルモニターを開くと、水センサーからのアナログ値を表す一連の数字が表示されるはずです。
 
-* The sensor values should be low (close to 0) when the sensor is dry.
-* Gently dip the sensor into water, starting from the bottom. As more of the sensor's traces are submerged, the sensor values should increase.
+* センサーが乾燥している場合、センサー値は低い（0に近い）はずです。
+* センサーを水にゆっくりと浸し始めます。センサーのトレースがより多く水に浸かるにつれて、センサー値は増加するはずです。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Defining the Sensor Pin:
+#. センサーピンの定義:
 
-   Assigns ``waterSensorPin`` to GPIO 28, which is connected to the analog input.
+   ``waterSensorPin`` をアナログ入力に接続されているGPIO 28に割り当てます。
 
    .. code-block:: arduino
 
       const int waterSensorPin = 28;  // Water sensor connected to GP28 (ADC2)
 
 
-#. Initializing Serial Communication:
+#. シリアル通信の初期化:
 
-   Starts serial communication, allowing you to print messages to the Serial Monitor.
+   シリアル通信を開始し、シリアルモニターにメッセージを表示できるようにします。
 
    .. code-block:: arduino
 
       Serial.begin(115200);
 
-#. Reading the Analog Value:
+#. アナログ値の読み取り:
 
-   Reads the analog voltage at ``waterSensorPin`` and returns a value between 0 and 1023 (for 10-bit ADC).
+   ``waterSensorPin`` でアナログ電圧を読み取り、0から1023の間の値（10ビットADC用）を返します。
 
    .. code-block:: arduino
 
       int sensorValue = analogRead(waterSensorPin);
 
-#. Printing the Sensor Value:
+#. センサー値の出力:
 
-   Outputs the sensor value to the Serial Monitor.
+   センサー値をシリアルモニターに出力します。
 
    .. code-block:: arduino
 
       Serial.print("Water Sensor Value: ");
       Serial.println(sensorValue);
 
-#. Adding a Delay:
+#. 遅延の追加:
 
-   Waits for 500 milliseconds before the next reading.
+   次の読み取り前に500ミリ秒待ちます。
 
    .. code-block:: arduino
 
       delay(500);
 
 
-**Using the Water Sensor as a Digital Sensor**
+**水センサーをデジタルセンサーとして使用する**
 
-You can use the analog input module as a digital sensor by setting a threshold value.
+アナログ入力モジュールをデジタルセンサーとして使用するために、閾値を設定することができます。
 
-* Determine the Threshold:
+* 閾値の決定:
 
-  * Read the sensor value when the sensor is dry.
-  * Use this value as a baseline (e.g., if the dry value is around 100).
+  * センサーが乾燥しているときのセンサー値を読み取ります。
+  * この値をベースラインとして使用します（例：乾燥値が約100の場合）。
 
-* Modify the Code:
+* コードの修正:
 
    .. code-block:: arduino
 
       const int waterSensorPin = 28;  // Water sensor connected to GP28 (ADC2)
-      const int threshold = 500;      // Set a threshold value
+      const int threshold = 500;      // 閾値を設定
 
       void setup() {
-        Serial.begin(115200);  // Initialize Serial Monitor
+        Serial.begin(115200);  // シリアルモニターを初期化
       }
 
       void loop() {
-        // Read the analog value from the water sensor
+        // 水センサーからアナログ値を読み取る
         int sensorValue = analogRead(waterSensorPin);
 
-        // Check if the sensor value exceeds the threshold
+        // センサー値が閾値を超えるか確認
         if (sensorValue > threshold) {
           Serial.println("Water Detected!");
         } else {
           Serial.println("No Water Detected.");
         }
-        delay(500);  // Wait half a second before reading again
+        delay(500);  // 再読み取り前に0.5秒待つ
       }
 
-Place the sensor near a potential water leak area.
-When water comes into contact with the sensor, the Serial Monitor should display "Water Detected!"
+センサーを潜在的な水漏れエリア近くに設置してください。
+水がセンサーに接触すると、シリアルモニターに「水検出！」と表示されるはずです。
 
-**Safety Precautions**
+**安全上の注意**
 
-* Avoid Short Circuits:
+* 短絡を避ける:
 
-  * Ensure that the connections are secure and that the sensor is not submerged beyond the exposed traces.
-  * Do not allow water to contact the Pico or any other electronic components.
+  * 接続が確実であり、センサーが露出したトレースを超えて水に浸からないようにしてください。
+  * Picoやその他の電子部品に水が接触しないようにしてください。
 
-* Corrosion Prevention:
+* 腐食防止:
 
-  * Do not leave the sensor powered while submerged for extended periods.
-  * Dry the sensor thoroughly after use to prevent corrosion.
+  * 長時間水に浸したままセンサーに電力を供給しないでください。
+  * 使用後はセンサーをよく乾燥させて腐食を防いでください。
 
 
-**Further Exploration**
+**さらなる探求**
 
-* Water Level Alarm:
+* 水位アラーム:
 
-  Add a buzzer or LED to alert when water is detected.
+  水が検出されたときに警告するために、ブザーやLEDを追加してください。
 
-* Automated Pump Control:
+* 自動ポンプ制御:
 
-  Use the sensor to control a pump, turning it on or off based on water levels.
+  水位に基づいてポンプをオンまたはオフにするためにセンサーを使用してください。
 
-* Data Logging:
+* データロギング:
 
-  Record water level changes over time for analysis.
+  分析のために時間をかけて水位の変化を記録してください。
 
-**Conclusion**
+**結論**
 
-In this lesson, you've learned how to use a water sensor with the Raspberry Pi Pico to detect water presence or measure water level. By reading the analog values from the sensor, you can monitor changes in water levels and respond accordingly in your projects.
+このレッスンでは、Raspberry Pi Picoを使用して水の存在を検出または水位を測定する方法を学びました。センサーからのアナログ値を読み取ることで、水位の変化をモニタリングし、プロジェクトに応じて適切に対応することができます。

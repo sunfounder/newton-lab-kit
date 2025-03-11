@@ -1,48 +1,48 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**: コミュニティやチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルを向上させるためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスできます。
+    - **特別割引**: 最新の製品に対する独占的な割引をお楽しみください。
+    - **祭りプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
-1.1 Introduction of MicroPython
+1.1 MicroPythonの紹介
 ======================================
 
-MicroPython is a software implementation of a programming language largely compatible with Python 3, written in C, that is optimized to run on a microcontroller.[3][4]
+MicroPythonは、C言語で書かれたPython 3と大部分互換性のあるプログラミング言語のソフトウェア実装であり、マイクロコントローラ上で実行するために最適化されています。
 
-MicroPython consists of a Python compiler to bytecode and a runtime interpreter of that bytecode. The user is presented with an interactive prompt (the REPL) to execute supported commands immediately. Included are a selection of core Python libraries; MicroPython includes modules which give the programmer access to low-level hardware.
+MicroPythonは、バイトコードへのPythonコンパイラとそのバイトコードのランタイムインタプリタを備えています。ユーザーはインタラクティブプロンプト（REPL）を利用して、サポートされているコマンドを即座に実行できます。コアPythonライブラリの選択が含まれており、MicroPythonには低レベルハードウェアへのアクセスを可能にするモジュールが含まれています。
 
-* Reference: `MicroPython - Wikipedia <https://en.wikipedia.org/wiki/MicroPython>`_
+* 参考文献: `MicroPython - Wikipedia <https://en.wikipedia.org/wiki/MicroPython>`
 
-The Story Starts Here
+物語の始まり
 --------------------------------
 
-Things changed in 2013 when Damien George launched a crowdfunding campaign (Kickstarter).
+2013年、ダミアン・ジョージがキックスターターキャンペーンを開始したことで変わりました。
 
-Damien was an undergraduate student at Cambridge University and an avid robotics programmer. He wanted to reduce the world of Python from a gigabyte machine to a kilobyte. His Kickstarter campaign was to support his development while he turned his proof of concept into a finished implementation.
+ダミアンはケンブリッジ大学の学部生であり、熱心なロボティクスプログラマーでした。彼はPythonの世界をギガバイトマシンからキロバイトに縮小したいと考えていました。彼のキックスターターキャンペーンは、彼のコンセプトの証明を完成された実装に変えるための開発をサポートするためでした。
 
-MicroPython is supported by a diverse Pythonista community that has a keen interest in seeing the project succeed.
+MicroPythonは、プロジェクトの成功に熱心な多様なPythonistaコミュニティによってサポートされています。
 
-Apart from testing and supporting the code base, the developers provided tutorials, code libraries, and hardware porting, so Damien was able to focus on other aspects of the project.
+コードベースのテストとサポートのほか、開発者たちはチュートリアル、コードライブラリ、ハードウェアの移植を提供し、ダミアンがプロジェクトの他の側面に集中できるようにしました。
 
-* Reference: `realpython <https://realpython.com/micropython/>`_
+* 参考文献: `realpython <https://realpython.com/micropython/>`
 
-Why MicroPython？
-------------------
+なぜMicroPythonか？
+---------------------
 
-Although the original Kickstarter campaign released MicroPython as a development board "pyboard" with STM32F4, MicroPython supports many ARM-based product architectures. The mainline supported ports are ARM Cortex-M (many STM32 boards, TI CC3200/WiPy, Teensy boards, Nordic nRF series, SAMD21 and SAMD51), ESP8266, ESP32, 16bit PIC, Unix, Windows, Zephyr and JavaScript.
-Second, MicroPython allows for fast feedback. This is because you can use REPL to enter commands interactively and get responses. You can even tweak code and run it immediately instead of traversing the code-compile-upload-execute cycle.
+元のキックスターターキャンペーンではMicroPythonがSTM32F4を搭載した開発ボード「pyboard」としてリリースされましたが、MicroPythonは多くのARMベースの製品アーキテクチャをサポートしています。主要なサポートポートにはARM Cortex-M（多くのSTM32ボード、TI CC3200/WiPy、Teensyボード、Nordic nRFシリーズ、SAMD21およびSAMD51）、ESP8266、ESP32、16ビットPIC、Unix、Windows、Zephyr、JavaScriptがあります。
+さらに、MicroPythonは迅速なフィードバックを可能にします。これは、REPLを使用して対話的にコマンドを入力し、応答を得ることができるためです。コードを微調整してすぐに実行することもできます。これは、コード-コンパイル-アップロード-実行のサイクルを経る必要がないためです。
 
-While Python has the same advantages, for some Microcontroller boards like the Raspberry Pi Pico 2, they are small, simple and have little memory to run the Python language at all. That's why MicroPython has evolved, keeping the main Python features and adding a bunch of new ones to work with these Microcontroller boards.
+Pythonも同様の利点を持っていますが、Raspberry Pi Pico 2などの一部のマイクロコントローラボードは小さく、単純で、Python言語を全く実行するためのメモリがほとんどありません。そのため、MicroPythonは主要なPythonの機能を保持しつつ、これらのマイクロコントローラボードで動作するための新しい機能を数多く追加して進化しました。
 
-Next you will learn to install MicroPython into the Raspberry Pi Pico 2.
+次に、Raspberry Pi Pico 2にMicroPythonをインストールする方法を学びます。
 
-* Reference: `MicroPython - Wikipedia <https://en.wikipedia.org/wiki/MicroPython>`_
-* Reference: `realpython <https://realpython.com/micropython/>`_
+* 参考文献: `MicroPython - Wikipedia <https://en.wikipedia.org/wiki/MicroPython>`
+* 参考文献: `realpython <https://realpython.com/micropython/>`

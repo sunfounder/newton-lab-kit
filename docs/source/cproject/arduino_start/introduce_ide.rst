@@ -1,58 +1,57 @@
-.. note::
+.. note:: 
+    FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についての知識を深め、同じ趣味を持つ仲間と交流しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **なぜ参加するのか？**
 
-    **Why Join?**
+    - **専門的なサポート**: コミュニティとチームの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: ヒントやチュートリアルを交換してスキルを向上させましょう。
+    - **独占的なプレビュー**: 新製品の発表や先行プレビューに早期アクセスが可能です。
+    - **特別な割引**: 最新製品の独占的な割引を楽しみましょう。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    👉 私たちと一緒に探索し、創造しませんか？[|link_sf_facebook|]をクリックして今すぐ参加してください！
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
-
-1.2 Introduce of Arduino IDE
+1.2 Arduino IDEの紹介
 =================================
 
 .. image:: img/sp_ide_2.png
 
-1. **Verify**: Compile your code. Any syntax problem will be prompted with errors.
+1. **Verify（検証）**: コードをコンパイルします。構文エラーがある場合はエラーメッセージが表示されます。
 
-2. **Upload**: Upload the code to your board. When you click the button, the RX and TX LEDs on the board will flicker fast and won't stop until the upload is done.
+2. **Upload（アップロード）**: コードをボードにアップロードします。ボタンをクリックすると、ボードのRXとTXのLEDが高速で点滅し、アップロードが完了するまで停止しません。
 
-3. **Debug**: For line-by-line error checking.
+3. **Debug（デバッグ）**: 行ごとのエラーチェックを行います。
 
-4. **Select Board**: Quick setup board and port.
+4. **Select Board（ボード選択）**: ボードとポートのクイック設定を行います。
 
-5. **Serial Plotter**: Check the change of reading value.
+5. **Serial Plotter（シリアルプロッター）**: 読み取り値の変化を確認します。
 
-6. **Serial Monitor**: Click the button and a window will appear. It receives the data sent from your control board. It is very useful for debugging.
+6. **Serial Monitor（シリアルモニター）**: ボタンをクリックするとウィンドウが開き、制御ボードから送信されたデータを受信できます。デバッグに非常に役立ちます。
 
-7. **File**: Click the menu and a drop-down list will appear, including file creating, opening, saving, closing, some parameter configuring, etc.
+7. **File（ファイル）**: メニューをクリックすると、ファイルの作成、開く、保存、閉じる、一部のパラメータ設定などのオプションが表示されます。
 
-8. **Edit**: Click the menu. On the drop-down list, there are some editing operations like **Cut**, **Copy**, **Paste**, **Find**, and so on, with their corresponding shortcuts.
+8. **Edit（編集）**: メニューをクリックすると、 **切り取り** 、 **コピー** 、 **貼り付け** 、 **検索** などの編集操作と対応するショートカットが表示されます。
 
-9. **Sketch**: Includes operations like **Verify**, **Upload**, **Add** files, etc. More important function is **Include Library** - where you can add libraries.
+9. **Sketch（スケッチ）**: **Verify（検証）**、 **Upload（アップロード）**、ファイルの追加などの操作を含みます。特に重要な機能は **Include Library（ライブラリの追加）** で、ここからライブラリを追加できます。
 
-10. **Tool**: Includes some tools - the most frequently used Board (the board you use) and Port (the port your board is at). Every time you want to upload the code, you need to select or check them.
+10. **Tool（ツール）**: 使用するボードの選択（Board）やポートの選択（Port）などのツールが含まれています。コードをアップロードするたびに、これらを選択または確認する必要があります。
 
-11. **Help**: If you're a beginner, you may check the options under the menu and get the help you need, including operations in IDE, introduction information, troubleshooting, code explanation, etc.
+11. **Help（ヘルプ）**: 初心者の方は、このメニューのオプションをチェックすると、IDEの操作、基本情報、トラブルシューティング、コードの解説などのヘルプを得ることができます。
 
-12. **Output Bar**: Switch the output tab here.
+12. **Output Bar（出力バー）**: ここで出力タブを切り替えます。
 
-13. **Output Window**: Print information.
+13. **Output Window（出力ウィンドウ）**: 情報を表示します。
 
-14. **Board and Port**: Here you can preview the board and port selected for code upload. You can select them again by **Tools** -> **Board** / **Port** if any is incorrect.
+14. **Board and Port（ボードとポート）**: コードアップロードに使用するボードとポートをプレビューできます。設定が間違っている場合は、 **ツール** -> **ボード** / **ポート** で再選択できます。
 
-15. The editing area of the IDE. You can write code here.
+15. **編集エリア**: ここにコードを記述できます。
 
-16. **Sketchbook**: For managing sketch files.
+16. **Sketchbook（スケッチブック）**: スケッチファイルを管理します。
 
-17. **Board Manager**: For managing board driver.
+17. **Board Manager（ボードマネージャー）**: ボードのドライバを管理します。
 
-18. **Library Manager**: For managing your library files.
+18. **Library Manager（ライブラリマネージャー）**: ライブラリファイルを管理します。
 
-19. **Debug**: Help debugging code.
+19. **Debug（デバッグ）**: コードのデバッグを支援します。
 
-20. **Search**: Search the codes from your sketches.
+20. **Search（検索）**: スケッチ内のコードを検索します。

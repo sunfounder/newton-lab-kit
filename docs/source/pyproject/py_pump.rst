@@ -1,59 +1,59 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者と一緒にさらに深く学びましょう。
 
-    **Why Join?**
+    **なぜ参加するべきか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**: 購入後の問題や技術的な課題をコミュニティやチームからの支援で解決できます。
+    - **学び・共有**: ヒントやチュートリアルを交換して、スキルを向上させましょう。
+    - **限定プレビュー**: 新製品の発表や先行公開情報にいち早くアクセスできます。
+    - **特別割引**: 最新製品の特別割引を楽しめます。
+    - **祝祭プロモーションやプレゼント**: プレゼントキャンペーンやシーズンプロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして、今すぐ参加してください！
 
 .. _py_pump:
 
 
-3.6 Controlling a Water Pump
+3.6 水ポンプの制御
 =============================
 
-In this lesson, we'll learn how to control a **small water pump** using the Raspberry Pi Pico 2 and an **L293D motor driver**. A small centrifugal pump can be used for projects like automatic plant watering systems or creating miniature water features. Controlling the pump is similar to controlling a DC motor, as it uses the same principles.
+このレッスンでは、Raspberry Pi Pico 2とL293Dモータードライバを使用して、 **小型水ポンプ** を制御する方法を学びます。小型遠心ポンプは、自動植物水やりシステムやミニチュアの水景を作成するプロジェクトに利用できます。ポンプの制御は、DCモーターの制御と似ており、基本的な原理は同じです。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下の部品が必要です。 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全ての部品を揃えたキットを購入するのが便利です。こちらのリンクからご覧ください：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットの部品
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+部品は以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - 番号
+        - 部品	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 複数
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_l293d`
@@ -73,7 +73,7 @@ You can also buy them separately from the links below.
         - 1
         -  
     *   - 7
-        - 9V Battery
+        - 9Vバッテリー
         - 1
         -  
     *   - 8
@@ -81,89 +81,84 @@ You can also buy them separately from the links below.
         - 1
         -  
 
-**Important Notes Before You Begin**
+**始める前の重要な注意点**
 
-* **Pump Setup**: Connect the tubing to the pump's outlet. Submerge the pump in water before powering it on.
-* **Avoid Dry Running**: Ensure the pump is always submerged. Running the pump dry can cause overheating and damage the motor.
-* **Prevent Clogging**: If you're using the pump for watering plants, make sure the water is free of debris to prevent clogging.
-* **Priming the Pump**: If water doesn't come out initially, there might be air trapped in the tubing. You may need to prime the pump by allowing water to flow through to remove air bubbles.
+* **ポンプのセットアップ**: ポンプの出口にチューブを接続します。ポンプをオンにする前に、水に沈めてください。
+* **空回しの防止**: ポンプが常に水中に沈んでいることを確認してください。乾回しすると過熱やモーターの損傷を引き起こす可能性があります。
+* **詰まりの防止**: 植物に水やりを行う場合、水にゴミが含まれていないことを確認し、詰まりを防ぎます。
+* **ポンプのプリマー**: 最初に水が出ない場合、チューブ内に空気が閉じ込められている可能性があります。空気泡を取り除くために、ポンプをプリムして水を流す必要があるかもしれません。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_pump|
 
-L293D is a motor driver chip, EN is connected to 5V to make L293D work. 1A and 2A are the inputs connected to GP15 and GP14 respectively; 1Y and 2Y are the outputs connected to the two ends of the motor.
+L293Dはモータードライバーチップで、ENは5Vに接続され、L293Dが動作するようにします。1Aと2AはそれぞれGP15とGP14に接続され、1Yと2Yはモーターの両端に接続されます。
 
-Y (output) is in phase with A (input), so if GP15 and GP14 are given different levels respectively, the direction of motor rotation can be changed.
+Y（出力）はA（入力）と位相が一致しており、GP15とGP14に異なるレベルを与えることでモーターの回転方向を変更できます。
 
-
-**Wiring Diagram**
+**配線図**
 
 |wiring_pump|
 
-In this circuit, you will see that the button is connected to the RUN pin. This is because the motor is operating with too much current, which may cause the Pico to disconnect from the computer, and the button needs to be pressed (for the Pico's **RUN** pin to receive a low level) to reset.
+この回路では、ボタンがRUNピンに接続されています。これは、モーターが過剰な電流で動作しているため、Picoがコンピューターから切断される可能性があり、ボタンを押す必要があります（Picoの **RUN** ピンが低レベルを受け取るためにリセットされます）。
 
 
-**Writing the Code**
+**コードの作成**
 
-We'll write a simple MicroPython program to start the pump. The pump will run continuously once the code is executed.
+ポンプを起動するシンプルなMicroPythonプログラムを作成します。コードを実行すると、ポンプは継続的に動作します。
 
 .. note::
 
-    * Open the ``3.6_pumping.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-
-    
-
+    * ``3.6_pumping.py``ファイルを ``newton-lab-kit/micropython`` から開くか、以下のコードをThonnyにコピーし、「実行」をクリックするか、 **F5** キーを押して実行します。
+    * 正しいインタプリタが選択されていることを確認します：MicroPython (Raspberry Pi Pico).COMxx。
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Define the control pins connected to the L293D
+    # L293Dに接続されている制御ピンを定義
     pump_in1 = machine.Pin(14, machine.Pin.OUT)
     pump_in2 = machine.Pin(15, machine.Pin.OUT)
 
-    # Start the pump by setting IN1 high and IN2 low
+    # IN1を高、IN2を低に設定してポンプを起動
     pump_in1.high()
     pump_in2.low()
 
-    # Keep the pump running indefinitely
+    # ポンプを無限に動作させ続ける
     while True:
         utime.sleep(1)
 
-When the code is running, the pump should start running, and water should flow through the tubing.
+コードが実行されると、ポンプが動作を開始し、水がチューブを通って流れ始めます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Modules:
+#. モジュールのインポート：
 
-   * ``machine``: Access to hardware-related functions.
-   * ``utime``: Time-related functions for delays.
+   * ``machine``: ハードウェア関連の関数にアクセスします。
+   * ``utime``: 遅延のための時間関連の関数を提供します。
 
-#. Initialize Control Pins:
+#. 制御ピンの初期化：
 
-   ``pump_in1`` and ``pump_in2`` control the pump via the L293D.
+   ``pump_in1`` と ``pump_in2`` はL293Dを介してポンプを制御します。
 
    .. code-block:: python
 
       pump_in1 = machine.Pin(14, machine.Pin.OUT)
       pump_in2 = machine.Pin(15, machine.Pin.OUT)
 
-#. Start the Pump:
+#. ポンプの起動：
 
-   Sets the pump to run in one direction by applying a high signal to IN1 and a low signal to IN2.
+   IN1に高信号、IN2に低信号を与えて、ポンプを一方向に回転させます。
 
    .. code-block:: python
 
       pump_in1.high()
       pump_in2.low()
 
-#. Keep the Pump Running: 
+#. ポンプの動作を維持： 
 
-   An infinite loop keeps the program running.
+   無限ループでプログラムが継続的に動作します。
 
    .. code-block:: python
 
@@ -171,38 +166,38 @@ When the code is running, the pump should start running, and water should flow t
           utime.sleep(1)
 
 
-**Troubleshooting Tips**
+**トラブルシューティングのヒント**
 
-* Pump Doesn't Start:
+* ポンプが起動しない：
 
-  * Check all wiring connections.
-  * Ensure the power supply module is set to 5V and turned on.
-  * Make sure the pump is submerged in water.
+  * すべての配線接続を確認します。
+  * 電源モジュールが5Vに設定され、オンになっていることを確認します。
+  * ポンプが水中に沈んでいることを確認します。
 
-* Pico Becomes Unresponsive:
+* Picoが応答しなくなる：
 
-  * If the Pico disconnects or the program stops, you may need to reset it.
-  * Use the reset connection by momentarily connecting the RUN pin to GND.
+  * Picoが切断されたり、プログラムが停止した場合は、リセットが必要です。
+  * RESET接続を使用し、RUNピンをGNDに一時的に接続します。
 
-* Pump Continues Running After Stopping the Script:
+* スクリプト停止後もポンプが動作し続ける：
 
-  * The last state of the GPIO pins remains unchanged after stopping the script.
-  * Reset the Pico to stop the pump by connecting RUN to GND.
+  * GPIOピンの最後の状態は、スクリプトを停止した後も変更されません。
+  * Picoをリセットしてポンプを停止します。RUNピンをGNDに接続してリセットします。
 
   |wiring_run_reset|
 
-**Safety Precautions**
+**安全に関する注意**
 
-* Electrical Safety:
+* 電気安全：
 
-  * Be cautious when working with water and electronics.
-  * Keep the Pico and other electronic components away from water to prevent damage or injury.
+  * 水と電子機器を扱う際は十分に注意してください。
+  * Picoや他の電子部品を水から遠ざけ、損傷や怪我を防いでください。
 
-* Pump Care:
+* ポンプの取り扱い：
 
-  * Do not let the pump run dry.
-  * Clean the pump regularly if using it with water that may contain particles.
+  * ポンプを乾回ししないようにしましょう。
+  * 水に粒子が含まれている場合は、ポンプを定期的に掃除してください。
 
-**Conclusion**
+**結論**
 
-In this lesson, you've learned how to control a small water pump using the Raspberry Pi Pico 2 and an L293D motor driver. This setup can be the foundation for projects like automated plant watering systems or miniature fountains.
+このレッスンでは、Raspberry Pi Pico 2とL293Dモータードライバを使用して、小型水ポンプを制御する方法を学びました。このセットアップは、自動植物水やりシステムやミニチュア噴水などのプロジェクトの基盤となることができます。

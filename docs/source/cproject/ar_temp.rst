@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community（Facebook）へようこそ！Raspberry Pi、Arduino、ESP32に情熱を持つ仲間たちと一緒に、さらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：コミュニティやチームからのサポートを受けて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**：技術的なヒントやチュートリアルを交換し、スキルを高めます。
+    - **独占的なプレビュー**：新製品のアナウンスや先行公開に早期アクセスが可能です。
+    - **特別割引**：最新製品を独占的な割引価格で楽しむことができます。
+    - **祭りのプロモーションとギブアウェイ**：ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _ar_temp:
 
-2.13 Thermometer
+2.13 温度計
 ===========================
 
-In this lesson, we'll learn how to use a **thermistor** with the Raspberry Pi Pico 2 to measure temperature. A thermistor is a type of resistor whose resistance varies significantly with temperature. Specifically, we'll use a Negative Temperature Coefficient (NTC) thermistor, which decreases its resistance as the temperature increases.
+このレッスンでは、Raspberry Pi Pico 2と **サーミスタ** を使用して温度を測定する方法を学びます。サーミスタは温度によって抵抗値が大きく変化するタイプの抵抗器です。ここでは、温度が上がると抵抗値が下がるネガティブ温度係数（NTC）サーミスタを使用します。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全てのキットを購入することは非常に便利です。リンクはこちらです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
+    *   - 名称
+        - このキットに含まれるアイテム
+        - リンク
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+また、以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -44,16 +44,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB ケーブル
         - 1
         - 
     *   - 3
@@ -62,137 +62,137 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_thermistor`
         - 1
         - |link_thermistor_buy|
 
-**Understanding the Thermistor**
+**サーミスタの理解**
 
-An NTC thermistor is a temperature-sensitive resistor. Its resistance decreases as the temperature rises. By incorporating it into a voltage divider circuit, we can measure the voltage across it, which changes with temperature. Using the Raspberry Pi Pico 2's analog-to-digital converter (ADC), we can read this voltage and calculate the corresponding temperature.
+NTCサーミスタは温度感応型の抵抗器です。温度が上昇するとその抵抗値が下がります。電圧分割回路に組み込むことで、温度変化に応じて変化する抵抗値を測定することができます。Raspberry Pi Pico 2のアナログ・デジタルコンバータ（ADC）を使用してこの電圧を読み取り、対応する温度を計算することができます。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_temp|
 
-In this circuit, a 10K resistor and an NTC thermistor form a voltage divider, with GP28 reading the voltage across the thermistor. The 10K resistor also provides protection by limiting current.
+この回路では、10KΩの抵抗器とNTCサーミスタが電圧分割器を形成しており、GP28がサーミスタの電圧を読み取ります。10KΩの抵抗器は、電流を制限することで保護も提供します。
 
-* **High Temperature**: The thermistor's resistance decreases, lowering its voltage and the GP28 reading. At high enough temperatures, resistance approaches zero, and GP28 reads close to 0.
-* **Low Temperature**: The thermistor's resistance increases, raising its voltage and the GP28 value. In extreme cold, resistance becomes nearly infinite, and GP28 reads close to 1023.
+* **高温時**：サーミスタの抵抗値は下がり、その電圧とGP28の読み取り値も下がります。温度が十分に高いと、抵抗値はほぼゼロに近づき、GP28はほぼ0を読み取ります。
+* **低温時**：サーミスタの抵抗値は上がり、その電圧とGP28の値も上がります。極端な寒さでは、抵抗値はほぼ無限大になり、GP28はほぼ1023を読み取ります。
 
-The 10K resistor ensures 3.3V and GND are not directly connected, preventing a short circuit.
+10KΩの抵抗器は、3.3VとGNDが直接接続されるのを防ぎ、短絡を防ぎます。
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_temp|
 
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-   * You can open the file ``2.13_thermometer.ino`` from ``newton-lab-kit/arduino/2.13_thermometer``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``2.13_thermometer.ino`` を ``newton-lab-kit/arduino/2.13_thermometer`` から開くことができます。
+   * または、このコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定した後、「Upload」をクリックしてください。
 
 .. code-block:: arduino
 
-    // Define the pins
-    const int thermistorPin = 28;  // Thermistor connected to GP28 (ADC2)
+    // ピンの定義
+    const int thermistorPin = 28;  // サーミスタはGP28（ADC2）に接続
 
-    // Constants for the thermistor and calculations
-    const float BETA = 3950;       // Beta value of the thermistor (provided by manufacturer)
-    const float SERIES_RESISTOR = 10000; // 10KΩ resistor
-    const float NOMINAL_RESISTANCE = 10000; // Resistance at 25°C (provided by manufacturer)
-    const float NOMINAL_TEMPERATURE = 25.0; // 25°C in Celsius
+    // サーミスタと計算のための定数
+    const float BETA = 3950;       // サーミスタのベータ値（メーカー提供）
+    const float SERIES_RESISTOR = 10000; // 10KΩの抵抗
+    const float NOMINAL_RESISTANCE = 10000; // 25°Cでの抵抗値（メーカー提供）
+    const float NOMINAL_TEMPERATURE = 25.0; // 基準温度25°C
 
     void setup() {
-      Serial.begin(115200);  // Initialize Serial Monitor
+      Serial.begin(115200);  // シリアルモニタを初期化
     }
 
     void loop() {
-      // Read the analog value from the thermistor
+      // サーミスタからアナログ値を読み取る
       int adcValue = analogRead(thermistorPin);
-      // Convert the ADC value to voltage
+      // ADC値を電圧に変換
       float voltage = adcValue * (3.3 / 1023.0);
-      // Calculate the resistance of the thermistor
-      float resistance = (voltage * SERIES_RESISTOR) / (3.3-voltage);
-      // Calculate the temperature in Kelvin using the Beta formula
+      // サーミスタの抵抗値を計算
+      float resistance = (voltage * SERIES_RESISTOR) / (3.3 - voltage);
+      // ベータ式を使用してケルビン単位で温度を計算
       float temperatureK = 1 / ( (1 / (NOMINAL_TEMPERATURE + 273.15)) + (1 / BETA) * log(resistance / NOMINAL_RESISTANCE) );
-      // Convert Kelvin to Celsius
+      // ケルビンから摂氏に変換
       float temperatureC = temperatureK - 273.15;
-      // Convert Celsius to Fahrenheit
+      // 摂氏から華氏に変換
       float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
 
-      // Print the temperature readings
+      // 温度読み取りを表示
       Serial.print("Temperature: ");
       Serial.print(temperatureC);
       Serial.print(" °C, ");
       Serial.print(temperatureF);
       Serial.println(" °F");
 
-      delay(1000);  // Wait a second before the next reading
+      delay(1000);  // 次の読み取りまで1秒待つ
     }
 
-When the code is running and the Serial Monitor is open:
+コードが実行されてシリアルモニターが開いている場合：
 
-* You should see the temperature readings in Celsius and Fahrenheit.
-* Gently hold the thermistor between your fingers. The temperature reading should increase as the thermistor warms up.
-* Blow cool air over the thermistor or place a cold object near it. The temperature reading should decrease.
+* 摂氏と華氏での温度が表示されます。
+* サーミスタを指でやさしく持つと、サーミスタが温まるにつれて温度が上昇します。
+* サーミスタに冷たい空気を吹きかけたり、冷たい物体を近づけると、温度が下がります。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Defining the Pins and Constants:
+#. ピンと定数の定義：
 
-   Assigns the GPIO pin used for reading the thermistor.
-
-   .. code-block:: arduino
-
-        const int thermistorPin = 28;  // Thermistor connected to GP28 (ADC2)
-
-#. Constants for Calculations:
-
-   These constants are used in the calculations to determine the temperature.
+   サーミスタの読み取りに使用するGPIOピンを割り当てます。
 
    .. code-block:: arduino
 
-        const float BETA = 3950;       // Beta value of the thermistor
-        const float SERIES_RESISTOR = 10000; // 10KΩ resistor
-        const float NOMINAL_RESISTANCE = 10000; // Resistance at 25°C
-        const float NOMINAL_TEMPERATURE = 25.0; // 25°C in Celsius
+        const int thermistorPin = 28;  // サーミスタはGP28（ADC2）に接続されています
 
-#. Reading the Analog Value:
+#. 計算のための定数：
 
-   Reads the analog voltage at thermistorPin and returns a value between 0 and 1023.
+   温度を決定する計算に使用される定数です。
+
+   .. code-block:: arduino
+
+        const float BETA = 3950;       // サーミスタのベータ値
+        const float SERIES_RESISTOR = 10000; // 10KΩの抵抗
+        const float NOMINAL_RESISTANCE = 10000; // 25°Cでの抵抗値
+        const float NOMINAL_TEMPERATURE = 25.0; // 摂氏25度
+
+#. アナログ値の読み取り：
+
+   thermistorPinでアナログ電圧を読み取り、0から1023の値を返します。
 
    .. code-block:: arduino
 
         int adcValue = analogRead(thermistorPin);
 
-#. Calculating the Voltage:
+#. 電圧の計算：
 
-   Converts the ADC value to the actual voltage.
+   ADC値を実際の電圧に変換します。
 
    .. code-block:: arduino
 
         float voltage = adcValue * (3.3 / 1023.0);
 
-#. Calculating the Thermistor Resistance:
+#. サーミスタ抵抗の計算：
 
-   Uses the voltage divider formula to calculate the resistance of the thermistor.
+   電圧分割式を使用してサーミスタの抵抗値を計算します。
 
    .. code-block:: arduino
 
         float resistance = (voltage * SERIES_RESISTOR) / (3.3-voltage);
 
-#. Calculating the Temperature:
+#. 温度の計算：
 
    .. code-block:: arduino
 
@@ -200,9 +200,9 @@ When the code is running and the Serial Monitor is open:
         float temperatureC = temperatureK - 273.15;
         float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
 
-#. Printing the Temperature:
+#. 温度の表示：
 
-   Outputs the temperature in Celsius and Fahrenheit to the Serial Monitor.
+   シリアルモニターに摂氏と華氏で温度を出力します。
 
    .. code-block:: arduino
 
@@ -212,50 +212,49 @@ When the code is running and the Serial Monitor is open:
         Serial.print(temperatureF);
         Serial.println(" °F");
 
-#. Delay:
+#. 遅延：
 
-   Waits for one second before taking the next reading.
+   次の読み取りまで1秒待ちます。
 
    .. code-block:: arduino
 
         delay(1000);
 
-**Understanding the Temperature Calculation**
+**温度計算の理解**
 
-* Steinhart-Hart Equation:
+* スタインハート-ハート方程式：
 
-The Steinhart-Hart equation provides a model of the thermistor's resistance as a function of temperature:
+スタインハート-ハート方程式は、温度の関数としてサーミスタの抵抗をモデル化します：
 
 |temp_format|
 
-* ``T`` is the temperature of the thermistor in Kelvin.
-* ``T0`` is a reference temperature, usually at 25°C (which is 273.15 + 25 in Kelvin).
-* ``B`` is the beta parameter of the material, the beta coefficient of the NTC thermistor used in this kit is 3950.
-* ``R`` is the resistance we measure.
-* ``R0`` is the resistance at the reference temperature T0, the resistance of the NTC thermistor in this kit at 25°C is 10 kilohms.
+* ``T`` はサーミスタの温度（ケルビン）。
+* ``T0`` は基準温度で、通常は25°C（ケルビンで273.15 + 25）。
+* ``B`` は材料のベータパラメータで、このキットで使用されるNTCサーミスタのベータ係数は3950です。
+* ``R`` は測定される抵抗。
+* ``R0`` は基準温度T0での抵抗で、このキットのNTCサーミスタの25°Cでの抵抗は10キロオームです。
 
-**Note on Accuracy**
+**精度についての注意**
 
-* Thermistors are nonlinear devices, and the Beta equation provides an approximation.
-* For more accurate temperature measurements over a wider range, the Steinhart-Hart equation can be used.
-* Calibration may be necessary for precise applications.
+* サーミスタは非線形デバイスで、ベータ方程式は近似値を提供します。
+* より広い範囲でより正確な温度測定を行うために、スタインハート-ハート方程式を使用できます。
+* 正確なアプリケーションには校正が必要になる場合があります。
 
-**Further Exploration**
+**さらなる探求**
 
-* Display Temperature on an LCD:
+* **LCDに温度表示**：
 
-  Connect an LCD display to show the temperature readings without a computer.
+  コンピューターなしで温度読み取りを表示するためにLCDディスプレイを接続します。
 
-* Data Logging:
+* **データロギング**：
 
-  Record temperature readings over time to monitor environmental changes.
+  環境の変化を監視するために時間とともに温度読み取りを記録します。
 
-* Temperature-Controlled Devices:
+* **温度制御デバイス**：
 
-  Use the temperature readings to control a fan or heater.
+  温度読み取りを使用してファンやヒーターを制御します。
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to use a thermistor with the Raspberry Pi Pico to measure temperature. By creating a voltage divider and using the Beta equation, you've been able to read analog values, calculate resistance, and determine the temperature in both Celsius and Fahrenheit.
-
+このレッスンでは、Raspberry Pi Picoを使用してサーミスタで温度を測定する方法を学びました。電圧分割を作成し、ベータ方程式を使用してアナログ値を読み取り、抵抗を計算し、摂氏および華氏で温度を決定しました。
 

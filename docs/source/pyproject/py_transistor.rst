@@ -1,67 +1,67 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、仲間たちと深く学びましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家のサポート**：販売後の問題や技術的な課題を、コミュニティやチームからのサポートで解決できます。
+    - **学び・共有**：ヒントやチュートリアルを交換して、スキルを向上させましょう。
+    - **限定プレビュー**：新製品の発表や先行情報をいち早くゲット。
+    - **特別割引**：最新製品の特別割引を楽しめます。
+    - **イベントプロモーションとプレゼント**：プレゼント企画やホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求して創造しませんか？[|link_sf_facebook|]をクリックして、今すぐ参加！
 
 .. _py_transistor:
 
-2.15 Two Types of Transistors: NPN and PNP
+2.15 トランジスタの2種類: NPN と PNP
 =============================================
 
-In this lesson, we'll explore two types of transistors: the **S8050 (NPN)** and the **S8550 (PNP)**. Transistors are commonly used as electronic switches, and we’ll see how both types can be used to control an LED with a button.
+このレッスンでは、2種類のトランジスタ、 **S8050（NPN）** と **S8550（PNP）** について学びます。トランジスタは、電子スイッチとして広く使用されており、ボタンを使ってLEDを制御する方法を見ていきます。
 
 |img_NPN&PNP|
 
-* **NPN (S8050)**: This type of transistor allows current to flow from the **collector** to the **emitter** when a high signal is applied to the **base**.
-* **PNP (S8550)**: For PNP transistors, current flows from the **emitter** to the **collector** when a low signal is applied to the **base**.
+* **NPN（S8050）**：このタイプのトランジスタは、 **ベース** に高い信号が入力されると、 **コレクタ** から **エミッタ** へ電流が流れます。
+* **PNP（S8550）**：PNPトランジスタは、 **ベース** に低い信号が入力されると、 **エミッタ** から **コレクタ** へ電流が流れます。
 
 
-While both transistors serve similar purposes, they behave oppositely when it comes to signal control. Let’s use these transistors to control an LED based on button input.
+両方のトランジスタは同様の目的で使用されますが、信号制御の仕組みは逆です。これらのトランジスタを使用して、ボタンの入力に基づいてLEDを制御します。
 
-**What You'll Need**
 
-In this project, we need the following components. 
+**必要なもの**
 
-It's definitely convenient to buy a whole kit, here's the link: 
+このプロジェクトで必要なコンポーネントは以下の通りです。
+
+一式を購入するのが便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+個別に購入することもできます。以下のリンクからどうぞ。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -70,7 +70,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -89,61 +89,59 @@ You can also buy them separately from the links below.
         - 1(S8050/S8550)
         - |link_transistor_buy|
 
-**Wiring the NPN (S8050) Transistor**
+**NPN（S8050）トランジスタの配線**
 
 |sch_s8050|
 
-In this circuit, pressing the button sends a **high signal** to the GP14 pin. When GP15 outputs a high signal, the NPN transistor conducts, allowing current to flow through the LED, lighting it up.
+この回路では、ボタンを押すことでGP14ピンに **高い信号** が送られます。GP15が高い信号を出力すると、NPNトランジスタが導通し、LEDに電流が流れて点灯します。
 
 |wiring_s8050|
 
-**Wiring the PNP (S8550) Transistor**
+**PNP（S8550）トランジスタの配線**
 
 |sch_s8550|
 
-For the PNP transistor circuit, the button starts with a low signal on GP14 and changes to high when pressed. When GP15 outputs a **low signal**, the PNP transistor conducts, allowing current to flow and lighting up the LED.
+PNPトランジスタの回路では、ボタンが押される前はGP14に低い信号があり、押すと高い信号に変わります。GP15が **低い信号** を出力すると、PNPトランジスタが導通し、LEDに電流が流れて点灯します。
 
 |wiring_s8550|
 
-**Writing the Code**
+**コードの作成**
 
-Both the NPN and PNP transistors can be controlled with the same code. The button's status is read, and depending on whether it's pressed or not, the Pico outputs a high or low signal to GP15.
+NPNとPNPの両方のトランジスタは、同じコードで制御できます。ボタンの状態を読み取り、押されているかどうかに応じて、PicoがGP15に高いまたは低い信号を出力します。
 
 .. note::
 
-    * Open the ``2.15_transistor.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    
+    * ``2.15_transistor.py`` を ``newton-lab-kit/micropython`` から開くか、コードをThonnyにコピーして「実行」をクリックするか、F5を押してください。
+    * 正しいインタープリタを選択していることを確認してください：MicroPython（Raspberry Pi Pico）。COMxx。
 
 .. code-block:: python
 
     import machine
 
-    # Initialize the button and signal pins
+    # ボタンと信号ピンの初期化
     button = machine.Pin(14, machine.Pin.IN)
     signal = machine.Pin(15, machine.Pin.OUT)
 
     while True:
         button_status = button.value()
         if button_status == 1:
-            signal.value(1)  # Send high signal to the transistor
+            signal.value(1)  # トランジスタに高い信号を送る
         else:
-            signal.value(0)  # Send low signal to the transistor
+            signal.value(0)  # トランジスタに低い信号を送る
 
 
-**Results**
+**結果**
 
-* NPN Circuit (S8050):
+* NPN回路（S8050）：
 
-  The LED lights up when the button is pressed because the NPN transistor conducts when a high signal is applied to its base.
+  ボタンが押されるとLEDが点灯します。これは、NPNトランジスタがベースに高い信号が入力されると導通するためです。
 
-* PNP Circuit (S8550):
+* PNP回路（S8550）：
 
-  The LED lights up when the button is released because the PNP transistor conducts when a low signal is applied to its base.
+  ボタンが離されるとLEDが点灯します。これは、PNPトランジスタがベースに低い信号が入力されると導通するためです。
 
-Both circuits demonstrate how transistors can be used to control current flow based on different types of signals.
+どちらの回路も、トランジスタが異なる信号に基づいて電流の流れを制御する方法を示しています。
 
-**Conclusion**
+**結論**
 
-By experimenting with these two transistors, you gain a better understanding of how NPN and PNP transistors function and how to use them in circuits to control electronic devices.
-
+これらの2つのトランジスタを使って実験することで、NPNとPNPトランジスタの動作原理を理解し、それらを回路で使用して電子機器を制御する方法を学ぶことができます。

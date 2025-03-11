@@ -1,127 +1,126 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！Raspberry Pi、Arduino、ESP32 に関する知識を深め、仲間たちと一緒に楽しみましょう。
 
-    **Why Join?**
+    **参加するメリット**  
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティメンバーやチームのサポートで解決。  
+    - **学びと共有**：ヒントやチュートリアルを交換し、スキルを向上。  
+    - **最新情報の先行公開**：新製品の発表やプレビューをいち早くチェック。  
+    - **特別割引**：最新製品を会員限定の特別価格で購入可能。  
+    - **イベント & プレゼント企画**：プレゼントキャンペーンや季節ごとのプロモーションに参加可能。  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒にものづくりを楽しみましょう！[|link_sf_facebook|] をクリックして、今すぐ参加！  
 
 .. _ar_74hc_led:
 
-5.1 Using the 74HC595 Shift Register
+5.1 74HC595 シフトレジスタの使用
 ===========================================================
 
-In this lesson, we'll learn how to use the **74HC595 shift register** to control multiple LEDs with just a few GPIO pins on the Raspberry Pi Pico 2. The 74HC595 is an integrated circuit (IC) that allows you to expand the number of digital outputs using a serial input. This is incredibly useful when you want to control many outputs but have limited GPIO pins available.
+このレッスンでは、 **74HC595シフトレジスタ** を使用して、Raspberry Pi Pico 2 のわずかな GPIO ピンで複数の LED を制御する方法を学びます。 **74HC595** は、シリアル入力を並列出力に変換することができる集積回路（IC）であり、GPIO ピンが限られている場合に、多数の出力を制御するのに非常に便利です。
 
-**What You'll Need**
+**必要なもの**  
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。  
 
-It's definitely convenient to buy a whole kit, here's the link: 
+すべて揃ったキットを購入すると便利です。リンクはこちら：  
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
-        - |link_newton_lab_kit|
+    *   - 名称  
+        - キットに含まれるアイテム  
+        - リンク  
+    *   - Newton Lab Kit  
+        - 450点以上  
+        - |link_newton_lab_kit|  
 
-You can also buy them separately from the links below.
-
+個別に購入する場合は、以下のリンクからどうぞ。  
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - SN  
+        - コンポーネント  
+        - 数量  
+        - リンク  
 
-    *   - 1
-        - :ref:`cpn_pico_2`
-        - 1
-        - |link_pico2_buy|
-    *   - 2
-        - Micro USB Cable
-        - 1
-        - 
-    *   - 3
-        - :ref:`cpn_breadboard`
-        - 1
-        - |link_breadboard_buy|
-    *   - 4
-        - :ref:`cpn_wire`
-        - Several
-        - |link_wires_buy|
-    *   - 5
-        - :ref:`cpn_resistor`
-        - 8(220Ω)
-        - |link_resistor_buy|
-    *   - 6
-        - :ref:`cpn_led`
-        - 8
-        - |link_led_buy|
-    *   - 7
-        - :ref:`cpn_74hc595`
-        - 1
-        - |link_74hc595_buy|
+    *   - 1  
+        - :ref:`cpn_pico_2`  
+        - 1  
+        - |link_pico2_buy|  
+    *   - 2  
+        - Micro USB ケーブル  
+        - 1  
+        -  
+    *   - 3  
+        - :ref:`cpn_breadboard`  
+        - 1  
+        - |link_breadboard_buy|  
+    *   - 4  
+        - :ref:`cpn_wire`  
+        - 数本  
+        - |link_wires_buy|  
+    *   - 5  
+        - :ref:`cpn_resistor`  
+        - 8 (220Ω)  
+        - |link_resistor_buy|  
+    *   - 6  
+        - :ref:`cpn_led`  
+        - 8  
+        - |link_led_buy|  
+    *   - 7  
+        - :ref:`cpn_74hc595`  
+        - 1  
+        - |link_74hc595_buy|  
 
 
 
-**Understanding the 74HC595 Shift Register**
+**74HC595シフトレジスタの仕組み**  
 
-The **74HC595** is an 8-bit serial-in, parallel-out shift register with output latches. It has the ability to take serial data input and convert it into parallel output, allowing you to control 8 outputs using only 3 GPIO pins from the Pico.
+**74HC595** は、 8ビットのシリアル入力・並列出力 を持つシフトレジスタで、出力ラッチを備えています。 シリアルデータを入力し、並列出力へ変換できるため、Pico の 3 本の GPIO ピンだけで 8 つの出力を制御できます。
 
-**Key Pins on the 74HC595:**
+**74HC595 の主要ピン：**
 
 |img_74jc595_pin|
 
-* **DS (Pin 14)**: Serial Data Input
-* **SHCP (Pin 11)**: Shift Register Clock Input
-* **STCP (Pin 12)**: Storage Register Clock Input (Latch Pin)
-* **OE (Pin 13)**: Output Enable (Active Low, connect to GND)
-* **MR (Pin 10)**: Master Reset (Active Low, connect to 3.3V)
-* **Q0-Q7 (Pins 15, 1-7)**: Parallel Outputs
-* **VCC (Pin 16)**: Connect to 3.3V
-* **GND (Pin 8)**: Connect to GND
+* **DS (Pin 14)**: シリアルデータ入力  
+* **SHCP (Pin 11)**: シフトレジスタクロック入力  
+* **STCP (Pin 12)**: ストレージレジスタクロック入力（ラッチピン）  
+* **OE (Pin 13)**: 出力イネーブル（Low アクティブ、GND に接続）  
+* **MR (Pin 10)**: マスターリセット（Low アクティブ、3.3V に接続）  
+* **Q0-Q7 (Pins 15, 1-7)**: 並列出力ピン  
+* **VCC (Pin 16)**: 3.3V に接続  
+* **GND (Pin 8)**: GND に接続  
 
-**Circuit Diagram**
+**回路図**
 
 |sch_74hc_led|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_74hc_led|
 
-**Writing the Code**
+**コードの記述**
 
-We'll write a program that controls the LEDs connected to the 74HC595 shift register by sending serial data from the Pico. The LEDs will light up one after another in a sequence.
+Raspberry Pi Pico からシリアルデータを送信し、74HC595 シフトレジスタを介して LED を順番に点灯させるプログラムを作成します。
 
 .. note::
 
-   * You can open the file ``5.1_microchip_74hc595.ino`` from ``newton-lab-kit/arduino/5.1_microchip_74hc595``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``5.1_microchip_74hc595.ino`` を ``newton-lab-kit/arduino/5.1_microchip_74hc595`` から開くことができます。  
+   * または、このコードを **Arduino IDE** にコピーしてください。  
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定して「Upload」をクリックしてください。  
 
 .. code-block:: arduino
 
-  // Define the pins connected to the 74HC595
+  // 74HC595 に接続するピンを定義
   const int DS = 0;   // GPIO 0 -> DS (Pin 14)
   const int SHCP = 1; // GPIO 1 -> SHCP (Pin 11)
   const int STCP = 2; // GPIO 2 -> STCP (Pin 12)
 
-  // Array of binary patterns to control LEDs
+  // LED を制御するバイナリパターン
   int datArray[] = {
     0b00000000, // All LEDs off
     0b00000001, // LED 0 on
@@ -163,16 +162,16 @@ We'll write a program that controls the LEDs connected to the 74HC595 shift regi
     delay(500);
   }
 
-After uploading the code, the LEDs connected to the 74HC595 should light up one after another, following the patterns defined in ``datArray``.
-After all LEDs are turned on, they will turn off in sequence.
+コードをアップロードすると、 ``datArray`` に定義されたパターンに従い、74HC595 に接続された LED が順番に点灯します。  
+すべての LED が点灯した後、順番に消灯します。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Defining Control Pins:
+#. 制御ピンの定義:
 
-   * ``DS (Data Serial Input)``: Receives the serial data.
-   * ``SHCP (Shift Register Clock Input)``: Controls the shifting of data into the register.
-   * ``STCP (Storage Register Clock Input)``: Controls the latching of data to the output pins.
+   * ``DS (Data Serial Input)``: シリアルデータを受信  
+   * ``SHCP (Shift Register Clock Input)``: データをシフトレジスタに転送  
+   * ``STCP (Storage Register Clock Input)``: データを出力ピンにラッチ  
 
    .. code-block:: arduino
 
@@ -180,28 +179,28 @@ After all LEDs are turned on, they will turn off in sequence.
       const int SHCP = 1; // GPIO 1 -> SHCP (Pin 11)
       const int STCP = 2; // GPIO 2 -> STCP (Pin 12)
 
-#. Creating Data Patterns:
+#. データパターンの作成:
 
-   * An array ``datArray`` holds different binary patterns to control the LEDs.
-   * Each bit represents the state of an LED (1 for on, 0 for off).
+   * ``datArray`` 配列に、LED を制御するバイナリパターンを格納  
+   * 各ビットが LED の状態を表し、1 で点灯、0 で消灯  
 
    .. code-block:: arduino
 
       int datArray[] = {
-        0b00000000, // All LEDs off
-        0b00000001, // LED 0 on
-        0b00000011, // LEDs 0 and 1 on
-        0b00000111, // LEDs 0, 1, and 2 on
-        0b00001111, // LEDs 0, 1, 2, and 3 on
-        0b00011111, // LEDs 0 to 4 on
-        0b00111111, // LEDs 0 to 5 on
-        0b01111111, // LEDs 0 to 6 on
-        0b11111111  // All LEDs on
+        0b00000000, // すべての LED をオフ
+        0b00000001, // LED 0 をオン
+        0b00000011, // LED 0, 1 をオン
+        0b00000111, // LED 0, 1, 2 をオン
+        0b00001111, // LED 0, 1, 2, 3 をオン
+        0b00011111, // LED 0 から 4 までをオン
+        0b00111111, // LED 0 から 5 までをオン
+        0b01111111, // LED 0 から 6 までをオン
+        0b11111111  // すべての LED をオン
       };
-  
-#. Setup Function:
 
-   Sets the ``DS``, ``SHCP``, and ``STCP`` pins as outputs to send data to the shift register.
+#. セットアップ関数:
+
+   ``DS``, ``SHCP``, ``STCP`` ピンを出力として設定し、シフトレジスタにデータを送信できるようにする。
 
    .. code-block:: arduino
 
@@ -212,21 +211,21 @@ After all LEDs are turned on, they will turn off in sequence.
         pinMode(STCP, OUTPUT);
       }
 
-#. Loop Function: The ``for`` loop cycles through each pattern in the ``datArray`` array.
+#. ループ関数: ``for`` ループで ``datArray`` 内の各パターンを順番に適用  
 
-   * Shifting Out Data:
+   * データのシフト出力
 
-     * ``shiftOut`` sends the byte of data one bit at a time.
-     * ``MSBFIRST`` indicates that the most significant bit is sent first.
+     * ``shiftOut`` で 1 ビットずつデータを送信  
+     * ``MSBFIRST`` を指定し、最上位ビットから送信  
 
      .. code-block:: arduino
 
         shiftOut(DS, SHCP, MSBFIRST, datArray[num]);
 
-   * Latching Data:
+   * データのラッチ  
 
-     * Setting ``STCP`` ``LOW`` prepares the shift register for new data.
-     * After shifting out the data, setting ``STCP`` ``HIGH`` latches the data to the output pins, updating the LED states.
+     * ``STCP`` を ``LOW`` にしてデータの受信準備  
+     * データ送信後、 ``STCP`` を ``HIGH`` にして出力ピンへ反映  
 
      .. code-block:: arduino
 
@@ -234,13 +233,13 @@ After all LEDs are turned on, they will turn off in sequence.
         // shiftOut(...)
         digitalWrite(STCP, HIGH);
 
-   * Delay:
-   
-     ``delay(500);`` adds a half-second pause between each pattern for visibility.
+   * ディレイ処理  
 
-   * Turning Off LEDs: 
-     
-     After cycling through all patterns, turns off all LEDs by sending 0b00000000.
+     ``delay(500);`` で 0.5 秒ごとに LED の状態を更新  
+
+   * LED の消灯
+
+     すべての LED を消灯するために 0b00000000 を送信  
 
      .. code-block:: arduino
 
@@ -249,41 +248,41 @@ After all LEDs are turned on, they will turn off in sequence.
         digitalWrite(STCP, HIGH);
         delay(500);
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* No LEDs Lighting Up:
+* LED が点灯しない場合 
 
-  * Check all wiring connections.
-  * Ensure the 74HC595 is properly powered.
-  * Verify that the GPIO pins on the Pico are correctly connected to the shift register.
+  - 配線を再確認  
+  - 74HC595 に電源が供給されているか確認  
+  - Pico の GPIO ピンが正しく接続されているかチェック  
 
-* Incorrect LED Behavior:
+* LED の動作が異常な場合  
 
-  * Double-check the binary patterns in ``datArray``.
-  * Ensure that the resistors are correctly placed to limit current to the LEDs.
+  - ``datArray`` のバイナリパターンを見直す  
+  - LED に適切な抵抗が接続されているか確認  
 
-**Further Exploration**
+**さらなる発展**
 
-* Controlling Other Devices:
+* 他のデバイスの制御 
 
-  Use the 74HC595 to control relays, motors, or other high-power devices.
+  74HC595 を使ってリレーやモーターなどを制御可能  
 
-* Chaining Shift Registers:
+* シフトレジスタのカスケード接続 
 
-  Connect multiple 74HC595s in series to control even more outputs with the same three GPIO pins.
+  複数の 74HC595 を直列に接続し、出力を拡張  
 
-* Creating LED Patterns:
+* LED パターンの作成  
 
-  Design and implement more complex LED animations and patterns by modifying the datArray.
+  datArrayを変更して、より複雑な LED アニメーションを作成  
 
-* Integrating with Sensors:
+* センサーとの統合  
 
-  Combine the shift register with various sensors to create responsive and interactive systems.
+  センサーと組み合わせて、インタラクティブなシステムを構築  
 
-* Building a LED Matrix Display:
+* LED マトリックスの作成  
 
-  Use multiple shift registers to build a larger LED matrix for displays or signage.
+  複数のシフトレジスタを使用し、大規模な LED マトリックスを構築  
 
-**Conclusion**
+**まとめ**  
 
-In this lesson, you've learned how to use the 74HC595 shift register with the Raspberry Pi Pico to control multiple LEDs using just three GPIO pins. This technique allows you to expand the number of digital outputs, enabling more complex and interactive projects without the need for additional GPIO resources. By understanding how to send serial data and latch it into parallel outputs, you can efficiently manage multiple actuators, displays, or other peripherals in your electronics projects.
+このレッスンでは、Raspberry Pi Pico の 3 本の GPIO ピンを使用し、74HC595 シフトレジスタを介して複数の LED を制御する方法を学びました。 この技術を活用することで、GPIO ピンの使用を最小限に抑えながら、より複雑でインタラクティブな電子工作を実現できます。 シリアルデータを並列出力に変換し、効率的に LED やその他のアクチュエータ、ディスプレイを管理できるようになります。

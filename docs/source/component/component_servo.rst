@@ -1,46 +1,49 @@
-.. note::
+.. note:: 
+    FacebookにあるSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32に関する知識を深め、仲間たちと共に探求しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **なぜ参加するのか？**
 
-    **Why Join?**
+    - **専門サポート**: コミュニティやチームからの支援を受けながら、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキル向上のためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**: 新製品発表や先行公開へのアクセスが可能です。
+    - **特別割引**: 最新製品の独占割引を楽しんでください。
+    - **祭りプロモーションとギフト**: ギフトやホリデープロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
 .. _cpn_servo:
 
-Servo
-===========
+サーボモーター
+===============
 
 |img_servo|
 
-A servo is generally composed of the following parts: case, shaft, gear system, potentiometer, DC motor, and embedded board.  
+サーボモーターは、通常、ケース、シャフト、ギアシステム、ポテンショメーター、DCモーター、内蔵ボードから構成されます。
 
-It works like this: The microcontroller sends out PWM signals to the servo, and then the embedded board in the servo receives the signals through the signal pin and controls the motor inside to turn. As a result, the motor drives the gear system and then motivates the shaft after deceleration. The shaft and potentiometer of the servo are connected together. When the shaft rotates, it drives the potentiometer, so the potentiometer outputs a voltage signal to the embedded board. Then the board determines the direction and speed of rotation based on the current position, so it can stop exactly at the right position as defined and hold there.
+動作原理は次の通りです：マイクロコントローラーがPWM信号をサーボに送信し、その信号がサーボ内の内蔵ボードによって受信され、モーターの回転が制御されます。その結果、モーターはギアシステムを介してシャフトを減速後に動かし、シャフトはポテンショメーターと接続されているため、シャフトの回転によりポテンショメーターから電圧信号が出力され、内蔵ボードが現在の位置に基づいて回転方向と速度を判断し、定義された正確な位置で停止し維持することができます。
 
 |img_servo_i|
 
-The angle is determined by the duration of a pulse that is applied to the control wire. This is called Pulse width Modulation. The servo expects to see a pulse every 20 ms. The length of the pulse will determine how far the motor turns. For example, a 1.5ms pulse will make the motor turn to the 90 degree position (neutral position).
-When a pulse is sent to a servo that is less than 1.5 ms, the servo rotates to a position and holds its output shaft some number of degrees counterclockwise from the neutral point. When the pulse is wider than 1.5 ms the opposite occurs. The minimal width and the maximum width of pulse that will command the servo to turn to a valid position are functions of each servo. Generally the minimum pulse will be about 0.5 ms wide and the maximum pulse will be 2.5 ms wide.
+制御線に適用されるパルスの持続時間によって角度が決まります。これをパルス幅変調と呼びます。
+サーボは20msごとにパルスを受け取ることを期待しています。パルスの長さがモーターの回転角度
+を決定します。たとえば、1.5msのパルスはモーターを90度の位置（ニュートラル位置）に回転させます。
+1.5ms未満のパルスがサーボに送られると、サーボは反時計回りに角度を持ってその位置でシャフトを保持します。
+パルスが1.5msを超えると反対が起こります。各サーボによって異なる有効な位置に回転させるための最小パルス幅
+と最大パルス幅は、通常、最小が約0.5ms、最大が2.5msです。
 
 |img_servo_duty|
 
 
-.. Example
+.. 例
 .. -------------------
 
-.. :ref:`Swinging Servo`
+.. :ref:`スイングサーボ`
 
-**Example**
+**例**
 
-* :ref:`py_servo` (For MicroPython User)
-* :ref:`py_somato_controller` (For MicroPython User)
-* :ref:`ar_servo` (For Arduino User)
-.. * :ref:`per_water_tank` (For Piper Make User)
-.. * :ref:`per_swing_servo` (For Piper Make User)
-.. * :ref:`per_lucky_cat` (For Piper Make User)
+* :ref:`py_servo` (MicroPythonユーザー用)
+* :ref:`py_somato_controller` (MicroPythonユーザー用)
+* :ref:`ar_servo` (Arduinoユーザー用)
+.. * :ref:`per_water_tank` (Piper Makeユーザー用)
+.. * :ref:`per_swing_servo` (Piper Makeユーザー用)
+.. * :ref:`per_lucky_cat` (Piper Makeユーザー用)

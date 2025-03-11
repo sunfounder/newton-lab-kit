@@ -1,70 +1,70 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者と一緒に深く学びましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家のサポート**: 購入後の問題や技術的な課題を、コミュニティやチームのサポートを受けて解決できます。
+    - **学び・共有**: ヒントやチュートリアルを交換して、スキルを向上させましょう。
+    - **限定プレビュー**: 新製品の発表や先行公開情報をいち早く手に入れましょう。
+    - **特別割引**: 新製品に対する特別割引を楽しめます。
+    - **祝祭キャンペーンやプレゼント**: プレゼントキャンペーンやシーズンプロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求し、創造的な活動をしてみませんか？[|link_sf_facebook|]をクリックして、今すぐ参加しましょう！
 
 .. _py_rgb:
 
-2.4 Colorful Light
+2.4 色とりどりの光
 ====================
 
-In this lesson, we'll explore how to create various colors using an RGB LED and the Raspberry Pi Pico 2. By adjusting the intensity of the red, green, and blue components, we can mix light to produce a wide range of colors. This concept is based on the additive method of color mixing.
+このレッスンでは、Raspberry Pi Pico 2を使用して、RGB LEDでさまざまな色を作成する方法を学びます。赤、緑、青の各成分の強度を調整することで、光を混ぜて幅広い色を作り出すことができます。この概念は、加法混色の方法に基づいています。
 
-**What is Additive Color Mixing?**
+**加法混色とは？**
 
-Additive color mixing involves combining different colors of light to produce new colors. When red, green, and blue light are combined in various intensities, they can create any color in the visible spectrum. For example:
+加法混色は、異なる色の光を組み合わせて新しい色を作り出す方法です。赤、緑、青の光をさまざまな強度で組み合わせると、目に見える色の範囲内でどんな色でも作り出すことができます。例えば：
 
-* **Red + Green = Yellow**
-* **Red + Blue = Magenta**
-* **Green + Blue = Cyan**
-* **Red + Green + Blue = White**
+* **赤 + 緑 = 黄**
+* **赤 + 青 = マゼンタ**
+* **緑 + 青 = シアン**
+* **赤 + 緑 + 青 = 白**
 
 |img_rgb_mix|
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キットを購入するのが便利です。こちらのリンクからご覧いただけます：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットに含まれるアイテム
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
 
+個別に購入することもできます。以下のリンクからご覧ください。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - 番号
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -73,7 +73,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 複数
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -85,178 +85,175 @@ You can also buy them separately from the links below.
         - |link_rgb_led_buy|
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_rgb|
 
-The PWM pins GP13, GP14 and GP15 control the Red, Green and Blue pins of the RGB LED respectively, and connect the common cathode pin to GND. This allows the RGB LED to display a specific color by superimposing light on these pins with different PWM values.
+PWMピンのGP13、GP14、GP15はそれぞれRGB LEDの赤、緑、青のピンを制御し、共通カソードピンはGNDに接続します。これにより、RGB LEDは異なるPWM値でこれらのピンに光を重ね合わせることで、特定の色を表示します。
 
 
-**Wiring Diagram**
+**配線図**
 
 |img_rgb_pin|
 
-The RGB LED has 4 pins: the long pin is the common cathode pin, which is usually connected to GND; the left pin next to the longest pin is Red; and the two pins on the right are Green and Blue.
+RGB LEDには4つのピンがあります。長いピンが共通カソードピンで、通常はGNDに接続されます。最も長いピンの隣の左側のピンが赤、右側の2つのピンが緑と青です。
 
-We use a higher resistance for the red LED because it is typically brighter than the green and blue LEDs at the same current.
+赤いLEDは他の色のLEDよりも明るいため、同じ電流で動作させるために高めの抵抗を使用します。
 
 |wiring_rgb|
 
-**Writing the Code**
+**コードの作成**
 
-We'll write a MicroPython program that controls the intensity of each color using Pulse Width Modulation (PWM) to produce different colors.
+PWM（パルス幅変調）を使用して、各色の強度を制御するMicroPythonプログラムを書き、さまざまな色を作成します。
 
 .. note::
 
-    * Open the ``2.4_colorful_light.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    
+    * ``newton-lab-kit/micropython`` から ``2.4_colorful_light.py`` を開くか、コードをThonnyにコピーして、「実行」ボタンをクリックするか、F5キーを押して実行します。
+    * 正しいインタープリターが選択されていることを確認してください：MicroPython (Raspberry Pi Pico).COMxx。
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize PWM for red, green, and blue pins
+    # 赤、緑、青のピン用にPWMを初期化
     red = machine.PWM(machine.Pin(13))
     green = machine.PWM(machine.Pin(14))
     blue = machine.PWM(machine.Pin(15))
 
-    # Set the PWM frequency
+    # PWMの周波数を設定
     red.freq(1000)
     green.freq(1000)
     blue.freq(1000)
 
     def map_value(x, in_min, in_max, out_min, out_max):
-        # Map a value from one range to another
+        # 値をある範囲から別の範囲にマッピング
         return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
     def set_color(r, g, b):
-        # Set the color by adjusting duty cycles
+        # デューティサイクルを調整して色を設定
         red.duty_u16(map_value(r, 0, 255, 0, 65535))
         green.duty_u16(map_value(g, 0, 255, 0, 65535))
         blue.duty_u16(map_value(b, 0, 255, 0, 65535))
 
-    # Example: Set the color to orange
+    # 例：色をオレンジに設定
     set_color(255, 165, 0)
 
-When the code is running, the RGB LED will emit an orange light.
+コードを実行すると、RGB LEDがオレンジ色の光を発します。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Libraries:
+#. ライブラリのインポート：
 
-   * ``machine``: To access hardware-specific functions.
-   * ``utime``: For time-related functions (not used in this example but useful for animations).
+   * ``machine``: ハードウェア固有の機能を使用するため。
+   * ``utime``: 時間関連の機能（この例では使いませんが、アニメーションに役立ちます）。
 
-#. Initialize PWM Objects:
+#. PWMオブジェクトの初期化：
 
-   * Create PWM objects for the red, green, and blue pins connected to the RGB LED and set the PWM frequency to 1000 Hz for all colors.
+   * 赤、緑、青の各ピンにPWMオブジェクトを作成し、すべての色に対してPWM周波数を1000Hzに設定します。
 
    .. code-block:: python
 
-        # Initialize PWM for red, green, and blue pins
+        # 赤、緑、青のピン用にPWMを初期化
         red = machine.PWM(machine.Pin(13))
         green = machine.PWM(machine.Pin(14))
         blue = machine.PWM(machine.Pin(15))
 
-        # Set the PWM frequency
+        # PWMの周波数を設定
         red.freq(1000)
         green.freq(1000)
         blue.freq(1000)
 
-#. Define ``map_value`` Function:
+#. ``map_value`` 関数の定義：
 
-   * Since the ``duty_u16`` method accepts values from 0 to 65535, but color values are typically in the range 0 to 255, we need to map the 0-255 range to 0-65535.
-   * The ``map_value`` function scales the input value accordingly.
+   * ``duty_u16`` メソッドは0から65535の範囲の値を受け取るため、色の値は通常0から255の範囲であるため、0-255の範囲を0-65535にマッピングする必要があります。
+   * ``map_value`` 関数は入力値を適切にスケーリングします。
 
    .. code-block:: python
 
         def map_value(x, in_min, in_max, out_min, out_max):
-            # Map a value from one range to another
+            # 値をある範囲から別の範囲にマッピング
             return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
-#. Define ``set_color`` Function:
+#. ``set_color`` 関数の定義：
 
-   This function takes RGB values (each from 0 to 255) and sets the duty cycle for each color channel after mapping.
+   この関数はRGB値（各0から255）を受け取り、マッピング後に各色チャネルのデューティサイクルを設定します。
 
    .. code-block:: python
 
         def set_color(r, g, b):
-            # Set the color by adjusting duty cycles
+            # デューティサイクルを調整して色を設定
             red.duty_u16(map_value(r, 0, 255, 0, 65535))
             green.duty_u16(map_value(g, 0, 255, 0, 65535))
             blue.duty_u16(map_value(b, 0, 255, 0, 65535))
     
-#. Set the Desired Color:
+#. 希望の色を設定：
 
-   Call ``set_color(255, 165, 0)`` to set the RGB LED to orange. You can change the values to any RGB color you like.
+   ``set_color(255, 165, 0)`` を呼び出して、RGB LEDをオレンジ色に設定します。値を変更することで、任意のRGB色に変更できます。
 
-**Example: Color Cycling**
+**例：色のサイクリング**
 
-Let's enhance the code to cycle through different colors.
+コードを改善して、さまざまな色を循環させてみましょう。
 
-#. To find the RGB values for different colors, you can use any graphic software or an online color picker. For example:
+#. 色ごとのRGB値を調べるには、グラフィックソフトウェアやオンラインのカラーピッカーを使用できます。例えば：
 
-   * Red: (255, 0, 0)
-   * Green: (0, 255, 0)
-   * Blue: (0, 0, 255)
-   * White: (255, 255, 255)
-   * Purple: (128, 0, 128)
+   * 赤： (255, 0, 0)
+   * 緑： (0, 255, 0)
+   * 青： (0, 0, 255)
+   * 白： (255, 255, 255)
+   * 紫： (128, 0, 128)
 
-#. Write the code.
+#. コードを作成します。
 
-   We define a list of RGB tuples representing different colors.
-   The ``while True`` loop cycles through each color, sets the RGB LED to that color, and waits for 1 second before moving to the next color.
+   色を表すRGBのタプルのリストを定義し、 ``while True`` ループで各色を順番に設定して1秒間隔で次の色に切り替えます。
 
    .. code-block:: python
-   
+       
        import machine
        import utime
-   
-       # Initialize PWM for red, green, and blue pins
+       
+       # 赤、緑、青のピン用にPWMを初期化
        red = machine.PWM(machine.Pin(13))
        green = machine.PWM(machine.Pin(14))
        blue = machine.PWM(machine.Pin(15))
-   
-       # Set the PWM frequency
+       
+       # PWMの周波数を設定
        red.freq(1000)
        green.freq(1000)
        blue.freq(1000)
-   
+       
        def map_value(x, in_min, in_max, out_min, out_max):
            return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
-   
+       
        def set_color(r, g, b):
            red.duty_u16(map_value(r, 0, 255, 0, 65535))
            green.duty_u16(map_value(g, 0, 255, 0, 65535))
            blue.duty_u16(map_value(b, 0, 255, 0, 65535))
-   
-       # List of colors to cycle through
+       
+       # サイクリングする色のリスト
        colors = [
-           (255, 0, 0),     # Red
-           (0, 255, 0),     # Green
-           (0, 0, 255),     # Blue
-           (255, 255, 0),   # Yellow
-           (0, 255, 255),   # Cyan
-           (255, 0, 255),   # Magenta
-           (255, 255, 255)  # White
+           (255, 0, 0),     # 赤
+           (0, 255, 0),     # 緑
+           (0, 0, 255),     # 青
+           (255, 255, 0),   # 黄
+           (0, 255, 255),   # シアン
+           (255, 0, 255),   # マゼンタ
+           (255, 255, 255)  # 白
        ]
-   
+       
        while True:
            for color in colors:
                set_color(*color)
                utime.sleep(1)
 
-When this code is running, the RGB LED will cycle through a sequence of colors: red, green, blue, yellow, cyan, magenta, and white.
-
-Each color will be displayed for 1 second before transitioning to the next one in the list.
-
-**Conclusion**
-
-By controlling the intensity of the red, green, and blue components of an RGB LED using PWM, we can create a vast array of colors. This project demonstrates the principles of additive color mixing and provides a foundation for creating colorful light displays with microcontrollers.
+このコードを実行すると、RGB LEDが赤、緑、青、黄、シアン、マゼンタ、白の順に1秒ごとに色が切り替わります。
 
 
-**References**
+**結論**
+
+RGB LEDの赤、緑、青の成分の強度をPWMで制御することで、さまざまな色を作り出すことができます。このプロジェクトは、加法混色の原則を実演し、マイコンを使ったカラフルな光のディスプレイを作るための基礎となります。
+
+
+**参考文献**
 
 * |link_mpython_pwm|

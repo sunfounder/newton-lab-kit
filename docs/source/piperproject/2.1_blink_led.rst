@@ -1,44 +1,44 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームの助けを借りて、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _per_blink:
 
-2.1 Blink LED
-===============
+2.1 LEDの点滅
+================
 
-For this project, we intend to make the extended LED light blink. To use extended electronic components, a solderless breadboard will be the most powerful partner for novice users.
+このプロジェクトでは、拡張LEDライトを点滅させることを目指します。拡張電子部品を使用する際、はんだ付け不要のブレッドボードは初心者にとって最も強力なパートナーとなります。
 
-The breadboard is a rectangular plastic plate with a bunch of small holes in it. These holes allow us to easily insert electronic components and build electronic circuits. The breadboard does not permanently fix the electronic components, which makes it easy for us to repair the circuit and start over when we make a mistake.
+ブレッドボードは、小さな穴がたくさん開いた長方形のプラスチック板です。これらの穴には電子部品を簡単に差し込み、電子回路を構築できます。ブレッドボードは電子部品を永久に固定しないため、間違いを犯したときに回路を修理しやすく、やり直しやすくなっています。
 
-**Required Components**
+**必要なコンポーネント**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -46,9 +46,9 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -64,7 +64,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -75,33 +75,33 @@ You can also buy them separately from the links below.
         - 1
         - |link_led_buy|
 
-**Wiring**
+**配線**
 
 |wiring_led|
 
-* The color ring of the 220 ohm resistor is red, red, black, black and brown.
+* 220オームの抵抗器のカラーリングは赤、赤、黒、黒、茶です。
 
-* The longer lead of the LED is known as the anode (+), the shorter lead is the cathode (-). 
+* LEDの長いリードはアノード（+）、短いリードはカソード（-）として知られています。
 
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.1_blink_led.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * 以下の画像を参考にして、ドラッグ＆ドロップでコードを書くことができます。
+    * ``kepler-kit-main\piper`` のパスから ``2.1_blink_led.png`` をインポートしてください。詳細なチュートリアルについては :ref:`import_code_piper` を参照してください。
 
 
 |blink1|
 
-After connecting Pico W, click the **Start** button and you will see the LED blinking. For more details, you can refer to :ref:`quick_guide_piper`.
+Pico Wに接続した後、 **Start** ボタンをクリックするとLEDが点滅するのを見ることができます。詳細については :ref:`quick_guide_piper` を参照してください。
 
-**Understanding the Code**
+**コードの理解**
 
-This is the body of the loop: turn the pin15 on to light up the LED, wait one second, then turn the pin15 off to make the LED go off. Wait 1 second and then re-run the previous cycle, so you can see the LED has been in the state of alternating between light and off.
+これがループの本体です：pin15をONにしてLEDを点灯させ、1秒待ちます。次にpin15をOFFにしてLEDを消灯させます。1秒待ってから前のサイクルを再実行するので、LEDが点灯と消灯を交互に繰り返しているのがわかります。
 
-* [start]: This block is the basic framework of the program and represents the beginning of the program.
-* [repeat forever do() wait()seconds]: Means that the blocks in it will be executed repeatedly, and the execution time interval is defined by yourself.
-* [turn pin () ON/OFF]: Indicates that a certain pin is placed in a high level (ON) or a low level (OFF).
-* [wait () seconds]: Set the execution interval between blocks.
+* [start]: このブロックはプログラムの基本的な枠組みであり、プログラムの開始を表します。
+* [repeat forever do() wait()seconds]: 内包されたブロックが繰り返し実行され、実行時間間隔は自分で定義します。
+* [turn pin () ON/OFF]: 特定のピンを高レベル（ON）または低レベル（OFF）に設定します。
+* [wait () seconds]: ブロック間の実行間隔を設定します。

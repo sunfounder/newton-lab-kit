@@ -1,58 +1,58 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ人々とさらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**: コミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: 技術を磨くためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセスが可能です。
+    - **特別割引**: 最新製品を特別割引価格でお楽しみください。
+    - **祝祭プロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造しませんか？[|link_sf_facebook|]をクリックして今すぐ参加！
 
 .. _ar_pump:
 
-3.6 Controlling a Water Pump
+3.6 小型水ポンプの制御
 =============================
 
-In this lesson, we'll learn how to control a **small water pump** using the Raspberry Pi Pico 2 and an **L293D motor driver**. A small centrifugal pump can be used for projects like automatic plant watering systems or creating miniature water features. Controlling the pump is similar to controlling a DC motor, as it uses the same principles.
+このレッスンでは、Raspberry Pi Pico 2と **L293Dモータードライバー** を使用して **小型水ポンプ** を制御する方法を学びます。小型遠心ポンプは、自動植物水やりシステムや小型水景の作成などのプロジェクトに使用できます。ポンプの制御はDCモーターの制御と似ており、同じ原理を使用します。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全てのキットを購入するのが便利ですが、こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
+    *   - 名前
+        - このキットのアイテム
+        - リンク
+    *   - Newton Lab Kit
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+個別に購入することもできます。以下のリンクからどうぞ。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -61,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_l293d`
@@ -72,7 +72,7 @@ You can also buy them separately from the links below.
         - 1
         -  
     *   - 7
-        - 9V Battery
+        - 9Vバッテリー
         - 1
         -  
     *   - 9
@@ -80,41 +80,41 @@ You can also buy them separately from the links below.
         - 1
         -  
 
-**Important Notes Before You Begin**
+**始める前に知っておくべき重要な点**
 
-* **Pump Setup**: Connect the tubing to the pump's outlet. Submerge the pump in water before powering it on.
-* **Avoid Dry Running**: Ensure the pump is always submerged. Running the pump dry can cause overheating and damage the motor.
-* **Prevent Clogging**: If you're using the pump for watering plants, make sure the water is free of debris to prevent clogging.
-* **Priming the Pump**: If water doesn't come out initially, there might be air trapped in the tubing. You may need to prime the pump by allowing water to flow through to remove air bubbles.
+* **ポンプのセットアップ**: チューブをポンプの出口に接続します。ポンプを水中に沈めてから電源を入れてください。
+* **ドライランニングを避ける**: ポンプが常に水中に沈んでいることを確認してください。ポンプを空運転すると、過熱してモーターが損傷する可能性があります。
+* **詰まりを防ぐ**: 植物に水をやる場合は、詰まりを防ぐために水がデブリを含まないことを確認してください。
+* **ポンプのプライミング**: 最初に水が出ない場合は、チューブ内に空気が閉じ込められている可能性があります。エアバブルを取り除くために水を流してポンプをプライムする必要があるかもしれません。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_pump|
 
-L293D is a motor driver chip, EN is connected to 5V to make L293D work. 1A and 2A are the inputs connected to GP15 and GP14 respectively; 1Y and 2Y are the outputs connected to the two ends of the motor.
+L293Dはモータードライバーチップで、ENはL293Dを動作させるために5Vに接続されます。1Aと2AはそれぞれGP15とGP14に接続された入力で、1Yと2Yはモーターの両端に接続された出力です。
 
-Y (output) is in phase with A (input), so if GP15 and GP14 are given different levels respectively, the direction of motor rotation can be changed.
+Y（出力）はA（入力）と位相が合っているため、GP15とGP14にそれぞれ異なるレベルが与えられると、モーターの回転方向を変えることができます。
 
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_pump|
 
-In this circuit, you will see that the button is connected to the RUN pin. This is because the motor is operating with too much current, which may cause the Pico to disconnect from the computer, and the button needs to be pressed (for the Pico's **RUN** pin to receive a low level) to reset.
+この回路では、ボタンがRUNピンに接続されていることがわかります。これは、モーターが多くの電流を使用しており、Picoがコンピューターから切断される可能性があるためで、ボタンを押す必要があります（Picoの **RUN** ピンが低レベルを受け取るため）。
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-   * You can open the file ``3.6_pumping.ino`` from ``newton-lab-kit/arduino/3.6_pumping``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ファイル ``3.6_pumping.ino`` を ``newton-lab-kit/arduino/3.6_pumping`` から開くことができます。
+   * あるいは、このコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードと正しいポートを選択し、「Upload」をクリックします。
 
 .. code-block:: arduino
 
-    const int IN1 = 15; // GPIO pin connected to Input 1A
-    const int IN2 = 14; // GPIO pin connected to Input 2A
+    const int IN1 = 15; // Input 1Aに接続されたGPIOピン
+    const int IN2 = 14; // Input 2Aに接続されたGPIOピン
 
     void setup() {
       pinMode(IN1, OUTPUT);
@@ -122,63 +122,62 @@ In this circuit, you will see that the button is connected to the RUN pin. This 
     }
 
     void loop() {
-      // Turn the pump on
+      // ポンプをオンにする
       digitalWrite(IN1, HIGH);
       digitalWrite(IN2, LOW);
-      delay(5000); // Run for 5 seconds
+      delay(5000); // 5秒間動作させる
 
-      // Stop the pump
+      // ポンプを停止する
       digitalWrite(IN1, LOW);
       digitalWrite(IN2, LOW);
-      delay(5000); // Stop for 5 seconds
+      delay(5000); // 5秒間停止
     }
 
-After uploading the code:
+コードをアップロードした後：
 
-* The pump should run for 5 seconds, pumping water through the tubing.
-* Then, it will stop for 5 seconds.
-* This cycle repeats indefinitely.
-* If water doesn't flow initially, make sure the pump is submerged, and there are no air bubbles in the tubing.
+* ポンプは5秒間動作し、チューブを通じて水をポンピングします。
+* 次に、5秒間停止します。
+* このサイクルが無限に繰り返されます。
+* 最初に水が流れない場合は、ポンプが水中に沈んでおり、チューブに空気の泡がないことを確認してください。
 
-**Safety Precautions**
+**安全上の注意**
 
-* Water and Electricity:
+* 水と電気：
 
-  * Be extremely careful to keep water away from the Pico and other electronic components.
-  * Ensure all connections are secure and insulated if necessary.
+  * Picoや他の電子部品から水を遠ざけることには非常に注意してください。
+  * 必要に応じてすべての接続が安全で絶縁されていることを確認してください。
 
-* Power Supply:
+* 電源：
 
-  * Use a power supply that matches the pump's voltage requirements (typically 3V-6V).
-  * Do not power the pump directly from the Pico's 3.3V pin.
+  * ポンプの電圧要件に合った電源を使用してください（通常は3V-6V）。
+  * Picoの3.3Vピンから直接ポンプに電力を供給しないでください。
 
-* Current Draw:
+* 電流の引き出し：
 
-  * Pumps can draw significant current.
-  * Ensure your power source can handle the pump's current requirements.
+  * ポンプはかなりの電流を引き出すことがあります。
+  * 電源がポンプの電流要件に対応できることを確認してください。
 
-* Resetting the Pico:
+* Picoのリセット：
 
-  If you encounter issues uploading code after running the pump, you can manually reset the Pico by connecting the RUN pin to GND momentarily.
+  ポンプを使用した後にコードのアップロードに問題が発生した場合、RUNピンを一時的にGNDに接続することでPicoを手動でリセットできます。
 
   |wiring_run_reset|
 
-**Further Exploration**
+**さらなる探求**
 
-* Automated Plant Watering:
+* 自動植物水やり：
 
-  Incorporate soil moisture sensors to automate the watering process based on soil dryness.
+  土壌の乾燥に基づいて水やりプロセスを自動化するために、土壌湿度センサーを取り入れます。
 
-* PWM Speed Control:
+* PWM速度制御：
 
-  Use Pulse Width Modulation (PWM) to control the pump's speed by varying the voltage.
+  パルス幅変調（PWM）を使用して、電圧を変えることによりポンプの速度を制御します。
 
-* Timing and Scheduling:
+* タイミングとスケジューリング：
 
-  Implement more complex timing using real-time clocks or schedulers.
+  リアルタイムクロックやスケジューラーを使用して、より複雑なタイミングを実装します。
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to control a small water pump using the Raspberry Pi Pico and the L293D motor driver. This technique can be used in various projects like automated plant watering systems, fountains, or hydroponic setups.
-
+このレッスンでは、Raspberry Pi PicoとL293Dモータードライバーを使用して小型水ポンプを制御する方法を学びました。この技術は、自動植物水やりシステム、噴水、または水耕栽培セットアップなど、さまざまなプロジェクトで使用できます。
 

@@ -1,45 +1,45 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _per_rainbow_light:
 
-2.4 Rainbow Light
-==================
+2.4 レインボーライト
+======================
 
-In this project, we will make the RGB LEDs display a rainbow of colors. 
+このプロジェクトでは、RGB LEDを使って色とりどりのレインボーカラーを表示させます。
 
-RGB LED is equivalent to encapsulating Red LED, Green LED, Blue LED under one lamp cap, and the three LEDs share one cathode pin. Since the electric signal is provided for each anode pin, the light of the corresponding color can be displayed. By changing the electrical signal intensity of each anode, it can be made to produce various colors.
+RGB LEDは、赤、緑、青のLEDを一つのランプキャップに封入したもので、3つのLEDは共通のカソードピンを共有しています。各アノードピンに電気信号が供給されることで、対応する色の光が表示されます。各アノードの電気信号の強度を変えることにより、さまざまな色を生成することができます。
 
 
-**Required Components**
+**必要なコンポーネント**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -47,9 +47,9 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -65,7 +65,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -80,33 +80,33 @@ You can also buy them separately from the links below.
         - 1
         - |link_rgb_led_buy|
 
-**Wiring**
+**配線**
 
 |img_rgb_pin|
 
-An RGB LED has 4 pins: the longest pin is the common cathode pin, which is usually connected to GND, the left pin next to the longest pin is Red, and the 2 pins on the right are Green and Blue.
+RGB LEDには4つのピンがあります：最も長いピンが共通のカソードピンで、通常GNDに接続されます。最も長いピンの隣の左のピンが赤、右側の2つのピンが緑と青です。
 
 |rgb0|
 
 
-* When using the same power supply intensity, the Red LED will be brighter than the other two, and a slightly larger resistor(330Ω) needs to be used to reduce its brightness.
-* The 3 buttons are used to control the lighting of the Red, Green and Blue LEDs respectively. 
+* 同じ電源強度を使用する場合、赤色LEDは他の2つよりも明るくなるため、その明るさを減らすためにやや大きめの抵抗器(330Ω)を使用する必要があります。
+* 3つのボタンはそれぞれ赤、緑、青のLEDの点灯を制御するために使用されます。
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.4_rainbow_light.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * 以下の画像を参照して、ドラッグアンドドロップでコードを書くことができます。
+    * ``kepler-kit-main\piper`` のパスから ``2.4_rainbow_light.png`` をインポートしてください。詳細なチュートリアルについては :ref:`import_code_piper` を参照してください。
 
 |rgb_led|
 
-After connecting Pico W, click the **Start** button and the code starts to run. Pressing these buttons individually will emit a single color of light, but if two of the buttons are pressed at the same time, or all 3 buttons are pressed at the same time, the RGB LEDs will emit a variety of different colors, up to a maximum of 7.
+Pico Wに接続した後、 **Start** ボタンをクリックするとコードが実行されます。これらのボタンを個別に押すと単色の光が放出されますが、2つのボタンを同時に押す、または3つのボタンを同時に押すと、RGB LEDはさまざまな色を放出します。最大で7色までです。
 
 .. note::
-    In fact, RGB LED can emit up to 16 million colors, but since Piper Make does not have a block to output PWM signal, here we just use the [turn pin() (ON/OFF)] block to make RGB LEDs show 7 colors.
+    実際には、RGB LEDは最大1600万色を放出することができますが、Piper MakeにはPWM信号を出力するブロックがないため、ここでは[turn pin() (ON/OFF)]ブロックを使用してRGB LEDに7色を表示させています。
 
-**Understanding the Code**
+**コードの理解**
 
-You can think of this project as using three buttons to control the RGB LED, and setting three if judgment conditions to determine whether the three buttons are pressed or not.
-When the buttons are pressed, the levels of the corresponding pins are pulled high, causing the RGB LED to display different colors.
+このプロジェクトは、3つのボタンを使用してRGB LEDを制御し、3つのif判断条件を設定して、3つのボタンが押されているかどうかを判断します。
+ボタンが押されると、対応するピンのレベルが高くなり、RGB LEDは異なる色を表示します。

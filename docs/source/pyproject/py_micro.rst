@@ -1,60 +1,59 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者とともにさらに深く学んでいきましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家のサポート**: 購入後の問題や技術的な課題をコミュニティとチームのサポートで解決できます。
+    - **学びと共有**: ヒントやチュートリアルを交換して、スキルを高めましょう。
+    - **独占プレビュー**: 新製品の発表や先行情報をいち早く入手できます。
+    - **特別割引**: 最新製品に対する独占割引をお楽しみいただけます。
+    - **祝祭プロモーションとギブアウェイ**: ギブアウェイや季節限定のプロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求し、創造してみませんか？今すぐ [|link_sf_facebook|] をクリックして参加しましょう！
 
 .. _py_micro:
 
-2.8 Press Gently
+2.8 優しく押して
 ==========================
 
-In this lesson, we'll learn how to use a **micro switch** (also known as a limit switch) with the Raspberry Pi Pico 2 to detect when it's pressed or released. Micro switches are commonly used in devices like microwave oven doors, printer covers, or as end stops in 3D printers because they are reliable and can handle frequent activation.
+このレッスンでは、Raspberry Pi Pico 2を使用して **マイクロスイッチ** （別名リミットスイッチ）を使い、スイッチが押されたかリリースされたかを検出する方法を学びます。マイクロスイッチは、電子レンジのドアやプリンターのカバー、3Dプリンターのエンドストップなど、信頼性が高く、頻繁に使用できるため、さまざまなデバイスで広く使われています。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+セットを購入するのが便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名称	
+        - キット内容
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
-
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -63,67 +62,67 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1個（10KΩ）
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_capacitor`
-        - 1(104)
+        - 1個（104）
         - |link_capacitor_buy|
     *   - 7
         - :ref:`cpn_micro_switch`
-        - 1
+        - 1個
         - 
 
-**Understanding the Micro Switch**
+**マイクロスイッチの理解**
 
-A micro switch typically has three pins:
+マイクロスイッチには通常3つのピンがあります：
 
 |img_micro_switch|
 
-- **Common (C)**: The middle pin.
-- **Normally Open (NO)**: Connected to the common pin when the switch is **pressed**.
-- **Normally Closed (NC)**: Connected to the common pin when the switch is **not pressed**.
+- **共通端子 (C)**: 中央のピン。
+- **通常開端子 (NO)**: スイッチが **押された時** に共通端子に接続されます。
+- **通常閉端子 (NC)**: スイッチが **押されていない時** に共通端子に接続されます。
 
-By connecting the switch appropriately, we can detect when it's pressed by reading the voltage level on a GPIO pin.
+スイッチを適切に接続することで、GPIOピンで電圧レベルを読み取ることにより、スイッチが押されたかどうかを検出できます。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_limit_sw|
 
-By default, GP14 is low and when pressed, GP14 is high.
+デフォルトでは、GP14は低（LOW）で、押された時にGP14は高（HIGH）になります。
 
-The purpose of the 10K resistor is to keep the GP14 low during pressing.
+10KΩの抵抗の目的は、スイッチを押したときにGP14が低い状態を維持することです。
 
-When you press a mechanical switch, the contacts may bounce, causing multiple rapid transitions between open and closed states. The capacitor connected between GP14 and GND helps filter out this noise.
+機械式スイッチを押すと、接点がバウンスすることがあり、開閉状態が素早く繰り返し変わることがあります。GP14とGNDの間に接続されたコンデンサは、このノイズを除去するのに役立ちます。
 
-* **Switch Not Pressed**:
+* **スイッチが押されていない場合**：
 
-  * The **Common (C)** pin is connected to the **NC** pin, which is connected to **GND**.
-  * **GP14** reads **LOW** (0V).
+  * **共通端子 (C)** は **NC端子** に接続され、これは **GND** に接続されます。
+  * **GP14** は **LOW** （0V）を読み取ります。
 
-* **Switch Pressed**:
+* **スイッチが押された場合**：
 
-  * The **Common (C)** pin is connected to the **NO** pin, which is connected to **3.3V**.
-  * **GP14** reads **HIGH** (3.3V).
+  * **共通端子 (C)** は **NO端子** に接続され、これは **3.3V** に接続されます。
+  * **GP14** は **HIGH** （3.3V）を読み取ります。
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_limit_sw|
 
 
-**Writing the Code**
+**コードの記述**
 
-We'll write a MicroPython program that detects when the micro switch is pressed and prints a message accordingly.
+マイクロスイッチが押されたかどうかを検出し、その結果に応じてメッセージを表示するMicroPythonプログラムを作成します。
 
 .. note::
 
-  * Open the ``2.8_micro_switch.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+  * ``2.8_micro_switch.py`` を ``newton-lab-kit/micropython`` から開くか、コードをThonnyにコピーして、「実行」ボタンを押すか、F5キーを押して実行してください。
 
-  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+  * 正しいインタープリタが選択されていることを確認してください：MicroPython (Raspberry Pi Pico).COMxx。
 
   
 
@@ -132,78 +131,78 @@ We'll write a MicroPython program that detects when the micro switch is pressed 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin
+    # GP14を入力ピンとして初期化
     switch = machine.Pin(14, machine.Pin.IN)
 
     while True:
         if switch.value() == 1:
             print("The switch is pressed!")
-            utime.sleep(0.5)  # Debounce delay
+            utime.sleep(0.5)  # デバウンス遅延
 
-When the code is running, you will observe the following phenomenon:
+コードが実行されると、次の現象が観察されます：
 
-* **Not Pressed**: No message should appear.
-* **Pressed**: "The switch is pressed!" should appear in the console each time you press the switch.
+* **押されていない場合**: メッセージは表示されません。
+* **押された場合**: スイッチを押すたびに、「スイッチが押されました！」というメッセージがコンソールに表示されます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Modules:
+#. モジュールのインポート：
 
-   * ``import machine``: Access to hardware functions.
-   * ``import utime``: Time-related functions.
+   * ``import machine``: ハードウェア機能にアクセスするためのモジュール。
+   * ``import utime``: 時間関連の機能を使用するためのモジュール。
 
-#. Initialize the Switch Pin:
+#. スイッチピンの初期化：
 
-   * ``switch = machine.Pin(14, machine.Pin.IN)``: Sets up GP14 as an input pin.
+   * ``switch = machine.Pin(14, machine.Pin.IN)``: GP14を入力ピンとして設定します。
 
-#. Main Loop:
+#. メインループ：
 
-   * ``while True``: Starts an infinite loop.
-   * ``if switch.value() == 1``: Checks if the switch is pressed (GP14 reads HIGH).
-   * ``print("The switch is pressed!")``: Outputs a message to the console.
-   * ``utime.sleep(0.5)``: Adds a delay to debounce the switch and prevent multiple detections from a single press.
+   * ``while True``: 無限ループを開始します。
+   * ``if switch.value() == 1``: スイッチが押されたかどうかを確認します（GP14がHIGHを読み取ります）。
+   * ``print("The switch is pressed!")``: メッセージをコンソールに出力します。
+   * ``utime.sleep(0.5)``: スイッチのデバウンスを防ぐために遅延を加えます。
 
 
-**Alternative Wiring: Using Internal Pull-Down Resistor**
+**代替配線：内部プルダウン抵抗を使用する方法**
 
-If you prefer to simplify the wiring even further, you can rely solely on the internal pull-down resistor:
+配線をさらに簡素化したい場合は、内部プルダウン抵抗のみを使用することもできます。
 
-* Modify the Circuit:
+* 回路の変更：
 
-  * Remove the external 10 kΩ resistor and 0.1 µF capacitor.
-  * Micro Switch Connections:
+  * 外部の10kΩ抵抗と0.1µFコンデンサを取り外します。
+  * マイクロスイッチ接続：
 
-    * **Common (C) Terminal**: Connect to GP14 on the Pico.
-    * **Normally Open (NO) Terminal**: Connect to 3.3V on the Pico.
-    * **Normally Closed (NC) Terminal**: Leave unconnected.
+    * **共通端子 (C)**: GP14に接続します。
+    * **通常開端子 (NO)**: 3.3Vに接続します。
+    * **通常閉端子 (NC)**: 接続しません。
 
-* Modified Code:
+* 修正コード：
 
   .. code-block:: python
 
       import machine
       import utime
 
-      # Initialize GP14 as an input pin with an internal pull-down resistor
+      # 内部プルダウン抵抗を使用してGP14を入力ピンとして初期化
       switch = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
       while True:
           if switch.value() == 1:
               print("The switch is pressed!")
-              utime.sleep(0.5)  # Debounce delay
-    
+              utime.sleep(0.5)  # デバウンス遅延
+  
 
-**Practical Applications**
+**実用的な応用**
 
-* **Limit Detection**: Use the micro switch as an end stop in CNC machines or 3D printers to detect the limit of movement.
-* **Safety Interlocks**: Ensure a device operates only when certain conditions are met (e.g., a door is closed).
-* **User Input**: Incorporate into projects where a robust and reliable button is needed.
+* **リミット検出**: マイクロスイッチをCNCマシンや3Dプリンターのエンドストップとして使用し、移動の限界を検出します。
+* **安全インターロック**: 特定の条件（例：ドアが閉まっていること）が満たされたときのみデバイスが動作するようにします。
+* **ユーザー入力**: 頑丈で信頼性の高いボタンが必要なプロジェクトに組み込みます。
 
-**Experimenting Further**
+**さらに実験してみましょう**
 
-* Control an LED:
+* LEDを制御する：
 
-  Connect an LED to another GPIO pin (e.g., GP15) with a suitable resistor. Modify the code to turn the LED on when the switch is pressed.
+  他のGPIOピン（例えばGP15）にLEDを接続し、スイッチが押されたときにLEDが点灯するようにコードを変更します。
   
   .. code-block:: python
     
@@ -215,17 +214,17 @@ If you prefer to simplify the wiring even further, you can rely solely on the in
 
     while True:
         if switch.value() == 1:
-            led.value(1)  # Turn on the LED
+            led.value(1)  # LEDを点灯
             print("The switch is pressed!")
             utime.sleep(0.5)
         else:
-            led.value(0)  # Turn off the LED
+            led.value(0)  # LEDを消灯
 
-* Counting Presses:
+* 押された回数をカウント：
 
-  Modify the code to count how many times the switch has been pressed.
+  コードを修正して、スイッチが何回押されたかをカウントします。
 
-  * Control an LED:
+  * LEDを制御：
 
    .. code-block:: python
 
@@ -241,7 +240,6 @@ If you prefer to simplify the wiring even further, you can rely solely on the in
               print("Switch pressed {} times".format(count))
               utime.sleep(0.5)
 
-**Conclusion**
+**結論**
 
-Using a micro switch with the Raspberry Pi Pico 2 allows you to detect physical interactions reliably. Understanding how to wire the switch and read its state in your code is essential for creating responsive and interactive projects.
-
+Raspberry Pi Pico 2とマイクロスイッチを使用することで、物理的なインタラクションを確実に検出することができます。スイッチをどのように配線し、その状態をコードで読み取るかを理解することは、反応的でインタラクティブなプロジェクトを作成するために不可欠です。

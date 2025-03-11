@@ -1,59 +1,58 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community（Facebook）へようこそ！Raspberry Pi、Arduino、ESP32に情熱を持つ皆さんと共に、さらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：コミュニティやチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学び＆共有**：技術的なヒントやチュートリアルを交換し、スキルを向上させましょう。
+    - **独占的なプレビュー**：新製品の発表や先行公開に早期アクセスができます。
+    - **特別割引**：最新製品を独占的な割引価格で楽しむことができます。
+    - **祭りのプロモーションとギフト**：ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _ar_ultrasonic:
 
-6.1 Measuring Distance with an Ultrasonic Sensor
+6.1 超音波センサーを用いた距離測定
 ================================================
 
-In this lesson, we'll learn how to use an **ultrasonic sensor module** with the Raspberry Pi Pico 2 to measure the distance to an object. Ultrasonic sensors are commonly used in robotics and automation systems for object detection and distance measurement.
+このレッスンでは、Raspberry Pi Pico 2を使用して **超音波センサーモジュール** で物体までの距離を測定する方法を学びます。超音波センサーは、ロボティクスや自動化システムで物体検出や距離測定によく使用されます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全てのキットを購入するのが便利です。リンクはこちらです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
+    *   - 名称
+        - このキットに含まれるアイテム
+        - リンク
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB ケーブル
         - 1
         - 
     *   - 3
@@ -62,54 +61,53 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_ultrasonic`
         - 1
         - |link_ultrasonic_buy|
 
-**Understanding the Ultrasonic Sensor**
+**超音波センサーの原理**
 
-The ultrasonic sensor works by emitting a short ultrasonic pulse from the **Trig** pin and listening for the echo on the **Echo** pin. By measuring the time it takes for the echo to return, we can calculate the distance to an object using the speed of sound.
+超音波センサーは、 **Trig** ピンから短い超音波パルスを発信し、 **Echo** ピンでそのエコーを聴取します。エコーが戻ってくるまでの時間を測定することで、音速を使用して物体までの距離を計算できます。
 
 |ultrasonic_prin|
 
-* **Trigger Pulse**: A 10-microsecond high pulse on the Trig pin initiates the measurement.
-* **Ultrasonic Burst**: The sensor emits an 8-cycle ultrasonic burst at 40 kHz.
-* **Echo Reception**: The Echo pin goes high, and stays high until the echo is received back.
-* **Time Measurement**: By measuring the time the Echo pin stays high, we can calculate the distance.
+* **トリガーパルス**：Trigピンに10マイクロ秒の高いパルスを送ると測定が開始されます。
+* **超音波バースト**：センサーは40kHzで8サイクルの超音波バーストを発します。
+* **エコー受信**：Echoピンが高くなり、エコーが戻るまで高い状態が続きます。
+* **時間測定**：Echoピンが高い状態を維持する時間を測定することで、距離を計算できます。
 
-
-**Circuit Diagram**
+**回路図**
 
 |sch_ultrasonic|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_ultrasonic|
 
-**Writing the Code**
+**コードの書き方**
 
-We'll write a program that triggers the ultrasonic sensor, measures the echo time, and calculates the distance to an object. The distance will be printed to the Serial Monitor.
+超音波センサーをトリガーして、エコー時間を測定し、物体までの距離を計算するプログラムを書きます。距離はシリアルモニターに表示されます。
 
 .. note::
 
-   * You can open the file ``6.1_ultrasonic.ino`` from ``newton-lab-kit/arduino/6.1_ultrasonic``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``6.1_ultrasonic.ino`` ファイルを ``newton-lab-kit/arduino/6.1_ultrasonic`` から開くことができます。
+   * または、このコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定した後、「Upload」をクリックしてください。
 
 .. code-block:: arduino
 
-    // Define the connection pins
+    // 接続ピンの定義
     const int trigPin = 17;  // GPIO 17 -> Trig
     const int echoPin = 16;  // GPIO 16 -> Echo
 
     void setup() {
-      // Initialize serial communication at 115200 baud
+      // シリアル通信を115200ボーで初期化
       Serial.begin(115200);
     
-      // Initialize the sensor pins
+      // センサーピンの初期化
       pinMode(trigPin, OUTPUT);
       pinMode(echoPin, INPUT);
     }
@@ -118,26 +116,25 @@ We'll write a program that triggers the ultrasonic sensor, measures the echo tim
       long duration;
       float distance;
 
-      // Trigger the sensor by setting Trig HIGH for 10 microseconds
-      digitalWrite(trigPin, HIGH);
-      delayMicroseconds(10);
-      digitalWrite(trigPin, LOW);
-    
-      // Read the Echo pin, returns the duration in microseconds
-      duration = pulseIn(echoPin, HIGH);
-    
-      // Calculate the distance in centimeters
-      distance = duration * 0.034 / 2;
-    
-      // Print the distance to the Serial Monitor
-      Serial.print("Distance: ");
-      Serial.print(distance);
-      Serial.println(" cm");
-    
-      delay(500); // Wait for half a second before the next measurement
-    }
+// センサーをトリガーして、Trigを10マイクロ秒間HIGHに設定
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
 
-After uploading the code, the Serial Monitor should display the distance measurements in centimeters.
+// Echoピンを読み取り、マイクロ秒単位の持続時間を返す
+duration = pulseIn(echoPin, HIGH);
+
+// 距離をセンチメートルで計算
+distance = duration * 0.034 / 2;
+
+// シリアルモニターに距離を出力
+Serial.print("距離: ");
+Serial.print(distance);
+Serial.println(" cm");
+
+delay(500); // 次の測定まで0.5秒間待機
+
+コードアップロード後、シリアルモニターはセンチメートル単位で距離を表示するはずです。
 
 .. code-block::
 
@@ -145,40 +142,40 @@ After uploading the code, the Serial Monitor should display the distance measure
     Distance: 24.8 cm
     Distance: 24.5 cm
 
-Place an object at varying distances from the sensor.
-Move the object closer and farther to observe changes in the distance readings.
+センサーからさまざまな距離に物体を置いてください。
+物体を近づけたり遠ざけたりして、距離読み取りの変化を観察してください。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Defining Connection Pins:
+#. 接続ピンの定義:
 
-   * ``trigPin``: Sends the ultrasonic pulse.
-   * ``echoPin``: Receives the echo of the ultrasonic pulse.
+   * ``trigPin``: 超音波パルスを送信。
+   * ``echoPin``: 超音波パルスのエコーを受信。
 
    .. code-block:: arduino
 
         const int trigPin = 17;  // GPIO 17 -> Trig
         const int echoPin = 16;  // GPIO 16 -> Echo
 
-#. Setup Function:
+#. セットアップ機能:
 
-   * **Serial Communication**: Enables communication between the Pico and the computer for debugging.
-   * **Pin Modes**: Sets the ``Trig`` pin as ``OUTPUT`` and the ``Echo`` pin as ``INPUT``.
+   * **シリアル通信**: ピコとコンピュータ間のデバッグ用通信を可能にする。
+   * **ピンモード**: ``Trig`` ピンを ``OUTPUT`` として設定し、 ``Echo`` ピンを ``INPUT`` として設定。
 
    .. code-block:: arduino
 
         void setup() {
-          // Initialize serial communication at 115200 baud
+          // シリアル通信を115200ボーで初期化
           Serial.begin(115200);
 
-          // Initialize the sensor pins
+          // センサーピンを初期化
           pinMode(trigPin, OUTPUT);
           pinMode(echoPin, INPUT);
         }
 
-#. Loop Function:
+#. ループ機能:
 
-   * **Triggering the Sensor**: Sets the ``Trig`` pin ``HIGH`` for 10 microseconds to send the ultrasonic pulse. Sets the ``Trig`` pin ``LOW`` to end the pulse.
+   * **センサーのトリガー**: ``Trig`` ピンを10マイクロ秒間 ``HIGH`` に設定して超音波パルスを送信。パルスの終了時に ``Trig`` ピンを ``LOW`` に設定。
 
      .. code-block:: arduino
 
@@ -186,19 +183,19 @@ Move the object closer and farther to observe changes in the distance readings.
         delayMicroseconds(10);
         digitalWrite(trigPin, LOW);
 
-   * **Reading the Echo**: Measures the duration (in microseconds) that the ``Echo`` pin stays ``HIGH``, indicating the time taken for the echo to return.
+   * **エコーの読み取り**: ``Echo`` ピンが ``HIGH`` の状態を保持する持続時間（マイクロ秒単位）を測定し、エコーが戻るまでの時間を示す。
 
      .. code-block:: arduino
 
         duration = pulseIn(echoPin, HIGH);
 
-   * **Calculating Distance**: Converts the time to distance (cm/microsecond). Divides by 2 to account for the round-trip of the pulse.
+   * **距離の計算**: 時間を距離（cm/マイクロ秒）に変換。パルスの往復時間を考慮して2で割る。
 
      .. code-block:: arduino
 
         distance = duration * 0.034 / 2;
 
-   * **Serial Output**: Prints the calculated distance to the Serial Monitor for real-time monitoring.
+   * **シリアル出力**: 計算された距離をリアルタイムでシリアルモニターに出力。
 
      .. code-block:: arduino
 
@@ -206,43 +203,43 @@ Move the object closer and farther to observe changes in the distance readings.
         Serial.print(distance);
         Serial.println(" cm");
 
-   * **Delay**: Adds a 500-millisecond delay to prevent flooding the Serial Monitor and to allow time between measurements.
+   * **遅延**: シリアルモニターへの出力過多を防ぎ、測定間に時間を設けるために500ミリ秒の遅延を追加。
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* No Readings Displayed:
+* 読み取り値が表示されない:
 
-  * Ensure the Trig and Echo pins are correctly connected.
-  * Verify that the sensor is receiving power (VCC and GND connections).
-  * Check that the Serial Monitor is set to the correct baud rate.
+  * TrigピンとEchoピンが正しく接続されていることを確認してください。
+  * センサーが電力を受け取っているか（VCCおよびGND接続）を確認してください。
+  * シリアルモニターが正しいボーレートに設定されているか確認してください。
 
-* Incorrect Readings:
+* 読み取り値が不正確:
 
-  * Ensure that the calculations in the code are correct.
-  * Verify that the speed of sound constant (0.034) is appropriate for your environment (humidity and temperature can affect sound speed).
+  * コード内の計算が正しいか確認してください。
+  * 環境に適した音速定数（0.034）が正しいか確認してください（湿度や温度が音速に影響する可能性があります）。
+
+* センサーの干渉:
+
+  * 超音波パルスを妨げる可能性のある障害物や反射面がないか確認してください。
+  * 誤った読み取りを引き起こす可能性のある他の超音波デバイスの近くにセンサーを置かないようにしてください。
 
 
-* Sensor Interference:
+**さらなる探求**
 
-  * Make sure there are no obstructions or reflective surfaces that might interfere with the ultrasonic pulses.
-  * Avoid placing the sensor near other ultrasonic devices that could cause false readings.
+* LEDまたはディスプレイとの統合:
 
+  * 複数のLEDを使用して視覚的な距離指示器を作成してください。
+  * 7セグメントまたはLCDディスプレイを統合して、距離を数値で表示してください。
 
-**Further Exploration**
+* 接近警報システムの作成:
 
-* Integrating with LEDs or Displays:
+  物体が非常に近いときに警報を鳴らすように、しきい値を設定してください。
 
-  * Use multiple LEDs to create a visual distance indicator.
-  * Integrate with a 7-segment or LCD display to show the distance numerically.
+* 簡易障害物回避ロボットの構築:
 
-* Creating a Proximity Alert System:
+  超音波センサーを利用して障害物を検出し、それを回避しながらナビゲートしてください。
 
-  Set thresholds to trigger alerts (e.g., sound alarms when objects are too close).
+**結論**
 
-* Building a Simple Obstacle-Avoiding Robot:
+このレッスンでは、ラズベリーパイ・ピコと超音波センサーモジュールを使用して物体までの距離を測定する方法を学びました。超音波パルスをトリガーし、エコー時間を測定することで、近くの物体の距離を正確に判定することができます。このプロジェクトは、ロボティクス、オートメーション、インタラクティブシステムにおけるより複雑なアプリケーションの基盤として役立ちます。
 
-  Utilize the ultrasonic sensor to detect obstacles and navigate around them.
-
-**Conclusion**
-
-In this lesson, you've learned how to use an ultrasonic sensor module with the Raspberry Pi Pico to measure the distance to an object. By triggering ultrasonic pulses and measuring the echo time, you can accurately determine the distance of nearby objects. This project serves as a foundation for more complex applications in robotics, automation, and interactive systems.

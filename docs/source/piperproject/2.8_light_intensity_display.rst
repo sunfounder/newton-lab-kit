@@ -1,52 +1,51 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _per_light_display:
 
-2.8 Light Intensity Display
+2.8 光強度ディスプレイ
 =====================================
 
-In this project, we use a photoresistor and the LED Bar Graph to make a light intensity display, where the stronger the light is the more the number of the LED Bar Graph lights up.
+このプロジェクトでは、フォトレジスタとLEDバーグラフを使用して光強度ディスプレイを作成します。光が強いほど、LEDバーグラフの点灯数が多くなります。
 
-**Required Components**
+**必要なコンポーネント**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -62,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -77,41 +76,36 @@ You can also buy them separately from the links below.
         - 1
         - |link_photoresistor_buy|
 
-**Wiring**
+**配線**
 
 |light_intensity_display0|
 
+* LEDバーグラフは10個のLEDから構成されており、ラベル側がアノード、反対側がカソードです。
+* LEDバーグラフのアノードはGP6〜GP15に接続され、カソードは220オームの抵抗器を介してGNDに接続されます。
+* フォトレジスタの片端を3.3Vに、もう片端をGP26（A0）に接続します。同時に、GP26は別の10K抵抗器を介してGNDに接続する必要があります。これにより、光が強くなるとフォトレジスタの抵抗値が減少し、A0の電圧が上昇します。
 
-* The LED Bar Graph consists of 10 LEDs, with the side with the label as the anode and the other side as the cathode.
-* The anode of the LED Bar Graph are connected to GP6~GP15. The cathode are connected to a 220 ohm resistor and then to GND.
-* Connect one end of the photoresistor to 3.3V and the other end to GP26 (A0). At the same time, GP26 needs to be connected to another 10K resistor to GND. This way, when the light is stronger, the resistance of the photoresistor decreases and the voltage of A0 increases.
-
-
-**Writing the Code**
-
+**コードの書き方**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.8_light_intensity_display.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * 以下の画像を参考にして、ドラッグアンドドロップでコードを書くことができます。
+    * ``kepler-kit-main\piper`` のパスから ``2.8_light_intensity_display.png`` をインポートしてください。詳細なチュートリアルについては :ref:`import_code_piper` を参照してください。
 
 |light_intensity_display|
 
-* After connecting Pico W, click the **Start** button and the code starts to run.
-* When the light is stronger, more LEDs are lit on the LED Bar Graph. 
-* If running the code does not light up properly, you can try flipping the led bar.
+* Pico Wに接続した後、 **Start** ボタンをクリックするとコードが実行されます。
+* 光が強くなると、LEDバーグラフのLEDがより多く点灯します。
+* コードの実行が適切に行われない場合は、LEDバーを反転させてみてください。
 
-
-
-**Understanding the Code**
+**コードの理解**
 
 |light_intensity_display1|
 
-Set the pins of LED Bar Graph connected to GP6 ~ GP15.
 
+GP6〜GP15に接続されたLEDバーグラフのピンを設定します。
 
 |light_intensity_display2|
 
-Store the voltage value of A0 (GP26) read into the variable [photo_vol].  Use the [map value () from () to ()] block to map the variable [photo_vol] from 0 to 3.3V to 0 to 10 (the number of LEDs on the LED Bar Graph).
+A0 (GP26) から読み取った電圧値を変数 [photo_vol] に保存します。[map value () from () to ()] ブロックを使用して、変数 [photo_vol] を0から3.3Vの範囲から0から10（LEDバーグラフのLEDの数）の範囲にマッピングします。
 
-* [map value () from () to ()]: map a value from one range to another.
+* [map value () from () to ()]: 値を一つの範囲から別の範囲にマッピングするために使用します。

@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community（Facebook）へようこそ！Raspberry Pi、Arduino、ESP32について、愛好者と共により深く学びましょう。
 
-    **Why Join?**
+    **なぜ参加するべきか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティやチームのサポートを受けながら解決できます。
+    - **学び＆共有**：スキル向上のためのヒントやチュートリアルを交換できます。
+    - **新製品の先行情報**：新製品の発表や試作品の情報をいち早く入手できます。
+    - **特別割引**：最新製品を特別価格で購入できます。
+    - **イベントやプレゼント企画**：キャンペーンやプレゼント企画に参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探究し、創造しませんか？今すぐ [|link_sf_facebook|] をクリックして参加しましょう！
 
 FAQ
 =========
@@ -18,44 +18,41 @@ FAQ
 Arduino
 ---------------------
 
-#. Code upload failed in Arduino IDE?
-    * Check that your Pico is correctly recognised by the Arduino IDE, the port should be COMXX (Raspberry Pi Pico 2), for instructions please refer to :ref:`setup_pico_arduino`.
-    * Check that the Board(Raspberry Pi Pico 2) or port（COMXX (Raspberry Pi Pico 2)）is selected correctly.
-    * If your code is OK and you have selected the correct board and port, but the upload is still not successful. At this point you can click on the **Upload** icon again, when the progress below shows "Upload...", unplug the USB cable, then press and hold the **BOOTSEL** button to plug it in and the code will be uploaded successfully.
-
+#. Arduino IDEでコードのアップロードが失敗する場合？
+    * Arduino IDEがPicoを正しく認識しているか確認してください。ポートは COMXX (Raspberry Pi Pico 2) である必要があります。詳細な手順については :ref:`setup_pico_arduino` を参照してください。
+    * ボード（Raspberry Pi Pico 2）およびポート（COMXX (Raspberry Pi Pico 2)）が正しく選択されているか確認してください。
+    * コードが正しく、適切なボードとポートを選択しているにもかかわらずアップロードに失敗する場合、 **Upload** アイコンを再度クリックし、進行状況が「Upload...」と表示されたらUSBケーブルを抜き、 **BOOTSEL** ボタンを押しながら再度接続すると、コードが正常にアップロードされます。
 
 MicroPython
 ------------------
 
-#. How to open and run the code?
-    For detailed tutorials, please refer to :ref:`open_run_code_py`.
+#. コードを開いて実行する方法は？
+    詳細なチュートリアルについては :ref:`open_run_code_py` を参照してください。
 
-#. How to upload library to Raspberry Pi Pico 2？
-    For detailed tutorials, please refer to :ref:`add_libraries_py`.
+#. Raspberry Pi Pico 2 にライブラリをアップロードする方法は？
+    詳細なチュートリアルについては :ref:`add_libraries_py` を参照してください。
 
-#. NO MicroPython(Raspberry Pi Pico) Interpreter Option on Thonny IDE?
-    * Check that your Pico is plugged into your computer via a USB cable.
-    * Check that you have installed MicroPython for Pico (:ref:`install_micropython_on_pico`).
-    * The Raspberry Pi Pico 2 interpreter is only available in version 3.3.3 or higher version of Thonny. If you are running an older version, please update (:ref:`thonny_ide`).
-    * Plug in/out the micro USB cable sveral times.
+#. Thonny IDEにMicroPython（Raspberry Pi Pico）インタープリターオプションが表示されない？
+    * USBケーブルでPicoが正しくPCに接続されているか確認してください。
+    * MicroPythonがPicoにインストールされているか確認してください（ :ref:`install_micropython_on_pico` を参照）。
+    * Raspberry Pi Pico 2 のインタープリターは、Thonnyのバージョン3.3.3以上でのみ利用可能です。古いバージョンを使用している場合はアップデートしてください（ :ref:`thonny_ide` を参照）。
+    * Micro USBケーブルを何度か抜き差ししてみてください。
 
-#. Cannot open Pico code or save code to Pico via Thonny IDE?
-    * Check that your Pico is plugged into your computer via a USB cable.
-    * Check that you have selected the Interpreter as **MicroPython (Raspberry Pi Pico).COMxx**.
+#. Thonny IDEでPicoのコードを開けない、または保存できない？
+    * USBケーブルでPicoがPCに接続されているか確認してください。
+    * インタープリターとして **MicroPython (Raspberry Pi Pico).COMxx** を選択しているか確認してください。
 
-#. Can Raspberry Pi Pico 2 be used on Thonny and Arduino at the same time?
-    NO, you need to do some different operations.
+#. Raspberry Pi Pico 2 はThonnyとArduinoを同時に使用できますか？
+    いいえ、それぞれ異なる操作が必要です。
 
-    * If you used it on Arduino first, and now you want to use it on Thonny IDE, you need to :ref:`install_micropython_on_pico` on it.
-    * If you used it on Thonny first， and now you want to use it on Arduino IDE, you need to :ref:`setup_pico_arduino`.
+    * 先にArduinoで使用していた場合、Thonny IDEで使用するには :ref:`install_micropython_on_pico` を実行してください。
+    * 先にThonnyで使用していた場合、Arduino IDEで使用するには :ref:`setup_pico_arduino` を実行してください。
 
-
-#. If your computer is win7 and pico cannot be detected.
-    * Download the USB CDC driver from http://aem-origin.microchip.com/en-us/mindi-sw-library?swsearch=Atmel%2520USB%2520CDC%2520Virtual%2520COM%2520Driver
-    * Unzip the ``amtel_devices_cdc.inf`` file to a folder named ``pico-serial``.
-    * Change the name of ``amtel_devices_cdc.inf`` file to ``pico-serial.inf``.
-    * Open/edit the ``pico-serial.inf`` in a basic editor like notepad
-    * Remove and replace the lines under the following headings:
+#. Windows 7のPCでPicoが認識されない場合？
+    * USB CDCドライバーを以下のリンクからダウンロードしてください：http://aem-origin.microchip.com/en-us/mindi-sw-library?swsearch=Atmel%2520USB%2520CDC%2520Virtual%2520COM%2520Driver
+    * ダウンロードした ``amtel_devices_cdc.inf`` を ``pico-serial`` フォルダに解凍してください。
+    * ``amtel_devices_cdc.inf`` を ``pico-serial.inf`` にリネームしてください。
+    * テキストエディタ（メモ帳など）で ``pico-serial.inf`` を開いて、以下のセクションを修正してください：
 
     .. code-block::
 
@@ -76,21 +73,18 @@ MicroPython
         PI_CDC_PICO = "Pi Pico Serial Port"
         Serial.SvcDesc = "Pi Pico Serial Driver"
 
-    #. Close and save and make sure your retain the name as pico-serial.inf
-    #. Go to your pc device list, find the pico under Ports, named something like CDC Device. A yellow exclamation mark indicates it.
-    #. Right click on the CDC Device and update or install driver choosing the file you created from the location you saved it at.
-
-
-
+    #. 編集が完了したら、ファイル名をpico-serial.infのまま保存してください。
+    #. PCのデバイスマネージャーを開き、「ポート（COMとLPT）」内の「CDC Device」を探してください。黄色い警告マークが表示されていることがあります。
+    #. 「CDC Device」を右クリックし、「ドライバーの更新」または「ドライバーのインストール」を選択し、作成したファイルを指定してインストールしてください。
 
 .. Piper Make
 .. ------------------
 
-.. #. How to set up the Pico on Piper Make?
-..     For detailed tutorials, please refer to :ref:`per_setup_pico`.
+.. #. Piper MakeでPicoをセットアップする方法？
+..     詳細なチュートリアルについては :ref:`per_setup_pico` を参照してください。
 
-.. #. How to download or import code?
-..     For detailed tutorials, please refer to :ref:`per_save_import`.
+.. #. コードをダウンロードまたはインポートする方法？
+..     詳細なチュートリアルについては :ref:`per_save_import` を参照してください。
 
-.. #. How to connect to Pico?
-..     For detailed tutorials, please refer to :ref:`connect_pico_per`.
+.. #. Picoに接続する方法？
+..     詳細なチュートリアルについては :ref:`connect_pico_per` を参照してください。

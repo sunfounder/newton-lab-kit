@@ -1,49 +1,49 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _per_service_bell:
 
-2.3 Service Bell
+2.3 コールベル
 ==========================
 
-For this project we used a microswitch and an active buzzer to create a service bell. Tap the switch and the buzzer makes a sound.
+このプロジェクトでは、マイクロスイッチとアクティブブザーを使用してサービスベルを作成します。スイッチをタップすると、ブザーが音を出します。
 
-Micro Switch is also a 3-pin device, the sequence of the 3 pins are C (common pin), NO (normally open) and NC (normally closed).
+マイクロスイッチも3ピンのデバイスで、3つのピンの順序はC（コモンピン）、NO（ノーマリーオープン）、NC（ノーマリークローズド）です。
 
-When the micro switch is not pressed, 1 (C) and 3 (NC) are connected together, when pressed 1 (C) and 2 (NO) are connected together.
+マイクロスイッチが押されていないとき、1（C）と3（NC）が接続されています。押されたときは、1（C）と2（NO）が接続されます。
 
 |img_micro_switch|
 
-**Required Components**
+**必要なコンポーネント**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -51,9 +51,9 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -69,7 +69,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -92,28 +92,26 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Wiring**
+**配線**
 
 |service_bell0|
 
-* By default, pins 1 and 3 of the Micro Switch are connected together and GP14 is low. When the Micro Switch is pressed, GP14 is high.
-* GP15 outputs high to make the buzzer sound.
+* デフォルトでは、マイクロスイッチのピン1と3が接続されており、GP14は低電圧です。マイクロスイッチが押されると、GP14は高電圧になります。
+* GP15が高電圧を出力してブザーを鳴らします。
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.3_service_bell.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * 以下の画像を参考にして、ドラッグアンドドロップでコードを書くことができます。
+    * ``kepler-kit-main\piper`` のパスから ``2.3_service_bell.png`` をインポートしてください。詳細なチュートリアルについては :ref:`import_code_piper` を参照してください。
 
 
 |service_bell|
 
-After connecting Pico W, click the **Start** button and the code starts to run. Tap the switch and the buzzer makes a sound.
+Pico Wに接続した後、 **Start** ボタンをクリックするとコードが実行されます。スイッチをタップするとブザーが音を出します。
 
 .. note::
-    This project code is exactly the same as the previous project :ref:`per_button`.
-
-
+    このプロジェクトのコードは前のプロジェクト :ref:`per_button` と全く同じです。
 
 

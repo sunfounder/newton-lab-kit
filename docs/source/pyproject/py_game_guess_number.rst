@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてもっと深く探求しましょう。
 
-    **Why Join?**
+**参加する理由?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+- **専門家のサポート**: コミュニティとチームからのサポートで販売後の問題や技術的な課題を解決。
+- **学びと共有**: スキル向上のためのヒントやチュートリアルを交換。
+- **独占プレビュー**: 新製品の発表や先行予告をいち早く入手。
+- **特別割引**: 最新製品の独占割引を楽しむ。
+- **祝祭プロモーションとギブアウェイ**: ギブアウェイや休日プロモーションに参加。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+👉 一緒に探求し、創造してみませんか？クリック [|link_sf_facebook|] して今すぐ参加！
 
 .. _py_guess_number:
 
-7.7 Creating a "Guess the Number" Game
+7.7 「数字当てゲーム」の作成
 =============================================================
 
-In this project, we'll build an interactive **Guess the Number** game using the Raspberry Pi Pico 2, a 4x4 matrix keypad, and an I2C LCD1602 display. The game generates a random number between 0 and 99, and players take turns guessing the number. After each guess, the game narrows down the range based on whether the guess was too high or too low, until someone guesses the correct number.
+このプロジェクトでは、Raspberry Pi Pico 2、4x4マトリックスキーパッド、そしてI2C LCD1602ディスプレイを使用して、インタラクティブな **数字当てゲーム** を構築します。ゲームは0から99までのランダムな数字を生成し、プレイヤーは交代でその数字を推測します。各プレイヤーの推測後、ゲームはその推測が高すぎたか低すぎたかに基づいて範囲を絞り込み、誰かが正しい数字を当てるまで続けます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入することは非常に便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名称	
+        - このキットに含まれるアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -44,16 +44,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -77,38 +77,38 @@ You can also buy them separately from the links below.
         - 1
         - |link_i2clcd1602_buy|
 
-**Understanding the Components**
+**コンポーネントの理解**
 
-* **4x4 Matrix Keypad**: A keypad with 16 buttons arranged in a 4-row by 4-column matrix. We'll use it to input numbers and commands.
-* **I2C LCD1602 Display**: A 16x2 character LCD display with an I2C interface, simplifying wiring by using only two data lines (SDA and SCL).
+* **4x4マトリックスキーパッド**: 4行4列のマトリックスで配置された16個のボタンを持つキーパッドです。数字やコマンドの入力に使用します。
+* **I2C LCD1602ディスプレイ**: 16x2文字のLCDディスプレイで、I2Cインターフェースを備えており、SDAとSCLの2本のデータラインのみを使用することで配線を簡略化します。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_guess_number|
 
-This circuit is based on :ref:`py_keypad` with the addition of an I2C LCD1602 to display the pressed keys.
+この回路は :ref:`py_keypad` に基づいており、押されたキーを表示するためのI2C LCD1602が追加されています。
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_game_guess_number| 
 
-To make the wiring easier, in the above diagram, the column row of the matrix keyboard and the 10K resistors are inserted into the holes where G10 ~ G13 are located at the same time.
+配線を容易にするために、上の図では、マトリックスキーボードの列行と10K抵抗が同時にG10〜G13の穴に挿入されます。
 
 
-**Writing the Code**
+**コードの書き方**
 
-We'll write a MicroPython program that:
+MicroPythonプログラムを書いて、以下の操作を行います：
 
-* Generates a random number between 0 and 99.
-* Reads input from the keypad.
-* Updates the LCD display with hints and player inputs.
-* Narrows down the range after each guess.
+* 0から99の間のランダムな数字を生成します。
+* キーパッドからの入力を読み取ります。
+* LCDディスプレイを更新して、ヒントとプレイヤーの入力を表示します。
+* 各予想の後で範囲を絞り込みます。
 
 .. note::
 
-    * Open the ``7.7_game_guess_number.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the library called ``lcd1602.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * ``7.7_game_guess_number.py`` を ``newton-lab-kit/micropython`` から開くか、Thonnyにコードをコピーして「実行」ボタンをクリックするか、F5キーを押します。
+    * 正しいインタープリタが選択されていることを確認してください：MicroPython (Raspberry Pi Pico).COMxx。 
+    * ``lcd1602.py`` というライブラリを使用する必要がありますので、Picoにアップロードされているか確認してください。詳細なチュートリアルは :ref:`add_libraries_py` を参照してください。
 
 .. code-block:: python
 
@@ -117,11 +117,11 @@ We'll write a MicroPython program that:
     import utime
     import urandom
 
-    # Initialize I2C communication for the LCD1602 display
+    # LCD1602ディスプレイのためのI2C通信を初期化します
     i2c = I2C(1, sda=Pin(6), scl=Pin(7), freq=400000)
     lcd = LCD(i2c)
 
-    # Keypad character mapping for a 4x4 matrix keypad
+    # 4x4マトリックスキーパッドのキャラクターマッピング
     keypad_map = [
         ["1", "2", "3", "A"],
         ["4", "5", "6", "B"],
@@ -129,11 +129,11 @@ We'll write a MicroPython program that:
         ["*", "0", "#", "D"]
     ]
 
-    # Define row and column pins
+    # 行と列のピンを定義します
     row_pins = [Pin(pin_num, Pin.OUT) for pin_num in [21, 20, 19, 18]]  # R1-R4
     col_pins = [Pin(pin_num, Pin.IN, Pin.PULL_DOWN) for pin_num in [13, 12, 11, 10]]  # C1-C4
 
-    # Function to scan the keypad
+    # キーパッドをスキャンする関数
     def read_keypad():
         for row_num, row_pin in enumerate(row_pins):
             row_pin.high()
@@ -144,7 +144,7 @@ We'll write a MicroPython program that:
             row_pin.low()
         return None
 
-    # Initialize game variables
+    # ゲーム変数を初期化する関数
     def init_game():
         global target_number, lower_bound, upper_bound, guess
         target_number = urandom.randint(0, 99)
@@ -154,19 +154,19 @@ We'll write a MicroPython program that:
         lcd.clear()
         lcd.message("Press A to Start")
 
-    # Display function
+    # ディスプレイを更新する関数
     def update_display(message):
         lcd.clear()
         lcd.message(message)
 
-    # Main program
+    # メインプログラム
     init_game()
     game_started = False
 
     while True:
         key = read_keypad()
         if key:
-            utime.sleep(0.2)  # Debounce delay
+            utime.sleep(0.2)  # デバウンスの遅延
 
             if not game_started:
                 if key == "A":
@@ -198,54 +198,54 @@ We'll write a MicroPython program that:
                     else:
                         update_display("Enter a number")
                 elif key == "A":
-                    # Restart the game
+                    # ゲームを再開します
                     init_game()
                     game_started = True
                     update_display("Enter your guess:")
                 elif key == "B":
-                    # Clear current guess
+                    # 現在の推測をクリアします
                     guess = ""
                     update_display("Guess cleared")
                 elif key == "C":
-                    # Show hint or any other functionality
+                    # ヒントを表示するか、その他の機能
                     update_display("Hint not available")
         utime.sleep(0.1)
 
-After the code runs, follow these steps to play the game:
+コードが実行された後、ゲームをプレイするための手順に従ってください：
 
-* Start the Game:
+* ゲームを開始：
 
-  Press the 'A' key on the keypad.
+  キーパッドの「A」キーを押します。
 
-* Enter Guesses:
+* 推測を入力：
 
-  * Use the number keys to input your guess (0-99).
-  * Press 'D' to submit your guess.
+  * 数字キーを使用してあなたの推測を入力します（0-99）。
+  * 推測を送信するには「D」を押します。
 
-* Receive Feedback:
+* フィードバックを受け取る：
 
-  * The LCD will indicate if your guess is too high, too low, or correct.
-  * The range will adjust accordingly.
+  * LCDはあなたの推測が高すぎる、低すぎる、または正しいかを示します。
+  * 範囲はそれに応じて調整されます。
 
-* Winning the Game:
+* ゲームに勝つ：
 
-  * When you guess the correct number, the LCD will display "Correct! Number is XX".
-  * The game resets automatically after a short delay.
+  * 正しい数字を推測すると、LCDに「Correct! Number is XX」と表示されます。
+  * ゲームは短い遅延の後に自動的にリセットされます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Imports and Initialization:
+#. インポートと初期化：
 
-   * ``lcd1602.LCD``: For controlling the LCD display.
-   * ``machine.Pin``: For interacting with GPIO pins.
-   * ``urandom``: For generating random numbers.
-   * Initialize I2C communication for the LCD1602 display.
+   * ``lcd1602.LCD``: LCDディスプレイを制御するために。
+   * ``machine.Pin``: GPIOピンとのやり取りのために。
+   * ``urandom``: ランダムな数字を生成するために。
+   * LCD1602ディスプレイのためのI2C通信を初期化します。
 
-#. Keypad Scanning Function (``read_keypad``):
+#. キーパッドスキャン機能（ ``read_keypad`` ）：
 
-   * Sets each row high one at a time.
-   * Checks if any column reads high, indicating a button press.
-   * Returns the character corresponding to the pressed key.
+   * 一度に一つの行を高く設定します。
+   * 任意の列が高く読み取られた場合、ボタンが押されたことを示します。
+   * 押されたキーに対応する文字を返します。
 
    .. code-block:: python
 
@@ -259,11 +259,11 @@ After the code runs, follow these steps to play the game:
                 row_pin.low()
             return None
 
-#. Game Variables and Initialization (``init_game``):
+#. ゲーム変数と初期化（ ``init_game`` ）：
 
-   * ``target_number``: Random number between 0 and 99.
-   * ``lower_bound and upper_bound``: Start at 0 and 99 respectively.
-   * ``guess``: String to store the current guess input.
+   * ``target_number``: 0から99の間のランダムな数字。
+   * ``lower_bound and upper_bound``: それぞれ0と99から始まります。
+   * ``guess``: 現在の推測入力を格納する文字列。
 
    .. code-block:: python
 
@@ -276,9 +276,9 @@ After the code runs, follow these steps to play the game:
             lcd.clear()
             lcd.message("Press A to Start")
 
-#. Display Update Function (``update_display``):
+#. ディスプレイ更新機能（ ``update_display`` ）：
 
-   Clears the LCD and displays the provided message.
+   LCDをクリアして、提供されたメッセージを表示します。
 
    .. code-block:: python
 
@@ -287,25 +287,25 @@ After the code runs, follow these steps to play the game:
             lcd.clear()
             lcd.message(message)
 
-#. Main Program Loop:
+#. メインプログラムループ：
 
-   * Waits for key presses and handles game logic.
-   * Key ``A``: Starts or restarts the game.
-   * Digits ``0``-``9``: Builds the current guess number.
-   * Key ``D``: Submits the guess and updates the range.
-   * Checks if the guess is within the current bounds.
-   * Updates ``lower_bound`` or ``upper_bound`` based on the guess.
-   * Resets guess for the next input.
-   * If the guess is correct, displays a success message and resets the game.
-   * Key ``B``: Clears the current guess.
-   * Key ``C``: Reserved for additional functionality (e.g., hints).
+   * キー入力を待ち、ゲームロジックを処理します。
+   * キー ``A`` : ゲームを開始または再開します。
+   * 数字 ``0`` - ``9`` : 現在の推測番号を構築します。
+   * キー ``D`` : 推測を送信し、範囲を更新します。
+   * 推測が現在の範囲内にあるかどうかをチェックします。
+   * 推測に基づいて ``lower_bound`` または ``upper_bound`` を更新します。
+   * 次の入力のために推測をリセットします。
+   * 推測が正しい場合は、成功メッセージを表示し、ゲームをリセットします。
+   * キー ``B``: 現在の推測をクリアします。
+   * キー ``C``: 追加の機能用（例：ヒント）。
 
    .. code-block:: python
 
         while True:
             key = read_keypad()
             if key:
-                utime.sleep(0.2)  # Debounce delay
+                utime.sleep(0.2)  # デバウンスの遅延
 
                 if not game_started:
                     if key == "A":
@@ -315,62 +315,63 @@ After the code runs, follow these steps to play the game:
         ...
             utime.sleep(0.1)
 
-#. Debouncing and Delays:
+#. デバウンシングと遅延：
 
-   * ``utime.sleep(0.2)``: Short delay after a key press to debounce.
-   * ``utime.sleep(0.1)``: Small delay in the main loop to reduce CPU usage.
+   * ``utime.sleep(0.2)``: キー押下後の短い遅延でデバウンス。
+   * ``utime.sleep(0.1)``: メインループの小さな遅延でCPU使用を減らします。
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* LCD Not Displaying Text:
+* LCDがテキストを表示しない：
 
-  * Verify SDA and SCL connections (GP6 and GP7).
-  * Check that the LCD is powered correctly.
-  * Adjust the contrast potentiometer on the back of the LCD module.
+  * SDAとSCLの接続（GP6とGP7）を確認します。
+  * LCDが正しく電源供給されているかをチェックします。
+  * LCDモジュールの裏にあるコントラストポテンショメータを調整します。
 
-* Keypad Not Responding:
+* キーパッドが反応しない：
 
-  * Check all row and column connections.
-  * Ensure that pull-down resistors are connected if not using internal pull-downs.
-  * Verify that the keypad is functioning properly.
+  * すべての行と列の接続をチェックします。
+  * 内部プルダウンを使用していない場合は、プルダウン抵抗が接続されていることを確認します。
+  * キーパッドが正常に機能しているかを確認します。
 
-* Random Number Not Changing:
+* ランダム数が変更されない：
 
-  * Ensure that ``urandom`` is properly imported and used.
-  * The random seed may need to be initialized for better randomness.
+  * ``urandom`` が適切にインポートされ、使用されていることを確認します。
+  * ランダムシードが初期化される必要があるかもしれません。
 
-* Game Logic Issues:
+* ゲームロジックの問題：
 
-  * Double-check the conditions and bounds when processing guesses.
-  * Ensure that the upper and lower bounds are updated correctly.
+  * 推測を処理するときの条件と範囲を再確認します。
+  * 上限と下限が正しく更新されていることを確認します。
 
-**Enhancements and Extensions**
 
-* Add Multiplayer Support:
+**拡張と改良**
 
-  * Keep track of the number of guesses each player makes.
-  * Rotate turns between players.
+* マルチプレイヤーサポートの追加：
 
-* Implement Scoring System:
+  * 各プレイヤーが行う推測の数を追跡します。
+  * プレイヤー間で順番を交代します。
 
-  * Award points based on how quickly the number is guessed.
-  * Display scores on the LCD.
+* スコアリングシステムの実装：
 
-* Provide Hints:
+  * 数字をどれだけ早く推測したかに基づいてポイントを授与します。
+  * LCDにスコアを表示します。
 
-  Use the 'C' key to give hints, such as "Number is even" or "Number is a multiple of 5".
+* ヒントの提供：
 
-* Increase Range:
+  'C'キーを使用して、「数字は偶数です」または「数字は5の倍数です」といったヒントを提供します。
 
-  * Modify the game to guess numbers between 0 and 999.
-  * Adjust the display and input methods accordingly.
+* 範囲の拡大：
 
-* Visual and Audio Feedback:
+  * ゲームを0から999の数字を推測するように変更します。
+  * 表示と入力方法をそれに応じて調整します。
 
-  Add LEDs or a buzzer to provide additional feedback.
+* 視覚的および音声フィードバック：
 
-**Conclusion**
+  追加のフィードバックを提供するために、LEDやブザーを追加します。
 
-You've successfully built an interactive Guess the Number game using the Raspberry Pi Pico 2! This project combines user input, random number generation, and display output to create a fun and engaging game. It's an excellent way to practice working with keypads, LCD displays, and game logic in MicroPython.
+**結論**
 
-Feel free to enhance the game further by adding new features or improving the interface. This project can serve as a foundation for more complex interactive applications.
+Raspberry Pi Pico 2を使用してインタラクティブな「数字当てゲーム」を成功裏に構築しました！このプロジェクトは、ユーザー入力、ランダム数生成、およびディスプレイ出力を組み合わせて、楽しく魅力的なゲームを作り出しています。キーパッド、LCDディスプレイ、ゲームロジックのMicroPythonでの作業に慣れる絶好の方法です。
+
+このゲームをさらに強化して新しい機能を追加したり、インタフェースを改善することが自由です。このプロジェクトは、より複雑なインタラクティブアプリケーションの基盤として機能することができます。

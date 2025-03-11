@@ -1,46 +1,43 @@
-.. note::
+.. note:: 
+    FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についての情報を一緒に深く探求しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **なぜ参加すべきか？**
 
-    **Why Join?**
+    - **専門家サポート**: コミュニティやチームのサポートで、販売後の問題や技術的な課題を解決。
+    - **学びと共有**: ヒントやチュートリアルを交換し、スキルを向上させましょう。
+    - **独占プレビュー**: 新製品発表や先行情報に早期アクセス。
+    - **特別割引**: 最新商品の独占割引を楽しむ。
+    - **祭りのプロモーションとギフト配布**: ギフト配布や特別プロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探検し、創造する準備はできましたか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _cpn_power_module:
 
-Power Supply Module
+電源モジュール
 ===================
 
-A 3.3V and 5V breadboard power module with series diode and reverse polarity protection.
-The module can accept 6.5V to 12V input, and can generate 3.3V and +5V.
-For experimenters who must test/prototype electronic circuits on breadboards or perforated/veroboards, this is a must-have power supply module.
-
+3.3Vおよび5Vのブレッドボード用電源モジュールで、逆接続保護のためのダイオードシリーズが内蔵されています。
+このモジュールは6.5Vから12Vの入力を受け付け、3.3Vおよび+5Vを生成できます。
+ブレッドボードやバーボード/バーボードで電子回路のテスト/プロトタイプを行う必要がある実験者にとって、この電源モジュールは必需品です。
 
 |img_power_module|
 
-**Features**
-    #. Plug directly to MB102 Standard breadboard.
-    #. Input voltage: 6.5-12 V (DC) or 5V USB power supply.
-    #. Output voltage: 3.3V and 5V can switch over.
-    #. Maximum output current: <700 mA.
-    #. External Input voltage ON/OFF switch.
-    #. Independent control of upper and Lower Bread Board Power Rails. Can switch over to 0V, 3.3V, 5V using jumpers on any rail.
-    #. On-board two groups of 3.3V, 5V DC output plug pin, convenient external lead use.
-    #. USB device connector onboard for power output to external device.
-    #. Size: 5.3cm x 3.5cm.
+**特徴**
+    #. MB102スタンダードブレッドボードに直接接続可能。
+    #. 入力電圧: 6.5-12 V（DC）または5V USB電源。
+    #. 出力電圧: 3.3Vおよび5Vを切り替え可能。
+    #. 最大出力電流: <700 mA。
+    #. 外部入力電圧のON/OFFスイッチ。
+    #. 上部および下部のブレッドボード電源レールを独立して制御。ジャンパーを使用して任意のレールで0V、3.3V、5Vに切り替え可能。
+    #. ボード上に2つの3.3V、5V DC出力プラグピンがあり、外部リードの使用に便利。
+    #. ボード上にUSBデバイスコネクターがあり、外部デバイスへの電源出力が可能。
+    #. サイズ: 5.3cm x 3.5cm。
 
+**例**
 
-**Example**
-
-* :ref:`py_motor` (For MicroPython User)
-* :ref:`ar_motor` (For Arduino User)
-* :ref:`py_relay` (For MicroPython User)
-* :ref:`ar_relay` (For Arduino User)
-* :ref:`py_pump` (For MicroPython User)
-* :ref:`ar_pump` (For Arduino User)
+* :ref:`py_motor` (MicroPythonユーザー向け)
+* :ref:`ar_motor` (Arduinoユーザー向け)
+* :ref:`py_relay` (MicroPythonユーザー向け)
+* :ref:`ar_relay` (Arduinoユーザー向け)
+* :ref:`py_pump` (MicroPythonユーザー向け)
+* :ref:`ar_pump` (Arduinoユーザー向け)

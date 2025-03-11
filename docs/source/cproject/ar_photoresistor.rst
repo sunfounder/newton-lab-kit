@@ -1,42 +1,42 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ人々とさらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**: コミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: 技術を磨くためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセスが可能です。
+    - **特別割引**: 最新製品を特別割引価格でお楽しみください。
+    - **祝祭プロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造しませんか？[|link_sf_facebook|]をクリックして今すぐ参加！
 
 .. _ar_photoresistor:
 
-2.12 Feel the Light
+2.12 光を感じる
 =====================
 
-In this lesson, we'll learn how to use a **photoresistor** (also known as a light-dependent resistor or LDR) with the Raspberry Pi Pico 2 to measure light intensity. A photoresistor changes its resistance based on the amount of light it receives: the brighter the light, the lower the resistance. This makes it ideal for detecting changes in ambient light.
+このレッスンでは、 **フォトレジスター** （光依存型抵抗器またはLDRとも呼ばれる）をRaspberry Pi Pico 2と共に使用して光の強度を測定する方法を学びます。フォトレジスターは受け取る光の量に基づいて抵抗値が変化します。明るい光では抵抗値が低くなり、周囲の光の変化を検出するのに理想的です。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全てのキットを購入するのが便利ですが、こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
+    *   - 名前
+        - このキットのアイテム
+        - リンク
+    *   - Newton Lab Kit
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+個別に購入することもできます。以下のリンクからどうぞ。
 
 
 .. list-table::
@@ -44,16 +44,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -74,121 +74,121 @@ You can also buy them separately from the links below.
         - |link_photoresistor_buy|
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_photoresistor|
 
 
-In this circuit, a 10K resistor and a photoresistor are connected in series, forming a voltage divider. GP28 reads the voltage across the photoresistor, while the 10K resistor provides protection by limiting current.
+この回路では、10Kの抵抗器とフォトレジスターが直列に接続され、電圧分割器を形成しています。GP28はフォトレジスターの電圧を読み取り、10Kの抵抗器は電流を制限することで保護します。
 
-* **Bright Light**: The photoresistor's resistance decreases, lowering its voltage and the GP28 reading. In strong light, its resistance approaches zero, and GP28 reads close to 0. At this time, the 10K resistor plays a protective role, so that 3.3V and GND are not connected together, resulting in a short circuit.
-* **Darkness**: The photoresistor's resistance increases, raising its voltage and the GP28 value. In complete darkness, its resistance is nearly infinite (the 10K resistor is negligible), and GP28 reads close to 1023.
+* **明るい光**: フォトレジスターの抵抗値が減少し、その電圧とGP28の読み取り値が低下します。強い光の下で、その抵抗値はほぼゼロに近づき、GP28はほぼ0を読み取ります。この時、10Kの抵抗器が保護役割を果たし、3.3VとGNDが短絡するのを防ぎます。
+* **暗闇**: フォトレジスターの抵抗値が増加し、その電圧とGP28の値が上がります。完全な暗闇では、その抵抗値はほぼ無限大に近く（10Kの抵抗器は無視できます）、GP28はほぼ1023を読み取ります。
 
-The calculation formula is shown below.
+計算式は以下の通りです。
 
 .. code-block::
 
   Digital Value = (Analog Voltage/3.3V) * 1023
 
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_photoresistor|
 
 
-**Writing the Code**
+**コードの書き方**
 
 
 .. note::
 
-   * You can open the file ``2.12_feel_the_light.ino`` from ``newton-lab-kit/arduino/2.12_feel_the_light``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ファイル ``2.12_feel_the_light.ino`` を ``newton-lab-kit/arduino/2.12_feel_the_light`` から開くことができます。
+   * あるいは、このコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードと正しいポートを選択し、「Upload」をクリックします。
 
 .. code-block:: Arduino
 
-   const int sensorPin = 28;   // Photoresistor connected to GP28 (ADC2)
+   const int sensorPin = 28;   // GP28（ADC2）に接続されたフォトレジスター
 
    void setup() {
-     Serial.begin(115200);    // Initialize Serial Monitor
+     Serial.begin(115200);    // シリアルモニターを初期化
    }
 
    void loop() {
-     // Read the analog value from the photoresistor
+     // フォトレジスターからアナログ値を読み取る
      int sensorValue = analogRead(sensorPin);
-     // Print the sensor value to the Serial Monitor
+     // シリアルモニターにセンサー値を出力
      Serial.println(sensorValue);
-     delay(500);  // Wait half a second before reading again
+     delay(500);  // 次の読み取り前に半秒待つ
    }
 
-When the code is running and the Serial Monitor is open:
+コードが実行され、シリアルモニターが開かれている時：
 
-* Observing the Sensor Values:
+* センサー値の観察：
 
-  You should see a stream of numbers representing the analog values from the photoresistor.
+  フォトレジスターからのアナログ値を表す数字の流れが見えるはずです。
 
-* Interacting with the Photoresistor:
+* フォトレジスターとのインタラクション：
 
-  * Shine a flashlight or a lamp on the photoresistor. The sensor values should decrease (since resistance decreases with more light).
-  * Cover the photoresistor with your hand or place it in a dark area. The sensor values should increase (since resistance increases with less light).
+  * フラッシュライトやランプをフォトレジスターに当てると、センサー値は減少します（光が多いほど抵抗が減少するため）。
+  * フォトレジスターを手で覆ったり、暗い場所に置くと、センサー値は増加します（光が少ないほど抵抗が増加するため）。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Defining the Sensor Pin:
+#. センサーピンの定義：
 
-   Assigns sensorPin to GPIO 28, which is connected to the analog input.
+   sensorPinをGPIO 28に割り当てます。これはアナログ入力に接続されています。
 
    .. code-block:: arduino
 
-        const int sensorPin = 28;   // Photoresistor connected to GP28 (ADC2)
+        const int sensorPin = 28;   // GP28（ADC2）に接続されたフォトレジスター
 
-#. Initializing Serial Communication:
+#. シリアル通信の初期化：
 
-   Starts serial communication, allowing you to print messages to the Serial Monitor.
+   シリアル通信を開始し、シリアルモニターにメッセージを出力できるようにします。
 
    .. code-block:: arduino
 
         Serial.begin(115200);
 
-#. Reading the Analog Value:
+#. アナログ値の読み取り：
 
-   Reads the analog voltage at sensorPin and returns a value between 0 and 1023.
+   sensorPinでアナログ電圧を読み取り、0から1023の間の値を返します。
 
    .. code-block:: arduino
 
         int sensorValue = analogRead(sensorPin);
 
-#. Printing the Sensor Value:
+#. センサー値の出力：
 
-   Outputs the sensor value to the Serial Monitor.
+   センサー値をシリアルモニターに出力します。
 
    .. code-block:: arduino
 
         Serial.println(sensorValue);
 
-#. Adding a Delay:
+#. ディレイの追加：
 
-   Waits for 500 milliseconds before the next reading.
+   次の読み取りまで500ミリ秒待ちます。
 
    .. code-block:: arduino
 
         delay(500);
 
-**Converting to Voltage**
+**電圧への変換**
 
-If you want to see the actual voltage value being read, you can modify the code:
+実際に読み取られる電圧値を見たい場合は、コードを以下のように修正できます：
 
 .. code-block:: arduino
 
-   const int sensorPin = 28;   // Photoresistor connected to GP28 (ADC2)
+   const int sensorPin = 28;   // GP28（ADC2）に接続されたフォトレジスター
 
    void setup() {
-     Serial.begin(115200);    // Initialize Serial Monitor
+     Serial.begin(115200);    // シリアルモニターを初期化
    }
 
     void loop() {
       int sensorValue = analogRead(sensorPin);
-      // Convert the analog reading to voltage
+      // アナログ読み取りを電圧に変換
       float voltage = sensorValue * (3.3 / 1023.0);
       Serial.print("Sensor Value: ");
       Serial.print(sensorValue);
@@ -198,23 +198,20 @@ If you want to see the actual voltage value being read, you can modify the code:
       delay(500);
     }
 
-**Further Exploration**
+**さらなる探求**
 
-* Control an LED Based on Light:
+* 光に基づいてLEDを制御する：
 
-  Use the photoresistor to control the brightness of an LED or turn it on/off based on light levels.
+  フォトレジスターを使用して、光のレベルに基づいてLEDの明るさを制御するか、オン/オフします。
 
-* Data Logging:
+* データログ：
 
-  Record the light intensity over time to monitor changes in the environment.
+  環境の変化を監視するために、時間とともに光の強度を記録します。
 
-* Build a Night Light:
+* ナイトライトの作成：
 
-  Create a light that turns on automatically when it gets dark.
+  暗くなると自動的に点灯するライトを作成します。
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to use a photoresistor with the Raspberry Pi Pico to measure light intensity. By reading the analog voltage from a voltage divider circuit, you can detect changes in light levels and use this information in your projects.
-
-
-
+このレッスンでは、フォトレジスターをRaspberry Pi Picoと共に使用して光の強度を測定する方法を学びました。電圧分割回路からアナログ電圧を読み取ることにより、光のレベルの変化を検出し、この情報をプロジェクトに活用できます。

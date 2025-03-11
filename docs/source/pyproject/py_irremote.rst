@@ -1,43 +1,43 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてもっと深く探求しましょう。
 
-    **Why Join?**
+**参加する理由?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+- **専門家のサポート**: コミュニティとチームからのサポートで販売後の問題や技術的な課題を解決。
+- **学びと共有**: スキル向上のためのヒントやチュートリアルを交換。
+- **独占プレビュー**: 新製品の発表や先行予告をいち早く入手。
+- **特別割引**: 最新製品の独占割引を楽しむ。
+- **祝祭プロモーションとギブアウェイ**: ギブアウェイや休日プロモーションに参加。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+👉 一緒に探求し、創造してみませんか？クリック [|link_sf_facebook|] して今すぐ参加！
 
 .. _py_irremote:
 
 
-6.4 Using an Infrared Remote Control
+6.4 赤外線リモコンの使用
 ==========================================================
 
-In this lesson, we'll learn how to use an **infrared (IR) remote control** and an **IR receiver module** with the Raspberry Pi Pico 2. This will allow us to receive and decode signals from an IR remote, enabling us to control our projects wirelessly.
+このレッスンでは、Raspberry Pi Pico 2とIRレシーバーモジュールを使用して **赤外線（IR）リモコン** を使用する方法を学びます。これにより、IRリモコンからの信号を受信およびデコードすることができ、プロジェクトをワイヤレスで制御することが可能になります。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入することは非常に便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名称	
+        - このキットに含まれるアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -45,16 +45,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -63,37 +63,37 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_ir_receiver`
         - 1
         - |link_receiver_buy|
 
-**Understanding Infrared Communication**
+**赤外線通信の理解**
 
-Infrared communication involves transmitting data wirelessly using infrared light. Common household devices like TVs and DVD players use IR remote controls for operation.
+赤外線通信は、赤外線光を使用してデータをワイヤレスで送信することを含みます。一般的な家庭用機器（テレビやDVDプレーヤーなど）では、操作のためにIRリモコンが使用されます。
 
-* **IR Transmitter (Remote Control):** Emits modulated infrared light when a button is pressed.
-* **IR Receiver Module:** Detects the modulated IR light and converts it into electrical signals that can be decoded.
+* **IR送信機（リモコン）:** ボタンが押されると、変調された赤外線光を発します。
+* **IRレシーバーモジュール:** 変調されたIR光を検出し、それをデコード可能な電気信号に変換します。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_irrecv|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_irrecv|
 
-**Writing the Code**
+**コードの書き方**
 
-Let's write a MicroPython script to receive and decode IR signals from the remote control.
+リモコンからのIR信号を受信してデコードするMicroPythonスクリプトを書きましょう。
 
 .. note::
 
-    * Open the ``6.4_ir_remote_control.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the libraries in ``ir_rx`` folder, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * ``6.4_ir_remote_control.py`` を ``newton-lab-kit/micropython`` から開くか、Thonnyにコードをコピーして「実行」ボタンをクリックするか、F5キーを押します。
+    * 正しいインタープリタが選択されていることを確認してください：MicroPython (Raspberry Pi Pico).COMxx。 
+    * ``ir_rx`` フォルダ内のライブラリを使用する必要がありますので、Picoにアップロードされているか確認してください。詳細なチュートリアルは :ref:`add_libraries_py` を参照してください。
 
 .. code-block:: python
 
@@ -102,18 +102,18 @@ Let's write a MicroPython script to receive and decode IR signals from the remot
     from ir_rx.nec import NEC_8  # Adjust based on your remote's protocol
     from ir_rx.print_error import print_error
 
-    # Initialize the IR receiver pin
+    # IRレシーバーピンを初期化
     ir_pin = Pin(17, Pin.IN)
 
-    # Callback function to handle received data
+    # 受信データを処理するコールバック関数
     def ir_callback(data, addr, ctrl):
-        if data < 0:  # Repeat code or error
+        if data < 0:  # 繰り返しコードまたはエラー
             pass
         else:
             key = decode_key(data)
             print("Received Key:", key)
 
-    # Function to decode the received data into key presses
+    # 受信データをキー押下にデコードする関数
     def decode_key(data):
         key_codes = {
             0x45: "POWER",
@@ -138,29 +138,29 @@ Let's write a MicroPython script to receive and decode IR signals from the remot
             0x52: "8",
             0x4A: "9",
             0x0: "ERROR",
-            # Add more key codes based on your remote
+            # リモコンに基づいてより多くのキーコードを追加
         }
         return key_codes.get(data, "UNKNOWN")
 
-    # Instantiate the IR receiver
+    # IRレシーバーをインスタンス化
     ir = NEC_8(ir_pin, ir_callback)
-    ir.error_function(print_error)  # Optional: to print errors
+    ir.error_function(print_error)  # オプション: エラーを出力
 
     try:
         while True:
-            time.sleep(1)  # Keep the main thread alive
+            time.sleep(1)  # メインスレッドを生存させ続ける
     except KeyboardInterrupt:
         ir.close()
         print("Program terminated")
 
-When you run this code and press buttons on your infrared remote control, the Thonny Shell (or any other serial monitor) will display the name of the key you pressed. For example, if you press the "PLAY" button on the remote, the Shell will show "Received Key: PLAY".
+このコードを実行して赤外線リモコンのボタンを押すと、Thonny Shell（または他のシリアルモニター）に押したキーの名前が表示されます。たとえば、「PLAY」ボタンを押すと、Shellに「Received Key: PLAY」と表示されます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Modules:
+#. モジュールのインポート：
 
-   * ``ir_rx.nec.NEC_8``: The NEC protocol decoder for 8-bit addresses.
-   * ``print_error``: Function to print error messages.
+   * ``ir_rx.nec.NEC_8``: 8ビットアドレス用のNECプロトコルデコーダー。
+   * ``print_error``: エラーメッセージを出力する機能。
 
    .. code-block:: python
 
@@ -169,28 +169,28 @@ When you run this code and press buttons on your infrared remote control, the Th
         from ir_rx.nec import NEC_8
         from ir_rx.print_error import print_error
 
-#. Initialize IR Receiver Pin:
+#. IRレシーバーピンの初期化：
 
    .. code-block:: python
 
         ir_pin = Pin(17, Pin.IN)
 
-#. Define Callback Function:
+#. コールバック関数の定義：
 
-   This function is called automatically when data is received. The data parameter contains the key code.
+   この関数はデータが受信されたときに自動的に呼ばれます。dataパラメータにはキーコードが含まれます。
 
    .. code-block:: python
 
         def ir_callback(data, addr, ctrl):
             if data < 0:
-                pass  # Ignore repeat codes
+                pass  # 繰り返しコードを無視
             else:
                 key = decode_key(data)
                 print("Received Key:", key)
 
-#. Decode Key Function:
+#. キーをデコードする関数：
 
-   Maps received key codes to human-readable labels.
+   受信したキーコードを人が読めるラベルにマッピングします。
 
    .. code-block:: python
 
@@ -218,13 +218,13 @@ When you run this code and press buttons on your infrared remote control, the Th
             0x52: "8",
             0x4A: "9",
             0x0: "ERROR",
-            # Add more key codes based on your remote
+            # リモコンに基づいてより多くのキーコードを追加
             }
             return key_codes.get(data, "UNKNOWN")
 
-#. Instantiate IR Receiver:
+#. IRレシーバーをインスタンス化：
 
-   Sets up the IR receiver with the callback function.
+   コールバック関数でIRレシーバーを設定します。
 
    .. code-block:: python
 
@@ -232,9 +232,9 @@ When you run this code and press buttons on your infrared remote control, the Th
         ir.error_function(print_error)
 
 
-#. Main Loop:
+#. メインループ：
 
-   Keeps the program running to listen for IR signals. Gracefully handles program termination.
+   IR信号を聞き取るためにプログラムを実行し続けます。プログラムの終了を適切に処理します。
 
    .. code-block:: python
 
@@ -245,14 +245,14 @@ When you run this code and press buttons on your infrared remote control, the Th
             ir.close()
             print("Program terminated")
 
-**Applications**
+**応用**
 
-* **Control Projects Wirelessly**: Use the IR remote to control LEDs, motors, or other peripherals.
-* **Build a Universal Remote Decoder**: Expand the code to handle multiple protocols or remotes.
+* **プロジェクトをワイヤレスで制御**：IRリモコンを使用してLED、モーター、その他の周辺機器を制御します。
+* **ユニバーサルリモコンデコーダーの構築**：複数のプロトコルやリモコンを処理するためにコードを拡張します。
 
-**Conclusion**
+**結論**
 
-In this lesson, you've learned how to use an IR receiver with the Raspberry Pi Pico 2 to decode signals from an infrared remote control. This enables you to add wireless control to your projects using common household remotes.
+このレッスンでは、Raspberry Pi Pico 2を使用してIRレシーバーで赤外線リモコンの信号をデコードする方法を学びました。これにより、一般的な家庭用リモコンを使用してプロジェクトにワイヤレス制御を追加することができます。
 
 * `Callback Function - Wikipedia <https://en.wikipedia.org/wiki/Callback_(computer_programming)>`_
 

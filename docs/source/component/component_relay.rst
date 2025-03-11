@@ -1,73 +1,68 @@
-.. note::
+.. note:: 
+    FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてもっと深く知るための共有スペースです。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **専門家サポート**: コミュニティとチームからの支援を得て、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキル向上のためのヒントやチュートリアルを交換しましょう。
+    - **独占的なプレビュー**: 新製品の発表や先行プレビューに早期アクセス。
+    - **特別割引**: 最新製品の独占的な割引を楽しむことができます。
+    - **祭りのプロモーションとギフト配布**: ギフト配布や祝祭のプロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造する準備はできていますか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
 .. _cpn_relay:
 
-Relay
+リレー
 ==========================================
 
 |img_relay|
 
-As we may know, relay is a device which is used to provide connection
-between two or more points or devices in response to the input signal
-applied. In other words, relays provide isolation between the controller
-and the device as devices may work on AC as well as on DC. However, they
-receive signals from a microcontroller which works on DC hence requiring
-a relay to bridge the gap. Relay is extremely useful when you need to
-control a large amount of current or voltage with small electrical
-signal.
+リレーは、入力信号に応じて二つ以上の点やデバイス間の接続を提供するデバイスです。
+言い換えると、リレーはコントローラとデバイス間の隔離を提供します。デバイスは交流
+（AC）でも直流（DC）でも動作することがありますが、マイクロコントローラからの信号
+を受け取るため、リレーがそのギャップを埋める必要があります。小さな電気信号で大量
+の電流や電圧を制御する必要がある場合、リレーは非常に役立ちます。
 
-There are 5 parts in every relay:
+リレーには5つの部品があります：
 
-**Electromagnet** - It consists of an iron core wounded by coil of
-wires. When electricity is passed through, it becomes magnetic.
-Therefore, it is called electromagnet.
 
-**Armature** - The movable magnetic strip is known as armature. When
-current flows through them, the coil is it energized thus producing a
-magnetic field which is used to make or break the normally open (N/O) or
-normally close (N/C) points. And the armature can be moved with direct
-current (DC) as well as alternating current (AC).
 
-**Spring** - When no currents flow through the coil on the
-electromagnet, the spring pulls the armature away so the circuit cannot
-be completed.
+**電磁石** - コイルによって巻かれた鉄芯で構成されます。電気が流れると磁性を帯びるため、
+電磁石と呼ばれます。
 
-Set of electrical **contacts** - There are two contact points:
 
--  Normally open - connected when the relay is activated, and disconnected when it is inactive.
 
--  Normally close - not connected when the relay is activated, and connected when it is inactive.
+**アーマチュア** - 可動式の磁気ストリップをアーマチュアといいます。電流が流れると、コイ
+ルが励起され、磁場が発生します。これを利用して、通常開（N/O）または通常閉（N/C）の点を作
+成または断ちます。アーマチュアは直流（DC）および交流（AC）で動作することができます。
 
-**Molded frame** - Relays are covered with plastic for protection.
 
-The working principle of relay is simple. When power is supplied to the
-relay, currents start flowing through the control coil; as a result, the
-electromagnet starts energizing. Then the armature is attracted to the
-coil, pulling down the moving contact together thus connecting with the
-normally open contacts. So the circuit with the load is energized. Then
-breaking the circuit would a similar case, as the moving contact will be
-pulled up to the normally closed contacts under the force of the spring.
-In this way, the switching on and off of the relay can control the state
-of a load circuit.
+
+**スプリング** - 電磁石のコイルに電流が流れない場合、スプリングがアーマチュアを引っ張り、
+回路が完了しないようにします。
+
+
+
+**電気接点のセット** - 2つの接点があります：
+  - 通常開 - リレーが活性化されると接続され、非活性の時は切断されます。
+  - 通常閉 - リレーが活性化されると切断され、非活性の時は接続されます。
+
+
+
+**成形フレーム** - リレーは保護のためにプラスチックで覆われています。
+
+リレーの動作原理は単純です。リレーに電力が供給されると、制御コイルを通じて電流が流れ始め、
+その結果、電磁石が励起されます。その後、アーマチュアはコイルに引き寄せられ、移動接点が下に
+引っ張られて通常開の接点と接続されます。そのため、負荷のある回路が励起されます。回路を切断
+する場合も同様で、移動接点がスプリングの力によって通常閉の接点に引き上げられます。このよう
+にして、リレーのオン/オフの切り替えにより、負荷回路の状態を制御できます。
 
 |img_relay_sche|
 
-
 * `Relay - Wikipedia <https://en.wikipedia.org/wiki/Relay>`_
 
-**Example**
+**例**
 
-* :ref:`py_relay` (For MicroPython User)
-* :ref:`ar_relay` (For Arduino User)
+* :ref:`py_relay` (MicroPythonユーザー向け)
+* :ref:`ar_relay` (Arduinoユーザー向け)

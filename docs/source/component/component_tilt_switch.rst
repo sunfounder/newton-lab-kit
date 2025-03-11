@@ -1,38 +1,37 @@
-.. note::
+.. note:: 
+    Facebook上のSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてもっと深く探求し、同じ趣味を持つ仲間と交流しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **専門的サポート**: コミュニティとチームの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学習＆共有**: チップやチュートリアルを交換してスキルを向上させましょう。
+    - **独占的なプレビュー**: 新製品発表や特別なプレビューに早期アクセス。
+    - **特別割引**: 最新製品の独占割引を楽しみましょう。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや祝日のプロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
 .. _cpn_tilt:
 
-Tilt Switch
+傾斜スイッチ
 =============================
 
 |img_tilt| 
 
-The tilt switch used here is a ball one with a metal ball inside. It is used to detect inclinations of a small angle.
+ここで使用される傾斜スイッチは、内部に金属ボールが入っているタイプです。小角度の傾斜を検出するために使用されます。
 
-The principle is very simple. When the switch is tilted in a certain angle, the ball inside rolls down and touches the two contacts connected to the pins outside, thus triggering circuits. Otherwise the ball will stay away from the contacts, thus breaking the circuits.
+原理は非常にシンプルです。スイッチがある角度で傾けられると、内部のボールが転がり、ピンに接続された二つの接点に触れて回路をトリガーします。それ以外の場合は、ボールが接点から離れた状態になり、回路が開かれます。
 
 |img_tilt_symbol|
 
-* `SW520D Tilt Switch Datasheet <https://www.tme.com/Document/f1e6cedd8cb7feeb250b353b6213ec6c/SW-520D.pdf>`_
+* `SW520D 傾斜スイッチデータシート <https://www.tme.com/Document/f1e6cedd8cb7feeb250b353b6213ec6c/SW-520D.pdf>`
 
 .. * :ref:`Reading Button Value`
 
 
-**Example**
+**例**
 
-* :ref:`py_tilt` (For MicroPython User)
-* :ref:`py_10_second` (For MicroPython User)
-* :ref:`ar_tilt` (For Arduino User)
-.. * :ref:`per_flowing_leds` (For Piper Make User)
+* :ref:`py_tilt` (MicroPythonユーザー用)
+* :ref:`py_10_second` (MicroPythonユーザー用)
+* :ref:`ar_tilt` (Arduinoユーザー用)
+.. * :ref:`per_flowing_leds` (Piper Makeユーザー用)

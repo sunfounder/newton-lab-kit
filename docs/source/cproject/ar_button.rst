@@ -1,159 +1,162 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 の知識を深め、仲間とともにものづくりを楽しみましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティメンバーやチームがサポート。  
+    - **学びと共有**：ヒントやチュートリアルを交換し、スキルを向上。  
+    - **最新情報の先行公開**：新製品の発表やプレビューをいち早くチェック。  
+    - **特別割引**：最新製品を会員限定の特別価格で購入可能。  
+    - **イベント & プレゼント企画**：プレゼントキャンペーンや季節ごとのプロモーションに参加可能。  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒にものづくりを楽しみませんか？[|link_sf_facebook|] をクリックして、今すぐ参加！  
 
 .. _ar_button:
 
-2.5 Reading Button Value
+2.5 ボタンの入力を読み取る
 =============================
 
-In this lesson, we'll learn how to read input from a pushbutton using the Raspberry Pi Pico 2. So far, we've used the GPIO pins mainly for output, like lighting up LEDs. Now, we'll use a GPIO pin as an input to detect when a button is pressed. This is a fundamental skill for creating interactive projects.
+このレッスンでは、Raspberry Pi Pico 2 を使用して プッシュボタンの入力を読み取る方法 を学びます。  
+これまでのレッスンでは、LED の点灯など GPIO ピンの出力 をメインに扱ってきましたが、  
+今回は GPIO ピンを 入力モード にして、ボタンが押されたかどうかを検出します。  
+これはインタラクティブなプロジェクトを作成するための基本的なスキルです。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+すべて揃ったキットを購入すると便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
-        - |link_newton_lab_kit|
+    *   - 名称  
+        - キットに含まれるアイテム  
+        - リンク  
+    *   - Newton Lab Kit  
+        - 450点以上  
+        - |link_newton_lab_kit|  
 
-You can also buy them separately from the links below.
 
+個別に購入する場合は、以下のリンクからどうぞ。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - SN  
+        - コンポーネント  
+        - 数量  
+        - リンク  
 
-    *   - 1
-        - :ref:`cpn_pico_2`
-        - 1
-        - |link_pico2_buy|
-    *   - 2
-        - Micro USB Cable
-        - 1
-        - 
-    *   - 3
-        - :ref:`cpn_breadboard`
-        - 1
-        - |link_breadboard_buy|
-    *   - 4
-        - :ref:`cpn_wire`
-        - Several
-        - |link_wires_buy|
-    *   - 5
-        - :ref:`cpn_resistor`
-        - 1(10KΩ)
-        - |link_resistor_buy|
-    *   - 6
-        - :ref:`cpn_button`
-        - 1
-        - |link_button_buy|
+    *   - 1  
+        - :ref:`cpn_pico_2`  
+        - 1  
+        - |link_pico2_buy|  
+    *   - 2  
+        - Micro USB ケーブル  
+        - 1  
+        -  
+    *   - 3  
+        - :ref:`cpn_breadboard`  
+        - 1  
+        - |link_breadboard_buy|  
+    *   - 4  
+        - :ref:`cpn_wire`  
+        - 数本  
+        - |link_wires_buy|  
+    *   - 5  
+        - :ref:`cpn_resistor`  
+        - 1 (10KΩ)  
+        - |link_resistor_buy|  
+    *   - 6  
+        - :ref:`cpn_button`  
+        - 1  
+        - |link_button_buy|  
 
-
-**Circuit Diagram**
+**回路図**
 
 |sch_button|
 
-As long as one side of the button pin is connected to 3.3v, and the other side pin is connected to GP14, then when the button is pressed, GP14 will be high. However, when the button is not pressed, GP14 is in a suspended state and may be high or low. In order to get a stable low level when the button is not pressed, GP14 needs to be reconnected to GND through a 10K pull-down resistor.
+ボタンの一方の端を 3.3V に接続し、もう一方を GP14 に接続すると、 ボタンが押されたときに GP14 が HIGH（1） になります。しかし、ボタンが押されていないとき、GP14 は不安定な状態 になり、 HIGH か LOW かが保証されません。 そのため、10KΩ のプルダウン抵抗を使って GP14 を GND に接続し、安定した LOW（0）を得られるようにします。
 
-* **Button Not Pressed**: The GP14 pin is connected to GND through the resistor, so it reads **LOW (0)**.
-* **Button Pressed**: The GP14 pin is connected to 3.3V through the button, so it reads **HIGH (1)**.
+* **ボタンが押されていないとき**：GP14 はプルダウン抵抗を通じて GND に接続され、 **LOW (0)** を読み取る。  
+* **ボタンが押されたとき**：GP14 は 3.3V に接続され、 **HIGH (1)** を読み取る。  
 
-**Wiring Diagram**
+**配線図**
 
-A four-pin button is shaped like an H. Its left two pins or right two pins are connected, which means that when it crosses the central gap, it connects two half rows with the same row number. (For example, in my circuit, E23 and F23 are already connected, as are E25 and F25).
-
-Until the button is pressed, the left and right pins are independent of each other and current cannot flow from one side to the other.
+四隅にピンを持つプッシュボタンは、"H" の形をしています。  
+ボタンの左右の 2 つのピンは内部で接続されており、ボタンを押すと回路がつながります。
 
 |wiring_button|
 
-**Writing the Code**
+**コードの記述**
 
 .. note::
 
-   * You can open the file ``2.5_reading_button_value.ino`` from ``newton-lab-kit/arduino/2.5_reading_button_value``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``2.5_reading_button_value.ino`` を ``newton-lab-kit/arduino/2.5_reading_button_value`` から開くことができます。  
+   * または、このコードを **Arduino IDE** にコピーしてください。  
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定して「Upload」をクリックしてください。  
 
 .. code-block:: Arduino
 
-   const int buttonPin = 14;  // GPIO pin connected to the button
+   const int buttonPin = 14;  // ボタンに接続する GPIO ピン
 
    void setup() {
-     Serial.begin(115200);       // Initialize Serial Monitor at 115200 baud
-     pinMode(buttonPin, INPUT);  // Set the button pin as input
+     Serial.begin(115200);       // シリアルモニターを 115200 baud で初期化
+     pinMode(buttonPin, INPUT);  // ボタンピンを入力モードに設定
    }
 
    void loop() {
-     int buttonState = digitalRead(buttonPin);  // Read the state of the button
+     int buttonState = digitalRead(buttonPin);  // ボタンの状態を読み取る
 
      if (buttonState == HIGH) {
        Serial.println("You pressed the button!");
      }
-     delay(100);  // Small delay to avoid reading the button too frequently
+     delay(100);  // 過剰な読み取りを防ぐための短いディレイ
    }
 
+コードをアップロード後：
 
-* After uploading the code, click on the magnifying glass icon(Serial Monitor) in the top-right corner of the Arduino IDE.
-* Set the baud rate to 115200 to match the ``Serial.begin(115200);`` line in your code.
-* Each time you press the button, "You pressed the button!" should appear in the Serial Monitor.
+* Arduino IDE の シリアルモニター を開く（右上の虫眼鏡アイコンをクリック）。  
+* ボーレートを 115200 に設定（ ``Serial.begin(115200);`` に合わせる）。  
+* ボタンを押すたびに "You pressed the button!" とシリアルモニターに表示される。
 
 .. image:: ../img/serial_monitor.png
 
-**Understanding the Code**
+**コードの解説**
 
-#. Initializing Serial Communication:
+#. シリアル通信の初期化
 
-   Starts serial communication at a baud rate of 115200. This allows us to print messages to the Serial Monitor.
+   シリアルモニターにデータを表示するため、115200 baud で通信を開始。
 
    .. code-block:: Arduino
 
         Serial.begin(115200);
 
-#. Setting Up the Button Pin:
+#. ボタンピンの設定
 
-   Configures ``buttonPin`` (GP14) as an input to read the button state.
+   ``buttonPin`` (GP14) を入力モードとして設定。
 
    .. code-block:: Arduino
 
         pinMode(buttonPin, INPUT);
 
-#. Reading the Button State:
+#. ボタンの状態を読み取る
 
-   Reads the current state of the button. It will be ``HIGH`` when pressed and ``LOW`` when not pressed.
+   ボタンの現在の状態を読み取ります。ボタンが押されているときは ``HIGH``、押されていないときは ``LOW`` になります。
 
    .. code-block:: Arduino
 
         int buttonState = digitalRead(buttonPin);
 
 
-#. Responding to Button Press:
+#. ボタンが押されたときの処理:
 
-   If the button is pressed, print a message to the Serial Monitor.
+   ボタンが押された場合、シリアルモニターにメッセージを出力します。
 
    .. code-block:: Arduino
 
@@ -162,22 +165,22 @@ Until the button is pressed, the left and right pins are independent of each oth
         }
 
 
-**Alternative: Pull-Up Resistor Configuration**
+**別の方法: プルアップ抵抗を使用した配線**
 
-You can also wire the button using a pull-up resistor. In this configuration:
+プルアップ抵抗を使用してボタンを接続することも可能です。この構成では:
 
-* **Button Not Pressed**: GP14 reads HIGH (1) due to the pull-up resistor connected to 3.3V.
-* **Button Pressed**: GP14 is connected to GND when the button is pressed, so it reads LOW (0).
+* **ボタンが押されていない場合**: 3.3V に接続されたプルアップ抵抗の影響で、GP14 は HIGH (1) を読み取る。
+* **ボタンが押された場合**: ボタンが GND に接続され、GP14 は LOW (0) を読み取る。
 
-* Wiring Instructions:
+* 配線手順:
 
-  * Connect a 10KΩ resistor from GP14 to 3.3V.
-  * Connect one side of the button to GP14.
-  * Connect the other side of the button to GND.
+  * GP14 から 3.3V に 10KΩ 抵抗を接続。
+  * ボタンの片方の端子を GP14 に接続。
+  * もう片方の端子を GND に接続。
 
-* Code Modification:
+* コードの変更:
 
-  Change the condition in the ``if`` statement:
+  ``if`` 文の条件を変更する:
 
   .. code-block:: Arduino
 
@@ -185,49 +188,51 @@ You can also wire the button using a pull-up resistor. In this configuration:
           Serial.println("You pressed the button!");
         }
 
-**Using Internal Pull-Up Resistor**
+**内部プルアップ抵抗の使用**
 
-The Raspberry Pi Pico 2 allows you to enable internal pull-up resistor, eliminating the need for external resistor.
+Raspberry Pi Pico 2 では、内部プルアップ抵抗 を有効にすることで、外部抵抗なしでボタンを接続できます。
 
-Using internal resistor simplifies wiring and saves space by eliminating the need for additional external resistor on the breadboard.
+内部プルアップ抵抗を使用することで、配線を簡素化し、ブレッドボード上のスペースを節約 できます。
 
-* **Button Not Pressed**: GP14 reads HIGH (1) due to the internal pull-up resistor.
-* **Button Pressed**: GP14 is connected to GND when the button is pressed, so it reads LOW (0).
+* **ボタンが押されていない場合**: GP14 は内部プルアップ抵抗の影響で HIGH (1) になる。
+* **ボタンが押された場合**: GP14 は GND に接続され、LOW (0) になる。
 
-* Wiring Instructions:
+* 配線手順:
 
-  * Remove the 10KΩ resistor.
+  * 10KΩ 抵抗を取り外す。
 
-* Code Modification:
+* コードの変更:
 
-  * Set the button pin as input with an internal pull-up resistor.
-  * Change the condition in the ``if`` statement.
+  * ボタンピンを 内部プルアップ抵抗付きの入力モード に設定。
+  * ``if`` 文の条件を変更。
 
   .. code-block:: Arduino
 
-     const int buttonPin = 14;  // GPIO pin connected to the button
+     const int buttonPin = 14;  // ボタンに接続する GPIO ピン
   
      void setup() {
-       Serial.begin(115200);       // Initialize Serial Monitor at 115200 baud
-       pinMode(buttonPin, INPUT_PULLUP);  // Set the button pin as input with an internal pull-up resistor
+       Serial.begin(115200);       // シリアルモニターを 115200 baud で初期化
+       pinMode(buttonPin, INPUT_PULLUP);  // 内部プルアップ抵抗を有効化
      }
   
      void loop() {
-       int buttonState = digitalRead(buttonPin);  // Read the state of the button
+       int buttonState = digitalRead(buttonPin);  // ボタンの状態を読み取る
   
        if (buttonState == LOW) {
          Serial.println("You pressed the button!");
        }
-       delay(100);  // Small delay to avoid reading the button too frequently
+       delay(100);  // 過剰な読み取りを防ぐための短いディレイ
      }
 
 
-**Conclusion**
 
-In this lesson, you've learned how to read input from a pushbutton using the Raspberry Pi Pico. This fundamental skill allows you to create interactive projects where the program responds to user input.
+**まとめ**
 
-**Further Exploration**
+このレッスンでは、 Raspberry Pi Pico を使用してプッシュボタンの入力を読み取る方法 を学びました。  
+この基本スキルを習得することで、プログラムがユーザーの操作に反応するインタラクティブなプロジェクトを作成できるようになります。
 
-* **Control an LED**: Modify the code to turn an LED on when the button is pressed.
-* **Debouncing**: Implement code to handle button bouncing for more reliable input.
-* **Multiple Buttons**: Try reading input from multiple buttons to perform different actions.
+**さらに発展させるには？**
+
+* **LED を制御する**: ボタンを押したときに LED を点灯させるようコードを修正。  
+* **チャタリング対策**: ボタンの誤検出を防ぐためにデバウンス処理を追加。  
+* **複数のボタンを使用する**: 複数のボタンを接続し、異なる動作を実装してみる。  

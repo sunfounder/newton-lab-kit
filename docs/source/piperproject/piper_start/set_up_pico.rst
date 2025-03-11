@@ -1,50 +1,50 @@
-.. _per_setup_pico:
+.. _per_setup_pico: 
 
-1.1 Set up the Pico
-----------------------
+1.1 Picoのセットアップ
+------------------------
 
-First, visit Piper Make through the following link: 
+まず、以下のリンクからPiper Makeにアクセスしてください：
 
 https://make.playpiper.com/
 
-In the pop-up page, if you don't need to subscribe for more tutorials, you can just click **Let's Go!** or the **x** button.
+ポップアップページが表示された場合、追加のチュートリアルを購読する必要がなければ、 **Let's Go!** または **x** ボタンをクリックしてください。
 
 |media1|
 
 
 .. note::
-    If you see a different pop-up window, your browser version is not supported, please update your browser and try again. 
+    異なるポップアップウィンドウが表示される場合、使用しているブラウザのバージョンがサポートされていません。ブラウザを更新して再試行してください。
 
 
-Find the ``SETUP MY PICO`` button, click it, and follow the prompts to configure it.
+``SETUP MY PICO`` ボタンを見つけてクリックし、表示されるプロンプトに従って設定してください。
 
 |media2-s|
 
 
-Click **Next** to start configuring your Pico W, even if you have set it up before, these are the same steps you will use to update your Pico W firmware.
+**Next** をクリックしてPico Wの設定を開始します。以前に設定したことがあっても、Pico Wのファームウェアを更新するときに使用する手順と同じです。
 
 |media3|
 
-In this step, you need to make sure that your Pico W is unplugged from your computer, as it needs to be plugged in in a specific way in the next step. Make sure your cable can handle power and data, as many micro USB cables only have power.
+このステップでは、次のステップで特定の方法で接続する必要があるため、Pico Wをコンピュータから抜いておく必要があります。使用するケーブルが電力とデータの両方に対応しているか確認してください。多くのマイクロUSBケーブルは電力のみです。
 
 |media4|
 
-Now, press and hold the RST (white) button on the Pico W and plug the Pico W into your computer. Once plugged in, you can release the button.
+次に、Pico WのRST（白）ボタンを押し続けながら、Pico Wをコンピュータに接続します。接続したらボタンから手を離してください。
 
 |media5|
 
-Your Pico W will appear as a USB drive, click **Next** after that select **RPI-RP2** drive.
+Pico WはUSBドライブとして表示されますので、その後 **Next** をクリックし、 **RPI-RP2** ドライブを選択します。
 
 .. note::
-    After select **RPI-RP2** drive, there will be a pop up window at the top that you need to allow the web page to view files.
+    **RPI-RP2** ドライブを選択した後、ウェブページがファイルを表示することを許可する必要があるポップアップウィンドウが上部に表示されます。
 
 |media6|
 
-Now Piper Make will load the firmware to your Pico W, again you need to allow save changes to the hard drive where the Pico W is located.
+これでPiper MakeがPico Wにファームウェアをロードします。再度、Pico Wが位置するハードドライブに変更を保存することを許可する必要があります。
 
 |media7|
 
-When this prompt appears, it means your Pico W is set up and you can start using it.
+このプロンプトが表示されたら、Pico Wの設定が完了し、使用を開始できることを意味します。
 
 
 |media8|

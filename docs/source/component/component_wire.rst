@@ -1,30 +1,32 @@
-.. note::
+.. note:: 
+    FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についての知識を深め、同じ趣味を持つ仲間と交流しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **なぜ参加するのか？**
 
-    **Why Join?**
+    - **専門的なサポート**: コミュニティとチームの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: ヒントやチュートリアルを交換してスキルを向上させましょう。
+    - **独占的なプレビュー**: 新製品の発表や先行プレビューに早期アクセスが可能です。
+    - **特別な割引**: 最新製品の独占的な割引を楽しみましょう。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造しませんか？[|link_sf_facebook|]をクリックして今すぐ参加してください！
 
 .. _cpn_wire:
 
-Jumper Wires
-==================
-Wires that connect two terminals are called jumper wires. There are various kinds of jumper wires. Here we focus on those used in breadboard. Among others, they are used to transfer electrical signals from anywhere on the breadboard to the input/output pins of a microcontroller.
+ジャンパーワイヤー
+====================
 
-Jump wires are fitted by inserting their “end connectors” into the slots provided in the breadboard, beneath whose surface there are a few sets of parallel plates that connect the slots in groups of rows or columns depending on the area. The “end connectors” are inserted into the breadboard, without soldering, in the particular slots that need to be connected in the specific prototype.
+二つの端子を接続するためのワイヤーをジャンパーワイヤーと呼びます。ジャンパーワイヤーにはさまざまな種類がありますが、ここではブレッドボードで使用されるものに焦点を当てます。主に、ブレッドボードの任意の場所からマイクロコントローラーの入出力ピンへ電気信号を伝達するために使用されます。
 
-There are three types of jumper wire: Female-to-Female, Male-to-Male, and Male-to-Female. The reason we call it Male-to-Female is because it has the outstanding tip in one end as well as a sunk female end. Male-to-Male means both side are male and Female-to-Female means both ends are female.
+ジャンパーワイヤーは、「端子コネクタ」をブレッドボードのスロットに挿入することで接続されます。ブレッドボードの内部には、スロットを列や行ごとに接続するための金属プレートが配置されています。「端子コネクタ」は、特定のプロトタイプ回路で必要なスロットに半田付けなしで挿入できます。
+
+ジャンパーワイヤーには、 メス-メス（Female-to-Female）、オス-オス（Male-to-Male）、オス-メス（Male-to-Female）の三種類があります。  
+オス-メスとは、一方の端が突出したオス端子で、もう一方が凹んだメス端子になっているものを指します。  
+オス-オスは両端がオス、メス-メスは両端がメスになっています。
 
 |img_wire|
 
 .. note::
 
-    * More than one type of them may be used in a project.
-    * The color of the jump wires is different but it doesn't mean their function is different accordingly; it's just designed so to better identify the connection between each circuit.
+    * プロジェクトによっては、複数の種類のジャンパーワイヤーを組み合わせて使用する場合があります。
+    * ジャンパーワイヤーには異なる色がありますが、色の違いによって機能が異なるわけではありません。配線の識別を容易にするために設計されています。

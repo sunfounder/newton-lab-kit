@@ -1,60 +1,61 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community（Facebook）へようこそ！  
+    ここでは、Raspberry Pi、Arduino、ESP32について、他の愛好家と一緒に深く学ぶことができます。
 
-    **Why Join?**
+    **参加するメリット**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティやチームの助けを借りて解決できます。
+    - **学び＆共有**：ヒントやチュートリアルを交換し、スキルを向上させましょう。
+    - **最新情報の先行公開**：新製品の発表やプレビューをいち早くチェックできます。
+    - **特別割引**：最新製品を特別価格で購入できます。
+    - **季節限定のプロモーション＆プレゼント企画**：キャンペーンやプレゼント企画に参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求し、創造しませんか？今すぐ [|link_sf_facebook|] をクリックして参加しましょう！
 
 .. _ar_servo:
 
-3.7 Swinging Servo
-===================
+3.7 サーボモーターのスイング
+================================
 
-In this lesson, we'll learn how to control a **servo motor** using the Raspberry Pi Pico 2. A servo motor is a device that can rotate to a specific angle between 0° and 180°. It's widely used in remote control toys, robots, and other applications that require precise position control.
+このレッスンでは、 **サーボモーター** をRaspberry Pi Pico 2で制御する方法を学びます。サーボモーターは0°から180°の範囲で特定の角度に回転できる装置で、ラジコン玩具やロボットなど、精密な位置制御が求められる用途で広く使用されています。
 
-Let's get started and make the servo swing back and forth!
+それでは、サーボをスイングさせてみましょう！
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+すべてが揃ったキットを購入すると便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
+    *   - 名称
+        - このキットに含まれるアイテム
+        - リンク
+    *   - Newton Lab Kit
+        - 450点以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+また、以下のリンクから個別に購入することも可能です。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - No.
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB ケーブル
         - 1
         - 
     *   - 3
@@ -63,7 +64,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_servo`
@@ -71,93 +72,93 @@ You can also buy them separately from the links below.
         - |link_servo_buy|
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_servo|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_servo|
 
-* Orange wire is signal and connected to GP15.
-* Red wire is VCC and connected to VBUS(5V).
-* Brown wire is GND and connected to GND.
+* オレンジの線は信号線で、GP15に接続。
+* 赤の線はVCCで、VBUS（5V）に接続。
+* 茶色の線はGNDで、GNDに接続。
 
-Servos can draw significant current, especially under load. Since we're using a small servo and not putting it under heavy load, powering it from the Pico's VBUS pin is acceptable for this simple experiment. For larger servos or multiple servos, use an external power supply.
+サーボモーターは特に負荷がかかると比較的大きな電流を消費します。今回は小型サーボを軽負荷で使用するため、PicoのVBUSピンから給電可能ですが、大型サーボや複数のサーボを使用する場合は、外部電源を推奨します。
 
-**Setting Up the Servo Arm**
+**サーボアームの取り付け**
 
-* Attach the servo arm (also called a horn) to the servo's output shaft.
-* Secure it with the small screw provided with the servo if necessary.
+* サーボの出力軸にアーム（ホーン）を取り付けます。
+* 必要に応じて、付属の小さなネジで固定してください。
 
-**Writing the Code**
+**コードを書いてみよう**
 
 .. note::
 
-   * You can open the file ``3.7_swinging_servo.ino`` from ``newton-lab-kit/arduino/3.7_swinging_servo``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-    
+   * ``3.7_swinging_servo.ino`` を ``newton-lab-kit/arduino/3.7_swinging_servo`` から開くことができます。
+   * または以下のコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定して「Upload」をクリックしてください。
+
 .. code-block:: arduino
 
     #include <Servo.h>
 
-    Servo myServo;  // Create a servo object
+    Servo myServo;  // サーボオブジェクトの作成
 
     void setup() {
-      myServo.attach(15);  // Attach the servo to GPIO pin 15
+      myServo.attach(15);  // GPIO 15 にサーボを接続
     }
 
     void loop() {
-      // Move the servo from 0 to 180 degrees
+      // サーボを 0° から 180° まで動かす
       for (int angle = 0; angle <= 180; angle += 1) {
         myServo.write(angle);
-        delay(15);  // Wait 15 milliseconds for the servo to reach the position
+        delay(15);  // 位置調整のために15ミリ秒待機
       }
-      // Move the servo from 180 to 0 degrees
+      // サーボを 180° から 0° に戻す
       for (int angle = 180; angle >= 0; angle -= 1) {
         myServo.write(angle);
         delay(15);
       }
     }
 
-After uploading the code, the servo arm should start swinging smoothly from 0° to 180° and back.
-If the servo doesn't move or behaves erratically:
+コードをアップロードすると、サーボアームが0°から180°までスムーズにスイングし、再び0°に戻ります。  
+もしサーボが動かない、または異常な動作をする場合は以下を確認してください。
 
-* Check your wiring connections.
-* Ensure the servo is properly powered.
-* Make sure the servo is not mechanically blocked.
+* 配線が正しく接続されているか。
+* サーボが適切に給電されているか。
+* 機械的に動きを妨げる要因がないか。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Including the ``Servo`` Library:
+#. ``Servo`` ライブラリのインクルード
 
-   Includes the ``Servo`` library, which provides functions to control the servo motor.
+   ``Servo`` ライブラリを読み込み、サーボ制御のための関数を使用できるようにします。
 
    .. code-block:: arduino
 
         #include <Servo.h>
 
-#. Creating a ``Servo`` Object:
+#. ``Servo`` オブジェクトの作成
 
-   Creates a ``Servo`` object named ``myServo`` to control the servo.
+   ``Servo`` オブジェクト ``myServo`` を作成し、サーボを制御します。
 
    .. code-block:: arduino
 
         Servo myServo;
 
-#. Attaching the Servo to a Pin:
+#. サーボのピンに接続
 
-   Attaches the servo to GPIO pin 15 on the Pico.
+   myServo.attach(15); を使用して、GPIO 15 にサーボを接続します。
 
    .. code-block:: arduino
 
         myServo.attach(15);
 
-#. Moving the Servo:
+#. サーボを動かす
 
-   * Moves the servo from 0° to 180° in 1-degree increments. The delay(15) provides a small delay to allow the servo to reach each position smoothly.
-   
+   * 0°から180°まで1°ずつ動かしながら、delay(15) を入れてスムーズに回転させます。
+
    .. code-block:: arduino
 
         for (int angle = 0; angle <= 180; angle += 1) {
@@ -165,7 +166,7 @@ If the servo doesn't move or behaves erratically:
           delay(15);
         }
 
-   * Reversing the Movement: Moves the servo back from 180° to 0°, creating a back-and-forth swinging motion.
+   * 180°から0°まで逆方向に動かし、往復運動を作ります。
 
    .. code-block:: arduino
 
@@ -174,22 +175,19 @@ If the servo doesn't move or behaves erratically:
           delay(15);
         }
 
-**Further Exploration**
+**さらなる探求**
 
-* Adjusting Speed:
+* 動作速度の調整  
 
-  Change the ``delay()`` value in the loops to make the servo move faster or slower.
+  ``delay()`` の値を変更すると、サーボの動きを速くしたり遅くしたりできます。
 
-* Controlling Position Directly:
+* 特定の位置への移動 
+  ``myServo.write(angle);`` を使用して、特定の角度に直接移動させることも可能です。
 
-  Use ``myServo.write(angle);`` with a specific angle to set the servo to a fixed position.
+* インタラクティブな制御 
 
-* Interactive Control:
+  ポテンショメーター（可変抵抗）を接続して、サーボの角度をリアルタイムで制御することもできます。
 
-  Connect a potentiometer to control the servo angle interactively.
+**まとめ**
 
-**Conclusion**
-
-In this lesson, you've learned how to control a servo motor using the Raspberry Pi Pico and the Servo library. By adjusting the code, you can set the servo to any angle between 0° and 180°, allowing for precise control in your projects.
-
-
+このレッスンでは、Raspberry Pi PicoとServoライブラリを使用してサーボモーターを制御する方法を学びました。コードを調整することで、サーボを0°から180°の間で自由に動かすことができ、ロボットアームや精密制御が必要なプロジェクトに活用できます。

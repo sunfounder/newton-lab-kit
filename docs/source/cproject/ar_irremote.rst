@@ -1,100 +1,101 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 に関する知識を深め、仲間とともにものづくりを楽しみましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティメンバーやチームがサポート。  
+    - **学びと共有**：ヒントやチュートリアルを交換し、スキルを向上。  
+    - **最新情報の先行公開**：新製品の発表やプレビューをいち早くチェック。  
+    - **特別割引**：最新製品を会員限定の特別価格で購入可能。  
+    - **イベント & プレゼント企画**：プレゼントキャンペーンや季節ごとのプロモーションに参加可能。  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒にものづくりを楽しみませんか？[|link_sf_facebook|] をクリックして、今すぐ参加！  
 
 .. _ar_irremote:
 
-6.4 Using an Infrared Remote Control
+6.4 赤外線リモコンを使う
 ==========================================================
 
-In this lesson, we'll learn how to use an **infrared (IR) remote control** and an **IR receiver** with the Raspberry Pi Pico 2. This will allow us to receive and decode signals from an IR remote, enabling us to control our projects wirelessly.
+このレッスンでは、 **赤外線 (IR) リモコン** と **IR 受信モジュール** を Raspberry Pi Pico 2 で使用する方法を学びます。  
+IR リモコンの信号を受信・デコードすることで、ワイヤレスでプロジェクトを操作できるようになります。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+すべて揃ったキットを購入すると便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
-        - |link_newton_lab_kit|
+    *   - 名称  
+        - キットに含まれるアイテム  
+        - リンク  
+    *   - Newton Lab Kit  
+        - 450点以上  
+        - |link_newton_lab_kit|  
 
-You can also buy them separately from the links below.
-
+個別に購入する場合は、以下のリンクからどうぞ。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - SN  
+        - コンポーネント  
+        - 数量  
+        - リンク  
 
-    *   - 1
-        - :ref:`cpn_pico_2`
-        - 1
-        - |link_pico2_buy|
-    *   - 2
-        - Micro USB Cable
-        - 1
-        - 
-    *   - 3
-        - :ref:`cpn_breadboard`
-        - 1
-        - |link_breadboard_buy|
-    *   - 4
-        - :ref:`cpn_wire`
-        - Several
-        - |link_wires_buy|
-    *   - 5
-        - :ref:`cpn_ir_receiver`
-        - 1
-        - |link_receiver_buy|
+    *   - 1  
+        - :ref:`cpn_pico_2`  
+        - 1  
+        - |link_pico2_buy|  
+    *   - 2  
+        - Micro USB ケーブル  
+        - 1  
+        -  
+    *   - 3  
+        - :ref:`cpn_breadboard`  
+        - 1  
+        - |link_breadboard_buy|  
+    *   - 4  
+        - :ref:`cpn_wire`  
+        - 数本  
+        - |link_wires_buy|  
+    *   - 5  
+        - :ref:`cpn_ir_receiver`  
+        - 1  
+        - |link_receiver_buy|  
 
-**Understanding Infrared Communication**
+**赤外線通信の仕組み**
 
-Infrared communication involves transmitting data wirelessly using infrared light. Common household devices like TVs and DVD players use IR remote controls for operation.
+赤外線通信は、赤外線を利用してワイヤレスでデータを送信する技術です。 テレビや DVD プレーヤーなどの家電製品では、IR リモコンが広く使用されています。
 
-* **IR Transmitter (Remote Control):** Emits modulated infrared light when a button is pressed.
-* **IR Receiver:** Detects the modulated IR light and converts it into electrical signals that can be decoded.
+* **IR 送信機（リモコン）**: ボタンを押すと、特定のコードが赤外線信号として送信される。  
+* **IR 受信機**: 赤外線信号を受信し、電気信号に変換してデコードする。  
 
-**Circuit Diagram**
+**回路図**
 
 |sch_irrecv|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_irrecv|
 
 
-**Writing the Code**
+**コードの記述**
 
-We'll write a program that initializes the IR receiver, listens for incoming IR signals, decodes them, and prints the corresponding button presses to the Serial Monitor.
+IR 受信機を初期化し、IR 信号を受信、デコードしてシリアルモニターにボタンの情報を表示するプログラムを作成します。
 
 .. note::
 
-    * You can open the file ``6.4_ir_remote_control.ino`` from ``newton-lab-kit/arduino/6.4_ir_remote_control``. 
-    * Or copy this code into **Arduino IDE**.
-    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-    * The ``IRremote`` library is used here, you can install it from the **Library Manager**.
+    * ``6.4_ir_remote_control.ino`` を ``newton-lab-kit/arduino/6.4_ir_remote_control`` から開くことができます。  
+    * または、このコードを **Arduino IDE** にコピーしてください。  
+    * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定して「Upload」をクリックしてください。  
+    * ``IRremote`` ライブラリを使用するため、 **Library Manager** からインストールしてください。
 
       .. image:: img/lib_ir.png
 
@@ -102,9 +103,9 @@ We'll write a program that initializes the IR receiver, listens for incoming IR 
 
     #define SEND_PWM_BY_TIMER
 
-    #include <IRremote.hpp>  // Include the IRremote library
+    #include <IRremote.hpp>  // IRremote ライブラリをインクルード
 
-    const int receiverPin = 17;  // Define the pin number for the IR Sensor
+    const int receiverPin = 17;  // IR 受信モジュールの接続ピンを定義
 
     void setup() {
       // Start serial communication at a baud rate of 115200
@@ -118,14 +119,14 @@ We'll write a program that initializes the IR receiver, listens for incoming IR 
         bool result = 0;
         String key = decodeKeyValue(IrReceiver.decodedIRData.command);
         if (key != "ERROR") {
-          Serial.println(key);  // Print the readable command
+          Serial.println(key);  // 読み取ったキーをシリアルモニターに表示
           delay(100);
         }
-      IrReceiver.resume();  // Prepare the IR receiver to receive the next signal
+        IrReceiver.resume();  // 次の信号を受信する準備
       }
     }
 
-    // Function to map received IR signals to corresponding keys
+    // 受信した IR 信号を対応するキーに変換する関数
     String decodeKeyValue(long result) {
       switch (result) {
         case 0x45: return "POWER";
@@ -154,7 +155,7 @@ We'll write a program that initializes the IR receiver, listens for incoming IR 
       }
     }
 
-After uploading the code, press buttons on the IR remote control. Observe the corresponding key labels printed in the Serial Monitor.
+コードをアップロードし、IR リモコンのボタンを押すと、シリアルモニターに対応するキーが表示されます。
 
 .. code-block:: arduino
 
@@ -168,21 +169,21 @@ After uploading the code, press buttons on the IR remote control. Observe the co
 
 .. note::
 
-  The new remote control may have a plastic piece at the end to isolate the battery. Pull out this plastic piece to activate the remote.
+  新しいリモコンには、電池を絶縁するためのプラスチック片が付いている場合があります。 取り外してから使用してください。
 
 
-**Understanding the Code**
+**コードの解説**
 
-#. Header and Constants:
+#. **ヘッダーと定数の定義**
 
-   * ``#define SEND_PWM_BY_TIMER``: This line appears to define a macro for sending PWM signals by using a timer. However, it is not used anywhere in the code, so it might be a leftover or a placeholder.
-   * ``#include <IRremote.hpp>``: Includes the ``IRremote`` library, which provides functionalities for sending and receiving IR signals.
-   * ``const int receiverPin = 17;``: Defines the pin (17) that the IR receiver module is connected to on the Arduino.
+   * ``#define SEND_PWM_BY_TIMER``: PWM 信号をタイマーで送信するためのマクロ。ただし、このコードでは使用されていないため、不要な記述の可能性がある。  
+   * ``#include <IRremote.hpp>``: ``IRremote`` ライブラリをインクルードし、IR 信号の送受信機能を利用可能にする。  
+   * ``const int receiverPin = 17;``: IR 受信モジュールを接続する GPIO ピン（17）を定義。
 
-#. Setup Function:
+#. セットアップ関数
 
-   * ``Serial.begin(115200);``: Initializes serial communication at a baud rate of 115200, which allows the Arduino to communicate with a computer for debugging purposes.
-   * ``IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);``: Initializes the IR receiver on ``receiverPin`` and enables LED feedback, which will light up an LED when the IR receiver gets a signal.
+   * ``Serial.begin(115200);``: シリアル通信を 115200 baud で初期化し、デバッグやデータのやり取りを可能にする。  
+   * ``IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);``: 指定した ``receiverPin`` で IR 受信機を初期化し、信号受信時に LED を点灯する機能を有効化。  
 
    .. code-block:: arduino
 
@@ -191,13 +192,13 @@ After uploading the code, press buttons on the IR remote control. Observe the co
         IrReceiver.begin(receiverPin, ENABLE_LED_FEEDBACK);
       }
 
-#. Loop Function: 
+#. ループ関数
 
-   * ``if (IrReceiver.decode())``: Checks if the IR receiver has received a valid IR signal. If it has, the function proceeds to decode it.
-   * ``decodeKeyValue(IrReceiver.decodedIRData.command)``: Calls a function to convert the received IR command into a more human-readable key (like "POWER" or "MUTE").
-   * ``Serial.println(key);``: Prints the decoded key to the serial monitor.
-   * ``delay(100);``: Adds a short delay to avoid printing the same signal multiple times.
-   * ``IrReceiver.resume();``: Prepares the IR receiver to receive the next signal by clearing the previous one.
+   * ``if (IrReceiver.decode())``: IR 受信機が有効な信号を受信したか確認。受信していればデコード処理へ進む。  
+   * ``decodeKeyValue(IrReceiver.decodedIRData.command)``: 受信した IR コマンドを、人間が識別しやすいキー名（例: "POWER" や "MUTE"）に変換。  
+   * ``Serial.println(key);``: 変換されたキー名をシリアルモニターに表示。  
+   * ``delay(100);``: 連続して同じ信号が送信されるのを防ぐための短いディレイを追加。  
+   * ``IrReceiver.resume();``: 受信バッファをクリアし、次の IR 信号を受信する準備をする。  
 
    .. code-block:: arduino
 
@@ -213,11 +214,12 @@ After uploading the code, press buttons on the IR remote control. Observe the co
         }
       }
 
-#. ``decodeKeyValue`` Function:
+#. ``decodeKeyValue`` 関数
 
-   * This function takes a long value result (the raw IR command) and uses a switch statement to map it to a specific key name. Each case corresponds to a different button on the remote.
-   * For example, 0x45 maps to "POWER," and 0x47 maps to "MUTE."
-   * If the command does not match any known key, the function returns "ERROR."
+   * 受信した IR コード（long 型の値） を、対応するリモコンのボタン名に変換する。  
+   * switch文を使用し、各ボタンに対応する IR コードを照合。  
+   * 例: 0x45を受信すると"POWER"、0x47 を受信すると"MUTE"と認識。  
+   * 照合できない場合は "ERROR" を返す。  
 
    .. code-block:: arduino
 
@@ -233,45 +235,41 @@ After uploading the code, press buttons on the IR remote control. Observe the co
         }
       }
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* No Readings Displayed:
+* IR 信号が表示されない場合  
+  * IR 受信機が正しく GPIO 17 に接続されているか確認。  
+  * 受信機に電源（VCC/GND）が供給されていることをチェック。  
+  * ``receiverPin`` の定義が適切であるかコードを確認。  
 
-  * Ensure the IR receiver is properly connected to GPIO 17.
-  * Verify that the IR receiver is receiving power (VCC and GND connections).
-  * Check that the correct GPIO pin is defined in the code (``receiverPin``).
+* 誤った信号が表示される場合  
+  * 使用するリモコンが IR 受信機と互換性があるか確認。  
+  * ``decodeKeyValue`` 関数のコードが、リモコンのボタン配置と一致しているかチェック。  
+  * 汎用リモコンを使用して正しい信号を確認。  
 
-* Incorrect Readings:
+* 不明なコマンドが表示される場合  
+  * ``decodeKeyValue`` 関数を更新し、リモコン固有の IR コードを追加。  
+  * IR デコードツールを使用し、リモコンの正確な信号を特定。  
 
-  * Confirm that the remote control is compatible with the IR receiver.
-  * Check that the ``decodeKeyValue`` function correctly maps the IR codes from your specific remote.
-  * Use a universal remote to ensure compatibility.
+* 信号干渉の可能性  
+  * リモコンと IR 受信機の間に障害物がないか確認。  
+  * 他の IR 発光デバイス（例: テレビ、エアコン）からの干渉がないかチェック。  
 
-* Unknown Commands:
+**さらに応用するには？**
 
-  * Update the ``decodeKeyValue`` function to include the IR codes specific to your remote control.
-  * Use an IR decoding tool or reference to find the correct codes emitted by your remote.
+* IR 信号でデバイスを制御する  
+  デコードした IR 信号を使用して、LED、モーター、サーボなどのデバイスをリモート制御。  
 
-* Signal Interference:
+* 汎用リモコンの作成  
 
-  * Ensure there are no obstructions between the remote and the IR receiver.
-  * Avoid placing the sensor near other IR-emitting devices that might cause interference.
+  ``decodeKeyValue()`` 関数を拡張し、さまざまなリモコンの IR コードに対応させる。  
 
-**Further Exploration**
+* フィードバックの追加 
 
-* Controlling Devices with IR Signals:
+  LCD や OLED ディスプレイを使用して、受信した IR コマンドを視覚的に表示。  
 
-  Use decoded IR signals to control LEDs, motors, servos, or other actuators based on remote inputs.
+**まとめ**
 
-* Creating a Universal Remote:
-
-  Expand the ``decodeKeyValue()`` function to support multiple remotes by mapping a broader range of IR codes.
-
-* Adding Feedback Mechanisms:
-
-  Implement LCD or OLED displays to show the current state or received commands.
-
-**Conclusion**
-
-In this lesson, you've learned how to use an infrared (IR) remote control and an IR receiver with the Raspberry Pi Pico to receive and decode IR signals. By integrating the IRremote library, you can easily interpret remote control inputs and use them to interact with your projects wirelessly. This setup is foundational for creating remote-controlled devices, automated systems, and user-friendly interfaces in various applications.
-
+このレッスンでは、 **Raspberry Pi Pico を使用して IR リモコンの信号を受信・デコードする方法** を学びました。  
+IRremote ライブラリを活用することで、簡単にリモコン入力を解読し、プロジェクトにワイヤレス制御を組み込めます。  
+この技術を応用すれば、 **リモコン操作のデバイス、スマートホーム、IoT システム** など、さまざまなプロジェクトの開発が可能になります。

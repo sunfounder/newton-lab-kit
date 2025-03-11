@@ -1,72 +1,73 @@
-.. note::
+.. note:: 
+    FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についての知識を深め、同じ趣味を持つ仲間と交流しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **なぜ参加するのか？**
 
-    **Why Join?**
+    - **専門的なサポート**: コミュニティとチームの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: ヒントやチュートリアルを交換してスキルを向上させましょう。
+    - **独占的なプレビュー**: 新製品の発表や先行プレビューに早期アクセスが可能です。
+    - **特別な割引**: 最新製品の独占的な割引を楽しみましょう。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造しませんか？[|link_sf_facebook|]をクリックして今すぐ参加してください！
 
 .. _install_arduino:
 
-1.1 Install Arduino IDE(Important)
-======================================
+1.1 Arduino IDEのインストール（重要）
+=======================================
 
-The Arduino IDE, known as Arduino Integrated Development Environment, provides all the software support needed to complete an Arduino project. It is a programming software specifically designed for Arduino, provided by the Arduino team, that allows us to write programs and upload them to the Arduino board. 
+Arduino IDE（Arduino統合開発環境）は、Arduinoプロジェクトを完了するために必要なソフトウェアサポートを提供します。  
+これはArduino専用のプログラミングソフトウェアであり、Arduinoチームによって提供され、プログラムの作成やArduinoボードへのアップロードを可能にします。
 
-The Arduino IDE 2.0 is an open-source project. It is a big step from its sturdy predecessor, Arduino IDE 1.x, and comes with revamped UI, improved board & library manager, debugger, autocomplete feature and much more.
+Arduino IDE 2.0はオープンソースプロジェクトであり、以前のArduino IDE 1.xから大幅に進化しました。  
+新しいUI、改善されたボード＆ライブラリマネージャー、デバッガー、オートコンプリート機能など、多くの新機能が追加されています。
 
-In this tutorial, we will show how to download and install the Arduino IDE 2.0 on your Windows, Mac, or Linux computer.
+このチュートリアルでは、Windows、Mac、LinuxにArduino IDE 2.0をダウンロードしてインストールする方法を説明します。
 
-Requirements
+動作要件
 -------------------
 
-* Windows - Win 10 and newer, 64 bits
-* Linux - 64 bits
-* Mac OS X - Version 10.14: "Mojave" or newer, 64 bits
+* Windows - Windows 10以降（64ビット）
+* Linux - 64ビット
+* Mac OS X - バージョン10.14「Mojave」以降（64ビット）
 
-Download the Arduino IDE 2.0
+Arduino IDE 2.0のダウンロード
 -------------------------------
 
-#. Visit |link_download_arduino| page.
+#. |link_download_arduino| のページにアクセスします。
 
-#. Download the IDE for your OS version.
+#. お使いのOSバージョンに対応したIDEをダウンロードします。
 
     .. image:: img/sp_001.png
 
-Installation
+インストール手順
 ------------------------------
 
 Windows
 ^^^^^^^^^^^^^
 
-#. Double click the ``arduino-ide_xxxx.exe`` file to run the downloaded file.
+#. ダウンロードした ``arduino-ide_xxxx.exe`` ファイルをダブルクリックして実行します。
 
-#. Read the License Agreement and agree it.
+#. ライセンス契約を読み、同意します。
 
     .. image:: img/sp_002.png
 
-#. Choose installation options.
+#. インストールオプションを選択します。
 
     .. image:: img/sp_003.png
 
-#. Choose install location. It is recommended that the software be installed on a drive other than the system drive.
+#. インストール場所を選択します。システムドライブとは異なるドライブにインストールすることを推奨します。
 
     .. image:: img/sp_004.png
 
-#. Then Finish. 
+#. インストール完了後、「Finish」をクリックします。
 
     .. image:: img/sp_005.png
 
 macOS
 ^^^^^^^^^^^^^^^^
 
-Double click on the downloaded ``arduino_ide_xxxx.dmg`` file and follow the instructions to copy the **Arduino IDE.app** to the **Applications** folder, you will see the Arduino IDE installed successfully after a few seconds.
+ダウンロードした ``arduino_ide_xxxx.dmg`` ファイルをダブルクリックし、 **Arduino IDE.app** を **アプリケーション** フォルダにコピーします。数秒後にArduino IDEがインストールされます。
 
 .. image:: img/macos_install_ide.png
     :width: 800
@@ -74,25 +75,21 @@ Double click on the downloaded ``arduino_ide_xxxx.dmg`` file and follow the inst
 Linux
 ^^^^^^^^^^^^
 
-For the tutorial on installing the Arduino IDE 2.0 on a Linux system, please refer to: https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing#linux
+LinuxシステムにArduino IDE 2.0をインストールする手順については、以下のリンクを参照してください： https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing#linux
 
 
-Open the IDE
---------------
+Arduino IDEの起動
+------------------------------
 
-#. When you first open Arduino IDE 2.0, it automatically installs the Arduino AVR Boards, built-in libraries, and other required files.
+#. 初めてArduino IDE 2.0を開くと、Arduino AVRボード、標準ライブラリ、その他の必要なファイルが自動的にインストールされます。
 
     .. image:: img/sp_901.png
 
-#. In addition, your firewall or security center may pop up a few times asking you if you want to install some device driver. Please install all of them.
+#. また、ファイアウォールやセキュリティソフトウェアがデバイスドライバのインストールを求めるポップアップを表示することがあります。すべてインストールしてください。
 
     .. image:: img/sp_104.png
 
-#. Now your Arduino IDE is ready!
+#. これでArduino IDEの準備が完了しました！
 
     .. note::
-        In the event that some installations didn't work due to network issues or other reasons, you can reopen the Arduino IDE and it will finish the rest of the installation. The Output window will not automatically open after all installations are complete unless you click Verify or Upload.
-
-
-
-
+        ネットワークの問題などで一部のインストールが完了しなかった場合は、Arduino IDEを再起動すると、残りのインストールが完了します。  すべてのインストールが完了するまで **出力ウィンドウ** は自動的に開きません。 **Verify** または **Upload** をクリックすると表示されます。

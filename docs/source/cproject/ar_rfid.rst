@@ -1,42 +1,42 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ人々とさらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**: コミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: 技術を磨くためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセスが可能です。
+    - **特別割引**: 最新製品を特別割引価格でお楽しみください。
+    - **祝祭プロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造しませんか？[|link_sf_facebook|]をクリックして今すぐ参加！
 
 .. _ar_rfid:
 
-6.5 Interfacing RFID
+6.5 RFIDの活用
 ===========================================
 
-In this lesson, we'll explore how to use **Radio Frequency Identification (RFID)** technology with the Raspberry Pi Pico 2. RFID allows for wireless communication between a reader and tags, which can be used for identification, authentication, and data storage.
+このレッスンでは、Raspberry Pi Pico 2を使用して **RFID（Radio Frequency Identification）** 技術を活用する方法を学びます。RFIDは、リーダーとタグの間で無線通信を行い、識別、認証、データの保存などに利用できます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントを使用します。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キットを購入すると便利ですが、以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
+    *   - 名称
+        - このキットに含まれるアイテム
+        - リンク
+    *   - Newton Lab Kit
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -44,16 +44,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,190 +62,190 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_mfrc522`
         - 1
         - |link_rfid_buy|
 
-**Understanding RFID**
+**RFIDの仕組み**
 
-RFID technology uses electromagnetic fields to automatically identify and track tags attached to objects. The tags contain electronically stored information, which can be read from a distance without direct line-of-sight.
+RFIDは電磁場を利用し、タグが取り付けられた物体を自動で識別・追跡します。タグには電子データが保存されており、直接視認しなくても読み取ることができます。
 
-* **RFID Reader (MFRC522):** A device that emits radio waves to communicate with RFID tags.
-* **RFID Tag:** A small object, such as a card or key fob, that contains a microchip and antenna. It can be passive (no battery) or active (battery-powered).
+* **RFIDリーダー（MFRC522）**: RFIDタグと通信するために電波を発信するデバイス。
+* **RFIDタグ**: カードやキーフォブの形状をした小型デバイスで、マイクロチップとアンテナを内蔵。電池を必要としない **パッシブ型** と、バッテリーを搭載した **アクティブ型** がある。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_rfid|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_rfid|
 
 
-**Writing the Code**
+**コードの記述**
 
-We'll write two programs that initializes the MFRC522 RFID reader, listens for RFID tags, and reads their unique identifiers (UID).
+MFRC522 RFIDリーダーを初期化し、タグをスキャンしてUID（ユニークID）を読み取るプログラムを作成します。
 
 .. note::
 
-   * The ``MFRC522`` library is used here, you can install it from the **Library Manager**.
+   * ``MFRC522`` ライブラリを使用します。 **ライブラリマネージャ** からインストールできます。
 
       .. image:: img/lib_mfrc522.png
 
 
-1. Writing Information to RFID Tags:
+1. RFIDタグへのデータ書き込み
 
    .. note::
-   
-      * You can open the file ``6.5_rfid_read.ino`` from ``newton-lab-kit/arduino/6.5_rfid_read``. 
-      * Or copy this code into **Arduino IDE**.
-      * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-   
-   .. code-block:: arduino
-   
-       #include <SPI.h>
-       #include <MFRC522.h>
-   
-       // Define the connection pins for the RFID module
-       #define SS_PIN 17    // SDA pin connected to GPIO 17 (SPI SS)
-       #define RST_PIN 9    // RST pin connected to GPIO 9
-   
-       MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
-   
-       void setup() {
-         // Initialize serial communication
-         Serial.begin(115200);
-         while (!Serial); // Wait for serial port to connect
-   
-         // Initialize SPI bus
-         SPI.begin();
-   
-         // Initialize RFID reader
-         mfrc522.PCD_Init();
+
+      * ``6.5_rfid_read.ino`` を ``newton-lab-kit/arduino/6.5_rfid_read`` から開く。
+      * もしくは、以下のコードを **Arduino IDE** にコピーする。
+      * **Raspberry Pi Pico 2** を選択し、適切なポートを指定して「Upload」をクリック。
+
+.. code-block:: arduino
+
+    #include <SPI.h>
+    #include <MFRC522.h>
+
+    // RFIDモジュールの接続ピンを定義
+    #define SS_PIN 17    // SDAピンをGPIO 17 (SPI SS) に接続
+    #define RST_PIN 9    // RSTピンをGPIO 9 に接続
+
+    MFRC522 mfrc522(SS_PIN, RST_PIN); // MFRC522インスタンスの作成
+
+    void setup() {
+      // シリアル通信の初期化
+      Serial.begin(115200);
+      while (!Serial); // シリアルポートが接続されるまで待機
+
+      // SPIバスの初期化
+      SPI.begin();
+
+      // RFIDリーダーの初期化
+      mfrc522.PCD_Init();
          Serial.println("RFID Writer Initialized!");
    
-       }
-   
-       void loop() {
-         // Check if data is available in the serial buffer
-         if (Serial.available() > 0) {
-           String data = Serial.readStringUntil('#'); // Read until '#' is received
-           data.trim(); // Remove any trailing whitespace
-   
-           // Wait for a new RFID card
-           Serial.println("Place your RFID tag near the reader...");
-           if ( ! mfrc522.PICC_IsNewCardPresent()) {
-             return;
-           }
-   
-           // Select one of the cards
-           if ( ! mfrc522.PICC_ReadCardSerial()) {
-             return;
-           }
-   
-           // Authenticate using key A
-           MFRC522::MIFARE_Key key;
-           for (byte i = 0; i < 6; i++) {
-             key.keyByte[i] = 0xFF;
-           }
-   
-           byte block = 4; // Example block to write to
-           byte sector = mfrc522.PICC_GetUid()->uidByte[0] % 32; // Calculate sector
-   
-           MFRC522::StatusCode status;
-           status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, block, &key, &(mfrc522.uid));
-           if (status != MFRC522::STATUS_OK) {
-             Serial.print("Authentication failed: ");
-             Serial.println(mfrc522.GetStatusCodeName(status));
-             return;
-           }
-   
-           // Prepare data to write (16 bytes)
-           byte buffer[18];
-           data.getBytes(buffer, sizeof(buffer));
-           buffer[16] = 0x00; // Padding
-           buffer[17] = 0x00; // Padding
-   
-           // Write data to the block
-           status = mfrc522.MIFARE_Write(block, buffer, 16);
-           if (status != MFRC522::STATUS_OK) {
-             Serial.print("Write failed: ");
-             Serial.println(mfrc522.GetStatusCodeName(status));
-             return;
-           }
-   
-           Serial.println("Data written successfully!");
-         }
-       }
+    }
 
-   After uploading the code, the following occurs:
-   
-   * In the Serial Monitor, you will see:
-   
-     .. code-block::
+    void loop() {
+      // シリアルバッファにデータがあるか確認
+      if (Serial.available() > 0) {
+        String data = Serial.readStringUntil('#'); // '#'が来るまで読み取る
+        data.trim(); // 余分な空白を削除
+
+        // 新しいRFIDカードを待機
+           Serial.println("Place your RFID tag near the reader...");
+        if (!mfrc522.PICC_IsNewCardPresent()) {
+          return;
+        }
+
+        // カードを選択
+        if (!mfrc522.PICC_ReadCardSerial()) {
+          return;
+        }
+
+        // キーAを使用して認証
+        MFRC522::MIFARE_Key key;
+        for (byte i = 0; i < 6; i++) {
+          key.keyByte[i] = 0xFF;
+        }
+
+        byte block = 4; // 書き込むブロック
+        byte sector = mfrc522.PICC_GetUid()->uidByte[0] % 32; // セクタ計算
+
+        MFRC522::StatusCode status;
+        status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, block, &key, &(mfrc522.uid));
+        if (status != MFRC522::STATUS_OK) {
+             Serial.print("Authentication failed: ");
+          Serial.println(mfrc522.GetStatusCodeName(status));
+          return;
+        }
+
+        // 書き込むデータ（16バイト）
+        byte buffer[18];
+        data.getBytes(buffer, sizeof(buffer));
+        buffer[16] = 0x00; // パディング
+        buffer[17] = 0x00; // パディング
+
+        // データをブロックに書き込み
+        status = mfrc522.MIFARE_Write(block, buffer, 16);
+        if (status != MFRC522::STATUS_OK) {
+             Serial.print("Write failed: ");
+          Serial.println(mfrc522.GetStatusCodeName(status));
+          return;
+        }
+
+           Serial.println("Data written successfully!");
+      }
+    }
+
+コードをアップロードした後の挙動:
+
+* シリアルモニターには次のように表示されます:
+
+  .. code-block::
 
         RFID Reader Initialized!
         Place your RFID tag near the reader...
-   
-   * Input the data you want to write to the RFID tag, ending with the ``#`` character. For example:
-   
-     .. code-block::
-   
-        Hello World#
-   
-   * Place the RFID tag near the reader. Observe the confirmation message in the Serial Monitor:
-   
-     .. code-block::
-       
+
+* 書き込みたいデータを入力し、最後に ``#`` を追加します。例:
+
+  .. code-block::
+
+     Hello World#
+
+* RFIDタグをリーダーの近くに置くと、シリアルモニターには確認メッセージが表示されます:
+
+  .. code-block::
+
         Data written successfully!
 
-2. Reading RFID Tags:
+2. RFIDタグの読み取り:
 
    .. note::
-   
-      * You can open the file ``6.5_rfid_read.ino`` from ``newton-lab-kit/arduino/6.5_rfid_read``. 
-      * Or copy this code into **Arduino IDE**.
-      * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-   
+
+      * ``6.5_rfid_read.ino`` を ``newton-lab-kit/arduino/6.5_rfid_read`` から開くことができます。
+      * または、以下のコードを **Arduino IDE** にコピーしてください。
+      * **Raspberry Pi Pico 2** ボードと正しいポートを選択し、「Upload」をクリックしてください。
+
    .. code-block:: arduino
 
         #include <SPI.h>
         #include <MFRC522.h>
 
-        // Define the connection pins for the RFID module
-        #define SS_PIN 17    // SDA pin connected to GPIO 17 (SPI SS)
-        #define RST_PIN 9    // RST pin connected to GPIO 9
+        // RFIDモジュールの接続ピンを定義
+        #define SS_PIN 17    // SDAピンをGPIO 17 (SPI SS) に接続
+        #define RST_PIN 9    // RSTピンをGPIO 9 に接続
 
-        MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
+        MFRC522 mfrc522(SS_PIN, RST_PIN); // MFRC522インスタンスの作成
 
         void setup() {
-          // Initialize serial communication
+          // シリアル通信の初期化
           Serial.begin(115200);
-          while (!Serial); // Wait for serial port to connect
+          while (!Serial); // シリアルポートが接続されるまで待機
 
-          // Initialize SPI bus
+          // SPIバスの初期化
           SPI.begin();
 
-          // Initialize RFID reader
+          // RFIDリーダーの初期化
           mfrc522.PCD_Init();
           Serial.println("RFID Reader Initialized!");
         }
 
         void loop() {
-          // Look for new RFID cards
+          // 新しいRFIDカードの探索
           if ( ! mfrc522.PICC_IsNewCardPresent()) {
             return;
           }
 
-          // Select one of the cards
+          // カードを選択
           if ( ! mfrc522.PICC_ReadCardSerial()) {
             return;
           }
 
-          // Read the UID of the card
+          // カードのUIDを読み取る
           Serial.print("UID tag :");
           String content= "";
           byte letter;
@@ -255,7 +255,7 @@ We'll write two programs that initializes the MFRC522 RFID reader, listens for R
           }
           Serial.println(content);
 
-          // Print the associated user data
+          // UIDに関連するデータを表示
           if (userData.length() > 0) {
             Serial.print("Associated Data: ");
             Serial.println(userData);
@@ -264,62 +264,66 @@ We'll write two programs that initializes the MFRC522 RFID reader, listens for R
           }
         }
 
-   After uploading the code, the following occurs:
-   
-   * In the Serial Monitor, you will see:
-   
-     .. code-block::
-   
+コードをアップロードした後の挙動:
+
+* シリアルモニターには次のように表示されます:
+
+  .. code-block::
+
         RFID Reader Initialized!
-   
-   * Place an RFID tag (e.g., a key fob or card) near the MFRC522 RFID module. The Serial Monitor should display both the UID and the data stored on the tag:
-   
-     .. code-block::
-   
+
+  *  RFIDタグ（キーホルダーやカードなど）をMFRC522 RFIDモジュールの近くに置くと、シリアルモニターにはUIDと保存されたデータが表示されます:
+
+  .. code-block::
+
         UID tag : 04 A3 1B 7C 3E
         Data on tag: HelloWorld
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* No Readings Displayed:
 
-  * Check all wiring connections, especially the SPI lines (SCK, MOSI, MISO, SS).
-  * Ensure the RFID module is receiving power (VCC and GND connections).
-  * Verify that the correct GPIO pins are defined in the code.
+* 読み取りができない場合:
 
-* Incorrect Readings:
 
-  * Ensure that the RFID tags are compatible with the MFRC522 module.
-  * Use a different RFID tag to rule out tag-specific issues.
+  * 特にSPIライン（SCK、MOSI、MISO、SS）の配線を確認してください。
+  * RFIDモジュールが電源を受け取っていることを確認してください（VCCおよびGND）。
+  * コード内のGPIOピン設定が正しいことを確認してください。
 
-* Write Failures:
+* 読み取り値が正しくない場合:
 
-  * Ensure the RFID tag is not locked or write-protected.
-  * Verify that the authentication key matches the tag's key.
-  * Check that the data buffer is correctly formatted and does not exceed 16 bytes.
+  * MFRC522モジュールと互換性のあるRFIDタグを使用してください。
+  * 別のRFIDタグを試して、タグ固有の問題でないことを確認してください。
 
-* Signal Interference:
+* 書き込みに失敗する場合:
 
-  * Avoid placing the RFID module near other electronic devices that might cause interference.
-  * Ensure there are no physical obstructions blocking the RFID tag's communication with the reader.
+  * RFIDタグがロックされていないか、書き込み保護されていないか確認してください。
+  * 認証キーがタグのキーと一致していることを確認してください。
+  * データバッファが正しくフォーマットされ、16バイト以内であることを確認してください。
 
-**Further Exploration**
+* 電波干渉がある場合:
 
-* Access Control Systems: 
+  * RFIDモジュールを他の電子機器の近くに設置しないでください。
+  * RFIDタグの通信を妨げる物理的な障害物がないことを確認してください。
 
-  Implement door lock mechanisms controlled by RFID tags.
+**さらなる応用**
 
-* Inventory Management: 
+* アクセス制御システム:
 
-  Track and manage inventory items using RFID tags for automated counting and monitoring.
+  RFIDタグで制御するドアロックシステムを構築する。
 
-* RFID-Based Authentication:
-  Create secure authentication systems for user login or device access.
+* 在庫管理:
 
-* Combining with Other Sensors:
+  RFIDタグを利用して物品の管理や自動カウントを行う。
 
-  Integrate RFID with other sensors like temperature or motion sensors for comprehensive monitoring systems.
+* RFID認証システム:
 
-**Conclusion**
+  ユーザーログインやデバイスアクセスのための安全な認証システムを開発する。
 
-In this lesson, you've learned how to interface an RFID system using the MFRC522 RFID module with the Raspberry Pi Pico. By leveraging the SPI communication protocol and the MFRC522 library, you can effortlessly read and write data to RFID tags, enabling a wide range of applications such as access control systems, inventory management, and interactive projects.
+* 他のセンサーとの統合:
+
+  RFIDと温度センサーや動作センサーを組み合わせて、総合的な監視システムを構築する。
+
+**まとめ**
+
+このレッスンでは、MFRC522 RFIDモジュールを用いてRaspberry Pi PicoとRFIDシステムを接続する方法を学びました。SPI通信プロトコルとMFRC522ライブラリを活用することで、RFIDタグの読み書きを簡単に実装できます。これにより、アクセス制御、在庫管理、インタラクティブなプロジェクトなど、幅広い応用が可能になります。
+読み取りと書き込みを行う方法を学びました。SPI通信プロトコルとMFRC522ライブラリを活用することで、アクセス制御や在庫管理など、多様な用途にRFID技術を応用できます。

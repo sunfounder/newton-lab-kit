@@ -1,42 +1,42 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _per_drum_kit:
 
-2.5 Drum Kit
+2.5 ドラムキット
 =============================
 
-For this project, let's make a drum kit with three buttons and a slide switch. Now, play your own drums.
+このプロジェクトでは、3つのボタンとスライドスイッチを使ったドラムキットを作ります。さあ、自分だけのドラムを演奏しましょう。
 
-**Required Components**
+**必要なコンポーネント**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -44,9 +44,9 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -81,25 +81,25 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Wiring**
+**配線**
 
 |drum_kit0|
 
-* When the slide switch is toggled to the right, GP12 is high; when toggled to the left, GP12 is low.
-* Each of the three buttons is connected to a pull-down resistor, GP13~GP15 are low by default; when the button is pressed, GP13~GP15 are high.
+* スライドスイッチが右に切り替えられると、GP12は高い状態になります。左に切り替えられると、GP12は低い状態になります。
+* 3つのボタンはそれぞれプルダウン抵抗に接続され、デフォルトではGP13〜GP15は低い状態です。ボタンが押されると、GP13〜GP15は高い状態になります。
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.5_drum_kit.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * 以下の画像を参考にして、ドラッグアンドドロップでコードを書くことができます。
+    * ``kepler-kit-main\piper`` のパスから ``2.5_drum_kit.png`` をインポートしてください。詳細なチュートリアルについては :ref:`import_code_piper` を参照してください。
 
 
 |drum_kit|
 
-After connecting Pico W, click the **Start** button and the code starts to run. Pressing different buttons or toggling the slide switch will produce different drum sounds, just like a drum kit.
+Pico Wに接続した後、 **Start** ボタンをクリックするとコードが実行されます。異なるボタンを押すかスライドスイッチを切り替えることで、ドラムキットのようにさまざまなドラムサウンドが生成されます。
 
 .. note::
-    If you are using a computer, you will need to plug in headphones or audio to your computer to hear the sound emitted.
+    コンピュータを使用している場合は、発生した音を聞くためにコンピュータにヘッドフォンまたはオーディオを接続する必要があります。

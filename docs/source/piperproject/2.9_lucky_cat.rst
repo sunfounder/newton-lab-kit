@@ -1,51 +1,51 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _per_lucky_cat:
 
-2.9 Lucky Cat
+2.9 招き猫プロジェクト
 ==========================
 
-In this project, we use pir and servo to make a lucky cat. The PIR Module is used to detect the visitors and servo is used to imitate the beckoning motion of the lucky cat.
+このプロジェクトでは、PIR（赤外線センサー）とサーボを使って招き猫を作ります。PIRモジュールは来訪者を検出し、サーボは招き猫の手招きの動作を模倣します。
 
-**Required Components**
+**必要なコンポーネント**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
@@ -61,7 +61,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_servo`
@@ -73,48 +73,44 @@ You can also buy them separately from the links below.
         - |link_pir_buy|
 
 
-**Wiring**
+**配線**
 
 |lucky_cat0|
 
+* サーボのオレンジ色のワイヤー（シグナル）はGP15に接続され、赤色のワイヤー（電力）はVBUSに接続され、茶色のワイヤー（グラウンド）はGNDに接続されます。
+* PIRモジュールの中央のピンはGP3に接続されます。
 
-* The orange wire (signal) of the servo is connected to GP15, the red wire (power) is connected to VBUS, and the brown wire (ground) is connected to GND. 
-* The middle pin of the PIR module is connected to the GP3.
-
-**Writing the Code**
-
-
+**コードの書き方**
 
 .. note::
 
-    * You can refer to the image below to write code by dragging and dropping. 
-    * Import ``2.9_lucky_cat.png`` from the path of ``kepler-kit-main\piper``. For detailed tutorials, please refer to :ref:`import_code_piper`.
+    * 以下の画像を参考にして、ドラッグアンドドロップでコードを書くことができます。
+    * ``kepler-kit-main\piper`` のパスから ``2.9_lucky_cat.png`` をインポートしてください。詳細なチュートリアルについては :ref:`import_code_piper` を参照してください。
 
 |lucky_cat|
 
 
+* Pico Wに接続した後、 **Start** ボタンをクリックするとコードが実行されます。
+* PIRモジュールが来訪者を検出すると、サーボは前後に5回振動した後、停止します。
 
-* After connecting Pico W, click the **Start** button and the code starts to run.
-* When the PIR module detects a customer arrival, the servo oscillates back and forth five times and then stops.
 
 
-**Understanding the Code**
-
+**コードの理解**
 
 |lucky_cat1|
 
-Set the rotation speed of pin15 (servo) to 15%.
+pin15（サーボ）の回転速度を15％に設定します。
 
 |lucky_cat2|
 
-If GP14 is low, set the variable [prestate] to 0. When the variable [prestate] is 0 and GP14 is high (human detected), set the variable [prestate] to 1.
+GP14が低い場合、変数[prestate]を0に設定します。変数[prestate]が0でGP14が高い場合（人が検出された場合）、変数[prestate]を1に設定します。
 
-The purpose of this is to make the main code work only when the GP14 changes from low to high, and to respond only once if the PIR module keeps detecting people.
+これは、GP14が低から高に変わったときのみメインコードが動作するようにし、PIRモジュールが人を検出し続けている場合は一度だけ反応するためです。
 
 |lucky_cat3|
 
-Make the servo cycle 5 times from 0 to 180 degrees rotation.
+サーボを0度から180度まで5回循環させます。
 
-* [repeat () times do]: Loop through the code inside the do block a finite number of times.
+* [repeat () times do]: doブロック内のコードを有限回数繰り返します。
 
 

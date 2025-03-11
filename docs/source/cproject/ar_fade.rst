@@ -1,158 +1,157 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 の知識を深め、仲間とともにものづくりを楽しみましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティメンバーやチームがサポート。  
+    - **学びと共有**：ヒントやチュートリアルを交換し、スキルを向上。  
+    - **最新情報の先行公開**：新製品の発表やプレビューをいち早くチェック。  
+    - **特別割引**：最新製品を会員限定の特別価格で購入可能。  
+    - **イベント & プレゼント企画**：プレゼントキャンペーンや季節ごとのプロモーションに参加可能。  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒にものづくりを楽しみませんか？[|link_sf_facebook|] をクリックして、今すぐ参加！  
 
 .. _ar_fade:
 
-2.3 Fading LED
-========================
+2.3 LED の明るさを調整する (フェード)
+============================================
 
-In this lesson, we'll learn how to control the brightness of an LED using Pulse Width Modulation (PWM) on the Raspberry Pi Pico 2. This is a fundamental technique in electronics that allows us to control devices like LEDs and motors with varying intensities.
+このレッスンでは、パルス幅変調（PWM） を使用して、Raspberry Pi Pico 2 で LED の明るさを制御する方法を学びます。 PWM は、LED やモーターなどのデバイスをさまざまな強度で制御するために広く使われる基本的な技術です。
 
-**What is PWM?**
+**PWM とは？**
 
-**Pulse Width Modulation (PWM)** is a method of controlling the amount of power delivered to an electronic device by cycling the power on and off at a high frequency. The "width" of the pulse (the duration it stays on) determines how much power the device receives.
+**パルス幅変調（PWM：Pulse Width Modulation）** とは、電力を高周波で ON/OFF することで、デバイスに供給する電力量を調整する方法です。 ON の時間が長いほど、デバイスが受け取る電力は多くなります。
 
 |img_pwm_duty_cycle|
 
-* **Duty Cycle**: The percentage of one period in which a signal is active. A 100% duty cycle means the signal is always on, and 0% means it's always off.
-* **Frequency**: How often the signal cycles on and off per second.
+* **デューティサイクル**: 信号が ON である割合（%）。100% なら常に ON、0% なら常に OFF。  
+* **周波数**: 1 秒間に信号が ON/OFF を繰り返す回数。
 
-By adjusting the duty cycle, we can simulate analog output using digital signals. For example, if we rapidly turn an LED on and off, our eyes perceive varying brightness levels depending on how long the LED stays on during each cycle.
+デューティサイクルを調整することで、デジタル信号を使用しながらアナログ出力のような制御を実現できます。 例えば、LED を高速で点滅させると、人間の目には明るさが変化しているように見えます。
 
-**Why Use PWM?**
+**PWM の活用例**
 
-* **LED Brightness Control**: Smoothly adjust the brightness of LEDs.
-* **Motor Speed Control**: Control the speed of DC motors.
-* **Efficiency**: PWM is more efficient than using variable resistors because it reduces energy loss in the form of heat.
+* **LED の明るさ調整**: 滑らかに明るさを変える。  
+* **モーターの速度制御**: DC モーターの回転数を調整する。  
+* **省エネルギー**: 可変抵抗を使うよりも熱損失が少なく、効率的に電力を制御できる。  
 
-**Understanding PWM on the Raspberry Pi Pico 2**
+**Raspberry Pi Pico 2 の PWM 機能**
 
-The Raspberry Pi Pico 2 has PWM capabilities on all its GPIO pins, but it actually has 8 PWM slices (from PWM0 to PWM7), each with two channels (A and B), giving a total of 16 independent PWM outputs.
+Raspberry Pi Pico 2 はすべての GPIO ピンで PWM をサポートしています。 しかし、実際には 8 つの PWM スライス（PWM0～PWM7）を持ち、それぞれ A/B の 2 チャンネルを使用できるため、 最大16 個の独立した PWM 出力が利用可能です。
 
 |pin_pwm|
 
 .. note::
-     Pins sharing the same PWM slice (like GP0 and GP16) cannot have different frequencies but can have different duty cycles.
+     同じ PWM スライスを共有するピン（例: GP0 と GP16）は、異なるデューティサイクルを設定できますが、 **異なる周波数には設定できません** 。
 
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+すべて揃ったキットを購入すると便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
-        - |link_newton_lab_kit|
+    *   - 名称  
+        - キットに含まれるアイテム  
+        - リンク  
+    *   - Newton Lab Kit  
+        - 450点以上  
+        - |link_newton_lab_kit|  
 
-You can also buy them separately from the links below.
-
+個別に購入する場合は、以下のリンクからどうぞ。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - SN  
+        - コンポーネント  
+        - 数量  
+        - リンク  
 
-    *   - 1
-        - :ref:`cpn_pico_2`
-        - 1
-        - |link_pico2_buy|
-    *   - 2
-        - Micro USB Cable
-        - 1
-        - 
-    *   - 3
-        - :ref:`cpn_breadboard`
-        - 1
-        - |link_breadboard_buy|
-    *   - 4
-        - :ref:`cpn_wire`
-        - Several
-        - |link_wires_buy|
-    *   - 5
-        - :ref:`cpn_resistor`
-        - 1(220Ω)
-        - |link_resistor_buy|
-    *   - 6
-        - :ref:`cpn_led`
-        - 1
-        - |link_led_buy|
+    *   - 1  
+        - :ref:`cpn_pico_2`  
+        - 1  
+        - |link_pico2_buy|  
+    *   - 2  
+        - Micro USB ケーブル  
+        - 1  
+        -  
+    *   - 3  
+        - :ref:`cpn_breadboard`  
+        - 1  
+        - |link_breadboard_buy|  
+    *   - 4  
+        - :ref:`cpn_wire`  
+        - 数本  
+        - |link_wires_buy|  
+    *   - 5  
+        - :ref:`cpn_resistor`  
+        - 1 (220Ω)  
+        - |link_resistor_buy|  
+    *   - 6  
+        - :ref:`cpn_led`  
+        - 1  
+        - |link_led_buy|  
 
-**Circuit Diagram**
+**回路図**
 
 |sch_led|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_led|
 
-**Writing the Code**
+**コードの記述**
 
 .. note::
 
-   * You can open the file ``2.3_fading_led.ino`` from ``newton-lab-kit/arduino/2.3_fading_led``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``2.3_fading_led.ino`` を ``newton-lab-kit/arduino/2.3_fading_led`` から開くことができます。  
+   * または、このコードを **Arduino IDE** にコピーしてください。  
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定して「Upload」をクリックしてください。  
 
 .. code-block:: Arduino
 
-    const int ledPin = 15; // GPIO pin connected to the LED
+    const int ledPin = 15; // LED を接続する GPIO ピン
 
     void setup() {
-      pinMode(ledPin, OUTPUT); // Initialize the GPIO pin as an output
+      pinMode(ledPin, OUTPUT); // GPIO ピンを出力として設定
     }
 
     void loop() {
-      // Increase brightness
+      // 明るさを徐々に上げる
       for (int value = 0; value <= 255; value += 5) {
-        analogWrite(ledPin, value); // Set the brightness
-        delay(30);                  // Wait for 30 milliseconds
+        analogWrite(ledPin, value); // 明るさを設定
+        delay(30);                  // 30 ミリ秒待機
       }
-      // Decrease brightness
+      // 明るさを徐々に下げる
       for (int value = 255; value >= 0; value -= 5) {
         analogWrite(ledPin, value);
         delay(30);
       }
     }
 
-After uploading the code, you should see the LED gradually increase in brightness and then fade, creating a smooth pulsing effect.
+コードをアップロードすると、LED の明るさが徐々に上がり、また徐々に暗くなる「フェード効果」が確認できます。
 
-**Understanding the Code**
+**コードの解説**
 
-#. Declaring the LED Pin:
-   
-   Declare a constant integer ``ledPin`` and assign it the value 15, which corresponds to GPIO pin 15 where the LED is connected.
+#. LED ピンの定義
+
+   ``ledPin`` という定数を定義し、GPIO 15 に接続された LED を制御。
 
    .. code-block:: Arduino
 
         const int ledPin = 15;
 
+#. ピンの初期設定
 
-#. Setting Up the Pin:
-   
-   The ``setup()`` function runs once when the board powers up. We initialize ``ledPin`` as an output using ``pinMode()``.
+   ``setup()`` 関数で ``ledPin`` を 出力モード に設定。
 
    .. code-block:: Arduino
 
@@ -160,39 +159,40 @@ After uploading the code, you should see the LED gradually increase in brightnes
           pinMode(ledPin, OUTPUT);
         }
 
+#. ループ関数
 
-#. The Loop Function:
-   
-    The ``loop()`` function runs repeatedly. It contains two ``for`` loops:
+    ``loop()`` 関数は繰り返し実行されます。  
+    ここでは 2 つの ``for`` ループを使用しています。
 
-     * Increasing Brightness: Starts with ``value = 0`` and increases by 5 until it reaches 255.
-     * Decreasing Brightness: Starts with value = 255 and decreases by 5 down to 0.
-     
-   * The ``analogWrite()`` function writes a PWM signal to the specified pin. The value ranges from 0 (always off) to 255 (always on), allowing for 256 levels of brightness.
-   * Adding ``delay(30);`` slows down the loop, so the change in brightness is gradual and visible to the human eye.
+     * 明るさを上げる: ``value = 0`` から 5 ずつ増加し、255 になるまで繰り返す。  
+     * 明るさを下げる: ``value = 255`` から 5 ずつ減少し、0 になるまで繰り返す。  
+
+   * ``analogWrite()`` 関数は、指定したピンに PWM 信号を出力します。 0（常時 OFF）～255（常時 ON）の範囲で値を指定し、256 段階の明るさを制御できます。  
+   * ``delay(30);`` を追加することでループの実行を遅らせ、明るさの変化を人間の目で滑らかに感じられるようにします。
 
    .. code-block:: Arduino
 
         void loop() {
-          // Increase brightness
+          // 明るさを上げる
           for (int value = 0; value <= 255; value += 5) {
             analogWrite(ledPin, value);
             delay(30);
           }
-          // Decrease brightness
+          // 明るさを下げる
           for (int value = 255; value >= 0; value -= 5) {
             analogWrite(ledPin, value);
             delay(30);
           }
         }
 
+**追加のヒント**
 
-**Additional Tips**
+* **実験してみよう**: 増加・減少のステップ幅やdelayの時間を変更し、フェードの速度がどう変わるか試してみましょう。  
+* **PWM の制限を理解する**: Pico のすべての GPIO ピンは PWM をサポートしていますが、同じ PWM スライスを共有するピンは異なる周波数を設定できません（デューティサイクルは個別に設定可能）。  
+* **安全対策**: LED に過電流が流れると故障する可能性があるため、必ず適切な抵抗を使用してください。  
 
-* **Experiment**: Try changing the value increments or the delay duration to see how it affects the fading speed.
-* **Understanding PWM Limitations**: While all GPIO pins on the Pico support PWM, pins sharing the same PWM slice cannot have different frequencies but can have different duty cycles.
-* **Safety First**: Always use a resistor with the LED to prevent it from drawing too much current and burning out.
+**まとめ**
 
-**Conclusion**
-
-You've successfully created a fading LED effect using PWM on the Raspberry Pi Pico 2. This project demonstrates how PWM can be used to simulate analog behavior with digital signals, a fundamental concept in electronics and programming microcontrollers.
+PWM を使用して、Raspberry Pi Pico 2 でLED のフェード（明るさの変化）を実現できました。  
+このプロジェクトでは、デジタル信号を用いてアナログ動作をシミュレートする方法を学びました。  
+これは、マイコンや電子回路設計における基本的な概念の 1 つであり、LED 制御だけでなく、モーターや音の出力制御など幅広い用途に応用できます。

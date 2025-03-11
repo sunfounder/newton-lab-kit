@@ -1,109 +1,87 @@
-.. note::
+.. note:: 
+    FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について熱心な仲間たちとさらに深く掘り下げましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由**
 
-    **Why Join?**
+    - **専門的サポート**: コミュニティとチームの支援により、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: ヒントやチュートリアルを交換して、スキルを向上させましょう。
+    - **独占的プレビュー**: 新製品の発表やスニークピークに早期アクセスが可能です。
+    - **特別割引**: 最新製品の独占割引をお楽しみください。
+    - **お祭りプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探検し、創造しませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _cpn_mpu6050:
 
-MPU6050 Module
+MPU6050モジュール
 ===========================
 
 **MPU6050**
 
 |img_mpu6050|
 
-The MPU-6050 is a 6-axis(combines 3-axis Gyroscope, 3-axis
-Accelerometer) motion tracking devices.
+MPU-6050は、3軸ジャイロスコープと3軸加速度計を組み合わせた6軸モーショントラッキングデバイスです。
 
-Its three coordinate systems are defined as follows:
+以下のように三つの座標系が定義されています:
 
-Put MPU6050 flat on the table, assure that the face with label is upward
-and a dot on this surface is on the top left corner. Then the upright
-direction upward is the z-axis of the chip. The direction from left to
-right is regarded as the X-axis. Accordingly the direction from back to
-front is defined as the Y-axis.
+MPU6050をテーブルの上に平らに置き、ラベルが上向きになるようにし、この面の左上の角
+にドットがある場合、上向きの方向がチップのz軸です。左から右への方向がX軸と見なされ、
+それに応じて後ろから前への方向がY軸と定義されます。
 
 |img_mpu6050_a| 
 
 
-**3-axis Accelerometer**
+**3軸加速度計**
 
-The accelerometer works on the principle of piezo electric effect, the
-ability of certain materials to generate an electric charge in response
-to applied mechanical stress.
+加速度計は圧電効果の原理、つまり一定の材料が機械的ストレスに応じて電荷を発生させる能力に
+基づいて動作します。
 
-Here, imagine a cuboidal box, having a small ball inside it, like in the
-picture above. The walls of this box are made with piezo electric
-crystals. Whenever you tilt the box, the ball is forced to move in the
-direction of the inclination, due to gravity. The wall with which the
-ball collides, creates tiny piezo electric currents. There are totally,
-three pairs of opposite walls in a cuboid. Each pair corresponds to an
-axis in 3D space: X, Y and Z axes. Depending on the current produced
-from the piezo electric walls, we can determine the direction of
-inclination and its magnitude.
+ここで、内部に小さな球が入っている立方体の箱を想像してください。箱の壁は圧電結晶でできています。
+箱を傾けると、重力のために球は傾斜の方向に動かされます。球が衝突する壁は、微小な圧電電流を生成します。
+立方体には反対側の壁が3組あり、各組は3D空間のX、Y、Z軸に対応します。壁から生成される電流に応じて、
+傾斜の方向とその大きさを判断することができます。
 
 |img_mpu6050_a2|
 
+MPU6050を使用して、各座標軸の加速度を検出することができます（静止状態のデスクトップで、
+Z軸の加速度は重力単位で1、X軸とY軸は0です）。傾斜しているか、無重力/過重状態にある場合、
+対応する読み取り値が変化します。
 
-We can use the MPU6050 to detect its acceleration on each coordinate
-axis (in the stationary desktop state, the Z-axis acceleration is 1
-gravity unit, and the X and Y axes are 0). If it is tilted or in a
-weightless/overweight condition, the corresponding reading will change.
+プログラムで選択できる4種類の測定範囲があります：+/-2g、+/-4g、+/-8g、+/-16g（デフォルトは2g）
+で、値は-32768から32767までの範囲です。
 
-There are four kinds of measuring ranges that can be selected
-programmatically: +/-2g, +/-4g, +/-8g, and +/-16g (2g by default)
-corresponding to each precision. Values range from -32768 to 32767.
+加速度計の読み取りは、読み取り範囲から測定範囲に読み取りをマッピングすることによって加速度値に変換されます。
 
-The reading of accelerometer is converted to an acceleration value by
-mapping the reading from the reading range to the measuring range.
+加速度 = (加速度計軸の生データ / 65536 * 全スケール加速度範囲) g
 
-Acceleration = (Accelerometer axis raw data / 65536 \* full scale
-Acceleration range) g
+例としてX軸を挙げると、加速度計X軸の生データが16384で、範囲が+/-2gに選択されている場合：
 
-Take the X-axis as an example, when Accelerometer X axis raw data is
-16384 and the range is selected as +/-2g:
+**X軸の加速度 = (16384 / 65536 * 4) g** **=1g**
 
-**Acceleration along the X axis = (16384 / 65536 \* 4) g**  **=1g**
+**3軸ジャイロスコープ**
 
-**3-axis Gyroscope**
-
-Gyroscopes work on the principle of Coriolis acceleration. Imagine that
-there is a fork like structure, that is in constant back and forth
-motion. It is held in place using piezo electric crystals. Whenever, you
-try to tilt this arrangement, the crystals experience a force in the
-direction of inclination. This is caused as a result of the inertia of
-the moving fork. The crystals thus produce a current in consensus with
-the piezo electric effect, and this current is amplified.
+ジャイロスコープはコリオリ加速度の原理に基づいて動作します。
+バックアンドフォースモーションの定数で動くフォークのような構造があり、
+それは圧電結晶を使用して固定されています。この配置を傾けようとすると、
+傾斜の方向に力を感じる結晶が生じます。これは動いているフォークの慣性の結果です。
+したがって、これらの結晶は圧電効果に応じて電流を生成し、この電流は増幅されます。
 
 |img_mpu6050_g|
 
-The Gyroscope also has four kinds of measuring ranges: +/- 250, +/- 500,
-+/- 1000, +/- 2000. The calculation method and Acceleration are
-basically consistent.
+ジャイロスコープには、+/- 250、+/- 500、+/- 1000、+/- 2000の4種類の測定範囲があります。
+計算方法と加速度は基本的に一致しています。
 
-The formula for converting the reading into angular velocity is as
-follows:
+読み取りを角速度に変換する式は以下の通りです：
 
-Angular velocity = (Gyroscope axis raw data / 65536 \* full scale
-Gyroscope range) °/s
+角速度 = (ジャイロスコープ軸の生データ / 65536 * 全スケールジャイロスコープ範囲) °/s
 
-The X axis, for example, the Accelerometer X axis raw data is 16384 and
-ranges + / - 250°/ s:
+例えばX軸で、加速度計X軸の生データが16384で、範囲が+/-250°/sの場合：
 
-**Angular velocity along the X axis = (16384 / 65536 \* 500)°/s** **=125°/s**
+**X軸の角速度 = (16384 / 65536 * 500)°/s** **=125°/s**
 
-**Example**
+**例**
 
-* :ref:`py_mpu6050` (For MicroPython User)
-* :ref:`py_somato_controller` (For MicroPython User)
-* :ref:`py_bubble_level` (For MicroPython User)
-* :ref:`ar_mpu6050` (For Arduino User)
+* :ref:`py_mpu6050` (MicroPythonユーザー向け)
+* :ref:`py_somato_controller` (MicroPythonユーザー向け)
+* :ref:`py_bubble_level` (MicroPythonユーザー向け)
+* :ref:`ar_mpu6050` (Arduinoユーザー向け)

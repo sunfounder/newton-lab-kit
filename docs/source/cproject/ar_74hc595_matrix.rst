@@ -1,120 +1,123 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！Raspberry Pi、Arduino、ESP32 に関する知識を深め、仲間たちと一緒に楽しみましょう。
 
-    **Why Join?**
+    **参加するメリット**  
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティメンバーやチームのサポートで解決。  
+    - **学びと共有**：ヒントやチュートリアルを交換し、スキルを向上。  
+    - **最新情報の先行公開**：新製品の発表やプレビューをいち早くチェック。  
+    - **特別割引**：最新製品を会員限定の特別価格で購入可能。  
+    - **イベント & プレゼント企画**：プレゼントキャンペーンや季節ごとのプロモーションに参加可能。  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒にものづくりを楽しみましょう！[|link_sf_facebook|] をクリックして、今すぐ参加！  
 
 .. _ar_74hc_788bs:
 
-5.4 Displaying Graphics on an 8x8 LED Matrix
+5.4 8x8 LEDマトリクスでグラフィックを表示する
 ===================================================================
 
-In this lesson, we'll learn how to control an **8x8 LED matrix** using the Raspberry Pi Pico 2 and two **74HC595 shift registers**. We'll display patterns and simple graphics by controlling individual LEDs on the matrix.
+このレッスンでは、Raspberry Pi Pico 2 と **74HC595 シフトレジスタ** を 2 つ使用し、 **8x8 LEDマトリクス** を制御する方法を学びます。  
+個々の LED を制御し、パターンや簡単なグラフィックを表示します。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+すべて揃ったキットを購入すると便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
-        - |link_newton_lab_kit|
+    *   - 名称  
+        - キットに含まれるアイテム  
+        - リンク  
+    *   - Newton Lab Kit  
+        - 450点以上  
+        - |link_newton_lab_kit|  
 
-You can also buy them separately from the links below.
-
+個別に購入する場合は、以下のリンクからどうぞ。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - SN  
+        - コンポーネント  
+        - 数量  
+        - リンク  
 
-    *   - 1
-        - :ref:`cpn_pico_2`
-        - 1
-        - |link_pico2_buy|
-    *   - 2
-        - Micro USB Cable
-        - 1
-        - 
-    *   - 3
-        - :ref:`cpn_breadboard`
-        - 1
-        - |link_breadboard_buy|
-    *   - 4
-        - :ref:`cpn_wire`
-        - Several
-        - |link_wires_buy|
-    *   - 5
-        - :ref:`cpn_dot_matrix`
-        - 1
-        - 
-    *   - 6
-        - :ref:`cpn_74hc595`
-        - 2
-        - |link_74hc595_buy|
+    *   - 1  
+        - :ref:`cpn_pico_2`  
+        - 1  
+        - |link_pico2_buy|  
+    *   - 2  
+        - Micro USB ケーブル  
+        - 1  
+        -  
+    *   - 3  
+        - :ref:`cpn_breadboard`  
+        - 1  
+        - |link_breadboard_buy|  
+    *   - 4  
+        - :ref:`cpn_wire`  
+        - 数本  
+        - |link_wires_buy|  
+    *   - 5  
+        - :ref:`cpn_dot_matrix`  
+        - 1  
+        -  
+    *   - 6  
+        - :ref:`cpn_74hc595`  
+        - 2  
+        - |link_74hc595_buy|  
 
-**Understanding the 8x8 LED Matrix**
+**8x8 LEDマトリクスの仕組み**
 
-An 8x8 LED matrix consists of 64 LEDs arranged in 8 rows and 8 columns. Each LED can be individually controlled by applying voltage across its row and column. By controlling the current through each pair of rows and columns, we can control each LED to display characters or patterns.
+8x8 LEDマトリクスは、8行×8列に配置された合計 64 個の LED で構成されます。 各 LED は、行と列の電圧制御によって個別に点灯させることができます。  
+このプロジェクトでは、74HC595 シフトレジスタ を 2 つ使用して LED の行と列を制御し、Pico の GPIO ピンの使用数を節約します。
 
-In this setup, we'll use two 74HC595 shift registers to control the rows and columns of the LED matrix, effectively expanding the number of outputs from the Raspberry Pi Pico 2 while using only a few GPIO pins.
-
-**Circuit Diagram**
+**回路図**
 
 |sch_ledmatrix|
 
-The 8x8 LED dot matrix is controlled by two **74HC595** shift registers: one controls the rows, and the other controls the columns. These two chips share the Pico's GPIO pins **GP18**, **GP19**, and **GP20**, greatly conserving the Pico's I/O ports.
+8x8 LEDドットマトリクスは、2つの **74HC595** シフトレジスタによって制御されます。1つは行（ROW）を、もう1つは列（COLUMN）を担当します。  
+これらの2つのチップは、Raspberry Pi Pico の GPIO ピン GP18、GP19、GP20 を共有し、Pico の I/O ポートを大幅に節約できます。
 
-The Pico outputs a 16-bit binary number at a time. The first 8 bits are sent to the 74HC595 controlling the rows, and the last 8 bits are sent to the 74HC595 controlling the columns. This allows the dot matrix to display specific patterns.
+Pico は 16 ビットのバイナリデータを一度に出力します。  
+最初の 8 ビットは行を制御する 74HC595 に送信され、最後の 8 ビットは列を制御する 74HC595 に送信されます。  
+これにより、ドットマトリクス上に特定のパターンを表示できます。
 
-**Q7' (Pin 9)**: This serial data output pin of the first 74HC595 connects to the **DS (Pin 14)** of the second 74HC595, enabling you to chain multiple 74HC595 chips together.
+**Q7' (Pin 9)**:  
+最初の 74HC595 のシリアルデータ出力ピンであり、2つ目の 74HC595 の **DS (Pin 14)** に接続します。  
+これにより、複数の 74HC595 チップを直列に接続（カスケード接続）できます。
 
-**Wiring Diagram**
+**配線図**
 
-Building the circuit can be complex, so let's proceed step by step.
+回路の構築はやや複雑なので、ステップごとに進めていきます。
 
-
-**Step 1:**  First, insert the pico, the LED dot matrix
-and two 74HC595 chips into breadboard. Connect the 3.3V and GND of the
-pico to holes on the two sides of the board, then hook up pin16 and
-10 of the two 74HC595 chips to VCC, pin 13 and pin 8 to GND.
+**ステップ 1:**  
+まず、Pico、LEDドットマトリクス、2つの 74HC595 をブレッドボードに挿入します。  
+Pico の 3.3V と GND をブレッドボードの両側の電源ラインに接続し、  
+2つの 74HC595 の Pin 16 および 10 を VCC（3.3V）に、Pin 13 および 8 を GND に接続します。
 
 .. note::
-   In the Fritzing image above, the side with label is at the bottom.
+   上の Fritzing 図では、ラベルが付いている側が下側になっています。
 
 |wiring_ledmatrix_4|
 
-**Step 2:** Connect pin 11 of the two 74HC595 together, and then to
-GP20; then pin 12 of the two chips, and to GP19; next, pin 14 of the
-74HC595 on the left side to GP18 and pin 9 to pin 14 of the second
-74HC595.
+**ステップ 2:**  
+2 つの 74HC595 の Pin 11 を接続し、GP20 へ接続。  
+また、Pin 12 を接続し、GP19 へ、左側の 74HC595 の Pin 14 を GP18 へ接続。  
+さらに、1 つ目の 74HC595 の Pin 9 を 2 つ目の 74HC595 の Pin 14 へ接続。
 
 |wiring_ledmatrix_3|
 
-**Step 3:** The 74HC595 on the right side is to control columns of the
-LED dot matrix. See the table below for the mapping. Therefore, Q0-Q7
-pins of the 74HC595 are mapped with pin 13, 3, 4, 10, 6, 11, 15, and 16
-respectively.
+**ステップ 3:**  
+右側の 74HC595 は LED ドットマトリクスの列を制御します。  
+以下の表に対応関係を示しています。  
+Q0～Q7 のピンは、それぞれ LED ドットマトリクスの Pin 13、3、4、10、6、11、15、16 にマッピングされます。
 
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
 | **74HC595**        | **Q0** | **Q1** | **Q2** | **Q3** | **Q4** | **Q5** | **Q6** | **Q7** |
@@ -124,10 +127,11 @@ respectively.
 
 |wiring_ledmatrix_2|
 
-**Step 4:** Now connect the ROWs of the LED dot matrix. The 74HC595 on
-the left controls ROW of the LED dot matrix. See the table below for the
-mapping. We can see, Q0-Q7 of the 74HC595 on the left are mapped with
-pin 9, 14, 8, 12, 1, 7, 2, and 5 respectively.
+**ステップ 4:**  
+次に、LED ドットマトリクスの行（ROW）を接続します。  
+左側の 74HC595 が LED ドットマトリクスの行を制御します。  
+以下の表に対応関係を示しています。  
+Q0～Q7 のピンは、それぞれ LED ドットマトリクスの Pin 9、14、8、12、1、7、2、5 にマッピングされます。
 
 +--------------------+--------+--------+--------+--------+--------+--------+--------+--------+
 | **74HC595**        | **Q0** | **Q1** | **Q2** | **Q3** | **Q4** | **Q5** | **Q6** | **Q7** |
@@ -138,21 +142,21 @@ pin 9, 14, 8, 12, 1, 7, 2, and 5 respectively.
 |wiring_ledmatrix_1|
 
 
-**Writing the Code**
+**コードの記述**
 
 .. note::
 
-   * You can open the file ``5.4_8x8_pixel_graphics.ino`` from ``newton-lab-kit/arduino/5.4_8x8_pixel_graphics``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``5.4_8x8_pixel_graphics.ino`` を ``newton-lab-kit/arduino/5.4_8x8_pixel_graphics`` から開くことができます。  
+   * または、このコードを **Arduino IDE** にコピーしてください。  
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定して「Upload」をクリックしてください。  
 
 .. code-block:: arduino
 
-    const int STcp = 19;  // Pin connected to ST_CP (latch pin) of 74HC595
-    const int SHcp = 20;  // Pin connected to SH_CP (clock pin) of 74HC595
-    const int DS = 18;    // Pin connected to DS (data pin) of 74HC595
+    const int STcp = 19;  // 74HC595 の ST_CP（ラッチピン）
+    const int SHcp = 20;  // 74HC595 の SH_CP（クロックピン）
+    const int DS = 18;    // 74HC595 の DS（データピン）
 
-    // Data array representing the 'X' shape on an 8x8 LED matrix
+    // 8x8 LED マトリクスに 'X' を表示するデータ配列
     byte datArray[] = {0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E};
 
     void setup() {
@@ -166,48 +170,47 @@ pin 9, 14, 8, 12, 1, 7, 2, and 5 respectively.
     {
       for(int num = 0; num <8; num++)
       {
-        digitalWrite(STcp,LOW); //ground ST_CP and hold low for as long as you are transmitting
+        digitalWrite(STcp, LOW); // ST_CP を LOW にしてデータ送信中の状態を維持
         shiftOut(DS,SHcp,MSBFIRST,datArray[num]);
-        shiftOut(DS,SHcp,MSBFIRST,0x80>>num);    
-        //return the latch pin high to signal chip that it 
-        //no longer needs to listen for information
-        digitalWrite(STcp,HIGH); //pull the ST_CPST_CP to save the data
+        shiftOut(DS,SHcp,MSBFIRST,0x80>>num);      
+        // ラッチピンを HIGH に戻し、シフトレジスタにデータ転送が完了したことを通知
+        digitalWrite(STcp, HIGH); // ST_CP を HIGH にしてデータを確定
       }
     }
 
 
 
-After uploading the code, the LED matrix should display an 'X' pattern by lighting up the appropriate LEDs.
-If the pattern is not visible, try adjusting the timing or check the wiring connections.
+コードをアップロードすると、LED マトリクスに 'X' のパターンが表示されるはずです。  
+もしパターンが正しく表示されない場合は、タイミングの調整や配線の確認を行ってください。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Pin Definitions:
+#. ピンの定義:
 
-   * ``STcp (ST_CP)``: Used to latch the shifted data into the output register on a rising edge.
-   * ``SHcp (SH_CP)``: Shifts data into the register on each rising edge.
-   * ``DS``: Serial data input for the shift register.
+   * ``STcp (ST_CP)``: シフトされたデータを出力レジスタにラッチするためのピン
+   * ``SHcp (SH_CP)``: シフトレジスタにデータを送るクロック信号
+   * ``DS``: シフトレジスタに送信するシリアルデータ入力
 
    .. code-block:: arduino
 
-      const int STcp = 19;  // Latch pin (ST_CP) of 74HC595
-      const int SHcp = 20;  // Clock pin (SH_CP) of 74HC595
-      const int DS = 18;    // Data pin (DS) of 74HC595
+      const int STcp = 19;  // 74HC595 の ST_CP（ラッチピン）
+      const int SHcp = 20;  // 74HC595 の SH_CP（クロックピン）
+      const int DS = 18;    // 74HC595 の DS（データピン）
 
-#. Data Array (``datArray``):
+#. データ配列（ ``datArray`` ）:
 
-   * Each element represents a row in the LED matrix.
-   * The hex values correspond to the LEDs that should be lit (0) or off (1) in each row.
-   * This pattern forms a symmetrical 'X' shape across the matrix.
+   * 各要素が LED マトリクスの 1 行を表します。
+   * 16 進数の値は、その行で点灯（1）または消灯（0）する LED を表します。
+   * これにより、マトリクス上に左右対称の 'X' 形状を描画できます。
 
    .. code-block:: arduino
 
       byte datArray[] = {0x7E, 0xBD, 0xDB, 0xE7, 0xE7, 0xDB, 0xBD, 0x7E};
-  
 
-#. Setup Function:
 
-   Initializes the control pins as outputs to communicate with the shift registers.
+#. セットアップ関数:
+
+   シフトレジスタと通信するために制御ピンを出力として初期化します。
 
    .. code-block:: arduino
 
@@ -218,12 +221,12 @@ If the pattern is not visible, try adjusting the timing or check the wiring conn
         pinMode(DS, OUTPUT);
       }
 
-#. Loop Function:
+#. ループ関数:
 
-   * ``num`` ranges from 0 to 7, representing each row of the LED matrix.
-   * ``0x80>>num`` activates one row at a time.
-   * ``shiftOut()`` sends the column and row data to the shift registers, starting with the most significant bit (``MSBFIRST``).
-   * Latches the data to the output pins by toggling the ``STcp``.
+   * ``num`` の値（0 から 7）が、それぞれ LED マトリクスの行を表します。
+   * ``0x80 >> num`` により、1 行ずつアクティブにして点灯させます。
+   * ``shiftOut()`` を使用して、最上位ビット（ ``MSBFIRST`` ）から順にデータを送信。
+   * ``STcp`` の状態を切り替えることでデータを確定させます。
 
    .. code-block:: arduino
 
@@ -240,33 +243,34 @@ If the pattern is not visible, try adjusting the timing or check the wiring conn
         }
       }
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* No Dots Lighting Up:
+* LED が点灯しない場合 
 
-  * Verify all power connections.
-  * Ensure that the shift registers are properly connected to the Pico.
-  
-* Incorrect Patterns:
+  * 電源接続を確認する  
+  * シフトレジスタが正しく Pico に接続されていることを確認する  
 
-  * Double-check the pattern array.
-  * Ensure that the rows and columns are correctly wired to the shift registers.
+* 表示が崩れる場合  
 
-* Flickering or Unstable Display:
+  * datArray内のパターンを再確認する  
+  * 行と列の接続が間違っていないかチェックする  
 
-  * Adjust the delay value in the loop to find a balance between performance and visual stability.
-  * Ensure that power supply is stable and sufficient for the number of LEDs being used.
+* ちらつきや不安定な表示 
+
+  * loop内のディレイを調整し、安定した表示を確認する  
+  * 電源が LED 数に対して十分であるかを確認する  
 
 
-**Experimenting Further**
+**さらなる実験**
 
-* Changing the Pattern
+* パターンの変更  
 
-  Try replacing the pattern list with the following arrays to display different graphics. Replace pattern in your code with ``pattern_heart`` or ``pattern_smile`` to see different images.
+  下記の配列を使用して、異なる図形を表示できます。  
+  datArrayを ``pattern_heart`` や ``pattern_smile`` に置き換えて試してください。
 
   .. code-block:: arduino
 
-      // Heart shape pattern
+      // ハート型パターン
       byte pattern_heart[] = {
         0xFF, // 11111111
         0x99, // 10011001
@@ -278,7 +282,7 @@ If the pattern is not visible, try adjusting the timing or check the wiring conn
         0xE7  // 11100111
       };
 
-      // Smile face pattern
+      // スマイルフェイスパターン
       byte pattern_smile[] = {
         0xC3, // 11000011
         0xBD, // 10111101
@@ -290,62 +294,66 @@ If the pattern is not visible, try adjusting the timing or check the wiring conn
         0xC3  // 11000011
       };
 
-* Animating the Display
+* アニメーションの作成
 
-  Create multiple patterns and cycle through them to create animations:
+  複数のパターンを切り替えてアニメーションを作成できます。
 
   .. code-block:: arduino
-        
-      const int STcp = 19;  // Pin connected to ST_CP (latch pin) of 74HC595
-      const int SHcp = 20;  // Pin connected to SH_CP (clock pin) of 74HC595
-      const int DS = 18;    // Pin connected to DS (data pin) of 74HC595
 
-      // Heart shape pattern
+      const int STcp = 19;  // 74HC595 の ST_CP（ラッチピン）に接続
+      const int SHcp = 20;  // 74HC595 の SH_CP（クロックピン）に接続
+      const int DS = 18;    // 74HC595 の DS（データピン）に接続
+
+      // ハート形パターン
       byte pattern_heart[] = { 0xFF, 0x99, 0x00, 0x00, 0x00, 0x81, 0xC3, 0xE7 };
 
-      // Smile face pattern
+      // スマイルフェイスパターン
       byte pattern_smile[] = { 0xC3, 0xBD, 0x5A, 0x7E, 0x5A, 0x66, 0xBD, 0xC3 };
 
       void setup() {
-        // Set pins as outputs
+        // ピンを出力として設定
         pinMode(STcp, OUTPUT);
         pinMode(SHcp, OUTPUT);
         pinMode(DS, OUTPUT);
       }
 
       void latchData() {
-        // Latch the shifted data to the output pins of the 74HC595
-        digitalWrite(STcp, HIGH);  // Latch data
-        digitalWrite(STcp, LOW);   // Prepare for the next data transmission
+        // シフトされたデータを 74HC595 の出力ピンにラッチ
+        digitalWrite(STcp, HIGH);  // データをラッチ
+        digitalWrite(STcp, LOW);   // 次のデータ送信に備える
       }
 
       void displayPattern(byte pattern[]) {
-        for (int repeat = 0; repeat < 500; repeat++) {  // Display the pattern for a certain duration
+        for (int repeat = 0; repeat < 500; repeat++) {  // パターンを一定時間表示
           for (int row = 0; row < 8; row++) {
-            // Begin data transmission
-            digitalWrite(STcp, LOW);  // Prepare to shift data
+            // データ送信の開始
+            digitalWrite(STcp, LOW);  // シフトデータ送信準備
 
-            // Shift out column data (pattern for the current row)
+            // 列データをシフトレジスタへ送信（現在の行のパターン）
             shiftOut(DS, SHcp, MSBFIRST, pattern[row]);
 
-            // Shift out row data (activating one row at a time)
+            // 行データを送信（1 行ずつアクティブに）
             shiftOut(DS, SHcp, MSBFIRST, 1 << row);
 
-            // Latch the data to display
+            // データをラッチして表示
             latchData();
 
-            // Short delay for persistence of vision
+            // 残像効果を利用するための短い遅延
             delay(1);
           }
         }
       }
 
       void loop() {
-        // Continuously display patterns: heart and smiley face
-        displayPattern(pattern_heart);  // Display the heart shape
-        displayPattern(pattern_smile);  // Display the smiley face
+        // ハートとスマイルのパターンを交互に表示
+        displayPattern(pattern_heart);  // ハートを表示
+        displayPattern(pattern_smile);  // スマイルを表示
       }
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to control an 8x8 LED matrix using the Raspberry Pi Pico and two 74HC595 shift registers. By leveraging shift registers, you can efficiently manage multiple LEDs with minimal GPIO usage, allowing for more complex and interactive projects. Understanding how to send serial data and latch it into parallel outputs enables you to create dynamic patterns and graphics on the LED matrix.
+このレッスンでは、Raspberry Pi Pico と 2 つの 74HC595 シフトレジスタを使用して 8x8 LED マトリクスを制御する方法を学びました。  
+シフトレジスタを活用することで、最小限の GPIO ピンで複数の LED を効率的に管理でき、  
+より高度でインタラクティブなプロジェクトを実現できます。  
+シリアルデータの送信方法やラッチ機能を理解することで、ダイナミックなパターンやグラフィックの作成が可能になります。
+

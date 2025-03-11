@@ -1,58 +1,55 @@
-.. note::
+.. note:: 
+    こんにちは、FacebookでSunFounderのRaspberry Pi & Arduino & ESP32愛好家コミュニティにようこそ！Raspberry Pi、Arduino、ESP32に情熱を持つ仲間と共にさらに深く探求しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由**
 
-    **Why Join?**
+    - **エキスパートサポート**: コミュニティとチームの支援を受けながら、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やプレビューに早期アクセス。
+    - **特別割引**: 最新商品に対する独占割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや祭りのプロモーションに参加します。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探検し、創造する準備はできていますか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _cpn_diode:
 
-Diode
+ダイオード
 =================
 
 |img_diode|
 
-A diode is an electronic component with two electrodes. It allows current to flow in only one direction, which is often called the "Rectifying" function.
-Thus, a diode can be thought of as an electronic version of a check valve.
+ダイオードは、二つの電極を持つ電子部品で、「整流」とも呼ばれる一方向への電流の流れを許可します。
+ダイオードは、電子版の逆止弁と考えることができます。
 
+ダイオードの二つの端子は偏性を持ち、正の端をアノード、負の端をカソードと呼びます。
+カソードは通常、銀色または色のバンドで作られています。
+電流の流れの方向を制御することは、ダイオードの主要な特徴の一つです — ダイオード内の電流はアノードからカソードへと流れます。ダイオードの動作は、逆止弁の動作に似ています。ダイオードの最も重要な特性の一つは、非線形の電流電圧です。アノードに高電圧が接続されると、アノードからカソードへ電流が流れ、このプロセスを順方向バイアスと呼びます。しかし、高電圧がカソードに接続されると、ダイオードは電気を通しません。このプロセスは逆バイアスと呼ばれます。
 
-The two terminals of a diode are polarized, with the positive end called anode and the negative end called cathode. 
-The cathode is usually made of silver or has a color band. 
-Controlling the direction of current flow is one of the key features of diodes — the current in a diode flows from anode to cathode. The behavior of a diode is similar to the behavior of a check valve. One of the most important characteristics of a diode is the non-linear current voltage. If higher voltage is connected to the anode, then current flows from anode to cathode, and the process is known as forward bias. However, if the higher voltage is connected to the cathode, then the diode does not conduct electricity, and the process is called reverse bias.
+その一方向性の導電性のため、ダイオードはある程度の複雑さを持つほぼすべての電子回路で使用されています。ダイオードは最初に作られた半導体デバイスの一つで、その用途は広範囲にわたっています。
 
-Because of its unidirectional conductivity, the diode is used in almost all electronic circuits of some complexity. It was one of the first semiconductor devices to be created, and its applications are widespread.
+ただし、現実にはダイオードは完全なオンとオフの方向性を示すわけではなく、むしろより複雑な非線形の電子特性を示します。これはダイオードの技術タイプによって決まります。
 
-However in reality diodes do not exhibit such perfect on and off directionality, but rather more complex non-linear electronic characteristics - which are determined by the specific type of diode technology.
+ダイオードは、p型半導体とn型半導体によって形成されるp-n接合であり、その界面の両側に空間電荷層が形成され、自己建電場があります。外部電圧が印加されていない場合には、電気的平衡にあります。これは、p-n接合の両側のキャリア濃度の違いによる拡散電流と、自己建電場によるドリフト電流が等しいためです。順方向バイアス電圧が生成されると、外部電場と自己建電場の相互抑制により、キャリアの拡散電流が増加し、順方向電流（導電性の理由）が生じます。逆方向バイアス電圧が生成されると、外部電場と自己建電場がさらに強化され、逆バイアス電圧の値に関係なく一定の逆電圧範囲で逆飽和電流I0を形成します（非導電性の理由）。
+逆電圧がある程度高いとき、p-n接合の空間電荷層の電場強度は、キャリアの増倍プロセスを引き起こし、多数の電子-ホール対を生成し、大量の逆破壊電流が生じ、ダイオード破壊現象と呼ばれます。
 
-A diode is a p-n junction formed by a p-type semiconductor and an n-type semiconductor, with a space charge layer formed on both sides at its interface and a self-built electric field, which is in electrical equilibrium when no applied voltage is present because the diffusion current due to the difference in carrier concentration between the two sides of the p-n junction and the drift current due to the self-built electric field are equal. When the forward voltage bias is generated, the mutual suppression of the external electric field and the self-built electric field increases the diffusion current of the carriers causing the forward current (that is, the reason for the conductivity). When the reverse voltage bias is generated, the external electric field and the self-built electric field are further strengthened to form a reverse saturation current I0 in a certain reverse voltage range independent of the value of the reverse bias voltage (which is the reason for non-conductivity).
-When the applied reverse voltage is high to a certain extent, the electric field strength in the p-n junction space charge layer reaches a critical value to produce a multiplication process of carriers, generating a large number of electron-hole pairs, resulting in a large value of the reverse breakdown current, called the diode breakdown phenomenon.
+**1. 順方向特性**
 
-**1. Forward Characteristic**
+外部から順方向電圧が印加された場合、順方向特性の初期では、順方向電圧が非常に小さく、p-n接合の電場の遮断効果を克服するには不十分であり、順方向電流はほぼゼロです。この区間をデッドゾーンと呼びます。
+このダイオードが導通しない順方向電圧をデッドバンド電圧と呼びます。順方向電圧がデッドバンド電圧を超えると、p-n接合の電場が克服され、ダイオードが順方向に導通し、電流が電圧とともに急速に増加します。
+通常の使用電流範囲では、導通中のダイオードの端子電圧はほぼ一定で、この電圧をダイオードの順方向電圧と呼びます。
 
-When the external forward voltage is applied, in the beginning of the forward characteristic, the forward voltage is very small, not enough to overcome the blocking effect of the electric field in the p-n junction, the forward current is almost zero, this section is called the dead zone.
-This forward voltage that does not allow the diode to conduct is called the deadband voltage. When the forward voltage is greater than the deadband voltage, p-n junction electric field is overcome, the diode forward conduction, the current increases with the voltage and rises rapidly.
-In the normal use of the current range, the terminal voltage of the diode during conduction remains almost constant, this voltage is called the forward voltage of the diode.
+**2. 逆方向特性**
 
-**2. Reverse Characteristic**
+印加された逆電圧が一定の範囲を超えない場合、ダイオードを通過する電流は、数少ないキャリアの漂流運動によって形成される逆電流です。
+逆電流が非常に小さいため、ダイオードはカットオフ状態にあります。この逆電流は逆飽和電流またはリーク電流とも呼ばれ、温度の影響を大きく受けます。
 
-When the applied reverse voltage, and does not exceed a certain range, the current through the diode is a few carriers drifting movement formed by the reverse current.
-As the reverse current is very small, the diode is in the cutoff state. This reverse current is also known as reverse saturation current or leakage current, and is greatly influenced by temperature.
+**3. 破壊**
 
-**3. Breakdown**
+印加された逆電圧がある値を超えると、逆電流が突然増加し、電気的破壊と呼ばれる現象が発生します。
+電気的破壊を引き起こす臨界電圧を逆破壊電圧と呼び、ダイオードは電気的破壊時に一方向性を失います。
+したがって、ダイオードの使用時には印加される逆電圧が高すぎないように注意する必要があります。
 
-When the applied reverse voltage exceeds a certain value, the reverse current will suddenly increase, a phenomenon known as electrical breakdown.
-The critical voltage that causes electrical breakdown is called the reverse breakdown voltage, the diode will loses its unidirectional conductivity at the time of electrical breakdown.
-Therefore, the use of the diode should be avoided when the applied reverse voltage is too high.
-
-
-Early diodes consisted of "Cat's Whisker" Crystals and Vacuum tubes (also called "Thermionic Valves"). Most of today's most common diodes use semiconductor materials such as silicon or germanium.
+初期のダイオードは「Cat's Whisker」の結晶と真空管（「熱電子管」とも呼ばれる）で構成されていました。現在の最も一般的なダイオードは、シリコンまたはゲルマニウムなどの半導体材料を使用しています。
 
 * `P–N junction - Wikipedia <https://en.wikipedia.org/wiki/P-n_junction>`_
  

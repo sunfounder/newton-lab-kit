@@ -1,43 +1,43 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について一緒にもっと深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**：コミュニティやチームの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**：スキル向上のためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**：新製品の発表や先行公開に早期アクセス。
+    - **特別割引**：最新製品の独占割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**：ギブアウェイや祝祭のプロモーションに参加します。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造しませんか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _ar_micro:
 
-2.8 Press Gently
+2.8 優しく押して
 ==========================
 
-In this lesson, we'll learn how to use a **micro switch** (also known as a limit switch) with the Raspberry Pi Pico 2 to detect when it's pressed or released. Micro switches are commonly used in devices like microwave oven doors, printer covers, or as end stops in 3D printers because they are reliable and can handle frequent activation.
+このレッスンでは、Raspberry Pi Pico 2を使用して **マイクロスイッチ** （リミットスイッチとも呼ばれます）を利用し、押されたか放されたかを検出する方法を学びます。マイクロスイッチは、信頼性が高く頻繁な動作に耐えるため、電子レンジのドアやプリンターのカバー、3Dプリンターのエンドストップなどのデバイスによく使用されています。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全キットを購入することは非常に便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -45,16 +45,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -63,7 +63,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -78,106 +78,106 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Understanding the Micro Switch**
+**マイクロスイッチの理解**
 
-A micro switch typically has three pins:
+マイクロスイッチには通常、三つのピンがあります：
 
 |img_micro_switch|
 
-- **Common (C)**: The middle pin.
-- **Normally Open (NO)**: Connected to the common pin when the switch is **pressed**.
-- **Normally Closed (NC)**: Connected to the common pin when the switch is **not pressed**.
+- **コモン（C）**：中央のピン。
+- **ノーマリーオープン（NO）**：スイッチが **押された** ときにコモンピンに接続されます。
+- **ノーマリークローズド（NC）**：スイッチが **押されていない** ときにコモンピンに接続されます。
 
-By connecting the switch appropriately, we can detect when it's pressed by reading the voltage level on a GPIO pin.
+適切にスイッチを接続することで、GPIOピンの電圧レベルを読み取ることにより、スイッチが押されたときを検出できます。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_limit_sw|
 
-By default, GP14 is low and when pressed, GP14 is high.
+デフォルトでは、GP14は低く、押されるとGP14は高くなります。
 
-The purpose of the 10K resistor is to keep the GP14 low during pressing.
+10K抵抗の目的は、押す間GP14を低く保つことです。
 
-When you press a mechanical switch, the contacts may bounce, causing multiple rapid transitions between open and closed states. The capacitor connected between GP14 and GND helps filter out this noise.
+機械式スイッチを押すと、接点がバウンスし、開閉状態の間で複数回素早く遷移することがあります。GP14とGNDの間に接続されたコンデンサは、このノイズをフィルタリングするのに役立ちます。
 
-* **Switch Not Pressed**:
+* **スイッチが押されていない場合**：
 
-  * The **Common (C)** pin is connected to the **NC** pin, which is connected to **GND**.
-  * **GP14** reads **LOW** (0V).
+  * **コモン（C）**ピンは **NC** ピンに接続され、それが **GND** に接続されています。
+  * **GP14**は **LOW**（0V）を読み取ります。
 
-* **Switch Pressed**:
+* **スイッチが押された場合**：
 
-  * The **Common (C)** pin is connected to the **NO** pin, which is connected to **3.3V**.
-  * **GP14** reads **HIGH** (3.3V).
+  * **コモン（C）**ピンは **NO** ピンに接続され、それが **3.3V** に接続されています。
+  * **GP14**は **HIGH** （3.3V）を読み取ります。
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_limit_sw|
 
 
-**Writing the Code**
+**コードの書き方**
 
-We'll write a simple program that detects when the micro switch is pressed and prints a message to the Serial Monitor.
+マイクロスイッチが押されたときを検出して、シリアルモニターにメッセージを表示するシンプルなプログラムを書きます。
 
 .. note::
 
-   * You can open the file ``2.8_press_gently.ino`` from ``newton-lab-kit/arduino/2.8_press_gently``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ファイル ``2.8_press_gently.ino`` を ``newton-lab-kit/arduino/2.8_press_gently`` から開くことができます。
+   * またはこのコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードと正しいポートを選択し、「Upload」をクリックしてください。
 
 .. code-block:: Arduino
 
-   const int switchPin = 14;   // GPIO pin connected to the micro switch
+   const int switchPin = 14;   // マイクロスイッチに接続されたGPIOピン
    int switchState = 0;
 
    void setup() {
-     Serial.begin(115200);       // Initialize Serial Monitor at 115200 baud
-     pinMode(switchPin, INPUT);  // Set the switch pin as input
+     Serial.begin(115200);       // シリアルモニターを115200ボーで初期化
+     pinMode(switchPin, INPUT);  // スイッチピンを入力として設定
    }
 
    void loop() {
-     switchState = digitalRead(switchPin);  // Read the state of the switch
+     switchState = digitalRead(switchPin);  // スイッチの状態を読み取る
 
      if (switchState == HIGH) {
        Serial.println("The switch is pressed!");
      } else {
        Serial.println("The switch is not pressed.");
      }
-     delay(200);  // Small delay to avoid flooding the Serial Monitor
+     delay(200);  // シリアルモニターを過負荷にしないための小さな遅延
    }
 
-When the code is running and the Serial Monitor is open, press and release the micro switch.
-The Serial Monitor will display "The switch is pressed!" when you press the switch and "The switch is not pressed." when you release it.
+コードが実行され、シリアルモニターが開かれると、マイクロスイッチを押して放すことができます。
+シリアルモニターは、スイッチを押すと「スイッチが押されました！」と表示し、放すと「スイッチは押されていません。」と表示します。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Initializing Serial Communication:
+#. シリアル通信の初期化：
 
-   Starts serial communication at a baud rate of 115200. This allows us to print messages to the Serial Monitor.
+   115200ボーでシリアル通信を開始します。これにより、シリアルモニターにメッセージを表示できます。
 
    .. code-block:: Arduino
 
         Serial.begin(115200);
 
-#. Setting Up the Switch Pin:
+#. スイッチピンの設定：
 
-   Configures switchPin (GP14) as an input to read the switch state.
+   switchPin（GP14）を入力として設定し、スイッチの状態を読み取ります。
 
    .. code-block:: Arduino
 
         pinMode(switchPin, INPUT);
 
-#. Reading the Switch State:
+#. スイッチ状態の読み取り：
 
-   Reads the current state of the switch. It will be HIGH when pressed and LOW when not pressed.
+   スイッチの現在の状態を読み取ります。押されたときはHIGH、押されていないときはLOWになります。
 
    .. code-block:: Arduino
 
         switchState = digitalRead(switchPin);
 
-#. Responding to Switch Press:
+#. スイッチ押下への対応：
 
-   Prints a message based on whether the switch is pressed or not.
+   スイッチが押されているかどうかに基づいてメッセージを表示します。
 
    .. code-block:: Arduino
 
@@ -188,58 +188,58 @@ The Serial Monitor will display "The switch is pressed!" when you press the swit
         }
 
 
-**Alternative: Using Internal Pull-Up Resistor**
+**内部プルアップ抵抗を使用するオプション**
 
-If you prefer to simplify the circuit and reduce the number of components, you can use the internal pull-up resistor of the Pico.
+回路を簡素化し、コンポーネント数を減らしたい場合は、Picoの内部プルアップ抵抗を使用することができます。
 
-* GP14 is connected to GND when the switch is pressed, so it reads LOW (0).
-* GP14 reads HIGH when the switch is not pressed due to the internal pull-up resistor.
+* スイッチが押されたとき、GP14はGNDに接続されるため、LOW（0）を読み取ります。
+* スイッチが押されていないとき、内部プルアップ抵抗のため、GP14はHIGHを読み取ります。
 
-* Circuit Modifications:
+* 回路の変更：
 
-  Remove the External 10KΩ Resistor and Capacitor.
+  外部の10KΩ抵抗とコンデンサを取り除きます。
 
-* Micro Switch Connections:
+* マイクロスイッチの接続：
 
-  * **Common (C) Terminal**: Connect to GP14 on the Pico.
-  * **Normally Open (NO) Terminal**: Connect to GND on the Pico.
-  * **Normally Closed (NC) Terminal**: Leave unconnected.
+  * **コモン（C）端子**：PicoのGP14に接続。
+  * **ノーマリーオープン（NO）端子**：PicoのGNDに接続。
+  * **ノーマリークローズド（NC）端子**：接続しない。
 
-* Code Modifications:
+* コードの変更：
 
   .. code-block:: Arduino
 
-        const int switchPin = 14;   // GPIO pin connected to the micro switch
+        const int switchPin = 14;   // マイクロスイッチに接続されたGPIOピン
         int switchState = 0;
 
         void setup() {
-          Serial.begin(115200);          // Initialize Serial Monitor at 115200 baud
-          pinMode(switchPin, INPUT_PULLUP);  // Enable internal pull-up resistor
+          Serial.begin(115200);          // シリアルモニターを115200ボーで初期化
+          pinMode(switchPin, INPUT_PULLUP);  // 内部プルアップ抵抗を有効に
         }
 
         void loop() {
-          switchState = digitalRead(switchPin);  // Read the state of the switch
+          switchState = digitalRead(switchPin);  // スイッチの状態を読み取る
 
           if (switchState == LOW) {
             Serial.println("The switch is pressed!");
           } else {
             Serial.println("The switch is not pressed.");
           }
-          delay(200);  // Small delay to avoid flooding the Serial Monitor
+          delay(200);  // シリアルモニターを過負荷にしないための小さな遅延
         }
 
-**Debouncing the Switch**
+**スイッチのデバウンス**
 
-Mechanical switches can generate noise due to bouncing contacts. To improve the reliability of your readings, you can implement software debouncing.
+機械式スイッチは、接点のバウンスによりノイズが発生することがあります。読み取りの信頼性を向上させるために、ソフトウェアデバウンスを実装することができます。
 
 
 .. code-block:: Arduino
 
-    const int switchPin = 14;   // GPIO pin connected to the micro switch
-    int switchState = 0;        // Current state of the switch
-    int lastSwitchState = HIGH; // Previous state of the switch
-    unsigned long lastDebounceTime = 0;  // Time of the last state change
-    unsigned long debounceDelay = 50;    // Debounce time in milliseconds
+    const int switchPin = 14;   // マイクロスイッチに接続されたGPIOピン
+    int switchState = 0;        // スイッチの現在の状態
+    int lastSwitchState = HIGH; // スイッチの前の状態
+    unsigned long lastDebounceTime = 0;  // 最後の状態変更の時間
+    unsigned long debounceDelay = 50;    // デバウンス時間（ミリ秒）
 
     void setup() {
       Serial.begin(115200);
@@ -268,16 +268,16 @@ Mechanical switches can generate noise due to bouncing contacts. To improve the 
       lastSwitchState = reading;
     }
 
-* Checks if the reading has changed from the last state.
-* If it has, resets the ``lastDebounceTime``.
-* If the reading remains stable past the debounce delay, it considers the new state as valid.
+* 前の状態から読み取りが変わったかどうかを確認します。
+* 変わっていた場合は、 ``lastDebounceTime`` をリセットします。
+* 読み取りがデバウンス遅延を超えて安定した場合、新しい状態を有効とみなします。
 
-**Conclusion**
+**結論**
 
-In this lesson, you've learned how to use a micro switch with the Raspberry Pi Pico to detect when it's pressed or released. You've also seen how to implement a pull-down resistor in the circuit to ensure reliable readings and how to use the internal pull-up resistor to simplify the circuit. Additionally, you've learned about debouncing to handle mechanical switch noise.
+このレッスンでは、Raspberry Pi Picoを使用してマイクロスイッチが押されたり放されたりするのを検出する方法を学びました。また、回路内にプルダウン抵抗を実装して信頼性の高い読み取りを保証する方法や、回路を簡素化するための内部プルアップ抵抗の使用方法を見ました。さらに、機械式スイッチのノイズに対処するためのデバウンスについても学びました。
 
-**Further Exploration**
+**さらなる探求**
 
-* **Control an LED**: Modify the code to turn an LED on when the switch is pressed.
-* **Multiple Switches**: Try adding more micro switches to detect different inputs.
-* **Create a Counter**: Count the number of times the switch is pressed and display it.
+* **LEDの制御**：スイッチが押されたときにLEDを点灯するようにコードを修正します。
+* **複数のスイッチ**：異なる入力を検出するために、さらにマイクロスイッチを追加してみてください。
+* **カウンターの作成**：スイッチが押された回数を数えて表示します。

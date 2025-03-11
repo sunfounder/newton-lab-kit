@@ -1,42 +1,42 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者と一緒にもっと深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的サポート**：コミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**：スキルを向上させるためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**：新製品の発表や先行情報を早期に入手。
+    - **特別割引**：最新製品の独占的な割引を楽しむことができます。
+    - **祭りのプロモーションとギフト**：ギフト企画や祝祭のプロモーションに参加します。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造してみませんか？クリックして[|link_sf_facebook|]今日から参加！
 
 .. _py_somato_controller:
 
-7.11 Building a Somatosensory Controller
+7.11 ソマトセンサリーコントローラーの構築
 ===========================================
 
-In this exciting project, we'll create a **Somatosensory Controller** using the Raspberry Pi Pico 2, an MPU6050 accelerometer and gyroscope module, and a servo motor. This device captures human motion—specifically the tilt of your hand—and translates it into movement of the servo motor. This technology is similar to that used in robotics and remote operation systems, such as surgical robots or robotic arms.
+このエキサイティングなプロジェクトでは、Raspberry Pi Pico 2、MPU6050加速度計・ジャイロスコープモジュール、およびサーボモーターを使用して **ソマトセンサリーコントローラー** を作成します。このデバイスは、手の傾きを特にキャプチャし、それをサーボモーターの動きに変換します。この技術は、手術用ロボットやロボットアームなど、ロボティクスと遠隔操作システムに使用される技術と似ています。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+便利なキットを購入することをお勧めします。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
+    *   - 名称
+        - このキットのアイテム
+        - リンク
+    *   - ニュートンラボキット
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+また、以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -44,16 +44,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - マイクロUSBケーブル
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_mpu6050`
@@ -73,36 +73,36 @@ You can also buy them separately from the links below.
         - 1
         - |link_servo_buy|
 
-**Understanding the Components**
+**コンポーネントの理解**
 
-* **MPU6050 Accelerometer and Gyroscope**: A 6-axis motion tracking device that measures acceleration and angular velocity along the X, Y, and Z axes. We'll use it to detect the tilt of your hand.
-* **Servo Motor**: A motor that can be controlled to move to a specific angle. We'll use it to mimic the movement detected by the MPU6050.
+* **MPU6050 加速度計・ジャイロスコープ**：X、Y、Z軸に沿った加速度と角速度を測定する6軸モーショントラッキングデバイス。手の傾きを検出するために使用します。
+* **サーボモーター**：特定の角度に移動するよう制御できるモーター。MPU6050によって検出された動きを模倣するために使用します。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_somato|
 
-The MPU6050 calculates the attitude angle based on the acceleration values in each direction.
+MPU6050は、各方向の加速値に基づいて姿勢角を計算します。
 
-The program will control the servo to make the corresponding deflection angle as the attitude angle changes.
+プログラムは、姿勢角の変化に応じてサーボの対応する偏角を制御します。
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_somatosensory_controller| 
 
-**Writing the Code**
+**コードの作成**
 
-We'll write a MicroPython script that:
+次のようなMicroPythonスクリプトを書きます：
 
-* Reads accelerometer data from the MPU6050.
-* Calculates the tilt angle of your hand.
-* Controls the servo motor to mimic the tilt.
+* MPU6050から加速度計のデータを読み取ります。
+* 手の傾き角を計算します。
+* サーボモーターを制御して傾きを模倣します。
 
 .. note::
 
-    * Open the ``7.11_somatosensory_controller.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the ``imu.py`` and ``vector3d.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * ``7.11_somatosensory_controller.py`` を ``newton-lab-kit/micropython`` から開くか、Thonnyにコードをコピーして、「Run」をクリックするかF5を押してください。
+    * 正しいインタプリタが選択されていることを確認してください：MicroPython (Raspberry Pi Pico).COMxx。
+    * ``imu.py`` および ``vector3d.py`` がPicoにアップロードされているか確認してください。詳細なチュートリアルは :ref:`add_libraries_py` を参照してください。
 
 .. code-block:: python
 
@@ -111,32 +111,32 @@ We'll write a MicroPython script that:
     import utime
     import math
 
-    # Initialize I2C communication for MPU6050
+    # MPU6050用のI2C通信を初期化
     i2c = I2C(1, scl=Pin(7), sda=Pin(6))
     mpu = MPU6050(i2c)
 
-    # Initialize PWM for the servo motor on GP15
+    # GP15上のサーボモーター用のPWMを初期化
     servo = PWM(Pin(15))
-    servo.freq(50)  # Set frequency to 50Hz for servo
+    servo.freq(50)  # サーボの周波数を50Hzに設定
 
-    # Function to map angle to PWM duty cycle
+    # 角度をPWMデューティサイクルにマップする関数
     def angle_to_duty(angle):
-        # Convert angle (0-180) to duty cycle (0.5ms - 2.5ms pulse width)
-        # Duty cycle range is from 2% to 12% for 0.5ms to 2.5ms at 50Hz
+        # 角度(0-180)をデューティサイクル(0.5ms - 2.5msパルス幅)に変換
+        # デューティサイクルの範囲は50Hzで0.5msから2.5msの2%から12%
         duty_cycle = (angle / 18) + 2
         duty_u16 = int(duty_cycle / 100 * 65535)
         return duty_u16
 
-    # Function to get the tilt angle from accelerometer data
+    # 加速度計データから傾き角を取得する関数
     def get_tilt_angle():
         accel = mpu.accel
         x = accel.x
         y = accel.y
         z = accel.z
         angle = math.atan2(y, z) * (180 / math.pi)
-        return angle + 90  # Adjust angle to range from 0 to 180
+        return angle + 90  # 角度を0から180の範囲に調整
 
-    # Main loop
+    # メインループ
     try:
         while True:
             angle = get_tilt_angle()
@@ -151,20 +151,20 @@ We'll write a MicroPython script that:
         servo.deinit()
         print("Program stopped.")
 
-After the program starts, tilt your hand up and down.
-The servo motor should mimic the tilt by moving correspondingly.
-Observe how the servo responds to your hand movements.
+プログラムを開始したら、手を上下に傾けてください。
+サーボモーターはその傾きに合わせて動き、手の動きに応じて反応します。
+サーボモーターが手の動きにどのように反応するかを観察してください。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Initialization:
+#. 初期化：
 
-   * **I2C Communication**: Set up to read data from the MPU6050.
-   * **Servo Motor PWM**: Initialized on GP15 with a frequency of 50Hz.
+   * **I2C通信**：MPU6050からデータを読み取るための設定。
+   * **サーボモーターPWM**：50Hzの周波数でGP15に初期化。
 
-#. Angle Calculation:
+#. 角度計算：
 
-   * ``get_tilt_angle()``: Calculates the tilt angle based on accelerometer readings. The angle is adjusted to be between 0 and 180 degrees.
+   * ``get_tilt_angle()``：加速度計のデータに基づいて傾斜角度を計算します。計算された角度は0度から180度の範囲に調整されます。
 
    .. code-block:: python
 
@@ -174,29 +174,29 @@ Observe how the servo responds to your hand movements.
             y = accel.y
             z = accel.z
             angle = math.atan2(y, z) * (180 / math.pi)
-            return angle + 90  # Adjust angle to range from 0 to 180
+            return angle + 90  # 角度を0～180度の範囲に調整
 
-#. Servo Control:
+#. サーボ制御：
 
-   * ``angle_to_duty(angle)``: Converts the angle to the appropriate PWM duty cycle for the servo motor.
-   * Duty Cycle Calculation: The servo expects pulses between 0.5ms (0 degrees) and 2.5ms (180 degrees) at 50Hz.
+   * ``angle_to_duty(angle)``：角度をサーボモーターの適切なPWMデューティサイクルに変換します。
+   * デューティサイクル計算：サーボモーターは0.5ms（0度）から2.5ms（180度）のパルスを50Hzで受け取ります。
 
    .. code-block:: python
 
         def angle_to_duty(angle):
-            # Convert angle (0-180) to duty cycle (0.5ms - 2.5ms pulse width)
-            # Duty cycle range is from 2% to 12% for 0.5ms to 2.5ms at 50Hz
+            # 角度（0～180）をデューティサイクル（0.5ms - 2.5msのパルス幅）に変換
+            # デューティサイクルの範囲は、50Hzで0.5ms～2.5msに対応する2％～12％
             duty_cycle = (angle / 18) + 2
             duty_u16 = int(duty_cycle / 100 * 65535)
             return duty_u16
 
-#. Main Loop:
+#. メインループ：
 
-   * Reads the tilt angle.
-   * Adjusts the angle to ensure it's within 0 to 180 degrees.
-   * Sets the servo position accordingly.
-   * Includes a short delay to prevent jitter.
-   * Captures a keyboard interrupt to deinitialize the servo safely.
+   * 傾斜角度を読み取ります。
+   * 角度を調整して、0～180度の範囲に収めます。
+   * その角度に基づいてサーボの位置を設定します。
+   * ジッターを防ぐために短い遅延を挿入します。
+   * キーボードインタラプトをキャプチャして、サーボを安全に停止します。
 
    .. code-block:: python
 
@@ -214,45 +214,45 @@ Observe how the servo responds to your hand movements.
             servo.deinit()
             print("Program stopped.")
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* Servo Not Moving:
+* サーボが動かない：
 
-  * Check that the servo is powered correctly.
-  * Ensure the signal wire is connected to GP15.
-  * Verify that the grounds are connected between the Pico and the servo.
+  * サーボに正しく電源が供給されているか確認してください。
+  * 信号線がGP15に接続されていることを確認してください。
+  * Picoとサーボ間でグラウンドが接続されていることを確認してください。
 
-* Inaccurate Movements:
+* 動きが不正確：
 
-  * Make sure the MPU6050 is securely attached and not shaking excessively.
-  * Adjust the angle calculations if needed.
+  * MPU6050がしっかりと固定されており、過度に揺れていないことを確認してください。
+  * 必要に応じて角度計算を調整してください。
 
-* Program Errors:
+* プログラムエラー：
 
-  * Ensure that imu.py and vector3d.py are correctly uploaded.
-  * Check for typos or indentation errors in the code.
+  * imu.pyとvector3d.pyが正しくアップロードされているか確認してください。
+  * コード内にタイプミスやインデントのエラーがないかチェックしてください。
 
-**Extensions and Enhancements**
+**拡張と強化**
 
-* Control Multiple Servos:
+* 複数のサーボ制御：
 
-  * Add more servos to control additional axes of movement.
-  * Expand the code to handle rotation around other axes.
+  * 他の軸の動きを制御するためにサーボを追加します。
+  * 他の軸回転を処理するためにコードを拡張します。
 
-* Wireless Communication:
+* ワイヤレス通信：
 
-  Use Bluetooth or Wi-Fi modules to transmit sensor data to another device controlling the servos.
+  BluetoothやWi-Fiモジュールを使用して、センサーデータをサーボを制御する別のデバイスに送信します。
 
-* Data Smoothing:
+* データスムージング：
 
-  Implement filters (e.g., Kalman filter) to smooth out sensor readings.
+  センサーの読み取り値を平滑化するためにフィルタ（例：カルマンフィルタ）を実装します。
 
-* Visual Feedback:
+* 視覚的フィードバック：
 
-  Add an OLED or LCD display to show real-time angle data.
+  OLEDまたはLCDディスプレイを追加して、リアルタイムで角度データを表示します。
 
-**Conclusion**
+**結論**
 
-You've successfully built a Somatosensory Controller that captures human motion and translates it into mechanical movement. This project demonstrates how sensors and actuators can work together to create interactive systems, similar to those used in robotics and remote operations.
+このプロジェクトでは、ヒトの動きをキャプチャして機械的な動きに変換する身体感覚コントローラーを作成しました。このプロジェクトは、センサーとアクチュエーターが連携して、ロボティクスやリモート操作に使用されるようなインタラクティブシステムを作り出す方法を示しています。
 
-Feel free to enhance this project by adding more features or integrating it into larger systems.
+さらに機能を追加したり、他のシステムに統合したりして、このプロジェクトを拡張してください。

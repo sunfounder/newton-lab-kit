@@ -1,26 +1,26 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間ともっと深く掘り下げましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決。
+    - **学びと共有**: スキル向上のためのヒントやチュートリアルを交換。
+    - **独占プレビュー**: 新製品の発表や先行情報をいち早く入手。
+    - **特別割引**: 最新製品の独占的な割引を楽しむ。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？クリックして今すぐ参加！[|link_sf_facebook|]
 
-For Arduino User
-======================
-This chapter includes installing Arduino IDE, 
-uploading code to Raspberry Pi with Arduino IDE and a dozen interesting and practical projects to help you learn Arduino code quickly.
+アルドゥイーノユーザー向け
+===========================
 
-We recommend that you read the chapters in order.
+この章では、Arduino IDEのインストール、Arduino IDEを使用してRaspberry Piにコードをアップロードする方法、そしてアルドゥイーノコードを迅速に学ぶのに役立つ興味深く実用的なプロジェクト12件について説明します。
+
+章を順に読むことをお勧めします。
 
 
-**1. Get Started**
+**1. スタート**
 
 .. toctree::
     :maxdepth: 1
@@ -34,7 +34,7 @@ We recommend that you read the chapters in order.
 
 
 
-**2. Output & input**
+**2. 出力 & 入力**
 
 .. toctree::
     :maxdepth: 1
@@ -56,7 +56,7 @@ We recommend that you read the chapters in order.
     ar_transistor
     ar_relay
 
-**3. Sound & Display & Movement**
+**3. 音 & 表示 & 動作**
 
 .. toctree::
     :maxdepth: 1
@@ -70,7 +70,7 @@ We recommend that you read the chapters in order.
     ar_servo
 
 
-**4. Controller**
+**4. コントローラ**
 
 .. toctree::
     :maxdepth: 1
@@ -79,7 +79,7 @@ We recommend that you read the chapters in order.
     ar_keypad
     ar_mpr121
 
-**5. Microchip**
+**5. マイクロチップ**
 
 .. toctree::
     :maxdepth: 1
@@ -89,7 +89,7 @@ We recommend that you read the chapters in order.
     ar_74hc595_4dig
     ar_74hc595_matrix
 
-**6. Advanced**
+**6. 上級**
 
 .. toctree::
     :maxdepth: 1

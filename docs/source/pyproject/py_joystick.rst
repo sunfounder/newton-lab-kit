@@ -1,58 +1,58 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてさらに深く学び、他の愛好者と共に探求しましょう。
 
-    **Why Join?**
+**参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+- **専門家のサポート**: コミュニティとチームからのサポートを受けて、購入後の問題や技術的な課題を解決できます。
+- **学びと共有**: ヒントやチュートリアルを交換し、スキルを向上させましょう。
+- **独占プレビュー**: 新製品の発表や先行情報をいち早くゲット。
+- **特別割引**: 最新製品に対する独占割引を楽しめます。
+- **祝祭プロモーションとギブアウェイ**: ギブアウェイや季節限定のプロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+👉 一緒に探求し、創造しませんか？今すぐ [|link_sf_facebook|] をクリックして参加しましょう！
 
 .. _py_joystick:
 
-4.1 Reading Values from a Joystick
-==================================
+4.1 ジョイスティックからの値の読み取り
+======================================
 
-In this lesson, we'll learn how to use a **joystick** with the Raspberry Pi Pico 2 to read analog values and detect button presses. A joystick is a common input device that allows you to control movement along two axes (X and Y) and often includes a button when pressed down (Z-axis).
+このレッスンでは、Raspberry Pi Pico 2を使用して **ジョイスティック** を使い、アナログ値の読み取りとボタンの押下を検出する方法を学びます。ジョイスティックは、2軸（X軸、Y軸）の移動を制御できる一般的な入力デバイスで、ボタンが押されるとZ軸（スイッチ）が作動します。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全てのコンポーネントがセットになったキットを購入するのが便利です。こちらのリンクからどうぞ：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名称	
+        - キット内容
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -61,105 +61,102 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1（10KΩ）
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_joystick`
         - 1
         - 
 
-**Understanding the Joystick**
+**ジョイスティックの理解**
 
-A typical joystick module consists of two potentiometers positioned at right angles to each other:
+一般的なジョイスティックモジュールは、直交する2つのポテンショメーターで構成されています：
 
-* **X-axis potentiometer**: Measures left-right movement.
-* **Y-axis potentiometer**: Measures up-down movement.
-* **Z-axis (Switch)**: A digital button activated when you press down on the joystick.
+* **X軸ポテンショメーター**: 左右の移動を測定します。
+* **Y軸ポテンショメーター**: 上下の移動を測定します。
+* **Z軸（スイッチ）**: ジョイスティックを押し込むと作動するデジタルボタンです。
 
-By reading the analog values from the X and Y axes, you can determine the position of the joystick. The Z-axis button allows you to detect when the joystick is pressed down.
+X軸およびY軸のアナログ値を読み取ることで、ジョイスティックの位置を把握できます。Z軸のボタンは、ジョイスティックが押されているかどうかを検出するために使用します。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_joystick|
 
-The SW pin is connected to a 10K pull-up resistor, the reason is to be able to get a stable high level on the SW pin (Z axis) when the joystick is not pressed; otherwise the SW is in a suspended state and the output value may vary between 0/1.
+SWピンは10KΩのプルアップ抵抗に接続されています。これにより、ジョイスティックが押されていないときにSWピン（Z軸）で安定したハイレベルを取得できます。そうでない場合、SWはサスペンド状態となり、出力値が0または1の間で不安定になることがあります。
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_joystick|
 
-**Writing the Code**
+**コードの記述**
 
-Let's write a MicroPython program to read the joystick's X and Y positions and detect button presses.
+ジョイスティックのX軸、Y軸の位置を読み取り、ボタンの押下を検出するMicroPythonプログラムを記述します。
 
 .. note::
 
-    * Open the ``4.1_toggle_the_joystick.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-
-    
+    * ``4.1_toggle_the_joystick.py`` を ``newton-lab-kit/micropython`` から開くか、コードをThonnyにコピーして「実行」ボタンを押すか、F5キーを押してください。
+    * 正しいインタープリタ（MicroPython (Raspberry Pi Pico).COMxx）が選択されていることを確認してください。
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize ADC for X and Y axes
+    # X軸およびY軸用のADCを初期化
     x_adc = machine.ADC(27)  # GP27
     y_adc = machine.ADC(26)  # GP26
 
-    # Initialize digital input for the switch
+    # スイッチ用のデジタル入力を初期化
     z_button = machine.Pin(22, machine.Pin.IN, machine.Pin.PULL_UP)
 
     while True:
-        # Read the analog values (0-65535)
+        # アナログ値を読み取る（0-65535）
         x_value = x_adc.read_u16()
         y_value = y_adc.read_u16()
         
-        # Read the button state (0 or 1)
+        # ボタンの状態を読み取る（0または1）
         z_state = z_button.value()
         
-        # Print the values
+        # 値を表示
         print("X:", x_value, "Y:", y_value, "Button:", z_state)
         
-        # Small delay to make the output readable
+        # 出力を読みやすくするために少し遅延を挿入
         utime.sleep(0.2)
 
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Modules:
+#. モジュールのインポート：
 
-   * ``machine``: Provides access to hardware-related functions.
-   * ``utime``: Contains time-related functions for delays.
+   * ``machine``: ハードウェア関連の機能にアクセスするためのモジュール。
+   * ``utime``: 時間関連の関数を提供するモジュールで、遅延を扱います。
 
-#. Initialize the ADC Inputs:
+#. ADC入力の初期化：
 
-   We set up analog-to-digital converters (ADC) on pins GP27 and GP26 to read the joystick's X and Y positions.
+   GP27およびGP26のピンにアナログ-デジタル変換（ADC）を設定し、ジョイスティックのX軸とY軸の位置を読み取ります。
 
    .. code-block:: python
 
-      x_adc = machine.ADC(27)  # X-axis connected to GP27
-      y_adc = machine.ADC(26)  # Y-axis connected to GP26
+      x_adc = machine.ADC(27)  # X軸はGP27に接続
+      y_adc = machine.ADC(26)  # Y軸はGP26に接続
 
-#. Initialize the Digital Input:
+#. デジタル入力の初期化：
 
-   * Configure GP22 as a digital input with an internal pull-up resistor for the joystick's button (Z-axis).
-   * The ``machine.Pin.PULL_UP`` parameter ensures the pin reads high (1) when not pressed and low (0) when pressed.
+   * GP22をデジタル入力として設定し、ジョイスティックのボタン（Z軸）のために内部プルアップ抵抗を使用します。
+   * ``machine.Pin.PULL_UP`` によって、押されていないときはピンがハイ（1）になり、押されるとロー（0）になります。
 
    .. code-block:: python
 
       z_button = machine.Pin(22, machine.Pin.IN, machine.Pin.PULL_UP)
 
-#. Main Loop to Read Values:
+#. メインループでの値の読み取り：
 
-   * Read Analog Values: ``read_u16()`` reads a 16-bit value (0 to 65535) representing the voltage level.
-   * Print the Values: Displays the X and Y positions and the button state in the console.
+   * アナログ値の読み取り: ``read_u16()`` によって16ビットの値（0〜65535）を取得し、電圧レベルを表します。
+   * 値の表示: X軸、Y軸の位置とボタンの状態をコンソールに表示します。
 
    .. code-block:: python
 
@@ -172,76 +169,73 @@ Let's write a MicroPython program to read the joystick's X and Y positions and d
           
           utime.sleep(0.2)
 
-After running the program, open the Shell or REPL window in Thonny.
+プログラムを実行後、ThonnyのShellまたはREPLウィンドウを開きます。
 
-* You should see the X, Y, and Button values being printed.
-* Move the joystick in different directions and press the button to see the values change.
+* X、Y、ボタンの値が表示されるはずです。
+* ジョイスティックを動かし、ボタンを押して値が変化する様子を確認してください。
 
-**Interpreting the Values**
+**値の解釈**
 
-* X and Y Values:
+* XおよびYの値：
 
-  * Range from 0 to 65535.
-  * Center Position: Around 32768.
-  * Full Left or Up: Close to 0.
-  * Full Right or Down: Close to 65535.
+  * 範囲は0から65535までです。
+  * 中央位置: 約32768。
+  * 左端または上端: 0に近い。
+  * 右端または下端: 65535に近い。
 
-* Button State:
+* ボタンの状態：
 
-  * Not Pressed: 1.
-  * Pressed: 0.
+  * 押されていない: 1。
+  * 押された: 0。
 
-**Experimenting Further**
+**さらなる実験**
 
-* Normalize the Values:
+* 値の正規化：
 
-  Convert the raw ADC values to a range of -100 to 100 for easier interpretation.
+  生のADC値を-100から100の範囲に変換して、より解釈しやすくします。
 
   .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize ADC for X and Y axes
+    # X軸およびY軸用のADCを初期化
     x_adc = machine.ADC(27)  # GP27
     y_adc = machine.ADC(26)  # GP26
 
-    # Initialize digital input for the switch
+    # スイッチ用のデジタル入力を初期化
     z_button = machine.Pin(22, machine.Pin.IN, machine.Pin.PULL_UP)
 
-    # Function to normalize ADC values to a range of -100 to 100
+    # ADC値を-100から100の範囲に正規化する関数
     def normalize(value):
         return int((value - 32768) / 327.68)
 
     while True:
-        # Read the analog values (0-65535)
+        # アナログ値を読み取る（0-65535）
         x_value = x_adc.read_u16()
         y_value = y_adc.read_u16()
         
-        # Read the button state (0 or 1)
+        # ボタンの状態を読み取る（0または1）
         z_state = z_button.value()
         
-        # Normalize the values to -100 to 100
+        # 正規化した値を-100から100に変換
         x_normalized = normalize(x_value)
         y_normalized = normalize(y_value)
         
-        # Print the normalized values
+        # 正規化された値を表示
         print("X:", x_normalized, "Y:", y_normalized, "Button:", z_state)
         
-        # Small delay to make the output readable
+        # 出力を読みやすくするために少し遅延を挿入
         utime.sleep(0.2)
 
+* 出力の制御：
 
-* Control an Output:
+  ジョイスティックの入力を使用して、LED、サーボ、またはモーターを制御できます。例えば、X軸の値に基づいてオブジェクトを左右に動かすことができます。
 
-  Use the joystick input to control an LED, servo, or motor. For example, move an object left or right based on the X-axis value.
+* ゲームコントローラーの作成：
 
-* Create a Game Controller:
+  ジョイスティックの入力を組み合わせて、シンプルなゲームやグラフィカルな出力を制御できます。
 
-  Combine the joystick inputs to control a simple game or graphical output.
+**結論**
 
-**Conclusion**
-
-In this lesson, you've learned how to read analog and digital inputs from a joystick using the Raspberry Pi Pico 2. This knowledge allows you to incorporate joystick controls into your projects, enabling interactive applications like robots, games, or remote controls.
-
-
+このレッスンでは、Raspberry Pi Pico 2を使用してジョイスティックからアナログおよびデジタル入力を読み取る方法を学びました。この知識を活用して、ロボット、ゲーム、リモコンなどのインタラクティブなアプリケーションにジョイスティックを組み込むことができます。

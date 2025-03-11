@@ -1,61 +1,59 @@
+.. note:: 
 
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者と一緒にさらに深く学びましょう。
 
-.. note::
+    **参加する理由**
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    - **専門家のサポート**: 購入後の問題や技術的な課題を、コミュニティやチームのサポートを受けて解決できます。
+    - **学び・共有**: ヒントやチュートリアルを交換して、スキルを向上させましょう。
+    - **限定プレビュー**: 新製品の発表や先行公開情報をいち早く手に入れましょう。
+    - **特別割引**: 新製品に対する特別割引を楽しめます。
+    - **祝祭キャンペーンやプレゼント**: プレゼントキャンペーンやシーズンプロモーションに参加できます。
 
-    **Why Join?**
-
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求し、創造的な活動をしてみませんか？[|link_sf_facebook|]をクリックして、今すぐ参加しましょう！
 
 .. _py_reversing_aid:
 
-7.10 Building a Reversing Aid
-=================================
+7.10 後方支援システムの構築
+=============================
 
-In this project, we'll create a **Reversing Aid System** using the Raspberry Pi Pico 2, an ultrasonic sensor, an LED, and a buzzer. This system simulates how real-world parking sensors work by detecting the distance to an obstacle and providing audio and visual feedback that changes based on proximity. You can attach this setup to a remote-controlled car to mimic the experience of reversing into a garage.
+このプロジェクトでは、Raspberry Pi Pico 2、超音波センサー、LED、ブザーを使用して **後方支援システム** を作成します。このシステムは、実際の駐車センサーがどのように動作するかを模倣し、障害物との距離を検出して、接近に応じて音と視覚的なフィードバックを提供します。このセットアップをラジコンカーに取り付けて、ガレージにバックする体験を模倣することができます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下の部品が必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キットを購入するのが便利です。こちらのリンクからご覧いただけます：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - キット内の部品
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - 番号
+        - 部品	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -64,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 複数
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
@@ -77,7 +75,7 @@ You can also buy them separately from the links below.
     *   - 7
         - Active :ref:`cpn_buzzer`
         - 1
-        -
+        - 
     *   - 8
         - :ref:`cpn_led`
         - 1
@@ -87,69 +85,67 @@ You can also buy them separately from the links below.
         - 1
         - |link_ultrasonic_buy|
 
+**部品の理解**
 
-**Understanding the Components**
+* **超音波センサー (HC-SR04):** 超音波を発信し、エコーが戻ってくるまでの時間を測定して、障害物までの距離を計測します。
+* **ブザー:** 音でフィードバックを提供し、物体が近づくほど頻繁に鳴ります。
+* **LED:** 視覚的なフィードバックを提供し、物体が近づくほど点滅が速くなります。
 
-* **Ultrasonic Sensor (HC-SR04):** Measures the distance to an object by sending out ultrasonic waves and measuring the time it takes for the echo to return.
-* **Buzzer:** Provides audio feedback; beeps more frequently as the object gets closer.
-* **LED:** Provides visual feedback; blinks more rapidly as the object gets closer.
-
-
-**Circuit Diagram**
+**回路図**
 
 |sch_reversing_aid|
 
-**Wiring Diagram**
+**配線図**
 
-|wiring_reversing_aid| 
+|wiring_reversing_aid|
 
 
-**Writing the Code**
+**コード作成**
 
-We'll write a MicroPython script that:
+次のMicroPythonスクリプトを作成します：
 
-* Measures the distance using the ultrasonic sensor.
-* Adjusts the beep frequency of the buzzer and the blink rate of the LED based on the distance.
-* Provides continuous feedback as the object moves closer or further away.
+* 超音波センサーで距離を計測する。
+* 距離に応じてブザーの音の頻度やLEDの点滅速度を調整する。
+* 物体が近づいたり離れたりするごとに継続的なフィードバックを提供する。
 
 .. note::
 
-    * Open the ``7.10_reversing_aid.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * ``7.10_reversing_aid.py`` を ``newton-lab-kit/micropython`` から開くか、コードをThonnyにコピーして、「実行」ボタンをクリックするか、F5キーを押して実行します。
 
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * 正しいインタプリタが選択されていることを確認してください：MicroPython（Raspberry Pi Pico）。COMxx。 
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Set up pins
+    # ピンの設定
     trigger = machine.Pin(17, machine.Pin.OUT)
     echo = machine.Pin(16, machine.Pin.IN)
     buzzer = machine.Pin(15, machine.Pin.OUT)
     led = machine.Pin(14, machine.Pin.OUT)
 
-    # Function to measure distance
+    # 距離を計測する関数
     def measure_distance():
-        # Ensure trigger is low
+        # トリガーを低に設定
         trigger.low()
         utime.sleep_us(2)
-        # Send 10us pulse to trigger
+        # トリガーに10usのパルスを送信
         trigger.high()
         utime.sleep_us(10)
         trigger.low()
 
-        # Measure the duration of the echo pulse
+        # エコーパルスの長さを測定
         while echo.value() == 0:
             signaloff = utime.ticks_us()
         while echo.value() == 1:
             signalon = utime.ticks_us()
 
         timepassed = utime.ticks_diff(signalon, signaloff)
-        distance = (timepassed * 0.0343) / 2  # Convert to cm
+        distance = (timepassed * 0.0343) / 2  # cmに変換
         return distance
 
-    # Function to control buzzer and LED
+    # ブザーとLEDを制御する関数
     def alert(interval):
         buzzer.high()
         led.high()
@@ -158,7 +154,7 @@ We'll write a MicroPython script that:
         led.low()
         utime.sleep(interval)
 
-    # Main loop
+    # メインループ
     try:
         while True:
             dist = measure_distance()
@@ -167,80 +163,79 @@ We'll write a MicroPython script that:
                 print("Out of range")
                 utime.sleep(1)
             elif dist <= 10:
-                alert(0.2)  # Very close, alert rapidly
+                alert(0.2)  # 非常に近い、迅速にアラート
             elif dist <= 20:
-                alert(0.5)  # Close, alert moderately
+                alert(0.5)  # 近い、適度にアラート
             elif dist <= 50:
-                alert(1)    # Not too close, alert slowly
+                alert(1)    # あまり近くない、ゆっくりアラート
             else:
-                alert(2)    # Far away, alert infrequently
+                alert(2)    # 遠い、まれにアラート
     except KeyboardInterrupt:
         print("Measurement stopped by User")
 
-Once the code is running, place an object at varying distances from the ultrasonic sensor.
-Observe the changes in the beep frequency and LED blink rate.
-The console will display the measured distance.
+コードが実行されたら、超音波センサーから異なる距離で物体を配置して、ブザーの音の頻度とLEDの点滅速度の変化を観察しましょう。
+コンソールには計測された距離が表示されます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Distance Measurement:
+#. 距離の計測:
 
-   * The ``measure_distance()`` function sends a 10-microsecond pulse to the TRIG pin.
-   * It then measures the time until the ECHO pin goes high and then back low.
-   * Calculates the distance based on the time it takes for the ultrasonic pulse to return.
+   * ``measure_distance()`` 関数は、TRIGピンに10マイクロ秒のパルスを送信します。
+   * 次に、ECHOピンがハイになってからローになるまでの時間を測定します。
+   * 超音波パルスが戻るまでの時間に基づいて、距離を計算します。
 
    .. code-block:: python
 
         def measure_distance():
-            # Ensure trigger is low
+            # トリガーを低に設定
             trigger.low()
             utime.sleep_us(2)
-            # Send 10us pulse to trigger
+            # トリガーに10usのパルスを送信
             trigger.high()
             utime.sleep_us(10)
             trigger.low()
 
-            # Measure the duration of the echo pulse
+            # エコーパルスの長さを測定
             while echo.value() == 0:
                 signaloff = utime.ticks_us()
             while echo.value() == 1:
                 signalon = utime.ticks_us()
 
             timepassed = utime.ticks_diff(signalon, signaloff)
-            distance = (timepassed * 0.0343) / 2  # Convert to cm
+            distance = (timepassed * 0.0343) / 2  # cmに変換
             return distance
 
 
-#. Alert Function:
+#. アラート関数:
 
-   * The ``alert(interval)`` function turns the buzzer and LED on for 0.1 seconds and then off.
-   * The interval parameter adjusts the pause between alerts based on the distance.
+   * ``alert(interval)`` 関数は、ブザーとLEDを0.1秒間オンにして、その後オフにします。
+   * ``interval`` パラメータは、距離に応じてアラートの間隔を調整します。
 
    .. code-block:: python
 
         def measure_distance():
-            # Ensure trigger is low
+            # トリガーを低に設定
             trigger.low()
             utime.sleep_us(2)
-            # Send 10us pulse to trigger
+            # トリガーに10usのパルスを送信
             trigger.high()
             utime.sleep_us(10)
             trigger.low()
 
-            # Measure the duration of the echo pulse
+            # エコーパルスの長さを測定
             while echo.value() == 0:
                 signaloff = utime.ticks_us()
             while echo.value() == 1:
                 signalon = utime.ticks_us()
 
             timepassed = utime.ticks_diff(signalon, signaloff)
-            distance = (timepassed * 0.0343) / 2  # Convert to cm
+            distance = (timepassed * 0.0343) / 2  # cmに変換
             return distance
 
-#. Main Loop:
+#. メインループ:
 
-   * Continuously measures the distance.
-   * Adjusts the alert frequency according to predefined distance thresholds.
+   * 距離を継続的に計測します。
+   * あらかじめ設定された距離の閾値に応じて、アラートの頻度を調整します。
 
    .. code-block:: python
 
@@ -252,44 +247,41 @@ The console will display the measured distance.
                     print("Out of range")
                     utime.sleep(1)
                 elif dist <= 10:
-                    alert(0.2)  # Very close, alert rapidly
+                    alert(0.2)  # 非常に近い、迅速にアラート
                 elif dist <= 20:
-                    alert(0.5)  # Close, alert moderately
+                    alert(0.5)  # 近い、適度にアラート
                 elif dist <= 50:
-                    alert(1)    # Not too close, alert slowly
+                    alert(1)    # あまり近くない、ゆっくりアラート
                 else:
-                    alert(2)    # Far away, alert infrequently
+                    alert(2)    # 遠い、まれにアラート
         except KeyboardInterrupt:
             print("Measurement stopped by User")
         
-**Safety Considerations**
+**安全対策**
 
-* Voltage Levels:
+* 電圧レベル:
 
-  * Be cautious with the ECHO pin voltage from the ultrasonic sensor if using 5V.
-  * Use a voltage divider or level shifter to protect the Pico's GPIO pins.
+  * 超音波センサーのECHOピン電圧が5Vの場合は注意してください。
+  * PicoのGPIOピンを保護するために、電圧分割器やレベルシフターを使用してください。
 
-* Power Supply:
+* 電源:
 
-  Ensure the power supply can handle the current requirements of all components.
+  すべての部品の電流要件を満たせる電源を使用してください。
 
-**Experimenting Further**
+**さらに実験する**
 
-* Visual Display:
+* 視覚表示:
 
-  Add an LCD or OLED display to show the distance visually.
+  LCDやOLEDディスプレイを追加して、距離を視覚的に表示できます。
 
-* Multiple Sensors:
+* 複数のセンサー:
 
-  Use additional ultrasonic sensors to cover more directions.
+  複数の超音波センサーを使用して、より多くの方向をカバーできます。
 
-* Advanced Alerts:
+* 高度なアラート:
 
-  Implement different tones or patterns on the buzzer for different distances.
+  ブザーに異なるトーンやパターンを実装して、距離ごとに異なるアラートを出すことができます。
 
-**Conclusion**
+**結論**
 
-You've successfully built a Reversing Aid System using the Raspberry Pi Pico 2! This project demonstrates how sensors can be used to provide real-time feedback, a fundamental concept in robotics and automation.
-
-
-
+Raspberry Pi Pico 2を使用して、後方支援システムを構築しました！このプロジェクトは、センサーを使ってリアルタイムのフィードバックを提供する方法を示しており、ロボティクスやオートメーションの基本的な概念を学ぶことができます。

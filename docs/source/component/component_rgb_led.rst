@@ -1,16 +1,15 @@
-.. note::
+.. note:: 
+    FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！共にRaspberry Pi、Arduino、ESP32の更なる探求を楽しんでください。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **専門家サポート**: コミュニティとチームのサポートを受けながら、販売後の問題や技術的な挑戦を解決します。
+    - **学びと共有**: 技能向上のためのヒントやチュートリアルを交換しましょう。
+    - **独占的プレビュー**: 新製品発表やスニークピークに早期アクセスが可能です。
+    - **特別割引**: 最新製品に対する独占割引を楽しみましょう。
+    - **お祭りプロモーションとプレゼント**: プレゼントや祝祭プロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求して創造する準備はできていますか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _cpn_rgb:
 
@@ -18,42 +17,42 @@ RGB LED
 =================
 
 |img_rgb|
-    
-RGB LEDs emit light in various colors. An RGB LED packages three LEDs of red, green, and blue into a transparent or semitransparent plastic shell. It can display various colors by changing the input voltage of the three pins and superimpose them, which, according to statistics, can create 16,777,216 different colors. 
+
+RGB LEDは、さまざまな色の光を放出します。RGB LEDは、透明または半透明のプラスチックシェルに赤、緑、青の3色のLEDをパッケージングします。3つのピンの入力電圧を変えることによって様々な色を表示し、それらを重ね合わせることで、統計によると16,777,216色の異なる色を作り出すことができます。
 
 |img_rgb_light|
 
-RGB LEDs can be categorized into common anode and common cathode ones. In this kit, the latter is used. The **common cathode**, or CC, means to connect the cathodes of the three LEDs. After you connect it with GND and plug in the three pins, the LED will flash the corresponding color. 
+RGB LEDには共通アノードタイプと共通カソードタイプの2種類があります。このキットでは後者が使用されています。 **共通カソード** 、またはCCは、3色のLEDのカソードを接続することを意味します。GNDに接続し、3つのピンを差し込むと、対応する色のLEDが点滅します。
 
-Its circuit symbol is shown as figure.
+その回路記号は下図のとおりです。
 
 |img_rgb_symbol| 
 
-An RGB LED has 4 pins: the longest pin is the common cathode pin, which is usually connected to GND, the left pin next to the longest pin is Red, and the 2 pins on the right are Green and Blue.
+RGB LEDは4つのピンがあります：最も長いピンは共通カソードピンで、通常GNDに接続され、最も長いピンの隣の左ピンは赤、右側の2つのピンは緑と青です。
 
 |img_rgb_pin|
 
 
-**Features**
+**特徴**
 
-* Color: Tri-Color (Red/Green/Blue)
-* Common Cathode
-* 5mm Clear Round Lens
-* Forward Voltage: Red: DC 2.0 - 2.2V; Blue&Green: DC 3.0 - 3.2V (IF=20mA)
-* 0.06 Watts DIP RGB LED
-* Luminance Brighter Up To +20%
-* Viewing Angle: 30°
+* 色：トリカラー（赤/緑/青）
+* 共通カソード
+* 5mmクリアラウンドレンズ
+* 順方向電圧：赤：DC 2.0 - 2.2V; 青＆緑：DC 3.0 - 3.2V (IF=20mA)
+* 0.06ワットDIP RGB LED
+* 明るさ最大+20％アップ
+* 視野角：30°
 
 
-.. Example
+.. 例
 .. -------------------
 
-.. :ref:`Colorful Light`
+.. :ref:`カラフルライト`
 
 
-**Example**
+**例**
 
-* :ref:`py_rgb` (For MicroPython User)
-* :ref:`py_fruit_piano` (For MicroPython User)
-* :ref:`ar_rgb` (For Arduino User)
-.. * :ref:`per_rainbow_light` (For Piper Make User)
+* :ref:`py_rgb` (MicroPythonユーザー用)
+* :ref:`py_fruit_piano` (MicroPythonユーザー用)
+* :ref:`ar_rgb` (Arduinoユーザー用)
+.. * :ref:`per_rainbow_light` (Piper Makeユーザー用)

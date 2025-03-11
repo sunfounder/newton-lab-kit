@@ -1,29 +1,29 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やスニークピークに早期アクセスします。
+    - **特別割引**: 最新製品の独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 For Piper Make
 ===================
 
-This chapter contains an introduction to Piper Make, how to connect and program Pico W win Piper Make, and several interesting projects to help you get up and running with Piper quickly.
+この章では、Piper Makeの紹介とPiper MakeでPico Wを接続・プログラムする方法、そしてPiperをすぐに使いこなすためのいくつかの興味深いプロジェクトが含まれています。
 
-We recommend that you read this chapter in order.
+この章は順番に読むことをお勧めします。
 
-Piper Make is a super easy and fun way to make projects using Raspberry Pi Pico 2 W. It uses blocks like Scratch, so you don't need any programming experience to use it.
-The underlying principle is to use CircuitPython with auxiliary libraries.
+Piper Makeは、Raspberry Pi Pico 2 Wを使用してプロジェクトを作成するのに非常に簡単で楽しい方法です。Scratchのようなブロックを使用するため、プログラミング経験は必要ありません。
+基本的な原理は、補助ライブラリを用いたCircuitPythonを使用することです。
 
 
-**1. Get Started**
+**1. 入門**
 
 .. toctree::
     :maxdepth: 1
@@ -33,7 +33,7 @@ The underlying principle is to use CircuitPython with auxiliary libraries.
     piper_start/save_import
 
 
-**2. Projects**
+**2. プロジェクト**
 
 
 .. toctree::

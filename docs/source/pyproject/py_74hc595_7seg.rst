@@ -1,44 +1,44 @@
 .. note::
+    
+    こんにちは！FacebookでSunFounderのRaspberry Pi & Arduino & ESP32愛好者コミュニティに参加していただきありがとうございます！同じ興味を持つ仲間と一緒に、Raspberry Pi、Arduino、ESP32の更なる深掘りを楽しみましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+**参加する理由は？**
 
-    **Why Join?**
+- **専門家によるサポート**：コミュニティやチームの支援を受けて、販売後の問題や技術的な課題を解決。
+- **学びと共有**：スキルを高めるためのヒントやチュートリアルを交換。
+- **独占プレビュー**：新製品発表や製品の先行試用のチャンス。
+- **特別割引**：最新製品に対する独占的な割引を享受。
+- **祝祭プロモーションとギフト**：ギフトや祝祭のプロモーションに参加。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今すぐ参加！
 
 .. _py_74hc_7seg:
 
-5.2 Displaying Numbers
+5.2 数字の表示
 ===========================================================
 
-In this lesson, we'll learn how to use a **7-segment display** to show numbers using the Raspberry Pi Pico 2 and a **74HC595 shift register**. The 7-segment display is a common electronic component used in devices like digital clocks, calculators, and appliances to display numerical information.
+このレッスンでは、 **7セグメント表示器** とRaspberry Pi Pico 2、そして **74HC595シフトレジスタ** を使用して数字を表示する方法を学びます。7セグメント表示器は、デジタル時計、電卓、家電製品などで数値情報を表示するために一般的に使用される電子部品です。
 
-By combining the 74HC595 shift register with the 7-segment display, we can control all the segments using only a few GPIO pins on the Pico, saving valuable I/O resources for other components.
+74HC595シフトレジスタと7セグメント表示器を組み合わせることで、Picoの少数のGPIOピンだけを使用してすべてのセグメントを制御でき、他のコンポーネントのために貴重なI/Oリソースを節約できます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+また、以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -46,16 +46,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -64,7 +64,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
@@ -79,30 +79,30 @@ You can also buy them separately from the links below.
         - 1
         - |link_74hc595_buy|
 
-**Understanding the 7-Segment Display**
+**7セグメント表示器の理解**
 
-A 7-segment display consists of 7 LEDs (segments) arranged in a figure-eight pattern to display digits from 0 to 9. There's also an eighth LED for the decimal point. Each segment is labeled from **a** to **g**, and the decimal point is labeled **dp**.
+7セグメント表示器は、数字0から9を表示するために、フィギュアエイトパターンに配置された7つのLED（セグメント）で構成されています。小数点を表示するための8番目のLEDもあります。各セグメントは **a** から **g** までラベル付けされ、小数点は **dp** とラベル付けされています。
 
-Here's the segment labeling:
+こちらがセグメントのラベル付けです：
 
 |img_7seg_cathode|
 
-In a **common cathode** 7-segment display, all the cathodes (negative sides) of the LEDs are connected together to a common ground.
+**共通カソード** の7セグメント表示器では、LEDのカソード（マイナス側）が共通のグラウンドに接続されています。
 
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_74hc_7seg|
 
-Here the wiring principle is basically the same as :ref:`py_74hc_led`, the only difference is that Q0-Q7 are connected to the a ~ g pins of the 7 Segment Display.
+ここでの配線原理は基本的に :ref:`py_74hc_led` と同じで、唯一の違いはQ0-Q7が7セグメント表示器のa〜gピンに接続されていることです。
 
 .. list-table:: Wiring
     :widths: 15 25
     :header-rows: 1
 
     *   - 74HC595
-        - LED Segment Display
+        - LEDセグメント表示器
     *   - Q0
         - a
     *   - Q1
@@ -120,28 +120,28 @@ Here the wiring principle is basically the same as :ref:`py_74hc_led`, the only 
     *   - Q7
         - dp
 
-**Wiring Diagram**
+**配線図**
 
 
 |wiring_74hc_7seg|
 
 
 
-**Writing the Code**
+**コードの記述**
 
-Let's write a MicroPython program to display digits from 0 to 9 on the 7-segment display.
+0から9までの数字を7セグメント表示器に表示するMicroPythonプログラムを記述しましょう。
 
 .. note::
 
-    * Open the ``5.2_number_display.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * ``5.2_number_display.py`` を ``newton-lab-kit/micropython`` から開くか、Thonnyにコードをコピーして「実行」をクリックするか、F5を押します。
+    * 正しいインタープリタが選択されていることを確認してください：MicroPython (Raspberry Pi Pico).COMxx. 
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Define the binary codes for each digit (0-9)
+    # 各数字（0-9）に対するバイナリコードを定義
     SEGMENT_CODES = [
         0x3F,  # 0
         0x06,  # 1
@@ -155,12 +155,12 @@ Let's write a MicroPython program to display digits from 0 to 9 on the 7-segment
         0x6F   # 9
     ]
 
-    # Initialize the control pins for 74HC595
-    SDI = machine.Pin(0, machine.Pin.OUT)   # Serial Data Input (DS)
-    RCLK = machine.Pin(1, machine.Pin.OUT)  # Register Clock (STCP)
-    SRCLK = machine.Pin(2, machine.Pin.OUT) # Shift Register Clock (SHCP)
+    # 74HC595の制御ピンを初期化
+    SDI = machine.Pin(0, machine.Pin.OUT)   # シリアルデータ入力（DS）
+    RCLK = machine.Pin(1, machine.Pin.OUT)  # レジスタクロック（STCP）
+    SRCLK = machine.Pin(2, machine.Pin.OUT) # シフトレジスタクロック（SHCP）
 
-    # Function to send data to 74HC595
+    # 74HC595にデータを送信する関数
     def shift_out(data):
         RCLK.low()
         for bit in range(7, -1, -1):
@@ -170,24 +170,24 @@ Let's write a MicroPython program to display digits from 0 to 9 on the 7-segment
             SRCLK.high()
         RCLK.high()
 
-    # Main loop to display numbers 0-9
+    # 0から9までの数字を表示するメインループ
     while True:
         for num in range(10):
             shift_out(SEGMENT_CODES[num])
             utime.sleep(0.5)
 
-When you run this code, the 7-segment display will sequentially display the digits 0 to 9, changing every 0.5 seconds. This creates a looping counting effect where the numbers increment one by one, and after reaching 9, the display returns to 0 and repeats the cycle continuously.
+このコードを実行すると、7セグメントディスプレイに0から9までの数字が0.5秒ごとに順番に表示されます。これにより、カウントアップするようなエフェクトが作られ、9に達すると0に戻り、繰り返し続けます。
 
 **Explanation of the Code**
 
-#. Import Modules:
+#. モジュールのインポート:
 
-   * ``machine``: Provides access to GPIO pins and hardware functions.
-   * ``utime``: Contains time-related functions for delays.
+   * ``machine``: GPIOピンやハードウェア機能へのアクセスを提供します。
+   * ``utime``: 遅延を含む時間関連の関数を含みます。
 
-#. Define Segment Codes:
+#. セグメントコードの定義:
 
-   Each entry corresponds to the segments that need to be lit to display a digit. The values are in hexadecimal format for readability.
+   各エントリは、特定の数字を表示するために点灯する必要があるセグメントを示します。可読性を高めるために、値は16進数で表記されています。
    
    .. code-block:: python
 
@@ -204,16 +204,16 @@ When you run this code, the 7-segment display will sequentially display the digi
           0x6F   # 9
       ]
 
-   Suppose that the 7-segment Display display the number "1", we need to write a high level for b, c, and write a low level for a, d, e, f, g, and dg.
+   例えば、7セグメントディスプレイに数字「1」を表示する場合、bとcをHIGHレベルにし、a, d, e, f, g, dgをLOWレベルにする必要があります。
 
    |img_1_segment|
 
-   That is, the binary number "00000110" needs to be written. For readability, we will use hexadecimal notation as "0x06".
+   つまり、バイナリ表記では"00000110"（16進数表記では0x06）を設定する必要があります。
 
 
-#. Initialize Control Pins:
+#. 制御ピンの初期化:
 
-   Assigns the Pico's GPIO pins to control the 74HC595.
+   Raspberry Pi PicoのGPIOピンを使用して、74HC595を制御します。
 
    .. code-block:: python
 
@@ -221,12 +221,11 @@ When you run this code, the 7-segment display will sequentially display the digi
       RCLK = machine.Pin(1, machine.Pin.OUT)
       SRCLK = machine.Pin(2, machine.Pin.OUT)
 
+#. ``shift_out`` 関数の定義:
 
-#. Define the ``shift_out`` Function:
-
-   * Sends 8 bits of data to the 74HC595.
-   * Shifts out the data starting from the most significant bit (MSB).
-   * Pulses the shift and register clocks appropriately.
+   * 8ビットのデータを74HC595に送信します。
+   * 最上位ビット（MSB）から順にデータを出力します。
+   * シフトクロックとレジスタクロックを適切に制御します。
 
    .. code-block:: python
 
@@ -239,11 +238,11 @@ When you run this code, the 7-segment display will sequentially display the digi
                 SRCLK.high()
             RCLK.high()
 
-#. Main Loop to Display Numbers:
+#. 数字を表示するメインループ:
 
-   * Iterates through the numbers 0 to 9.
-   * Calls shift_out with the corresponding segment code.
-   * Adds a delay of 0.5 seconds between each number.
+   * 0から9までの数字を順に表示します。
+   * ``shift_out`` を呼び出し、対応するセグメントコードを送信します。
+   * 各表示間に0.5秒の遅延を入れます。
 
    .. code-block:: python
 
@@ -255,34 +254,34 @@ When you run this code, the 7-segment display will sequentially display the digi
 
 **Understanding the Segment Codes**
 
-Each segment code corresponds to the segments that need to be illuminated to display a specific digit. Here's how the segments map to each digit:
+各セグメントコードは、特定の数字を表示するために点灯させる必要があるセグメントに対応しています。
 
-* **0**: Segments a, b, c, d, e, f (code 0x3F)
-* **1**: Segments b, c (code 0x06)
-* **2**: Segments a, b, g, e, d (code 0x5B)
-* **3**: Segments a, b, c, d, g (code 0x4F)
-* **4**: Segments b, c, f, g (code 0x66)
-* **5**: Segments a, c, d, f, g (code 0x6D)
-* **6**: Segments a, c, d, e, f, g (code 0x7D)
-* **7**: Segments a, b, c (code 0x07)
-* **8**: Segments a, b, c, d, e, f, g (code 0x7F)
-* **9**: Segments a, b, c, d, f, g (code 0x6F)
+* **0**: セグメント a, b, c, d, e, f （コード 0x3F）
+* **1**: セグメント b, c （コード 0x06）
+* **2**: セグメント a, b, g, e, d （コード 0x5B）
+* **3**: セグメント a, b, c, d, g （コード 0x4F）
+* **4**: セグメント b, c, f, g （コード 0x66）
+* **5**: セグメント a, c, d, f, g （コード 0x6D）
+* **6**: セグメント a, c, d, e, f, g （コード 0x7D）
+* **7**: セグメント a, b, c （コード 0x07）
+* **8**: セグメント a, b, c, d, e, f, g （コード 0x7F）
+* **9**: セグメント a, b, c, d, f, g （コード 0x6F）
 
-**Experimenting Further**
+**さらなる実験**
 
-* Display Hexadecimal Characters:
+* 16進数キャラクターの表示:
 
-  Extend the ``SEGMENT_CODES`` list to include letters A-F for hexadecimal representation. For example, to display 'A', the segment code is 0x77.
+  ``SEGMENT_CODES`` リストを拡張し、A-Fの文字を表示できるようにします。例えば、「A」を表示するには、セグメントコード0x77を使用します。
 
-* Create a Counter:
+* カウンターの作成:
 
-  Modify the code to create an up-counter or down-counter. Use button inputs to increment or decrement the displayed number.
+  コードを変更して、昇順または降順のカウンターを作成できます。ボタン入力を利用して、表示される数字を増減させることも可能です。
 
-* Control Multiple Displays:
+* 複数のディスプレイを制御:
 
-  Use additional 74HC595 shift registers to control multiple 7-segment displays. Implement multiplexing to manage multiple displays with minimal GPIO usage.
+  追加の74HC595シフトレジスタを使用し、複数の7セグメントディスプレイを制御できます。マルチプレクシングを実装することで、最小限のGPIOピンで複数のディスプレイを管理できます。
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to use a 7-segment display with a 74HC595 shift register to display numbers using the Raspberry Pi Pico 2. By understanding how to control each segment through binary codes and utilizing the shift register, you can efficiently manage multiple outputs with limited GPIO pins.
+このレッスンでは、Raspberry Pi Picoと74HC595シフトレジスタを使用して、7セグメントディスプレイに数字を表示する方法を学びました。各セグメントをバイナリコードで制御する方法を理解し、シフトレジスタを活用することで、限られたGPIOピンで効率的に複数の出力を管理できるようになります。
 

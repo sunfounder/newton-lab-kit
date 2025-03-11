@@ -1,59 +1,56 @@
-.. note::
+こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32の更なる深掘りを、同じ興味を持つ仲間たちと一緒に楽しみましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+**なぜ参加するのか？**
 
-    **Why Join?**
+- **エキスパートサポート**: 当コミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決。
+- **学びと共有**: スキル向上のためのヒントやチュートリアルを交換。
+- **独占プレビュー**: 新製品の発表やプレビューをいち早く手に入れる。
+- **特別割引**: 最新製品の独占割引を楽しむ。
+- **祭事プロモーションとギブアウェイ**: ギブアウェイや休日のプロモーションに参加。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+👉 私たちと一緒に探索し、創造しませんか？クリック[|link_sf_facebook|]して今日参加しましょう！
 
 .. _py_fruit_piano:
 
-7.9 Building a Fruit Piano
+7.9 フルーツピアノの作成
 =================================================
 
-In this project, we'll create a **Fruit Piano** using the Raspberry Pi Pico 2, an MPR121 capacitive touch sensor, a buzzer, and an RGB LED. By connecting fruits (or any conductive objects) to the capacitive touch sensor, we'll transform them into piano keys that play musical notes and display colorful lights when touched.
+このプロジェクトでは、Raspberry Pi Pico 2、MPR121静電容量タッチセンサー、ブザー、RGB LEDを使用して **フルーツピアノ** を作成します。フルーツ（または任意の導電性オブジェクト）を静電容量タッチセンサーに接続することで、触れると音楽ノートを演奏し、カラフルな光を表示するピアノキーに変身させます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入することが便利です。こちらがリンクです:
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットに含まれるもの
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - マイクロUSBケーブル
         - 1
         - 
     *   - 3
@@ -62,7 +59,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_transistor`
@@ -73,7 +70,7 @@ You can also buy them separately from the links below.
         - 4(1-1KΩ, 1-330Ω, 2-220Ω)
         - |link_resistor_buy|
     *   - 7
-        - Passive :ref:`cpn_buzzer`
+        - 受動 :ref:`cpn_buzzer`
         - 1
         - |link_passive_buzzer_buy|
     *   - 8
@@ -86,44 +83,44 @@ You can also buy them separately from the links below.
         - 
 
 
-**Understanding the Components**
+**コンポーネントの理解**
 
-*  **MPR121 Capacitive Touch Sensor**: A capacitive touch sensor controller that can handle up to 12 touch inputs. It detects changes in capacitance caused by touching connected electrodes.
-*  **Passive Buzzer**: An electronic component that produces sound when driven with a PWM signal. We'll use it to play different musical notes.
-*  **RGB LED**: An LED that combines red, green, and blue LEDs into one package. By adjusting the intensity of each color, we can produce a wide range of colors.
-*  **Fruits or Conductive Objects**: Items like fruits, metal objects, or even water can act as conductive touch inputs when connected to the MPR121.
+* **MPR121静電容量タッチセンサー**: 最大12のタッチ入力を処理できるタッチセンサーコントローラーです。接続された電極に触れることによって生じる静電容量の変化を検出します。
+* **受動ブザー**: PWM信号で駆動すると音を出す電子部品です。異なる音楽ノートを演奏するために使用します。
+* **RGB LED**: 赤、緑、青のLEDを一つのパッケージに組み合わせたLEDです。各色の強度を調整することで、幅広い色の範囲を生成できます。
+* **フルーツや導電性オブジェクト**: フルーツ、金属オブジェクト、あるいは水など、MPR121に接続すると導電性タッチ入力として機能するアイテムです。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_fruit_piano| 
 
-To turn the fruit into a piano key, you still need to connect the electrodes on the MPR121 to the fruit (e.g. into the banana handle).
+フルーツをピアノの鍵盤に変えるには、MPR121の電極をフルーツ（例えばバナナの柄）に接続する必要があります。
 
-In the beginning, MPR121 will initialize and each electrode will get a value based on the current charge; when a conductor (such as a human body) touches an electrode, the charge will shift and rebalance.
-As a result, the electrode's value is different from its initial value, telling the main control board that it has been touched.
-During this process, ensure that the wiring of each electrode is stable so that its charge is balanced when initializing.
+初めに、MPR121は初期化され、各電極は現在の充電に基づいた値を取得します。導体（人間の体など）が電極に触れると、充電は移動して再バランスが取れます。
+結果として、電極の値は初期値と異なり、メインコントロールボードに触れられたことを伝えます。
+このプロセス中に、各電極の配線が安定していることを確認し、初期化時に充電がバランス良くなるようにしてください。
 
 
-**Wiring Diagram**
 
+**配線図**
 
 |wiring_fruit_piano| 
 
 
-**Writing the Code**
+**コードの書き方**
 
-We'll write a MicroPython script that:
+MicroPythonスクリプトを書いて、次のことを行います：
 
-* Initializes the MPR121 touch sensor.
-* Detects touch inputs from the connected fruits.
-* Plays corresponding musical notes on the buzzer.
-* Lights up the RGB LED with random colors.
+* MPR121タッチセンサーを初期化。
+* 接続されたフルーツからのタッチ入力を検出。
+* ブザーで対応する音楽ノートを演奏。
+* RGB LEDをランダムな色で点灯させる。
 
 .. note::
 
-    * Open the ``7.9_fruit_piano.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the library called ``mpr121.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * ``7.9_fruit_piano.py`` を ``newton-lab-kit/micropython`` から開くか、Thonnyにコードをコピーして「実行」ボタンをクリックするか、F5キーを押してください。
+    * 正しいインタプリタが選択されていることを確認してください：MicroPython（Raspberry Pi Pico）.COMxx。
+    * ここでは ``mpr121.py`` というライブラリが必要です。Picoにアップロードされているか確認してください。詳細なチュートリアルは :ref:`add_libraries_py` を参照してください。
 
 .. code-block:: python
 
@@ -132,11 +129,11 @@ We'll write a MicroPython script that:
     import time
     import urandom
 
-    # Initialize I2C connection for MPR121 capacitive touch sensor
+    # MPR121静電容量タッチセンサー用のI2C接続を初期化
     i2c = I2C(1, sda=Pin(6), scl=Pin(7))
     mpr = MPR121(i2c)
 
-    # Define note frequencies (in Hertz)
+    # 音符の周波数を定義（ヘルツ単位）
     NOTE_FREQUENCIES = [
         220,  # A3
         247,  # B3
@@ -152,44 +149,44 @@ We'll write a MicroPython script that:
         659   # E5
     ]
 
-    # Initialize PWM for buzzer on GP15
+    # GP15でブザー用のPWMを初期化
     buzzer = PWM(Pin(15))
 
-    # Initialize PWM for RGB LED on GP13 (Red), GP12 (Green), GP11 (Blue)
+    # GP13（赤）、GP12（緑）、GP11（青）でRGB LED用のPWMを初期化
     red = PWM(Pin(13))
     green = PWM(Pin(12))
     blue = PWM(Pin(11))
 
-    # Set PWM frequency for LEDs
+    # LED用のPWM周波数を設定
     red.freq(1000)
     green.freq(1000)
     blue.freq(1000)
 
-    # Function to play a tone
+    # 音を鳴らす関数
     def play_tone(frequency):
         if frequency == 0:
             buzzer.duty_u16(0)
         else:
             buzzer.freq(frequency)
-            buzzer.duty_u16(32768)  # 50% duty cycle
+            buzzer.duty_u16(32768)  # 50%のデューティサイクル
 
-    # Function to stop the tone
+    # 音を止める関数
     def stop_tone():
         buzzer.duty_u16(0)
 
-    # Function to set a random color on the RGB LED
+    # RGB LEDにランダムな色を設定する関数
     def set_random_color():
         red.duty_u16(urandom.getrandbits(16))
         green.duty_u16(urandom.getrandbits(16))
         blue.duty_u16(urandom.getrandbits(16))
 
-    # Function to turn off the RGB LED
+    # RGB LEDを消す関数
     def turn_off_led():
         red.duty_u16(0)
         green.duty_u16(0)
         blue.duty_u16(0)
 
-    # Main loop
+    # メインループ
     try:
         last_touched = mpr.touched()
         while True:
@@ -197,12 +194,12 @@ We'll write a MicroPython script that:
             for i in range(12):
                 pin_bit = 1 << i
                 if current_touched & pin_bit and not last_touched & pin_bit:
-                    # Electrode i was just touched
+                    # 電極iが触れられた
                     print("Pin {} touched".format(i))
                     play_tone(NOTE_FREQUENCIES[i])
                     set_random_color()
                 if not current_touched & pin_bit and last_touched & pin_bit:
-                    # Electrode i was just released
+                    # 電極iが離された
                     print("Pin {} released".format(i))
                     stop_tone()
                     turn_off_led()
@@ -217,90 +214,89 @@ We'll write a MicroPython script that:
 
 .. note::
     
-    Do not touch the fruits or conductive objects before running the program to ensure proper initialization.
+    プログラムを実行する前に、フルーツや導電性オブジェクトに触れないでください。これにより、適切な初期化が保証されます。
 
-After the program starts, gently touch the fruits.
+プログラムが開始された後、優しくフルーツに触れてください。
 
-* The buzzer will play the corresponding musical note.
-* The RGB LED will light up with a random color.
-* Experiment by touching different fruits to play different notes.
+* ブザーは対応する音楽ノートを演奏します。
+* RGB LEDはランダムな色で点灯します。
+* 異なるフルーツに触れて異なるノートを演奏する実験をしてみてください。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Initialization:
+#. 初期化：
 
-   * **I2C Connection**: Sets up communication with the MPR121 sensor.
-   * **PWM Setup**: Initializes PWM for the buzzer and RGB LED pins.
+   * **I2C接続**: MPR121センサーとの通信を設定します。
+   * **PWM設定**: ブザーとRGB LEDピンのPWMを初期化します。
 
-#. Note Frequencies:
+#. 音符の周波数：
 
-   A list of frequencies corresponding to musical notes (A3 to E5).
+   音楽ノート（A3からE5）に対応する周波数のリストです。
 
-#. Functions:
+#. 関数：
 
-   * ``play_tone(frequency)``: Starts playing a tone at the specified frequency.
-   * ``stop_tone()``: Stops the buzzer.
-   * ``set_random_color()``: Sets the RGB LED to a random color.
-   * ``turn_off_led()``: Turns off the RGB LED.
+   * ``play_tone(frequency)``: 指定された周波数で音を鳴らします。
+   * ``stop_tone()``: ブザーを停止します。
+   * ``set_random_color()``: RGB LEDにランダムな色を設定します。
+   * ``turn_off_led()``: RGB LEDを消します。
 
-#. Main Loop:
+#. メインループ：
 
-   * **Touch Detection**: Continuously checks for touch events on the electrodes.
-   * **Touch Handling**:
+   * **タッチ検出**: 電極のタッチイベントを継続的にチェックします。
+   * **タッチ処理**：
 
-     * When an electrode is touched, plays the corresponding note and lights up the RGB LED.
-     * When an electrode is released, stops the tone and turns off the LED.
+     * 電極が触れられたとき、対応するノートを演奏し、RGB LEDを点灯させます。
+     * 電極が離れたとき、音を停止し、LEDを消します。
 
-   * **Debouncing**: A short delay (``time.sleep(0.01)``) to prevent bouncing issues.
+   * **デバウンス**: バウンスの問題を防ぐための短い遅延（ ``time.sleep(0.01)`` ）。
 
-#. Exception Handling:
+#. 例外処理：
 
-   * Uses a try block to allow for graceful exit on a keyboard interrupt.
-   * Ensures that the buzzer and LED are turned off in the finally block.
+   * トライブロックを使用して、キーボード割り込み時に適切に終了できるようにします。
+   * 最終的にブザーとLEDが消えることを保証します。
 
+**トラブルシューティング**
 
-**Troubleshooting**
+* 音や光が出ない場合：
 
-* No Sound or Lights:
+  * すべての配線接続を確認します。
+  * MPR121がPicoに正しく接続されていることを確認します。
+  * フルーツが電極にしっかり接続されていることを確認します。
+  * ``mpr121.py`` がPicoに正しくアップロードされていることを確認します。
 
-  * Check all wiring connections.
-  * Ensure that the MPR121 is properly connected to the Pico.
-  * Verify that the fruits are connected securely to the electrodes.
-  * Ensure that ``mpr121.py`` is correctly uploaded to the Pico.
+* タッチが検出されない場合：
 
-* Touch Not Detected:
+  * 複数の電極に同時に触れていないことを確認します。
+  * 配線を直接触らず、フルーツや導電性オブジェクトに触れます。
+  * フルーツが乾燥していないことを確認します。湿ったフルーツはより良く導電します。
 
-  * Make sure you're not touching multiple electrodes simultaneously.
-  * Avoid touching the wires directly; touch the fruits or conductive objects.
-  * Ensure that the fruits are not too dry; moist fruits conduct better.
+* 不安定な挙動：
 
-* Unstable Behavior:
+  * Picoとセンサーが静電気にさらされていないことを確認します。
+  * 配線と接続が安定していることを保持し、一貫した静電容量の読み取りを維持します。
 
-  * Ensure that the Pico and sensor are not exposed to static electricity.
-  * Keep the wires and connections stable to maintain consistent capacitance readings.
+**さらなる実験**
 
-**Experimenting Further**
+* 楽器の拡張：
 
-* Expand the Instrument:
+  * 異なる導電材料（例：水、金属オブジェクト）をキーとして使用します。
+  * 電極にマッピングする周波数を増やして、ノートの数を増やします。
 
-  * Use different conductive materials (e.g., water, metal objects) to act as keys.
-  * Increase the number of notes by mapping more frequencies to the electrodes.
+* 視覚効果：
 
-* Visual Effects:
+  * ``set_random_color()`` 関数を修正して特定の色パターンを作成します。
+  * 視覚的な体験を向上させるために、より多くのLEDを追加します。
 
-  * Modify the ``set_random_color()`` function to create specific color patterns.
-  * Add more LEDs to enhance the visual experience.
+* 感度の調整：
 
-* Adjust Sensitivity:
+  MPR121のタッチ閾値設定を実験して感度を調整します。
 
-  Experiment with the MPR121's touch threshold settings to adjust sensitivity.
+* 他のセンサーとの組み合わせ：
 
-* Combine with Other Sensors:
+  環境条件に基づいて音や光の効果を変更するために、他のセンサー（例：光センサー）を統合します。
 
-  Integrate other sensors (e.g., light sensors) to modify the sound or light effects based on environmental conditions.
+**まとめ**
 
-**Conclusion**
+Raspberry Pi Pico 2を使用してフルーツピアノを成功裏に構築しました！このプロジェクトは、静電容量タッチセンシングを音と光と組み合わせてインタラクティブな体験を作成する方法を示しています。導電性、タッチセンシング、クリエイティブなコーディングの原理を探る楽しい方法です。
 
-You've successfully built a Fruit Piano using the Raspberry Pi Pico 2! This project demonstrates how capacitive touch sensing can be combined with sound and light to create interactive experiences. It's a fun way to explore the principles of conductivity, touch sensing, and creative coding.
-
-Feel free to expand upon this project by adding new features, experimenting with different materials, or integrating additional components.
+このプロジェクトに新しい機能を追加したり、異なる材料で実験したり、追加のコンポーネントを統合したりして、さらに発展させてください。

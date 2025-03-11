@@ -1,39 +1,38 @@
-.. note::
+.. note:: 
+    こんにちは、FacebookでSunFounderのRaspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、同じ情熱を持つ人々ともっと深く掘り下げましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **エキスパートサポート**: 私たちのコミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学び＆共有する**: スキル向上のためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセス。
+    - **特別割引**: 最新製品の独占的な割引を楽しむ。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや祝日のプロモーションに参加します。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造する準備はできましたか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _cpn_breadboard:
 
-Breadboard
-==============
+ブレッドボード
+=================
 
 |img_bb|
 
-A breadboard is a construction base for prototyping of electronics. Originally the word referred to a literal bread board, a polished piece of wood used for slicing bread. 
-In the 1970s the solderless breadboard (a.k.a. plugboard, a terminal array board) became available and nowadays the term "breadboard" is commonly used to refer to these.
+ブレッドボードは、電子回路のプロトタイピングのための構築ベースです。もともとこの言葉は文字通りのブレッドボード、つまりパンを切るための磨かれた木板を指していました。
+1970年代には、はんだ付け不要のブレッドボード（プラグボード、端子配列ボードとも呼ばれる）が普及し、現在では「ブレッドボード」という用語は一般的にこれらを指すようになりました。
 
-It is used to build and test circuits quickly before finishing any circuit design. 
-And it has many holes into which components mentioned above can be inserted like ICs and resistors as well as jumper wires. 
-The breadboard allows you to plug in and remove components easily. 
+回路設計を完成させる前に、迅速に回路を構築してテストするために使用されます。
+また、上記のコンポーネントをはじめ、ICや抵抗器、ジャンパーワイヤーなどを差し込むための多くの穴があります。
+ブレッドボードは、コンポーネントを簡単に差し込んだり取り外したりすることができます。
 
-The picture shows the internal structure of a breadboard. 
-Although these holes on the breadboard appear to be independent of each other, they are actually connected to each other through metal strips internally.
+画像はブレッドボードの内部構造を示しています。
+ブレッドボード上のこれらの穴は互いに独立しているように見えますが、実際には内部で金属ストリップを通じて互いに接続されています。
 
 |img_bbi|
 
-If you want to know more about breadboard, refer to: `How to Use a Breadboard - Science Buddies <https://www.sciencebuddies.org/science-fair-projects/references/how-to-use-a-breadboard#pth-smd>`_
+ブレッドボードについてもっと知りたい場合は、こちらを参照してください：`ブレッドボードの使い方 - Science Buddies <https://www.sciencebuddies.org/science-fair-projects/references/how-to-use-a-breadboard#pth-smd>`_
 
-**Example**
+**例**
 
 * :ref:`bc_bb`
 

@@ -1,48 +1,40 @@
-.. note::
+.. note:: 
+    FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてもっと深く知るための共有スペースです。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **専門家サポート**: コミュニティとチームからの支援を得て、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキル向上のためのヒントやチュートリアルを交換しましょう。
+    - **独占的なプレビュー**: 新製品の発表や先行プレビューに早期アクセス。
+    - **特別割引**: 最新製品の独占的な割引を楽しむことができます。
+    - **祭りのプロモーションとギフト配布**: ギフト配布や祝祭のプロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造する準備はできていますか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
 .. _cpn_mfrc522:
 
-MFRC522 Module
+MFRC522モジュール
 ====================
 
 |img_mfrc522|
 
-MFRC522 is a kind of integrated read and write card chip. It is commonly
-used in the radio at 13.56MHz. Launched by the NXP Company, it is a
-low-voltage, low-cost, and small-sized non-contact card chip, a best
-choice of intelligent instrument and portable handheld device.
+MFRC522は、統合されたリード＆ライトカードチップの一種で、13.56MHzの周波数で使用されます。
+NXP社によって開発されたこのチップは、低電圧、低コスト、小型の非接触カードチップであり、
+インテリジェント機器やポータブルハンドヘルドデバイスに最適な選択です。
 
-The MF RC522 uses advanced modulation and demodulation concept which
-fully presented in all types of 13.56MHz passive contactless
-communication methods and protocols. In addition, it supports rapid
-CRYPTO1 encryption algorithm to verify MIFARE products. MFRC522 also
-supports MIFARE series of high-speed non-contact communication, with a
-two-way data transmission rate up to 424kbit/s. As a new member of the
-13.56MHz highly integrated reader card series, MF RC522 is much similar
-to the existing MF RC500 and MF RC530 but there also exists great
-differences. It communicates with the host machine via the serial manner
-which needs less wiring. You can choose between SPI, I2C and serial UART
-mode (similar to RS232), which helps reduce the connection, save PCB
-board space (smaller size), and reduce cost.
+MF RC522は、全ての種類の13.56MHzのパッシブ非接触通信方法およびプロトコルにおいて、
+高度な変調および復調の概念を採用しています。さらに、MIFARE製品を検証するための迅速
+なCRYPTO1暗号化アルゴリズムをサポートしています。MFRC522は、高速の非接触通信もサポ
+ートし、双方向のデータ伝送速度は最大424kbit/sに達します。13.56MHzの高度に統合された
+リーダーカードシリーズの新メンバーとして、MF RC522は既存のMF RC500やMF RC530と非常
+に似ていますが、大きな違いもあります。それはホストマシンとの通信をシリアル方式で行い、
+配線が少なくて済みます。SPI、I2C、シリアルUARTモード（RS232に似ている）の間で選択でき、
+接続を減らし、PCBボードのスペースを節約し（小型化）、コストを削減するのに役立ちます。
 
+* `MFRC522データシート <https://www.nxp.com/docs/en/data-sheet/MFRC522.pdf>`_
 
-* `MFRC522 Data sheet <https://www.nxp.com/docs/en/data-sheet/MFRC522.pdf>`_
+**例**
 
-
-**Example**
-
-* :ref:`py_rfid` (For MicroPython User)
-* :ref:`py_music_player` (For MicroPython User)
-* :ref:`ar_rfid` (For Arduino User)
+* :ref:`py_rfid` (MicroPythonユーザー用)
+* :ref:`py_music_player` (MicroPythonユーザー用)
+* :ref:`ar_rfid` (Arduinoユーザー用)

@@ -1,44 +1,55 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！FacebookのSunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Communityへようこそ！Raspberry Pi、Arduino、ESP32について、仲間と共に深く学び、探求しましょう。
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティやチームのサポートを受けながら解決できます。
+    - **学び＆共有**：スキル向上のためのヒントやチュートリアルを交換できます。
+    - **新製品の先行情報**：新製品の発表や試作品の情報をいち早く入手できます。
+    - **特別割引**：最新製品を特別価格で購入できます。
+    - **イベントやプレゼント企画**：キャンペーンやプレゼント企画に参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探究し、創造しませんか？今すぐ [|link_sf_facebook|] をクリックして参加しましょう！
 
 SunFounder |link_newton_lab_kit| for Raspberry Pi Pico 2
 ===========================================================
 
 * |link_Newton_lab_kit|
 
-Thank you for choosing the SunFounder |link_newton_lab_kit|!
+.. note:: 
 
-This advanced learning kit, built around the Raspberry Pi Pico 2, offers a wide range of components, including displays, sound modules, drivers, controllers, and sensors, designed to give you a deep understanding of electronic devices.
+    このドキュメントは以下の言語で利用可能です。
 
-We’ve prepared numerous exciting and practical projects, along with extensive, expert-level resources to guide you. Simply power up your computer, and you’ll be learning programming in no time.
-
-To accommodate different preferences, we provide two programming languages: MicroPython and C/C++ (Arduino). Each language comes with its own set of engaging projects, allowing you to choose the one that best suits your interests.
-
-If you'd like to explore additional projects not yet included, feel free to email us. We are continually updating our online tutorials and are always open to suggestions.
-
-For inquiries or suggestions, contact us at: service@sunfounder.com.
+        * |link_german_tutorials|
+        * |link_jp_tutorials|
+        * |link_en_tutorials|
+    
+    ご希望の言語のリンクをクリックして、ドキュメントをご覧ください。
 
 
+SunFounder |link_newton_lab_kit| をお選びいただき、ありがとうございます！
 
-**Source Code**
+この高度な学習キットは、Raspberry Pi Pico 2を基盤としており、ディスプレイ、サウンドモジュール、ドライバ、コントローラー、センサーなど、多彩なコンポーネントを含んでいます。これにより、電子デバイスの仕組みを深く理解することができます。
+
+私たちは、数多くの実践的で魅力的なプロジェクトを用意し、専門レベルの豊富なリソースを提供しています。PCの電源を入れるだけで、すぐにプログラミングを学び始めることができます。
+
+プログラミング言語の選択肢として、MicroPythonとC/C++（Arduino）を提供しています。それぞれ独自の魅力的なプロジェクトが用意されており、あなたの興味や目的に合った言語を選ぶことができます。
+
+また、まだ含まれていないプロジェクトを試したい場合は、お気軽にお問い合わせください。オンラインチュートリアルは常に更新されており、皆様からのご意見を歓迎しています。
+
+ご質問やご提案がありましたら、以下のアドレスまでご連絡ください：service@sunfounder.com。
+
+
+
+**ソースコード**
 
 * :download:`SunFounder Newton Lab Kit Example <https://github.com/sunfounder/newton-lab-kit/archive/refs/heads/main.zip>`
 
-* Or check out the code at `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_
+* または、 `Newton Lab Kit - GitHub <https://github.com/sunfounder/newton-lab-kit>`_ でコードを確認できます。
 
 
-**Content**
+**内容一覧**
 
 .. toctree::
     :maxdepth: 2
@@ -53,8 +64,7 @@ For inquiries or suggestions, contact us at: service@sunfounder.com.
     faq
 
 
-Copyright Notice
+著作権に関する注意事項
 --------------------------
 
-All contents including but not limited to texts, images, and code in this manual are owned by the SunFounder Company. You should only use it for personal study,investigation, enjoyment, or other non-commercial or nonprofit purposes, under therelated regulations and copyrights laws, without infringing the legal rights of the author and relevant right holders. For any individual or organization that uses these for commercial profit without permission, the Company reserves the right to take legal action.
-
+本マニュアルに含まれるテキスト、画像、コードなどのコンテンツは、SunFounder社が所有しています。本マニュアルの利用は、関連する規定および著作権法の範囲内で、個人的な学習、研究、趣味、または非営利目的に限定され、著作権者および関連権利者の法的権利を侵害しない範囲で行われるものとします。許可なく商業目的で使用した場合、SunFounder社は法的措置を講じる権利を有します。

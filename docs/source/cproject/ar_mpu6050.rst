@@ -1,59 +1,58 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について一緒にもっと深く探求しましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**：コミュニティやチームの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学習と共有**：スキルアップのためのヒントやチュートリアルを交換します。
+    - **独占的なプレビュー**：新製品の発表や先行公開に早期アクセスが可能です。
+    - **特別な割引**：最新製品に対する独占的な割引を楽しみます。
+    - **祭りのプロモーションとギブアウェイ**：ギブアウェイや休日のプロモーションに参加します。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _ar_mpu6050:
 
-6.3 Read from the MPU-6050
+6.3 MPU-6050から読み取る
 ===============================
 
-In this lesson, we'll explore how to interface the **MPU-6050** 6-axis motion tracking sensor with the Raspberry Pi Pico 2. The MPU-6050 combines a 3-axis gyroscope and a 3-axis accelerometer, providing raw sensor data over the I2C communication protocol.
+このレッスンでは、Raspberry Pi Pico 2を使用して **MPU-6050** 6軸モーショントラッキングセンサーとのインターフェースの方法を学びます。MPU-6050は3軸ジャイロスコープと3軸加速度計を組み合わせており、I2C通信プロトコルを介して生のセンサーデータを提供します。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全キットを購入するのが便利です。リンクはこちらです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットのアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,39 +61,39 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 複数
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_mpu6050`
         - 1
         - 
 
-**Understanding the MPU-6050 Sensor**
+**MPU-6050センサーについて**
 
-The **MPU-6050** sensor is widely used in projects that require motion tracking and orientation detection, such as drones, robotics, and gaming devices.
+MPU-6050センサーは、ドローン、ロボティクス、ゲームデバイスなど、動きの追跡と向きの検出が必要なプロジェクトで広く使用されています。
 
-* **Accelerometer**: Measures acceleration forces along the X, Y, and Z axes. This includes gravitational acceleration, allowing you to determine the tilt or orientation of the sensor.
-* **Gyroscope**: Measures rotational velocity around the X, Y, and Z axes, providing information about how fast the sensor is spinning.
+* **加速度計**：X、Y、Z軸に沿った加速力を測定します。これには重力加速度も含まれるため、センサーの傾きや向きを判定することができます。
+* **ジャイロスコープ**：X、Y、Z軸を中心とした回転速度を測定し、センサーがどれだけ速く回転しているかの情報を提供します。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_mpu6050_ar|
 
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_mpu6050_ar|
 
-**Writing the Code**
+**コードの書き方**
 
-We'll write a program that initializes the MPU-6050 sensor, reads acceleration and gyroscope data, and prints the values to the Serial Monitor.
+MPU-6050センサーを初期化し、加速度とジャイロスコープのデータを読み取り、値をシリアルモニターに表示するプログラムを書きます。
 
 .. note::
 
-    * You can open the file ``6.3_6axis_motion_tracking.ino`` from ``newton-lab-kit/arduino/6.3_6axis_motion_tracking``. 
-    * Or copy this code into **Arduino IDE**.
-    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-    * The ``Adafruit MPU6050`` library is used here, you can install it from the **Library Manager**.
+    * ``6.3_6axis_motion_tracking.ino`` ファイルを ``newton-lab-kit/arduino/6.3_6axis_motion_tracking`` から開くことができます。
+    * またはこのコードを **Arduino IDE** にコピーしてください。
+    * **Raspberry Pi Pico 2** ボードと正しいポートを選択し、「Upload」をクリックしてください。
+    * ここでは ``Adafruit MPU6050`` ライブラリを使用しています。 **ライブラリマネージャー** からインストールできます。
 
       .. image:: img/lib_mpu6050.png
 
@@ -103,16 +102,16 @@ We'll write a program that initializes the MPU-6050 sensor, reads acceleration a
     #include <Adafruit_MPU6050.h>
     #include <Wire.h>
 
-    // Create an MPU6050 object
+    // MPU6050オブジェクトを作成
     Adafruit_MPU6050 mpu;
 
     void setup(void) {
-      // Initialize Serial Communication
+      // シリアル通信を初期化
       Serial.begin(115200);
 
       Serial.println("Adafruit MPU6050 test!");
 
-      // Try to initialize the MPU6050
+      // MPU6050を初期化する試み
       if (!mpu.begin()) {
         Serial.println("Failed to find MPU6050 chip");
         while (1) {
@@ -121,7 +120,7 @@ We'll write a program that initializes the MPU-6050 sensor, reads acceleration a
       }
       Serial.println("MPU6050 Found!");
 
-      // Set accelerometer range
+      // 加速度計の範囲を設定
       mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
       Serial.print("Accelerometer range set to: ");
       switch (mpu.getAccelerometerRange()) {
@@ -139,7 +138,7 @@ We'll write a program that initializes the MPU-6050 sensor, reads acceleration a
           break;
       }
 
-      // Set gyroscope range
+      // ジャイロスコープの範囲を設定
       mpu.setGyroRange(MPU6050_RANGE_500_DEG);
       Serial.print("Gyro range set to: ");
       switch (mpu.getGyroRange()) {
@@ -157,7 +156,7 @@ We'll write a program that initializes the MPU-6050 sensor, reads acceleration a
           break;
       }
 
-      // Set filter bandwidth
+      // フィルタ帯域幅を設定
       mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
       Serial.print("Filter bandwidth set to: ");
       switch (mpu.getFilterBandwidth()) {
@@ -189,11 +188,11 @@ We'll write a program that initializes the MPU-6050 sensor, reads acceleration a
     }
 
     void loop() {
-      // Get new sensor events with the readings
+      // 新しいセンサーイベントで読み取りを取得
       sensors_event_t a, g, temp;
       mpu.getEvent(&a, &g, &temp);
 
-      // Print acceleration values
+      // 加速度値を出力
       Serial.print("Acceleration X: ");
       Serial.print(a.acceleration.x);
       Serial.print(" m/s^2, Y: ");
@@ -202,7 +201,7 @@ We'll write a program that initializes the MPU-6050 sensor, reads acceleration a
       Serial.print(a.acceleration.z);
       Serial.println(" m/s^2");
 
-      // Print gyroscope values
+      // ジャイロスコープ値を出力
       Serial.print("Rotation X: ");
       Serial.print(g.gyro.x);
       Serial.print(" rad/s, Y: ");
@@ -211,48 +210,47 @@ We'll write a program that initializes the MPU-6050 sensor, reads acceleration a
       Serial.print(g.gyro.z);
       Serial.println(" rad/s");
 
-      delay(500); // Adjust delay as needed
+      delay(500); // 必要に応じて遅延を調整
     }
 
 
-After uploading the code, the Serial Monitor should display the acceleration and rotation values continuously.
+コードをアップロードした後、シリアルモニターは連続して加速度と回転値を表示します。
 
 .. code-block::
 
     Adafruit MPU6050 test!
     MPU6050 Found!
-    Accelerometer range set to: +-8G
-    Gyro range set to: +-500 deg/s
-    Filter bandwidth set to: 21 Hz
+    加速度計の範囲が設定されました: +-8G
+    ジャイロ範囲が設定されました: +-500 deg/s
+    フィルタ帯域幅が設定されました: 21 Hz
 
-    Acceleration X: 0.00 m/s^2, Y: 0.00 m/s^2, Z: 9.81 m/s^2
-    Rotation X: 0.02 rad/s, Y: -0.01 rad/s, Z: 0.00 rad/s
-    Acceleration X: 0.10 m/s^2, Y: 0.05 m/s^2, Z: 9.76 m/s^2
-    Rotation X: 0.15 rad/s, Y: -0.05 rad/s, Z: 0.02 rad/s
+    加速度 X: 0.00 m/s^2, Y: 0.00 m/s^2, Z: 9.81 m/s^2
+    回転 X: 0.02 rad/s, Y: -0.01 rad/s, Z: 0.00 rad/s
+    加速度 X: 0.10 m/s^2, Y: 0.05 m/s^2, Z: 9.76 m/s^2
+    回転 X: 0.15 rad/s, Y: -0.05 rad/s, Z: 0.02 rad/s
 
-Gently rotate or move the MPU-6050 sensor module.
-Observe changes in the acceleration and rotation values corresponding to the movement.
+MPU-6050センサーモジュールをゆっくりと回転させたり動かしたりしてください。
+動きに応じて加速度と回転値の変化を観察してください。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Including Libraries and Defining Constants:
+#. ライブラリを含む定義定数：
 
+   * ``Adafruit_MPU6050.h``: MPU6050ライブラリを含め、センサーとのやり取りを容易にします。
+   * ``Wire.h``: I2C通信ライブラリを含めます。
+   * ``mpu``: MPU6050オブジェクトを作成し、センサーとのインタラクションを行います。
 
-   * ``Adafruit_MPU6050.h``: Includes the MPU6050 library for easier interfacing.
-   * ``Wire.h``: Includes the I2C communication library.
-   * ``mpu``: Creates an MPU6050 object to interact with the sensor.
+#. セットアップ関数：
 
-#. Setup Function:
-
-   * MPU6050 Initialization: 
+   * MPU6050の初期化：
    
-     Attempts to initialize the MPU6050 sensor. If unsuccessful, it prints an error message and halts the program.
+     MPU6050センサーの初期化を試みます。成功しない場合は、エラーメッセージを出力してプログラムを停止します。
    
      .. code-block:: arduino
    
          Serial.println("Adafruit MPU6050 test!");
    
-         // Try to initialize the MPU6050
+         // MPU6050の初期化を試みる
          if (!mpu.begin()) {
            Serial.println("Failed to find MPU6050 chip");
            while (1) {
@@ -261,9 +259,9 @@ Observe changes in the acceleration and rotation values corresponding to the mov
          }
          Serial.println("MPU6050 Found!");
 
-   * Accelerometer Range: 
+   * 加速度計の範囲：
    
-     Sets the accelerometer range to ±8G and prints the current range.
+     加速度計の範囲を±8Gに設定し、現在の範囲を出力します。
    
      .. code-block:: arduino
    
@@ -279,9 +277,9 @@ Observe changes in the acceleration and rotation values corresponding to the mov
              break;
          }
    
-   * Gyroscope Range: 
+   * ジャイロスコープの範囲：
    
-     Sets the gyroscope range to ±500 degrees per second and prints the current range.
+     ジャイロスコープの範囲を±500度/秒に設定し、現在の範囲を出力します。
    
      .. code-block:: arduino
    
@@ -297,9 +295,9 @@ Observe changes in the acceleration and rotation values corresponding to the mov
              break;
          }
    
-   * Setting Filter Bandwidth: 
+   * フィルタ帯域幅の設定：
    
-     Configures the filter bandwidth to 21 Hz to reduce noise and prints the current setting.
+     フィルタ帯域幅を21Hzに設定してノイズを減らし、現在の設定を出力します。
    
      .. code-block:: arduino
    
@@ -315,26 +313,26 @@ Observe changes in the acceleration and rotation values corresponding to the mov
              break;
          }
 
-#. Loop Function:
+#. ループ関数：
 
-   * Reading Sensor Data:
+   * センサーデータの読み取り：
    
-     * ``sensors_event_t a, g, temp;``: Creates event objects to store accelerometer, gyroscope, and temperature data.
-     * ``mpu.getEvent(&a, &g, &temp);``: Retrieves the latest sensor data.
+     * ``sensors_event_t a, g, temp;``: 加速度計、ジャイロスコープ、温度データを格納するイベントオブジェクトを作成します。
+     * ``mpu.getEvent(&a, &g, &temp);``: 最新のセンサーデータを取得します。
    
      .. code-block:: arduino
    
          sensors_event_t a, g, temp;
          mpu.getEvent(&a, &g, &temp);
    
-   * Printing Sensor Data:
+   * センサーデータの出力：
    
-     * **Acceleration**: Prints acceleration values along the X, Y, and Z axes in meters per second squared (m/s²).
-     * **Rotation**: Prints gyroscope values (rotational velocity) around the X, Y, and Z axes in radians per second (rad/s).
+     * **加速度**：X、Y、Z軸に沿った加速度値をメートル毎秒二乗（m/s²）で出力します。
+     * **回転**：X、Y、Z軸を中心としたジャイロスコープ値（回転速度）をラジアン毎秒（rad/s）で出力します。
    
      .. code-block:: Arduino
    
-       // Print acceleration values
+       // 加速度値を出力
        Serial.print("Acceleration X: ");
        Serial.print(a.acceleration.x);
        ...
@@ -344,43 +342,46 @@ Observe changes in the acceleration and rotation values corresponding to the mov
        Serial.println(" rad/s");
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* No Readings Displayed:
 
-  * Check all wiring connections, especially the I2C lines (SCL and SDA).
-  * Ensure the MPU-6050 sensor is receiving power (VCC and GND connections).
-  * Verify that the correct GPIO pins are defined in the code.
+* データが表示されない場合：
 
-* Incorrect Readings:
 
-  * Ensure that the MPU-6050 sensor is properly seated in the breadboard.
-  * Verify that the sensor's range and filter settings match the desired application.
-  * Check for any loose connections or shorts in the wiring.
+  * 全ての配線接続、特にI2Cライン（SCLとSDA）を確認してください。
+  * MPU-6050センサーが電力（VCCとGND接続）を受け取っていることを確認してください。
+  * コード内で正しいGPIOピンが定義されていることを確認してください。
 
-* Sensor Interference:
+* 読み取り値が正しくない場合：
 
-  * Avoid placing the sensor near other electronic devices that might cause interference.
-  * Ensure there are no physical obstructions blocking the sensor's movement.
+  * MPU-6050センサーがブレッドボードに適切に装着されていることを確認してください。
+  * センサーの範囲とフィルタ設定が希望するアプリケーションに合っていることを確認してください。
+  * 配線に緩い接続やショートがないかチェックしてください。
 
-**Further Exploration**
+* センサーの干渉：
 
-* Combining with Other Sensors:
+  * センサーを他の電子機器の近くに置かないようにしてください。干渉の原因となる可能性があります。
+  * センサーの動きを阻害する物理的な障害物がないことを確認してください。
 
-  Integrate the MPU-6050 with GPS modules, magnetometers, or other sensors to create comprehensive tracking systems.
+**さらなる探求**
 
-* Building a Motion-Based Game Controller:
+* 他のセンサーとの組み合わせ：
 
-  Use the MPU-6050 to detect movement and orientation, allowing for the creation of motion-controlled gaming devices.
+  MPU-6050をGPSモジュール、磁力計、その他のセンサーと統合して、包括的なトラッキングシステムを作成します。
 
-* Creating a Self-Balancing Robot:
+* モーションベースのゲームコントローラーの構築：
 
-  Utilize the accelerometer and gyroscope data to maintain balance and stability in robotic applications.
+  MPU-6050を使用して動きと向きを検出し、モーションコントロールされるゲームデバイスを作成できます。
 
-* Implementing Sensor Fusion Algorithms:
+* 自己バランスロボットの作成：
 
-  Combine accelerometer and gyroscope data to calculate orientation angles using algorithms like the Kalman filter or complementary filter.
+  加速度計とジャイロスコープのデータを利用して、ロボットアプリケーションでのバランスと安定性を維持します。
 
-**Conclusion**
+* センサーフュージョンアルゴリズムの実装：
 
-In this lesson, you've learned how to interface the MPU-6050 6-axis motion tracking sensor with the Raspberry Pi Pico. By leveraging the Adafruit MPU6050 library, you can easily retrieve and interpret accelerometer and gyroscope data, enabling a wide range of motion and orientation-based applications. The optional LED indicator adds a simple way to provide visual feedback based on sensor readings, enhancing the interactivity of your projects.
+  加速度計とジャイロスコープのデータを組み合わせて、カルマンフィルターや補完フィルターのようなアルゴリズムを使用して向きの角度を計算します。
+
+**結論**
+
+このレッスンでは、Raspberry Pi PicoとMPU-6050 6軸モーショントラッキングセンサーとのインターフェース方法を学びました。Adafruit MPU6050ライブラリを利用することで、加速度計とジャイロスコープのデータを簡単に取得し解釈でき、動きと向きに基づく幅広いアプリケーションが可能になります。オプションのLEDインジケーターは、センサーの読み取りに基づいた視覚的フィードバックを提供する簡単な方法を追加し、プロジェクトのインタラクティビティを高めます。
+

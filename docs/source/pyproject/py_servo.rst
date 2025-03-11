@@ -1,60 +1,60 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Communityへようこそ！Raspberry Pi、Arduino、ESP32について、仲間と一緒に深掘りして学びましょう。
 
-    **Why Join?**
+    **なぜ参加するべきか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家のサポート**: 購入後の問題や技術的な課題を、コミュニティやチームのサポートで解決できます。
+    - **学びと共有**: ヒントやチュートリアルを交換して、スキルを向上させましょう。
+    - **限定プレビュー**: 新製品の発表や先行公開にいち早くアクセスできます。
+    - **特別割引**: 最新製品に対する独占的な割引を楽しめます。
+    - **祝祭プロモーションやプレゼント**: プレゼント企画やホリデープロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求し、創造を楽しみたいですか？[|link_sf_facebook|] をクリックして、今すぐ参加しましょう！
 
 .. _py_servo:
 
-3.7 Swinging Servo
-===================
+3.7 サーボモーターの動作
+===========================
 
-In this lesson, we'll learn how to control a **servo motor** using the Raspberry Pi Pico 2. A servo motor is a device that can rotate to a specific angle between 0° and 180°. It's widely used in remote control toys, robots, and other applications that require precise position control.
+このレッスンでは、Raspberry Pi Pico 2を使って **サーボモーター** を制御する方法を学びます。サーボモーターは、0°から180°の間で特定の角度に回転することができるデバイスです。リモートコントロール玩具やロボット、精密な位置制御が必要なその他の用途に広く使用されています。
 
-Let's get started and make the servo swing back and forth!
+それでは、サーボを前後に揺らしてみましょう！
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下の部品が必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+セットで購入するのが便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
+    *   - 名前
+        - セット内容
+        - リンク
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+また、下記のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - 番号
+        - 部品
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -63,7 +63,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_servo`
@@ -71,100 +71,98 @@ You can also buy them separately from the links below.
         - |link_servo_buy|
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_servo|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_servo|
 
-* Orange wire is signal and connected to GP15.
-* Red wire is VCC and connected to VBUS(5V).
-* Brown wire is GND and connected to GND.
+* オレンジの線は信号線で、GP15に接続します。
+* 赤の線はVCCで、VBUS(5V)に接続します。
+* 茶色の線はGNDで、GNDに接続します。
 
-Servos can draw significant current, especially under load. Since we're using a small servo and not putting it under heavy load, powering it from the Pico's VBUS pin is acceptable for this simple experiment. For larger servos or multiple servos, use an external power supply.
+サーボは負荷がかかるとかなりの電流を消費することがあります。今回使用するのは小型のサーボで負荷も軽いため、PicoのVBUSピンから給電することで、この簡単な実験は問題なく動作します。大きなサーボや複数のサーボを使う場合は、外部電源の使用を検討してください。
 
-**Setting Up the Servo Arm**
+**サーボアームの取り付け**
 
-* Attach the servo arm (also called a horn) to the servo's output shaft.
-* Secure it with the small screw provided with the servo if necessary.
+* サーボアーム（またはホーン）をサーボの出力シャフトに取り付けます。
+* 必要に応じて、サーボに付属している小さなネジで固定します。
 
-**Writing the Code**
+**コードの作成**
 
-We'll write a MicroPython program to make the servo sweep back and forth between 0° and 180°.
+サーボが0°から180°まで前後に動くように、MicroPythonのプログラムを書きます。
 
 .. note::
 
-    * Open the ``3.7_swinging_servo.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    
+    * ``3.7_swinging_servo.py`` を ``newton-lab-kit/micropython`` フォルダから開くか、コードをThonnyにコピーして「実行」をクリックするか、F5を押して実行します。
+    * 正しいインタープリタ（MicroPython（Raspberry Pi Pico）.COMxx）が選択されていることを確認してください。
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize PWM on pin GP15
+    # GP15ピンでPWMを初期化
     servo = machine.PWM(machine.Pin(15))
-    servo.freq(50)  # Set the frequency to 50Hz
+    servo.freq(50)  # 周波数を50Hzに設定
 
-    # Function to map angle to duty cycle
+    # 角度をデューティサイクルに変換する関数
     def angle_to_duty(angle):
-        min_duty = 1638  # Corresponds to 0.5ms pulse (0°)
-        max_duty = 8192  # Corresponds to 2.5ms pulse (180°)
+        min_duty = 1638  # 0.5msのパルス（0°）
+        max_duty = 8192  # 2.5msのパルス（180°）
         duty = int(min_duty + (angle / 180) * (max_duty - min_duty))
         return duty
 
     while True:
-        # Move servo from 0° to 180°
+        # サーボを0°から180°に動かす
         for angle in range(0, 181, 1):
             servo.duty_u16(angle_to_duty(angle))
             utime.sleep_ms(20)
-        # Move servo from 180° back to 0°
+        # サーボを180°から0°に戻す
         for angle in range(180, -1, -1):
             servo.duty_u16(angle_to_duty(angle))
             utime.sleep_ms(20)
 
-When the code is running, the servo should smoothly sweep back and forth between 0° and 180°.
+コードが実行されると、サーボはスムーズに0°から180°の間を前後に動きます。
 
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Modules:
+#. モジュールのインポート：
 
-   * ``machine``: Provides access to hardware-related functions.
-   * ``utime``: Contains time-related functions for delays.
+   * ``machine``: ハードウェア関連の機能にアクセスします。
+   * ``utime``: 遅延など、時間関連の機能を提供します。
 
-#. Initialize PWM:
+#. PWMの初期化：
 
-   We set up PWM on GP15.
-   The frequency is set to 50Hz, which is standard for servos.
+   GP15ピンでPWMを設定します。サーボの標準周波数である50Hzに設定します。
 
    .. code-block:: python
 
       servo = machine.PWM(machine.Pin(15))
       servo.freq(50)
 
-#. Define the ``angle_to_duty`` Function:
+#. ``angle_to_duty`` 関数の定義：
 
-   * This function maps an angle (0° to 180°) to the corresponding duty cycle value for the servo.
-   * The ``min_duty`` and ``max_duty`` correspond to the minimum and maximum pulse widths for the servo control signal.
-   * The calculation scales the angle to the appropriate duty cycle.
+   * この関数は、角度（0°〜180°）をサーボのデューティサイクルに対応する値に変換します。
+   * ``min_duty`` と ``max_duty`` は、サーボ制御信号の最小と最大のパルス幅に対応します。
+   * 計算によって、角度を適切なデューティサイクルにスケーリングします。
 
    .. code-block:: python
 
       def angle_to_duty(angle):
-          min_duty = 1638  # 0.5ms pulse width
-          max_duty = 8192  # 2.5ms pulse width
+          min_duty = 1638  # 0.5msパルス幅
+          max_duty = 8192  # 2.5msパルス幅
           duty = int(min_duty + (angle / 180) * (max_duty - min_duty))
           return duty
-    
-#. Main Loop to Move the Servo:
 
-   * The servo moves from 0° to 180°, increasing the angle by 1° each time.
-   * Then it moves back from 180° to 0°.
-   * ``utime.sleep_ms(20)`` adds a small delay to smooth the movement.
+#. メインループでサーボを動かす：
+
+   * サーボは0°から180°まで、1°ずつ角度を増加させます。
+   * その後、180°から0°に戻ります。
+   * ``utime.sleep_ms(20)`` は、動作をスムーズにするための小さな遅延を追加します。
 
    .. code-block:: python
 
@@ -176,48 +174,47 @@ When the code is running, the servo should smoothly sweep back and forth between
               servo.duty_u16(angle_to_duty(angle))
               utime.sleep_ms(20)
 
-**More about the Code**
+**コードのさらなる理解**
 
-Servos are controlled by sending a PWM signal with a specific pulse width.
-A 50Hz PWM signal (period of 20ms) is standard for servos.
-The pulse width within each period determines the servo's angle:
+サーボは、特定のパルス幅を持つPWM信号を送ることによって制御されます。
+サーボの標準は50HzのPWM信号（周期20ms）です。
+各周期内のパルス幅がサーボの角度を決定します：
 
-* 0.5ms pulse width corresponds to 0°.
-* 1.5ms pulse width corresponds to 90°.
-* 2.5ms pulse width corresponds to 180°.
+* 0.5msのパルス幅は0°に対応。
+* 1.5msのパルス幅は90°に対応。
+* 2.5msのパルス幅は180°に対応。
 
-By adjusting the duty cycle of the PWM signal, we change the pulse width.
+PWM信号のデューティサイクルを調整することによって、パルス幅を変更します。
 
-The ``duty_u16()`` function accepts values from 0 to 65535.
-To calculate the duty cycle corresponding to a pulse width:
+``duty_u16()`` 関数は0から65535までの値を受け付けます。
+パルス幅に対応するデューティサイクルを計算するためには：
 
 .. code-block::
 
   Duty cycle = (Pulse Width / Period) * 65535
 
-For example, for a 0.5ms pulse width:
+例えば、0.5msのパルス幅の場合：
 
 .. code-block::
 
   Duty cycle = (0.5ms / 20ms) * 65535 ≈ 1638
 
-**Experimenting Further**
+**さらなる実験**
 
-* **Change the Speed**: Adjust the ``utime.sleep_ms(20)`` delay to make the servo move faster or slower.
-* **Set Specific Angles**: Modify the code to move the servo to specific angles.
+* **速度の変更**: ``utime.sleep_ms(20)`` の遅延を調整して、サーボの動作速度を速くしたり遅くしたりできます。
+* **特定の角度に設定**: コードを変更して、サーボを特定の角度に動かすことができます。
 
   .. code-block:: python
 
-    servo.duty_u16(angle_to_duty(90))  # Move to 90°
+    servo.duty_u16(angle_to_duty(90))  # 90°に移動
 
-* **Control with Input**: Connect a potentiometer or buttons to control the servo's angle interactively.
+* **入力による制御**: ポテンショメーターやボタンを接続して、サーボの角度をインタラクティブに制御できます。
 
-**Important Notes**
+**重要な注意点**
 
-* **Power Supply**: Ensure the servo is powered adequately. If you notice jitter or erratic movement, consider using an external 5V power supply for the servo.
-* **Avoid Overloading**: Do not force the servo beyond its physical limits (usually 0° to 180°) to prevent damage.
+* **電源供給**: サーボに十分な電力が供給されていることを確認してください。ジッターや不安定な動作が見られる場合は、外部の5V電源を使用してください。
+* **過負荷を避ける**: サーボを物理的な限界（通常0°〜180°）を超えて強制的に動かさないようにしてください。サーボが損傷する原因となります。
 
-**Conclusion**
+**結論**
 
-In this lesson, you've learned how to control a servo motor using the Raspberry Pi Pico 2. You now understand how to generate PWM signals to set the servo's angle and make it move smoothly. This skill is fundamental for robotics and automation projects where precise movement is required.
-
+このレッスンでは、Raspberry Pi Pico 2を使ってサーボモーターを制御する方法を学びました。PWM信号を使ってサーボの角度を設定し、スムーズに動かす方法を理解しました。このスキルは、精密な動きが必要なロボティクスやオートメーションプロジェクトにおいて非常に重要です。

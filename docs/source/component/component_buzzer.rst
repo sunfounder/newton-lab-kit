@@ -1,60 +1,58 @@
-.. note::
+.. note:: 
+    こんにちは、FacebookでSunFounderのRaspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、同じ情熱を持つ人々ともっと深く掘り下げましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **エキスパートサポート**: 私たちのコミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学び＆共有**: スキル向上のためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセス。
+    - **特別割引**: 最新製品の独占的な割引を楽しんでください。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや祝日のプロモーションに参加します。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造する準備はできましたか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _cpn_buzzer:
 
-Buzzer
+ブザー
 =======
 
 
-As a type of electronic buzzer with an integrated structure, buzzers, which are supplied by DC power, are widely used in computers, printers, photocopiers, alarms, electronic toys, automotive electronic devices, telephones, timers and other electronic products or voice devices. 
+DC電源で駆動する統合構造の電子ブザーは、コンピューター、プリンター、コピー機、アラーム、電子玩具、自動車電子機器、電話、タイマーなどの電子製品や音声装置で広く使用されています。
 
-Buzzers can be categorized as active and passive ones (see the following picture). Turn the buzzer so that its pins are facing up, and the buzzer with a green circuit board is a passive buzzer, while the one enclosed with a black tape is an active one.
-
+ブザーはアクティブブザーとパッシブブザーの2種類に分類されます（以下の画像を参照）。ブザーをピンが上を向くようにして、緑色の基板があるものがパッシブブザー、黒いテープで封じられているものがアクティブブザーです。
 
 |img_buzzer|
 
-The difference between an active buzzer and a passive buzzer: 
+アクティブブザーとパッシブブザーの違い：
 
-An active buzzer has a built-in oscillating source, so it will make sounds when electrified. But a passive buzzer does not have such source, so it will not beep if DC signals are used; instead, you need to use square waves whose frequency is between 2K and 5K to drive it. The active buzzer is often more expensive than the passive one because of multiple built-in oscillating circuits.
+アクティブブザーは発振源を内蔵しているため、電流が流れると音が出ます。しかし、パッシブブザーにはそのような発振源がないため、DC信号では音が鳴りません。代わりに2Kから5Kの周波数の方形波を使って駆動する必要があります。複数の発振回路が内蔵されているため、アクティブブザーは通常、パッシブブザーよりも高価です。
 
-The following is the electrical symbol of a buzzer. It has two pins with positive and negative poles. With a + in the surface represents the anode and the other is the cathode. 
+以下はブザーの電気記号です。正極と負極の2つのピンがあり、表面に+があるものがアノード、それ以外がカソードです。
 
 |img_buzzer_symbol|
 
-You can check the pins of the buzzer, the longer one is the anode and the shorter one is the cathode. Please don't mix them up when connecting, otherwise the buzzer will not make sound. 
+ブザーのピンを確認できます。長い方がアノードで、短い方がカソードです。接続するときに間違えないようにしてください。そうでないとブザーは音を鳴らしません。
 
 `Buzzer - Wikipedia <https://en.wikipedia.org/wiki/Buzzer>`_
 
-.. Example
+.. 例
 .. -------------------
 
 .. :ref:`Intruder Alarm`
 
 .. :ref:`Custom Tone`
 
-**Example**
+**例**
 
-* :ref:`py_ac_buz` (For MicroPython User)
-* :ref:`py_pa_buz` (For MicroPython User)
-* :ref:`py_light_theremin` (For MicroPython User)
-* :ref:`py_alarm_lamp` (For MicroPython User)
-* :ref:`py_music_player` (For MicroPython User)
-* :ref:`py_fruit_piano` (For MicroPython User)
-* :ref:`py_reversing_aid` (For MicroPython User)
-* :ref:`ar_ac_buz` (For Arduino User)
-* :ref:`ar_pa_buz` (For Arduino User)
-.. * :ref:`per_service_bell` (For Piper Make User)
-.. * :ref:`per_reversing_system` (For Piper Make User)
-.. * :ref:`per_reaction_game` (For Piper Make User)
+* :ref:`py_ac_buz` (MicroPythonユーザー向け)
+* :ref:`py_pa_buz` (MicroPythonユーザー向け)
+* :ref:`py_light_theremin` (MicroPythonユーザー向け)
+* :ref:`py_alarm_lamp` (MicroPythonユーザー向け)
+* :ref:`py_music_player` (MicroPythonユーザー向け)
+* :ref:`py_fruit_piano` (MicroPythonユーザー向け)
+* :ref:`py_reversing_aid` (MicroPythonユーザー向け)
+* :ref:`ar_ac_buz` (Arduinoユーザー向け)
+* :ref:`ar_pa_buz` (Arduinoユーザー向け)
+.. * :ref:`per_service_bell` (Piper Makeユーザー向け)
+.. * :ref:`per_reversing_system` (Piper Makeユーザー向け)
+.. * :ref:`per_reaction_game` (Piper Makeユーザー向け)

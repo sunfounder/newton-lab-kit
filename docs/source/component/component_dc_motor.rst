@@ -1,51 +1,49 @@
-.. note::
+.. note:: 
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について情熱を共有する仲間と一緒にさらに深く掘り下げましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **なぜ参加するのか？**
 
-    **Why Join?**
+    - **エキスパートサポート**: コミュニティやチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキル向上のためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセスします。
+    - **特別割引**: 最新製品の独占割引を楽しむことができます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや祝日のプロモーションに参加します。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探検し、創造する準備はできていますか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _cpn_motor:
 
-DC Motor
+DCモーター
 ===================
 
 |img_dc_motor|
 
-This is a 3V DC motor. When you give a high level and a low level to each of the 2 terminals, it will rotate.
+これは3VのDCモーターです。2つの端子にそれぞれ高電圧と低電圧を与えると、回転します。
 
-* **Size**: 25*20*15MM
-* **Operation Voltage**: 1-6V
-* **Free-run Current** (3V): 70m
-* **A Free-run Speed** (3V): 13000RPM
-* **Stall Current** (3V): 800mA
-* **Shaft Diameter**: 2mm
+* **サイズ**: 25*20*15MM
+* **動作電圧**: 1-6V
+* **無負荷電流** (3V): 70mA
+* **無負荷速度** (3V): 13000RPM
+* **停止電流** (3V): 800mA
+* **シャフト径**: 2mm
 
-Direct current (DC) motor is a continuous actuator that converts electrical energy into mechanical energy. DC motors make rotary pumps, fans, compressors, impellers, and other devices work by producing continuous angular rotation.
+直流（DC）モーターは、電気エネルギーを機械エネルギーに変換する連続作動器です。DCモーターは、回転ポンプ、ファン、コンプレッサー、インペラーなどの装置を動かすために連続的な角回転を生成します。
 
-A DC motor consists of two parts, the fixed part of the motor called the **stator** and the internal part of the motor called the **rotor** (or **armature** of a DC motor) that rotates to produce motion.
-The key to generating motion is to position the armature within the magnetic field of the permanent magnet (whose field extends from the north pole to the south pole). The interaction of the magnetic field and the moving charged particles (the current-carrying wire generates the magnetic field) produces the torque that rotates the armature.
+DCモーターは、モーターの固定部分である **ステーター** と、動きを生成するために回転するモーターの内部部分である **ローター** （またはDCモーターの **アーマチュア** ）の二つの部分で構成されています。
+動きを生成する鍵は、アーマチュアを永久磁石の磁場（北極から南極まで拡がる）内に位置させることです。磁場と移動する帯電粒子（電流を帯びたワイヤが磁場を生成）の相互作用がトルクを生成し、アーマチュアを回転させます。
 
 |img_dc_motor_sche|
 
-Current flows from the positive terminal of the battery through the circuit, through the copper brushes to the commutator, and then to the armature.
-But because of the two gaps in the commutator, this flow reverses halfway through each complete rotation.
-This continuous reversal essentially converts the DC power from the battery to AC, allowing the armature to experience torque in the right direction at the right time to maintain rotation.
+バッテリーの正極から回路を通って銅ブラシ、コミュテーターを経由してアーマチュアに電流が流れます。
+しかし、コミュテーターの2つのギャップのために、各完全な回転の半分でこの流れが逆転します。
+この連続的な逆転は、バッテリーからのDC電力をACに本質的に変換し、アーマチュアが適切なタイミングで適切な方向にトルクを経験して回転を維持することを可能にします。
 
 * `DC Motor - MagLab <https://nationalmaglab.org/education/magnet-academy/watch-play/interactive/dc-motor>`_
 * `Fleming's left-hand rule for motors - Wikipedia <https://en.wikipedia.org/wiki/Fleming%27s_left-hand_rule_for_motors>`_
 
 
+**例**
 
-**Example**
-
-* :ref:`py_motor` (For MicroPython User)
-* :ref:`ar_motor` (For Arduino User)
-.. * :ref:`per_smart_fan` (For Piper Make User)
+* :ref:`py_motor` (MicroPythonユーザー向け)
+* :ref:`ar_motor` (Arduinoユーザー向け)
+.. * :ref:`per_smart_fan` (Piper Makeユーザー向け)

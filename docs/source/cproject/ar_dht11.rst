@@ -1,101 +1,101 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 に関する知識を深め、仲間とともにものづくりを楽しみましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティメンバーやチームがサポート。  
+    - **学びと共有**：ヒントやチュートリアルを交換し、スキルを向上。  
+    - **最新情報の先行公開**：新製品の発表やプレビューをいち早くチェック。  
+    - **特別割引**：最新製品を会員限定の特別価格で購入可能。  
+    - **イベント & プレゼント企画**：プレゼントキャンペーンや季節ごとのプロモーションに参加可能。  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒にものづくりを楽しみませんか？[|link_sf_facebook|] をクリックして、今すぐ参加！  
 
 .. _ar_dht11:
 
-6.2 Measuring Temperature and Humidity with DHT11
+6.2 DHT11 を使った温度・湿度の測定
 =======================================================
 
-In this lesson, we'll learn how to use a **DHT11 temperature and humidity sensor** with the Raspberry Pi Pico 2. The DHT11 is a basic, low-cost digital sensor that can measure ambient temperature and humidity, providing a calibrated digital output.
+このレッスンでは、 **DHT11 温度・湿度センサー** を使用して、Raspberry Pi Pico 2 で環境データを取得する方法を学びます。 DHT11 は、低コストで扱いやすいデジタルセンサーであり、温度と湿度を測定し、キャリブレーション済みのデジタル信号を出力します。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+すべて揃ったキットを購入すると便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
-        - |link_newton_lab_kit|
+    *   - 名称  
+        - キットに含まれるアイテム  
+        - リンク  
+    *   - Newton Lab Kit  
+        - 450点以上  
+        - |link_newton_lab_kit|  
 
-You can also buy them separately from the links below.
-
+個別に購入する場合は、以下のリンクからどうぞ。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - SN  
+        - コンポーネント  
+        - 数量  
+        - リンク  
 
-    *   - 1
-        - :ref:`cpn_pico_2`
-        - 1
-        - |link_pico2_buy|
-    *   - 2
-        - Micro USB Cable
-        - 1
-        - 
-    *   - 3
-        - :ref:`cpn_breadboard`
-        - 1
-        - |link_breadboard_buy|
-    *   - 4
-        - :ref:`cpn_wire`
-        - Several
-        - |link_wires_buy|
-    *   - 5
-        - :ref:`cpn_dht11`
-        - 1
-        - |link_dht22_buy|
+    *   - 1  
+        - :ref:`cpn_pico_2`  
+        - 1  
+        - |link_pico2_buy|  
+    *   - 2  
+        - Micro USB ケーブル  
+        - 1  
+        -  
+    *   - 3  
+        - :ref:`cpn_breadboard`  
+        - 1  
+        - |link_breadboard_buy|  
+    *   - 4  
+        - :ref:`cpn_wire`  
+        - 数本  
+        - |link_wires_buy|  
+    *   - 5  
+        - :ref:`cpn_dht11`  
+        - 1  
+        - |link_dht22_buy|  
 
 
-**Understanding the DHT11 Sensor**
+**DHT11 センサーの仕組み**
 
-The **DHT11** sensor uses a capacitive humidity sensor and a thermistor to measure the surrounding air. It outputs a digital signal on the data pin, and it's fairly simple to use, but requires precise timing to read data.
+**DHT11** は、静電容量式湿度センサーとサーミスタを使用して、周囲の空気の温度と湿度を測定します。 データはデジタル信号として出力され、比較的簡単に扱えますが、データ取得には正確なタイミングが必要です。
 
-* Temperature Range: 0–50 °C with ±2 °C accuracy
-* Humidity Range: 20–80% RH with ±5% accuracy
-* Sampling Rate: 1 Hz (once every second)
+* 温度範囲: 0–50°C（±2°C の精度）  
+* 湿度範囲: 20–80% RH（±5% の精度）  
+* サンプリングレート: 1Hz（1秒ごとに1回測定）
 
-**Circuit Diagram**
+**回路図**
 
 |sch_dht11|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_dht11|
 
-**Writing the Code**
+**コードの記述**
 
-We'll write a program that reads temperature and humidity data from the DHT11 sensor and prints the values to the Serial Monitor.
+このプログラムでは、DHT11 センサーから温度と湿度を取得し、シリアルモニターに表示します。
 
 .. note::
 
-    * You can open the file ``6.2_dht11.ino`` from ``newton-lab-kit/arduino/6.2_dht11``. 
-    * Or copy this code into **Arduino IDE**.
-    * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
-    * The ``DHT sensor library`` library is used here, you can install it from the **Library Manager**.
+    * ``6.2_dht11.ino`` を ``newton-lab-kit/arduino/6.2_dht11`` から開くことができます。  
+    * または、このコードを **Arduino IDE** にコピーしてください。  
+    * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定して「Upload」をクリックしてください。  
+    * ``DHT sensor library`` を使用するため、 **Library Manager** からインストールしてください。
 
       .. image:: img/lib_dht.png
 
@@ -104,21 +104,21 @@ We'll write a program that reads temperature and humidity data from the DHT11 se
 
     #include <DHT.h>
 
-    // Define the connection pins
-    #define DHTPIN 16       // GPIO 16 -> Data pin of DHT11
-    #define DHTTYPE DHT11    // Define the sensor type
+    // 接続ピンの定義
+    #define DHTPIN 16       // GPIO 16 -> DHT11 のデータピン
+    #define DHTTYPE DHT11   // センサーの種類を定義
 
-    // Create a DHT object
+    // DHT オブジェクトの作成
     DHT dht(DHTPIN, DHTTYPE);
 
-    unsigned long previousMillis = 0; // Stores the last time the display was updated
-    const long interval = 2000;        // Interval at which to read sensor (milliseconds)
+    unsigned long previousMillis = 0; // 最後に測定した時間
+    const long interval = 2000;        // 測定間隔（ミリ秒）
 
     void setup() {
       // Initialize serial communication at 115200 baud
       Serial.begin(115200);
       Serial.println(F("DHT11 Sensor Test!"));
-    
+
       // Initialize the DHT sensor
       dht.begin();
    
@@ -127,26 +127,26 @@ We'll write a program that reads temperature and humidity data from the DHT11 se
     void loop() {
       unsigned long currentMillis = millis();
 
-      // Update the sensor reading every 'interval' milliseconds
+      // 指定した間隔ごとにセンサーを更新
       if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
 
-        // Read humidity and temperature
+        // 湿度と温度の取得
         float humidity = dht.readHumidity();
         float temperatureC = dht.readTemperature();
         float temperatureF = dht.readTemperature(true);
 
-        // Check if any reads failed
+        // 取得に失敗した場合の処理
         if (isnan(humidity) || isnan(temperatureC) || isnan(temperatureF)) {
           Serial.println(F("Failed to read from DHT sensor!"));
           return;
         }
 
-        // Calculate heat index
+        // 熱指数の計算
         float heatIndexC = dht.computeHeatIndex(temperatureC, humidity, false);
         float heatIndexF = dht.computeHeatIndex(temperatureF, humidity);
 
-        // Print the results to the Serial Monitor
+        // シリアルモニターに結果を表示
         Serial.print(F("Humidity: "));
         Serial.print(humidity);
         Serial.print(F("%  Temperature: "));
@@ -161,7 +161,7 @@ We'll write a program that reads temperature and humidity data from the DHT11 se
       }
     }
 
-After uploading the code, the Serial Monitor should display the temperature and humidity readings every two seconds.
+コードをアップロードすると、シリアルモニターに 2 秒ごとに温度と湿度が表示されます。
 
 .. code-block::
 
@@ -170,35 +170,35 @@ After uploading the code, the Serial Monitor should display the temperature and 
     Humidity: 46.00%  Temperature: 25.50°C 78.00°F  Heat index: 25.50°C 78.00°F
     Humidity: 47.00%  Temperature: 26.00°C 79.00°F  Heat index: 26.00°C 79.00°F
 
-* **Humidity**: Expose the sensor to different humidity levels to see changes in readings.
-* **Temperature**: Change the temperature around the sensor to observe temperature measurements.
+* **湿度**: センサーをさまざまな湿度環境にさらし、測定値の変化を確認する。  
+* **温度**: センサー周辺の温度を変化させ、測定結果の違いを観察する。  
 
-**Understanding the Code**
+**コードの解説**
 
-#. Including Libraries and Defining Constants:
+#. ライブラリのインクルードと定数の定義
 
-   * ``DHT.h``: Includes the DHT sensor library to simplify interactions with the sensor.
-   * ``DHTPIN``: Specifies the GPIO pin connected to the DHT11 data pin.
-   * ``DHTTYPE``: Defines the type of DHT sensor being used (DHT11 in this case).
+   * ``DHT.h``: DHT センサー用ライブラリをインクルードし、センサーとの通信を簡単にする。  
+   * ``DHTPIN``: DHT11 のデータピンを接続する GPIO ピンを指定。  
+   * ``DHTTYPE``: 使用する DHT センサーの種類（この場合は DHT11）を定義。  
 
    .. code-block:: arduino
 
         #include <DHT.h>
-        #define DHTPIN 16       // GPIO 16 -> Data pin of DHT11
-        #define DHTTYPE DHT11    // Define the sensor type
+        #define DHTPIN 16       // GPIO 16 -> DHT11 のデータピン
+        #define DHTTYPE DHT11    // センサーの種類を定義
 
-#. Creating the ``DHT`` Object:
+#.  ``DHT``  オブジェクトの作成
 
-   Initializes a ``DHT`` object with the specified data pin and sensor type.
+   指定したデータピンとセンサータイプを用いて ``DHT`` オブジェクトを初期化。
 
    .. code-block:: arduino
 
         DHT dht(DHTPIN, DHTTYPE);
 
-#. Setup Function:
+#. セットアップ関数
 
-   * **Serial Communication**: Starts serial communication for debugging and data display.
-   * **DHT Sensor Initialization**: Prepares the DHT11 sensor for data reading.
+   * **シリアル通信の開始**: デバッグやデータ表示のため、シリアル通信を初期化。  
+   * **DHT センサーの初期化**: 温度・湿度データの読み取り準備。  
 
    .. code-block:: arduino
 
@@ -211,47 +211,47 @@ After uploading the code, the Serial Monitor should display the temperature and 
           dht.begin();
         }
 
-#. Loop Function:
+#. ループ関数
 
-   * Timing with ``millis()``: 
-   
-     Uses non-blocking timing to read the sensor every 2 seconds (interval = 2000 milliseconds).
-   
+   * ``millis()`` を用いたタイミング制御:
+
+     ブロッキングを回避し、2秒ごと（2000ms）にセンサーを読み取る。
+
      .. code-block:: arduino
-   
+
         if (currentMillis - previousMillis >= interval) {
           previousMillis = currentMillis;
           ...
         }
-   
-   * Reading Sensor Data:
-   
-     * ``dht.readHumidity()``: Reads the current humidity.
-     * ``dht.readTemperature()``: Reads the current temperature in Celsius.
-     * ``dht.readTemperature(true)``: Reads the current temperature in Fahrenheit.
-   
-   * Error Handling:
-   
-     Checks if any of the readings failed (returned NaN) and prints an error message if so.
-   
+
+   * センサーのデータ取得:
+
+     * ``dht.readHumidity()``: 現在の湿度を読み取る。  
+     * ``dht.readTemperature()``: 摂氏（℃）の温度を取得。  
+     * ``dht.readTemperature(true)``: 華氏（℉）の温度を取得。  
+
+   * エラーハンドリング:
+
+     測定値が取得できない場合（NaN を返した場合）、エラーメッセージを表示。
+
      .. code-block:: arduino
-   
+
         if (isnan(humidity) || isnan(temperatureC) || isnan(temperatureF)) {
           Serial.println(F("Failed to read from DHT sensor!"));
           return;
         }
-   
-   * Calculating Heat Index:
-   
-     * ``dht.computeHeatIndex(temperatureC, humidity, false)``: Calculates the heat index in Celsius.
-     * ``dht.computeHeatIndex(temperatureF, humidity)``: Calculates the heat index in Fahrenheit.
-   
-   * Displaying Data:
-   
-     Prints humidity, temperature in Celsius and Fahrenheit, and heat index to the Serial Monitor.
-   
+
+   * 熱指数の計算:
+
+     * ``dht.computeHeatIndex(temperatureC, humidity, false)``: 摂氏の熱指数を計算。  
+     * ``dht.computeHeatIndex(temperatureF, humidity)``: 華氏の熱指数を計算。  
+
+   * データの表示:
+
+     湿度・温度（摂氏/華氏）・熱指数をシリアルモニターに出力。
+
      .. code-block:: arduino
-   
+
         Serial.print(F("Humidity: "));
         Serial.print(humidity);
         Serial.print(F("%  Temperature: "));
@@ -264,42 +264,44 @@ After uploading the code, the Serial Monitor should display the temperature and 
         Serial.print(heatIndexF);
         Serial.println(F("°F"));
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* No Readings Displayed:
+* 測定値が表示されない場合:
 
-  * Check all wiring connections.
-  * Ensure the DHT11 sensor is receiving power.
-  * Verify that the correct GPIO pins are defined in the code.
+  * 配線を再確認する。  
+  * DHT11 センサーに正しく電源が供給されていることを確認。  
+  * コード内の GPIO ピン番号が正しく設定されているか確認。  
 
-* Incorrect Readings:
+* 測定値が異常な場合:
 
-  * Verify that the DHT11 sensor is not damaged.
-  * Check the sensor's datasheet for proper timing and signal requirements.
+  * センサーが故障していないか確認する。  
+  * DHT11 のデータシートを確認し、適切なタイミングでデータを取得しているか検証する。  
 
-* Sensor Interference:
+* センサーの干渉:
 
-  * Avoid placing the sensor near other electronic devices that might cause interference.
-  * Ensure there are no obstacles blocking the sensor's line of sight.
+  * 他の電子機器の近くに設置すると測定値が影響を受ける可能性があるため、配置を調整する。  
+  * センサーの測定面に障害物がないか確認する。  
 
-**Further Exploration**
+**さらに応用するには？**
 
-* Integrating with Displays:
+* ディスプレイとの連携:
 
-  Connect an LCD or OLED display to show temperature and humidity readings without using the Serial Monitor.
+  LCD や OLED ディスプレイを使用し、シリアルモニターなしで温度・湿度を表示する。
 
-* Creating Alerts:
+* 警告システムの作成:
 
-  Implement buzzer or notification systems that trigger when temperature or humidity exceeds certain thresholds.
+  一定の温度や湿度を超えた際に、ブザーや LED で警告を発するシステムを実装。
 
-* Combining with Other Sensors:
+* 他のセンサーと組み合わせる:
 
-  Pair the DHT11 with motion sensors, light sensors, or other environmental sensors to create comprehensive monitoring systems.
+  DHT11 をモーションセンサーや照度センサーと組み合わせ、環境監視システムを構築。
 
-* Building a Weather Station:
+* 気象ステーションの作成:
 
-  Expand the project by adding additional sensors like barometric pressure sensors, rain gauges, and wind speed sensors to build a full-fledged weather station.
+  気圧センサー、雨量計、風速計などを追加し、簡易的な天気観測システムを構築。
 
-**Conclusion**
+**まとめ**
 
-In this lesson, you've learned how to use a DHT11 temperature and humidity sensor with the Raspberry Pi Pico to measure and display ambient temperature and humidity levels. By leveraging the DHT library, you can easily integrate environmental sensing into your projects. The optional LED indicator provides a simple way to add visual feedback based on sensor readings, enhancing the interactivity of your system.
+このレッスンでは、Raspberry Pi Pico と DHT11 を使用して温度・湿度を測定し、その値を表示する方法を学びました。  
+DHT ライブラリを活用することで、環境センシングを簡単にプロジェクトへ統合できます。  
+さらに、LED インジケーターを追加することで、センサーの測定結果を視覚的にフィードバックし、システムのインタラクティブ性を向上させることができます。

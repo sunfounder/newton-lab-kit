@@ -1,42 +1,42 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32についてもっと深く探求しましょう。
 
-    **Why Join?**
+**参加する理由?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+- **専門家のサポート**: コミュニティとチームからのサポートで販売後の問題や技術的な課題を解決。
+- **学びと共有**: スキル向上のためのヒントやチュートリアルを交換。
+- **独占プレビュー**: 新製品の発表や先行予告をいち早く入手。
+- **特別割引**: 最新製品の独占割引を楽しむ。
+- **祝祭プロモーションとギブアウェイ**: ギブアウェイや休日プロモーションに参加。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+👉 一緒に探求し、創造してみませんか？クリック [|link_sf_facebook|] して今すぐ参加！
 
 .. _py_bubble_level:
 
-7.12 Building a Digital Bubble Level
+7.12 デジタル水準器の作成
 ==========================================
 
-In this project, we'll create a **Digital Bubble Level** using the Raspberry Pi Pico 2, an MPU6050 accelerometer and gyroscope module, and an 8x8 LED matrix display controlled by two 74HC595 shift registers. This device functions similarly to a traditional spirit level, indicating the tilt of a surface. As you tilt the MPU6050, a "bubble" represented by LEDs on the matrix will move accordingly, allowing you to visualize the levelness of a surface.
+このプロジェクトでは、Raspberry Pi Pico 2、MPU6050加速度計・ジャイロスコープモジュール、そして2つの74HC595シフトレジスタによって制御される8x8 LEDマトリックスディスプレイを使用して、 **デジタル水準器** を作成します。このデバイスは伝統的な水準器と同様に機能し、表面の傾きを示します。MPU6050を傾けると、マトリックス上のLEDで表された「バブル」が移動し、表面の水平を視覚的に確認できます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キット全体を購入することは非常に便利です。こちらがリンクです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名称	
+        - このキットに含まれるアイテム
+        - リンク
     *   - Newton Lab Kit	
-        - 450+
+        - 450以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -44,16 +44,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,7 +62,7 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_dot_matrix`
@@ -77,41 +77,41 @@ You can also buy them separately from the links below.
         - 1
         - 
 
-**Understanding the Components**
+**コンポーネントの理解**
 
-* **MPU6050 Accelerometer and Gyroscope**: Provides acceleration and angular velocity data along three axes (X, Y, Z), which we'll use to calculate the tilt angles.
-* **8x8 LED Matrix Display**: An array of LEDs arranged in 8 rows and 8 columns, allowing us to display patterns or images by controlling individual LEDs.
-* **74HC595 Shift Registers**: Allows us to control multiple outputs (in this case, the rows and columns of the LED matrix) using fewer GPIO pins on the Pico.
+* **MPU6050加速度計とジャイロスコープ**: X、Y、Zの三軸に沿って加速度と角速度のデータを提供し、これを使用して傾斜角を計算します。
+* **8x8 LEDマトリックスディスプレイ**: 8行と8列に配列されたLEDで、個々のLEDを制御することによってパターンや画像を表示できます。
+* **74HC595シフトレジスタ**: PicoのGPIOピンよりも少ないピンを使用して複数の出力（この場合はLEDマトリックスの行と列）を制御することができます。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_bubble_level|
 
-The MPU6050 takes the acceleration values in each direction and calculates the attitude angle.
+MPU6050は各方向の加速度値を取得し、姿勢角を計算します。
 
-As a result, the program draws a 2x2 dot on the dot matrix based on data from the two 74HC595 chips.
+その結果、プログラムは2つの74HC595チップからのデータに基づいてドットマトリックス上に2x2のドットを描画します。
 
-As the attitude angle changes, the program sends different data to the 74HC595 chips, and the position of the dot changes, creating a bubble effect.
+姿勢角が変化すると、プログラムは74HC595チップに異なるデータを送信し、ドットの位置が変わり、バブル効果が生まれます。
 
-**Wiring**
+**配線**
 
 |wiring_digital_bubble_level| 
 
 
-**Writing the Code**
+**コードの書き方**
 
-We'll write a MicroPython script that:
+MicroPythonスクリプトを書いて、以下の操作を行います：
 
-* Reads acceleration data from the MPU6050.
-* Calculates the tilt angles along the X and Y axes.
-* Maps the tilt angles to positions on the 8x8 LED matrix.
-* Displays a "bubble" (a 2x2 pixel representation) that moves according to the tilt.
+* MPU6050から加速度データを読み取る。
+* X軸およびY軸に沿った傾斜角を計算する。
+* 傾斜角を8x8 LEDマトリックス上の位置にマッピングする。
+* 傾斜に応じて移動する「バブル」（2x2ピクセルの表現）を表示する。
 
 .. note::
 
-    * Open the ``7.12_digital_bubble_level.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    * Here you need to use the ``imu.py`` and ``vector3d.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    * ``7.12_digital_bubble_level.py`` を ``newton-lab-kit/micropython`` から開くか、Thonnyにコードをコピーして「実行」ボタンをクリックするか、F5キーを押します。
+    * 正しいインタープリタが選択されていることを確認してください：MicroPython (Raspberry Pi Pico).COMxx。 
+    * ``imu.py`` および ``vector3d.py`` がPicoにアップロードされていることを確認してください。詳細なチュートリアルは :ref:`add_libraries_py` を参照してください。
 
 .. code-block:: python
 
@@ -121,36 +121,36 @@ We'll write a MicroPython script that:
     import math
     from imu import MPU6050
     
-    # Initialize I2C communication with MPU6050 sensor
+    # MPU6050センサーとのI2C通信を初期化
     i2c = I2C(1, sda=Pin(6), scl=Pin(7), freq=400000)
     mpu = MPU6050(i2c)
     
-    # Function to calculate the distance between two points
+    # 2点間の距離を計算する関数
     def dist(a, b):
         return math.sqrt((a * a) + (b * b))
     
-    # Function to calculate rotation along the y-axis
+    # Y軸周りの回転を計算する関数
     def get_y_rotation(x, y, z):
         radians = math.atan2(x, dist(y, z))
         return -math.degrees(radians)
     
-    # Function to calculate rotation along the x-axis
+    # X軸周りの回転を計算する関数
     def get_x_rotation(x, y, z):
         radians = math.atan2(y, dist(x, z))
         return math.degrees(radians)
     
-    # Function to get the current angles from the MPU6050 sensor
+    # MPU6050センサーから現在の角度を取得する関数
     def get_angle():
         y_angle = get_y_rotation(mpu.accel.x, mpu.accel.y, mpu.accel.z)
         x_angle = get_x_rotation(mpu.accel.x, mpu.accel.y, mpu.accel.z)
         return x_angle, y_angle
     
-    # Initialize shift register pins for controlling the LED matrix
+    # LEDマトリックスを制御するためのシフトレジスタピンを初期化
     sdi = machine.Pin(18, machine.Pin.OUT)
     rclk = machine.Pin(19, machine.Pin.OUT)
     srclk = machine.Pin(20, machine.Pin.OUT)
     
-    # Function to shift data into the shift register
+    # シフトレジスタにデータを入力する関数
     def hc595_in(dat):
         for bit in range(7, -1, -1):
             srclk.low()
@@ -159,20 +159,20 @@ We'll write a MicroPython script that:
             time.sleep_us(30)
             srclk.high()
     
-    # Function to output the data from the shift register to the LED matrix
+    # シフトレジスタからLEDマトリックスへデータを出力する関数
     def hc595_out():
         rclk.high()
         time.sleep_us(200)
         rclk.low()
     
-    # Function to display a glyph (8x8 matrix) on the LED matrix
+    # LEDマトリックス上にグリフ（8x8マトリックス）を表示する関数
     def display(glyph):
         for i in range(0, 8):
             hc595_in(glyph[i])
             hc595_in(0x80 >> i)
             hc595_out()
     
-    # Convert a 2D matrix to a glyph that can be displayed on the LED matrix
+    # 2DマトリックスをLEDマトリックスに表示できるグリフに変換する関数
     def matrix_2_glyph(matrix):
         glyph = [0 for i in range(8)]
         for i in range(8):
@@ -180,27 +180,27 @@ We'll write a MicroPython script that:
                 glyph[i] += matrix[i][j] << j
         return glyph
     
-    # Clamp a value between a specified minimum and maximum
+    # 指定された最小値と最大値の間で値を制限する関数
     def clamp_number(val, min_val, max_val):
         return min_val if val < min_val else max_val if val > max_val else val
     
-    # Map a value from one range to another
+    # ある範囲から別の範囲へ値をマッピングする関数
     def interval_mapping(x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
     
-    # Calculate the position of the bubble in the matrix based on the MPU6050 readings
-    sensitivity = 4  # Sensitivity of the bubble movement
-    matrix_range = 7  # The matrix size is 8x8, so the range is 0-7
-    point_range = matrix_range - 1  # Bubble's position should be between 0 and 6
+    # MPU6050の読み取りに基づいてマトリックス内のバブルの位置を計算する関数
+    sensitivity = 4  # バブルの動きの感度
+    matrix_range = 7  # マトリックスのサイズは8x8なので範囲は0-7
+    point_range = matrix_range - 1  # バブルの位置は0-6の間であるべきなので範囲を調整
     
-    # Function to calculate the position of the bubble based on sensor data
+    # センサーデータに基づいてバブルの位置を計算する関数
     def bubble_position():
-        y, x = get_angle()  # Get the current rotation angles
+        y, x = get_angle()  # 現在の回転角度を取得
         x = int(clamp_number(interval_mapping(x, 90, -90, 0 - sensitivity, point_range + sensitivity), 0, point_range))
         y = int(clamp_number(interval_mapping(y, -90, 90, point_range + sensitivity, 0 - sensitivity), 0, point_range))
         return [x, y]
     
-    # Drop the bubble (represented by turning off 2x2 LEDs) into the matrix
+    # マトリックスにバブル（2x2のLEDをオフにすることによって表現）を落とす関数
     def drop_bubble(matrix, bubble):
         matrix[bubble[0]][bubble[1]] = 0
         matrix[bubble[0] + 1][bubble[1]] = 0
@@ -208,178 +208,177 @@ We'll write a MicroPython script that:
         matrix[bubble[0] + 1][bubble[1] + 1] = 0
         return matrix
     
-    # Main loop
+    # メインループ
     while True:
-        matrix = [[1 for i in range(8)] for j in range(8)]  # Create an empty matrix (all LEDs on)
-        bubble = bubble_position()  # Get the current bubble position based on sensor data
-        matrix = drop_bubble(matrix, bubble)  # Drop the bubble into the matrix
-        display(matrix_2_glyph(matrix))  # Display the matrix on the LED grid
-        time.sleep(0.1)  # Add a small delay to slow down updates
+        matrix = [[1 for i in range(8)] for j in range(8)]  # 全てのLEDをオンにする空のマトリックスを作成
+        bubble = bubble_position()  # センサーデータに基づいて現在のバブルの位置を取得
+        matrix = drop_bubble(matrix, bubble)  # マトリックスにバブルを落とす
+        display(matrix_2_glyph(matrix))  # LEDグリッド上にマトリックスを表示
+        time.sleep(0.1)  # 更新を遅らせるために小さな遅延を追加
 
-When the code runs, place the setup on a level surface.
-The bubble (a 2x2 pixel area) should appear at the center of the LED matrix.
-Tilt the breadboard or the MPU6050 module.
-Observe the bubble moving on the LED matrix in the direction of the tilt, simulating a real bubble level.
+コードが実行されると、セットアップを平らな面に置いてください。
+バブル（2x2ピクセルの領域）はLEDマトリックスの中心に表示されるはずです。
+ブレッドボードまたはMPU6050モジュールを傾けてください。
+LEDマトリックス上でバブルが傾斜の方向に動くのを観察し、実際の水準器をシミュレートします。
 
-**Understanding the Code**
+**コードの理解**
 
-This code reads data from an MPU6050 accelerometer and gyroscope sensor to determine the tilt of the device and displays a "bubble" on an 8x8 LED matrix, simulating a digital bubble level.
+このコードはMPU6050加速度計およびジャイロスコープセンサーからのデータを読み取り、デバイスの傾斜を判定し、8x8 LEDマトリックス上に「バブル」を表示して、デジタル水準器をシミュレートします。
 
-#. Imports and Initializations:
+#. インポートと初期化:
 
-   * ``machine``: Access to the microcontroller's hardware components.
-   * ``I2C``, ``Pin``: For I2C communication and GPIO pin manipulation.
-   * ``time``: Timing functions for delays.
-   * ``math``: Mathematical functions for calculations.
-   * ``MPU6050`` from ``imu``: Library to interface with the MPU6050 sensor.
+   * ``machine``: マイクロコントローラーのハードウェアコンポーネントへのアクセス。
+   * ``I2C`` , ``Pin``: I2C通信とGPIOピンの操作用。
+   * ``time``: 遅延のためのタイミング機能。
+   * ``math``: 計算用の数学関数。
+   * ``MPU6050`` from ``imu``: MPU6050センサーとのインタフェース用ライブラリ。
 
-#. I2C Initialization:
+#. I2Cの初期化:
 
-   * Sets up I2C communication on bus 1 with SDA on Pin 6 and SCL on Pin 7.
-   * The frequency is set to 400 kHz for fast data transfer.
-   * An ``mpu`` object is created to interact with the MPU6050 sensor.
+   * バス1でSDAをピン6、SCLをピン7に設定してI2C通信を設定。
+   * データ転送の速度を高めるために周波数を400kHzに設定。
+   * MPU6050センサーとやり取りするための ``mpu`` オブジェクトを作成。
 
-#. Mathematical Functions:
+#. 数学関数:
 
-   * ``dist(a, b)`` Funtion:
+   * ``dist(a, b)`` 関数:
 
-     * Calculates the Euclidean distance between two values.
-     * Used to compute the magnitude component in angle calculations.
+     * 二つの値の間のユークリッド距離を計算。
+     * 角度計算の大きさの成分を算出するために使用。
 
    * ``get_y_rotation(x, y, z)``:
      
-     * Calculates the rotation around the Y-axis in degrees.
-     * Uses ``math.atan2`` to compute the arctangent of x and the distance between y and z.
-     * The result is negated to match the desired orientation.
+     * Y軸周りの回転を度単位で計算。
+     * xとyとzの距離のアークタンジェントを計算する ``math.atan2`` を使用。
+     * 望ましい方向に合わせるために結果を符号反転。
 
    * ``get_x_rotation(x, y, z)``:
 
-     * Calculates the rotation around the X-axis in degrees.
-     * Similar to ``get_y_rotation`` but computes the arctangent of y and the distance between x and z.
+     * X軸周りの回転を度単位で計算。
+     * ``get_y_rotation`` と似ていますが、yとxとzの距離のアークタンジェントを計算します。
 
    * ``get_angle()``:
 
-     * Retrieves the current acceleration data from the MPU6050 sensor.
-     * Computes the X and Y rotation angles using the accelerometer data.
+     * MPU6050センサーから現在の加速度データを取得。
+     * 加速度計データを使用してXおよびYの回転角を計算。
 
-#. Shift Register Functions:
+#. シフトレジスタ関数:
 
-   * Pin Definitions:
+   * ピン定義:
 
-     * ``sdi``: Serial Data Input pin for the shift register (Pin 18).
-     * ``rclk``: Register Clock (latch) pin for the shift register (Pin 19).
-     * ``srclk``: Shift Register Clock pin for the shift register (Pin 20).
+     * ``sdi``: シフトレジスタのシリアルデータ入力ピン（ピン18）。
+     * ``rclk``: シフトレジスタのレジスタクロック（ラッチ）ピン（ピン19）。
+     * ``srclk``: シフトレジスタのシフトレジスタクロックピン（ピン20）。
 
-   * ``hc595_in(dat)`` Function:
+   * ``hc595_in(dat)`` 関数:
 
-     * Shifts an 8-bit data byte into the shift register.
-     * Iterates over each bit from MSB to LSB.
-     * Controls ``srclk`` and ``sdi`` to clock in the data bits.
+     * 8ビットデータバイトをシフトレジスタにシフトします。
+     * MSBからLSBまで各ビットを反復します。
+     * ``srclk`` と ``sdi`` を制御してデータビットをクロックインします。
 
    * ``hc595_out()``:
 
-     * Latches the shifted data to the output pins of the shift register.
-     * Toggles the ``rclk`` pin to transfer the data from the shift register to the storage register.
+     * シフトレジスタの出力ピンにシフトされたデータをラッチします。
+     * データをシフトレジスタからストレージレジスタに転送するために ``rclk`` ピンを切り替えます。
 
-#. LED Matrix Display Functions:
+#. LEDマトリックスディスプレイ関数:
 
-   * ``display(glyph)`` Funtion:
+   * ``display(glyph)`` 関数:
 
-     * Displays an 8x8 glyph on the LED matrix.
-     * Iterates through each row of the glyph.
-     * Shifts in the row data and the corresponding column selector.
-     * Calls ``hc595_out()`` to update the display.
+     * LEDマトリックス上に8x8のグリフを表示します。
+     * グリフの各行を反復します。
+     * 行データと対応する列セレクタをシフトします。
+     * ``hc595_out()`` を呼び出してディスプレイを更新します。
 
-   * ``matrix_2_glyph(matrix)`` Funtion:
+   * ``matrix_2_glyph(matrix)`` 関数:
 
-     * Converts an 8x8 2D matrix of 0s and 1s into an 8-byte glyph.
-     * Each byte in the glyph represents a row in the LED matrix.
-     * Bits in each byte correspond to the LEDs in that row.
+     * 0と1の8x8 2Dマトリックスを8バイトのグリフに変換します。
+     * グリフ内の各バイトはLEDマトリックスの行を表します。
+     * 各バイト内のビットはその行のLEDに対応します。
 
-#. Utility Functions:
+#. ユーティリティ関数:
 
-   * ``clamp_number(val, min_val, max_val)`` Funtion:
+   * ``clamp_number(val, min_val, max_val)`` 関数:
 
-     * Ensures that ``val`` stays within the specified ``min_val`` and ``max_val`` range.
-     * Prevents the bubble from moving outside the LED matrix boundaries.
+     * ``val`` が指定された ``min_val`` および ``max_val`` の範囲内に留まることを保証します。
+     * バブルがLEDマトリックスの境界外に移動するのを防ぎます。
 
-   * ``interval_mapping(x, in_min, in_max, out_min, out_max)`` Funtion:
+   * ``interval_mapping(x, in_min, in_max, out_min, out_max)`` 関数:
 
-     * Maps a value ``x`` from one numerical range to another.
-     * Used to translate angle measurements to matrix positions.
+     * 数値 ``x`` を一つの数値範囲から別の範囲にマッピングします。
+     * 角度測定をマトリックス位置に変換するために使用します。
 
-#. Bubble Position Calculation:
+#. バブル位置計算:
 
-   * Sensitivity Settings:
+   * 感度設定:
 
-     * ``sensitivity = 4``: Determines how responsive the bubble is to tilt changes.
-     * ``matrix_range = 7``: The maximum index for the 8x8 matrix (0 to 7).
-     * ``point_range = matrix_range - 1``: Adjusted range to keep the bubble within bounds (0 to 6).
+     * ``sensitivity = 4``: バブルが傾斜の変化に反応する度合いを決定します。
+     * ``matrix_range = 7``: 8x8マトリックスの最大インデックス（0から7）。
+     * ``point_range = matrix_range - 1``: バブルが範囲内に留まるように調整された範囲（0から6）。
 
-   * ``bubble_position()`` Funtion:
+   * ``bubble_position()`` 関数:
 
-     * Retrieves the current X and Y rotation angles.
-     * Maps the angles to positions on the LED matrix using ``interval_mapping``.
-     * Clamps the positions to ensure they stay within the matrix.
+     * 現在のXおよびYの回転角度を取得します。
+     * 角度を ``interval_mapping`` を使用してLEDマトリックス上の位置にマッピングします。
+     * 位置がマトリックス内に留まるように位置を制限します。
 
-#. Bubble Display Function:
+#. バブル表示関数:
 
-   * ``drop_bubble(matrix, bubble)`` Function:
+   * ``drop_bubble(matrix, bubble)`` 関数:
 
-     * Modifies the LED matrix to represent the bubble at the given position.
-     * Turns off a 2x2 block of LEDs centered at the bubble's coordinates.
-     * Updates the matrix to create the visual effect of a bubble moving.
+     * LEDマトリックスを修正して、与えられた位置にバブルを表現します。
+     * バブルの座標で中心に2x2ブロックのLEDをオフにします。
+     * バブルが動く視覚効果を作り出すためにマトリックスを更新します。
 
-#. Main Loop
+#. メインループ
 
-   * Continuously runs to update the display based on sensor input.
-   * Initializes a fresh 8x8 matrix with all LEDs turned on (value ``1``).
-   * Gets the current bubble position from ``bubble_position()``.
-   * Updates the matrix with ``drop_bubble()`` to reflect the bubble's new position.
-   * Converts the matrix to a glyph using ``matrix_2_glyph()``.
-   * Displays the glyph on the LED matrix with ``display()``.
-   * Waits for 0.1 seconds before repeating to control the update rate.
+   * センサー入力に基づいてディスプレイを更新するために継続的に実行されます。
+   * すべてのLEDがオンになっている新鮮な8x8マトリックスを初期化します（値 ``1`` ）。
+   * ``bubble_position()`` から現在のバブル位置を取得します。
+   * ``drop_bubble()`` を使用してバブルの新しい位置を反映するためにマトリックスを更新します。
+   * ``matrix_2_glyph()`` を使用してマトリックスをグリフに変換します。
+   * ``display()`` を使用してLEDマトリックスにグリフを表示します。
+   * 更新率を制御するために0.1秒間待ちます。
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* LED Matrix Not Displaying Correctly:
+* LEDマトリックスが正しく表示されない：
 
-  * Check all wiring connections between the shift registers and the LED matrix.
-  * Ensure that the shift registers are connected properly to the Pico.
-  * Verify that the common anode or cathode configuration of your LED matrix matches the code logic.
+  * シフトレジスタとLEDマトリックス間のすべての配線接続を確認します。
+  * シフトレジスタがPicoに正しく接続されていることを確認します。
+  * LEDマトリックスの共通アノードまたはカソードの設定がコードのロジックと一致しているか確認します。
 
-* Incorrect Bubble Movement:
+* バブルの動きが正しくない：
 
-  * Ensure the MPU6050 is properly connected and functioning.
-  * Check that the MPU6050 is correctly oriented.
+  * MPU6050が正しく接続され、機能していることを確認します。
+  * MPU6050が正しく向きを向けているか確認します。
 
-* Program Errors:
+* プログラムエラー：
 
-  * Ensure that ``imu.py`` and ``vector3d.py`` are correctly uploaded.
-  * Check for typos or indentation errors in the code.
+  * ``imu.py`` および ``vector3d.py`` が正しくアップロードされていることを確認します。
+  * コードのタイプミスやインデントのエラーをチェックします。
 
-**Experimenting Further**
+**さらなる実験**
 
-* Adjust Sensitivity:
+* 感度の調整：
 
-  Modify the mapping of angles to positions to change the sensitivity of the bubble movement.
+  角度を位置にマッピングすることでバブルの動きの感度を変更します。
 
-* Display Enhancements:
+* 表示の向上：
 
-  * Change the size or shape of the bubble.
-  * Add visual effects, such as trails or different patterns.
+  * バブルのサイズや形を変更します。
+  * トレイルや異なるパターンなどの視覚効果を追加します。
 
-* Calibration:
+* キャリブレーション：
 
-  Implement a calibration routine to set the zero point when the device is placed on an uneven surface.
+  デバイスを不均等な面に置いたときにゼロポイントを設定するためのキャリブレーションルーチンを実装します。
 
-* Alternative Displays:
+* 代替ディスプレイ：
 
-  Use an OLED or LCD display to show numerical angle values in addition to the visual bubble.
+  視覚的なバブルに加えて、数値の角度値を表示するためにOLEDまたはLCDディスプレイを使用します。
 
-**Conclusion**
+**結論**
 
-You've successfully built a Digital Bubble Level using the Raspberry Pi Pico 2! This project demonstrates how accelerometer data can be used to visualize orientation and tilt, and how to control an LED matrix display using shift registers.
+あなたはRaspberry Pi Pico 2を使用してデジタル水準器を成功裏に構築しました！このプロジェクトは、加速度データを使用して方向と傾斜を視覚化する方法と、シフトレジスタを使用してLEDマトリックスディスプレイを制御する方法を示しています。
 
-Feel free to expand upon this project by adding new features or integrating it into larger systems.
-
+このプロジェクトをさらに拡張して新しい機能を追加するか、より大きなシステムに統合してください。

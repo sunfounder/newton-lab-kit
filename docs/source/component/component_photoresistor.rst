@@ -1,44 +1,43 @@
-.. note::
+.. note:: 
+    FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について同じ趣味を持つ人々と一緒にさらに深く探求しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **なぜ参加すべきか？**
 
-    **Why Join?**
+    - **エキスパートサポート**: コミュニティとチームのサポートで、販売後の問題や技術的な課題を解決します。
+    - **学びと共有**: ヒントやチュートリアルを交換し、スキルを向上させます。
+    - **独占的プレビュー**: 新製品の発表や先行情報に早期アクセス。
+    - **特別割引**: 最新製品に対する独占的な割引を楽しめます。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造する準備はできていますか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _cpn_photoresistor:
 
-Photoresistor
-==============
+フォトレジスター
+==================
 
 |img_photoresistor|
 
-A photoresistor or photocell is a light-controlled variable resistor. 
-The resistance of a photoresistor decreases with increasing incident light intensity; in other words, it exhibits photo conductivity. 
+フォトレジスターまたは光電セルは、光に応じて変化する可変抵抗器です。
+フォトレジスターの抵抗値は、入射光の強度が増加すると減少し、光導電性を示します。
 
-A photoresistor can be applied in light-sensitive detector circuits and light-activated and dark-activated switching circuits acting as a resistance semiconductor. In the dark, a photoresistor can have a resistance as high as several megaohms (MΩ), while in the light, a photoresistor can have a resistance as low as a few hundred ohms.
+フォトレジスターは、光感知ディテクタ回路や、光を受けて動作するスイッチング回路の抵抗半導体として利用されます。暗闇では、フォトレジスターの抵抗値は数メガオーム（MΩ）に達することがありますが、光が当たると数百オームまで低下することがあります。
 
-Here is the electronic symbol of photoresistor.
+以下はフォトレジスターの電子記号です。
 
 |img_photoresistor_symbol|
 
 * `Photoresistor - Wikipedia <https://en.wikipedia.org/wiki/Photoresistor#:~:text=A%20photoresistor%20(also%20known%20as,on%20the%20component's%20sensitive%20surface>`_
 
-.. Example
-.. -------------------
 
-.. :ref:`Light Theremin`
+.. **例**
+
+.. * :ref:`ライトセラミン`
 
 
-**Example**
+**例**
 
-* :ref:`py_photoresistor` (For MicroPython User)
-* :ref:`py_light_theremin` (For MicroPython User)
-* :ref:`ar_photoresistor` (For Arduino User)
-.. * :ref:`per_light_display` (For Piper Make User)
+* :ref:`py_photoresistor` (MicroPythonユーザー向け)
+* :ref:`py_light_theremin` (MicroPythonユーザー向け)
+* :ref:`ar_photoresistor` (Arduinoユーザー向け)
+.. * :ref:`per_light_display` (Piper Makeユーザー向け)

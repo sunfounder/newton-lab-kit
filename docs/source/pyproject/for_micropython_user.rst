@@ -2,23 +2,25 @@
 
     Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
 
-    **Why Join?**
+こんにちは！FacebookでSunFounderのRaspberry Pi & Arduino & ESP32愛好者コミュニティに参加していただきありがとうございます！同じ興味を持つ仲間と一緒に、Raspberry Pi、Arduino、ESP32の更なる深掘りを楽しみましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+**参加する理由は？**
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+- **専門家によるサポート**：コミュニティやチームの支援を受けて、販売後の問題や技術的な課題を解決。
+- **学びと共有**：スキルを高めるためのヒントやチュートリアルを交換。
+- **独占プレビュー**：新製品発表や製品の先行試用のチャンス。
+- **特別割引**：最新製品に対する独占的な割引を享受。
+- **祝祭プロモーションとギフト**：ギフトや祝祭のプロモーションに参加。
 
-For MicroPython User
-======================
-In this section, you'll explore the history of MicroPython, learn how to install it on the Pico, grasp the basic syntax, and work through a dozen interesting and practical projects to help you quickly master MicroPython.
+👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今すぐ参加！
 
-We recommend reading the chapters in order.
+MicroPythonユーザー向け
+==========================
+このセクションでは、MicroPythonの歴史を探求し、Picoにインストールする方法を学び、基本的な構文を把握し、興味深く実用的なプロジェクトをいくつか取り組みながら、MicroPythonを迅速にマスターするのに役立ちます。
 
-**1. Get Started**
+章を順番に読むことをお勧めします。
+
+**1. 入門**
 
 .. toctree::
     :maxdepth: 1
@@ -29,9 +31,7 @@ We recommend reading the chapters in order.
     python_start/download_add
     python_start/quick_guide_thonny
 
-
-
-**2. Output & Input**
+**2. 出力 & 入力**
 
 .. toctree::
     :maxdepth: 1
@@ -53,7 +53,7 @@ We recommend reading the chapters in order.
     py_transistor
     py_relay
 
-**3. Sound & Display & Movement**
+**3. 音 & 表示 & 動作**
 
 .. toctree::
     :maxdepth: 1
@@ -66,7 +66,7 @@ We recommend reading the chapters in order.
     py_pump
     py_servo
 
-**4. Controller**
+**4. コントローラー**
 
 .. toctree::
     :maxdepth: 1
@@ -75,7 +75,7 @@ We recommend reading the chapters in order.
     py_keypad
     py_mpr121
 
-**5. Microchip**
+**5. マイクロチップ**
 
 .. toctree::
     :maxdepth: 1
@@ -85,7 +85,7 @@ We recommend reading the chapters in order.
     py_74hc595_4dig
     py_74hc595_matrix
 
-**6. Advanced**
+**6. 上級**
 
 .. toctree::
     :maxdepth: 1
@@ -96,7 +96,7 @@ We recommend reading the chapters in order.
     py_irremote
     py_rfid
 
-**7. Funny Project**
+**7. 面白いプロジェクト**
 
 .. toctree::
     :maxdepth: 1
@@ -113,5 +113,3 @@ We recommend reading the chapters in order.
     py_reversing_aid
     py_somatosensory_controller
     py_digital_bubble_level
-
-

@@ -1,59 +1,62 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Communityへようこそ！  
+    Facebookコミュニティで、Raspberry Pi、Arduino、ESP32について深く学び、愛好者と交流しましょう。
 
-    **Why Join?**
+    **なぜ参加するべきか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**: 購入後の問題や技術的な課題を、コミュニティやサポートチームと一緒に解決できます。
+    - **学びと共有**: ヒントやチュートリアルを交換し、スキルを向上させましょう。
+    - **最新情報の先行公開**: 新製品の発表やプレビューにいち早くアクセスできます。
+    - **特別割引**: 最新製品を特別価格で購入できます。
+    - **イベントやプレゼント企画**: さまざまなキャンペーンやプレゼント企画に参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 さあ、一緒に学び、創造しましょう！[|link_sf_facebook|] をクリックして、今すぐ参加！
 
 .. _py_button:
 
-2.5 Reading Button Value
+2.5 ボタン入力の読み取り
 =============================
 
-In this lesson, we'll learn how to read input from a pushbutton using the Raspberry Pi Pico 2. So far, we've used the GPIO pins mainly for output, like lighting up LEDs. Now, we'll use a GPIO pin as an input to detect when a button is pressed. This is a fundamental skill for creating interactive projects.
+このレッスンでは、Raspberry Pi Pico 2 を使用してプッシュボタンの入力を読み取る方法を学びます。  
+これまで、GPIOピンは主にLEDの点灯などの出力に使用してきましたが、今回はGPIOピンを入力として設定し、ボタンが押されたことを検出します。  
+これは、インタラクティブなプロジェクトを作成する上での基本スキルとなります。
 
-**What You'll Need**
 
-In this project, we need the following components. 
+**必要なもの**
 
-It's definitely convenient to buy a whole kit, here's the link: 
+このプロジェクトでは、以下のコンポーネントを使用します。
+
+すべての部品が揃った便利なキットはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
-        - 450+
+    *   - 名称
+        - キット内容
+        - リンク
+    *   - Newton Lab Kit
+        - 450点以上
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+個別に購入する場合は、以下のリンクを利用してください。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,11 +65,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_button`
@@ -74,93 +77,93 @@ You can also buy them separately from the links below.
         - |link_button_buy|
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_button|
 
-As long as one side of the button pin is connected to 3.3v, and the other side pin is connected to GP14, then when the button is pressed, GP14 will be high. However, when the button is not pressed, GP14 is in a suspended state and may be high or low. In order to get a stable low level when the button is not pressed, GP14 needs to be reconnected to GND through a 10K pull-down resistor.
+ボタンの片方のピンを3.3Vに接続し、もう片方のピンをGP14に接続すると、ボタンが押されたときにGP14はHIGHになります。しかし、ボタンが押されていない場合、GP14は浮いた状態（不安定な状態）になり、HIGHまたはLOWのどちらにもなり得ます。ボタンが押されていないときにGP14を安定してLOWにするためには、10KΩのプルダウン抵抗を介してGNDに接続する必要があります。
 
-* **Button Not Pressed**: The GP14 pin is connected to GND through the resistor, so it reads **LOW (0)**.
-* **Button Pressed**: The GP14 pin is connected to 3.3V through the button, so it reads **HIGH (1)**.
+* **ボタン未押下**: GP14はGNDに接続され、 **LOW (0)** を読み取る。  
+* **ボタン押下時**: GP14は3.3Vに接続され、 **HIGH (1)** を読み取る。
 
-**Wiring Diagram**
+**配線図**
 
-A four-pin button is shaped like an H. Its left two pins or right two pins are connected, which means that when it crosses the central gap, it connects two half rows with the same row number. (For example, in my circuit, E23 and F23 are already connected, as are E25 and F25).
+4ピンのボタンは "H" の形をしており、左右の2ピンずつが内部で接続されています。 
 
-Until the button is pressed, the left and right pins are independent of each other and current cannot flow from one side to the other.
+ボタンを押すと、中央のギャップをまたいで2つの独立した行が接続されます。
 
 |wiring_button|
 
 
-**Writing the Code**
+**コードの記述**
 
-We'll write a simple program that prints a message when the button is pressed.
+ボタンが押されたときにメッセージを出力するシンプルなプログラムを書いてみましょう。
 
 .. note::
 
-  * Open the ``2.5_read_button_value.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+  * ``2.5_read_button_value.py`` を ``newton-lab-kit/micropython`` から開くか、Thonnyにコードをコピーし、「Run」をクリックするか、F5キーを押してください。
+  * インタプリタがMicroPython (Raspberry Pi Pico) COMxxに設定されていることを確認してください。
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin
+    # GP14を入力ピンとして初期化
     button = machine.Pin(14, machine.Pin.IN)
 
     while True:
         if button.value() == 1:
             print("Button pressed!")
-            utime.sleep(0.2)  # Debounce delay
+            utime.sleep(0.2)  # デバウンス処理
 
-When the code is running, you will observe the following phenomenon:
+コードを実行すると、以下の動作が確認できます：
 
-* **Not Pressed**: No message should appear.
-* **Pressed**: "Button pressed!" should appear in the console each time you press the switch.
+* **ボタン未押下**: 何も表示されない。  
+* **ボタン押下**: "ボタンが押されました！" のメッセージが表示される。
 
 
 
-**Understanding the Code**
+**コードの解説**
 
-#. Import Modules:
+#. モジュールのインポート:
 
-   * ``machine``: Provides access to the hardware functions.
-   * ``utime``: Allows us to use time-related functions like delays.
+   * ``machine``: ハードウェア制御のための機能を提供。
+   * ``utime``: 時間関連の関数（遅延処理など）を提供。
 
-#. Set Up the Button Pin:
+#. ボタンピンの設定:
 
-   * ``button = machine.Pin(14, machine.Pin.IN)``: Initializes GPIO pin 14 as an input.
+   * ``button = machine.Pin(14, machine.Pin.IN)``: GPIO 14を入力ピンとして初期化。
 
-#. Main Loop:
+#. メインループ:
 
-   * ``while True``: Creates an infinite loop.
-   * ``if button.value() == 1``: Checks if the button is pressed.
-   * ``button.value()`` returns 1 when the pin reads high (button pressed).
-   * ``print("Button pressed!")``: Prints a message to the console.
-   * ``utime.sleep(0.2)``: Waits for 200 milliseconds to debounce the button.
+* ``while True``: 無限ループを作成します。  
+   * ``if button.value() == 1``: ボタンが押されているかを確認します。  
+   * ``button.value()`` が1を返すとき、ピンがHIGH（ボタンが押された状態）になっています。  
+   * ``print("Button pressed!")``: コンソールにメッセージを表示します。  
+   * ``utime.sleep(0.2)``: ボタンのデバウンス処理として200ミリ秒待機します。  
 
-**Alternate Wiring: Pull-Up Resistor**
+**別の配線方法: プルアップ抵抗を使用する**
 
-You can also wire the button using a pull-up resistor configuration.
+ボタンの配線はプルアップ抵抗を使用して設定することもできます。
 
-#. Connect a 10kΩ resistor between GP14 and the 3.3V rail. This pulls the pin high when the button is not pressed.
+#. 10KΩ抵抗をGP14と3.3Vの間に接続すると、ボタンが押されていないときにGP14がHIGH (1)になります。
 
     |sch_button_pullup|
 
     |wiring_button_pullup|
 
-   * **Button Not Pressed**: The GP14 pin is connected to 3.3V through the resistor, so it reads HIGH (1).
-   * **Button Pressed**: The GP14 pin is connected to GND through the button, so it reads LOW (0).
+   * **ボタン未押下**: GP14は3.3Vに接続され、HIGH (1)を読み取る。  
+   * **ボタン押下**: GP14はGNDに接続され、LOW (0)を読み取る。  
 
-#. Modified Code for Pull-Up Configuration.
+#. プルアップ設定に対応するコード
 
    .. code-block:: python
    
        import machine
        import utime
    
-       # Initialize GP14 as an input pin
+       # GP14を入力ピンとして初期化
        button = machine.Pin(14, machine.Pin.IN)
    
        while True:
@@ -168,20 +171,20 @@ You can also wire the button using a pull-up resistor configuration.
                print("Button pressed!")
                utime.sleep(0.2)
 
-**Using Internal Pull-Up/Pull-Down Resistors**
+**Using Internal Pull-Up/Pull-Down Resistors** 
 
-The Raspberry Pi Pico 2 allows you to enable internal pull-up or pull-down resistors, eliminating the need for external resistors.
+Raspberry Pi Pico 2 では、内部プルアップ抵抗やプルダウン抵抗を有効にすることができ、外部抵抗を使用せずに回路を構成できます。
 
-Using internal resistors simplifies wiring and saves space by eliminating the need for additional external resistors on the breadboard.
+内部抵抗を利用することで、配線が簡単になり、ブレッドボード上の外部抵抗を減らすことでスペースを節約できます。
 
-* Enabling Internal Pull-Down Resistor:
+* 内部プルダウン抵抗を有効にする:
 
   .. code-block:: python
   
       import machine
       import utime
   
-      # Initialize GP14 as an input with an internal pull-down resistor
+      # GP14を内部プルダウン抵抗付きの入力ピンとして初期化
       button = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_DOWN)
   
       while True:
@@ -189,14 +192,14 @@ Using internal resistors simplifies wiring and saves space by eliminating the ne
               print("Button pressed!")
               utime.sleep(0.2)
 
-* Enabling Internal Pull-Up Resistor:
+* 内部プルアップ抵抗を有効にする:
 
   .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input with an internal pull-up resistor
+    # GP14を内部プルアップ抵抗付きの入力ピンとして初期化
     button = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_UP)
 
     while True:
@@ -206,8 +209,8 @@ Using internal resistors simplifies wiring and saves space by eliminating the ne
 
 **Experimenting Further**
 
-* **Multiple Buttons**: Connect additional buttons to other GPIO pins and modify the code to handle multiple inputs.
-* **LED Control**: Combine button input with LED output to toggle the LED state when the button is pressed.
+* **複数のボタンを接続**: 複数のGPIOピンにボタンを接続し、コードを変更して複数の入力を処理できるようにする。
+* **LED制御**: ボタンの入力とLEDの出力を組み合わせ、ボタンが押されたときにLEDの状態を切り替える。
 
 .. code-block:: python
 
@@ -220,10 +223,12 @@ Using internal resistors simplifies wiring and saves space by eliminating the ne
 
     while True:
         if button.value() == 1:
-            led_state = not led_state  # Toggle LED state
+            led_state = not led_state  # LEDの状態をトグル
             led.value(led_state)
             utime.sleep(0.2)
 
 **Conclusion**
 
-Reading input from a button is a fundamental skill in microcontroller programming. It allows you to make your projects interactive and responsive to user input. Understanding how to use pull-up and pull-down resistors ensures reliable and stable readings from your input devices.
+マイコンプログラミングにおいて、ボタンの入力を読み取ることは基本的なスキルです。  
+これにより、プロジェクトをインタラクティブにし、ユーザーの入力に応じて動作させることができます。  
+プルアップ抵抗とプルダウン抵抗の使い方を理解することで、安定した入力信号を取得し、信頼性の高いシステムを構築できます。

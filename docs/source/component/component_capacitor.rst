@@ -1,40 +1,38 @@
-.. note::
+.. note:: 
+    こんにちは、FacebookでSunFounderのRaspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、同じ情熱を持つ人々ともっと深く掘り下げましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **エキスパートサポート**: 私たちのコミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決します。
+    - **学び＆共有**: スキル向上のためのヒントやチュートリアルを交換します。
+    - **独占プレビュー**: 新製品の発表やちら見せに早期アクセス。
+    - **特別割引**: 最新製品の独占的な割引を楽しんでください。
+    - **祭りのプロモーションとギブアウェイ**: ギブアウェイや祝日のプロモーションに参加します。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造する準備はできましたか？[|link_sf_facebook|]をクリックして今日参加しましょう！
 
 .. _cpn_capacitor:
 
-
-Capacitor
+コンデンサ
 =============
 
 |img_capacitor|
 
-Capacitance, refers to the amount of charge storage under a given potential difference, denoted as C, and the international unit is farad (F). 
-Generally speaking, electric charges move under force in an electric field. When there is a medium between conductors, the movement of electric charges is hindered and the electric charges accumulate on the conductors, resulting in accumulation of electric charges. 
+静電容量は、与えられた電位差の下での電荷貯蔵量を指し、記号Cで表され、国際単位はファラド（F）です。
+一般的に、電気荷は電場内で力によって移動します。導体間に媒体がある場合、電気荷の移動が妨げられ、導体上に電気荷が蓄積し、電気荷の蓄積が生じます。
 
-The amount of stored electric charges is called capacitance. Because capacitors are one of the most widely used electronic components in electronic equipment, they are widely used in direct current isolation, coupling, bypass, filtering, tuning loops, energy conversion, and control circuits. Capacitors are divided into electrolytic capacitors, solid capacitors, etc.
+蓄積された電気荷の量を静電容量と呼びます。コンデンサは電子機器で最も広く使用されている電子部品の一つであるため、直流隔離、結合、バイパス、フィルタリング、調整ループ、エネルギー変換、制御回路などで広く使用されています。コンデンサは、電解コンデンサや固体コンデンサなどに分けられます。
 
-According to material characteristics, capacitors can be divided into: aluminum electrolytic capacitors, film capacitors, tantalum capacitors, ceramic capacitors, super capacitors, etc.
+材料特性によって、コンデンサはアルミニウム電解コンデンサ、フィルムコンデンサ、タンタルコンデンサ、セラミックコンデンサ、スーパーコンデンサなどに分類されます。
 
-In this kit, ceramic capacitors and electrolytic capacitors are used. 
+このキットでは、セラミックコンデンサと電解コンデンサが使用されています。
 
 * `Ceramic Capacitor - Wikipedia <https://en.wikipedia.org/wiki/Ceramic_capacitor>`_
 
 * `Electrolytic Capacitor - Wikipedia <https://en.wikipedia.org/wiki/Electrolytic_capacitor>`_
 
-There are 103 or 104 label on the ceramic capacitors, which represent the capacitance value, 103=10x10^3pF, 104=10x10^4pF
+セラミックコンデンサには103または104のラベルがあり、それは静電容量の値を表しています。103=10x10^3pF、104=10x10^4pF
 
-**Unit Conversion**
+**単位変換**
     1F=10^3mF=10^6uF=10^9nF=10^12pF
 

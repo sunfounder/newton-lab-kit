@@ -1,60 +1,59 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounderのRaspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者と一緒にさらに深く学びましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的サポート**：販売後の問題や技術的な課題をコミュニティとチームからのサポートで解決できます。
+    - **学びと共有**：スキル向上のためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**：新製品の発表や先行情報をいち早くゲット！
+    - **特別割引**：最新製品をお得に購入できます。
+    - **キャンペーン＆プレゼント**：プレゼント企画や季節限定のプロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探索してクリエイションしませんか？[|link_sf_facebook|]をクリックして、今すぐ参加しよう！
 
 .. _py_slide:
 
-2.7 Toggle Left and Right
+2.7 左右切替
 ============================
 
-In this lesson, we'll learn how to use a **slide switch** with the Raspberry Pi Pico 2 to detect its position (left or right) and perform actions based on that. A slide switch is a simple mechanical device that connects the common (middle) pin to one of the two outer pins depending on its position.
+このレッスンでは、Raspberry Pi Pico 2を使用して **スライドスイッチ** の位置（左または右）を検出し、それに基づいて動作を行う方法を学びます。スライドスイッチは、位置に応じて共通ピン（中央ピン）と外側の2つのピンのいずれかを接続するシンプルな機械的デバイスです。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトでは、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+便利なキットを購入することをお勧めします。こちらから購入できます：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
+    *   - 名称
+        - キット内容
+        - リンク
+    *   - ニュートンラボキット
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
-
+また、以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - マイクロUSBケーブル
         - 1
         - 
     *   - 3
@@ -63,75 +62,75 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1（10KΩ）
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_capacitor`
-        - 1(104)
+        - 1（104）
         - |link_capacitor_buy|
     *   - 7
         - :ref:`cpn_slide_switch`
         - 1
         - 
 
-**Understanding the Slide Switch**
+**スライドスイッチの理解**
 
 |img_slide|
 
-A slide switch has three pins:
+スライドスイッチには3つのピンがあります：
 
-- **Pin 1**: Connected when the switch is toggled to one side (e.g., left)
-- **Pin 2**: Common pin (middle pin)
-- **Pin 3**: Connected when the switch is toggled to the other side (e.g., right)
+- **ピン1**：スイッチを一方向（例：左）に切り替えた時に接続されます
+- **ピン2**：共通ピン（中央ピン）
+- **ピン3**：スイッチを反対方向（例：右）に切り替えた時に接続されます
 
-By reading the voltage on the common pin, we can determine the position of the switch.
+共通ピンの電圧を読み取ることで、スイッチの位置を判別できます。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_slide|
 
-GP14 will get a different level, when you toggle the slide switch to the right or left.
+スライドスイッチを右または左に切り替えると、GP14には異なるレベルが表示されます。
 
-The purpose of the 10K resistor is to keep the GP14 low during toggling (not toggling to the far left and not toggling to the far right).
+10KΩの抵抗は、スイッチを切り替える際にGP14を低電圧に保つ役割を果たします（スイッチが極端に左または右に切り替わらないようにします）。
 
-When you toggle the switch, the mechanical contacts can cause rapid, noisy signals known as "bounce." The capacitor connected between GP14 and GND helps to filter out these rapid fluctuations, providing a cleaner signal.
+スイッチを切り替えると、機械的接点により急速なノイズ信号「バウンス」が発生することがあります。GP14とGNDの間に接続されたコンデンサがこれらの急激な変動をフィルタリングし、よりクリーンな信号を提供します。
 
-* Switch Toggled to the Right:
+* 右にスイッチを切り替えた場合：
 
-  * Pin 2 (GP14) is connected to **3.3V** through Pin 1.
-  * The GPIO pin reads **HIGH** (1).
+  * ピン2（GP14）はピン1を通じて **3.3V** に接続されます。
+  * GPIOピンは **HIGH** （1）を読み取ります。
 
-* Switch Toggled to the Left:
+* 左にスイッチを切り替えた場合：
 
-  * Pin 2 (GP14) is connected to **GND** through Pin 3.
-  * The GPIO pin reads **LOW** (0).
+  * ピン2（GP14）はピン3を通じて **GND** に接続されます。
+  * GPIOピンは **LOW** （0）を読み取ります。
 
-* Switch in the Middle Position:
+* 中間位置のスイッチ：
 
-  * Pin 2 (GP14) is not connected to either **3.3V** or **GND**.
-  * The pull-down resistor keeps the GPIO pin at **LOW** (0).
-  * The capacitor helps to reduce switch bounce (noise due to mechanical movement).
+  * ピン2（GP14）は **3.3V** にも **GND** にも接続されていません。
+  * プルダウン抵抗がGPIOピンを **LOW** （0）に保ちます。
+  * コンデンサはスイッチバウンス（機械的動作によるノイズ）を低減します。
 
 
-**Wiring**
+**配線**
 
 |wiring_slide|                                                                                                                                                                                                  
 
 
 
-**Writing the Code**
+**コードの作成**
 
-We'll write a MicroPython program that detects the position of the slide switch and prints a message accordingly.
+スライドスイッチの位置を検出し、その結果に基づいてメッセージを表示するMicroPythonプログラムを作成します。
 
 .. note::
 
-  * Open the ``2.7_slide_switch.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+  * ``2.7_slide_switch.py`` を ``newton-lab-kit/micropython`` から開くか、コードをThonnyにコピーして、「Run」をクリックするかF5を押してください。
 
-  * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+  * 正しいインタプリタが選択されていることを確認してください：MicroPython（Raspberry Pi Pico）。COMxx。
 
   
 
@@ -140,7 +139,7 @@ We'll write a MicroPython program that detects the position of the slide switch 
   import machine
   import utime
 
-  # Initialize GP14 as an input
+  # GP14を入力として初期化
   slide_switch = machine.Pin(14, machine.Pin.IN)
 
   while True:
@@ -151,50 +150,50 @@ We'll write a MicroPython program that detects the position of the slide switch 
           print("Switch is toggled to the RIGHT!")
       utime.sleep(0.5)
 
-When the code is running, you will observe the following phenomenon:
+コードが実行されると、次の現象が観察されます：
 
-* **Toggle to the Right**: You should see "Switch is toggled to the RIGHT!" in the console.
-* **Toggle to the Left**: You should see "Switch is toggled to the LEFT!" in the console.
-
-
-**Understanding the Code**
-
-#. Import Modules:
-
-   * ``import machine``: Access hardware functions.
-   * ``import utime``: Use time-related functions.
-
-#. Initialize the Slide Switch Pin:
-
-   * ``slide_switch = machine.Pin(14, machine.Pin.IN)``: Sets up GP14 as an input pin.
-
-#. Main Loop:
-
-   * ``while True``: Creates an infinite loop to continuously check the switch state.
-   * ``switch_state = slide_switch.value()``: Reads the current state of the switch.
-   * ``if switch_state == 1``: Checks if the GPIO pin is HIGH (switch toggled to the left).
-   * ``print("Switch is toggled to the RIGHT!")``: Prints a message.
-   * ``else``: If the GPIO pin is LOW (switch toggled to the right or in the middle).
-   * ``print("Switch is toggled to the LEFT!")``: Prints a message.
-   * ``utime.sleep(0.5)``: Adds a short delay to debounce the switch and avoid flooding the console.
+* **右に切り替えた場合**：コンソールに「スイッチは右に切り替えられました！」と表示されます。
+* **左に切り替えた場合**：コンソールに「スイッチは左に切り替えられました！」と表示されます。
 
 
-**Alternative: Using an internal pull-down resistor**
+**コードの理解**
 
-The Raspberry Pi Pico 2 allows us to enable internal pull-down resistors, eliminating the need for an external resistor.
+#. モジュールのインポート：
 
-* Modify the Circuit:
+   * ``import machine``：ハードウェア機能にアクセスします。
+   * ``import utime``：時間に関連する関数を使用します。
 
-  Remove the external 10 kΩ resistor and 0.1 µF capacitor.
+#. スライドスイッチピンの初期化：
 
-* Modified Code:
+   * ``slide_switch = machine.Pin(14, machine.Pin.IN)``：GP14を入力ピンとして設定します。
+
+#. メインループ：
+
+   * ``while True``：スイッチの状態を継続的にチェックする無限ループを作成します。
+   * ``switch_state = slide_switch.value()``：スイッチの現在の状態を読み取ります。
+   * ``if switch_state == 1``：GPIOピンがHIGH（スイッチが左に切り替えられた場合）であることを確認します。
+   * ``print("Switch is toggled to the RIGHT!")``：メッセージを表示します。
+   * ``else``：GPIOピンがLOW（スイッチが右または中間にある場合）である場合。
+   * ``print("Switch is toggled to the LEFT!")``：メッセージを表示します。
+   * ``utime.sleep(0.5)``：スイッチのデバウンスを防ぎ、コンソールが溢れないように短い遅延を追加します。
+
+
+**代替案：内部プルダウン抵抗の使用**
+
+Raspberry Pi Pico 2では、内部プルダウン抵抗を有効にすることができ、外部抵抗が不要になります。
+
+* 回路の変更：
+
+  外部の10 kΩ抵抗と0.1 µFコンデンサを取り外します。
+
+* 修正されたコード：
 
   .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input with internal pull-down resistor
+    # GP14を内部プルダウン抵抗付きで入力として初期化
     slide_switch = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
     while True:
@@ -205,17 +204,17 @@ The Raspberry Pi Pico 2 allows us to enable internal pull-down resistors, elimin
             print("Switch is toggled to the RIGHT!")
         utime.sleep(0.5)
   
-**Practical Applications**
+**実用的な応用例**
 
-* **Mode Selection**: Use the switch to toggle between different modes in your program.
-* **Power Control**: Control power to certain parts of your circuit.
-* **User Input**: Provide simple user controls for your projects.
+* **モード選択**：プログラム内で異なるモード間でスイッチを切り替えます。
+* **電源制御**：回路の特定部分の電源を制御します。
+* **ユーザー入力**：プロジェクトにシンプルなユーザー制御を提供します。
 
-**Experimenting Further**
+**さらなる実験**
 
-* Add an LED Indicator:
+* LEDインジケーターを追加：
 
-  Connect an LED to another GPIO pin (e.g., GP15) with a suitable resistor.Modify the code to turn the LED on or off based on the switch position.
+  適切な抵抗を介して別のGPIOピン（例：GP15）にLEDを接続します。スイッチの位置に基づいてLEDをオンまたはオフにするコードを修正します。
 
   .. code-block:: python
 
@@ -227,16 +226,15 @@ The Raspberry Pi Pico 2 allows us to enable internal pull-down resistors, elimin
 
     while True:
         if slide_switch.value() == 1:
-            led.value(1)  # Turn on the LED
+            led.value(1)  # LEDを点灯
         else:
-            led.value(0)  # Turn off the LED
+            led.value(0)  # LEDを消灯
         utime.sleep(0.1)
 
-* Detect Middle Position:
+* 中間位置の検出：
 
-  To detect when the switch is in the middle (neither left nor right), you'll need to modify the wiring and code to read all three states.
+  スイッチが中間位置（左でも右でもない）にあるときを検出するために、配線とコードを修正し、3つの状態すべてを読み取れるようにします。
 
-**Conclusion**
+**結論**
 
-Using a slide switch with the Raspberry Pi Pico 2 allows you to add physical input controls to your projects. By understanding how to read the switch's state and handle potential issues like switch bounce, you can create more interactive and user-friendly applications.
-
+Raspberry Pi Pico 2とスライドスイッチを使用することで、物理的な入力コントロールをプロジェクトに追加できます。スイッチの状態を読み取り、スイッチバウンスのような潜在的な問題を処理する方法を理解することにより、よりインタラクティブでユーザーフレンドリーなアプリケーションを作成できます。

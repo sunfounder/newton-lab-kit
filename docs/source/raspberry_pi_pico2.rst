@@ -1,16 +1,16 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！FacebookのSunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Communityへようこそ！Raspberry Pi、Arduino、ESP32について、仲間と共に深く学び、探求しましょう。
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門的なサポート**：購入後の問題や技術的な課題を、コミュニティやチームのサポートを受けながら解決できます。
+    - **学び＆共有**：スキル向上のためのヒントやチュートリアルを交換できます。
+    - **新製品の先行情報**：新製品の発表や試作品の情報をいち早く入手できます。
+    - **特別割引**：最新製品を特別価格で購入できます。
+    - **イベントやプレゼント企画**：キャンペーンやプレゼント企画に参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探究し、創造しませんか？今すぐ [|link_sf_facebook|] をクリックして参加しましょう！
 
 .. _cpn_pico_2:
 
@@ -21,78 +21,73 @@ Raspberry Pi Pico 2
     :width: 200
     :align: center
 
-With a higher core clock speed, double the memory, more powerful Arm cores, optional RISC‑V cores, new security features, and upgraded interfacing capabilities, Raspberry Pi Pico 2 delivers a significant performance boost, while retaining compatibility with earlier members of the Raspberry Pi Pico 2 series.
+Raspberry Pi Pico 2は、コアクロック速度の向上、メモリの倍増、より強力なArmコア、オプションのRISC-Vコア、新たなセキュリティ機能、強化されたインターフェースを備え、大幅な性能向上を実現しています。それでいて、従来のRaspberry Pi Pico 2シリーズとの互換性を維持しています。
 
-Programmable in C / C++ and Python, and with detailed documentation, Raspberry Pi Pico 2 is the ideal microcontroller board for enthusiasts and professional developers alike.
+C / C++およびPythonでプログラム可能で、詳細なドキュメントが提供されているため、エンジニアや愛好者からプロの開発者まで幅広く活用できます。
 
-Features
+特長
 --------------
 
-* Raspberry Pi Pico 2 2 is a low-cost, high-performance microcontroller board with flexible digital interfaces. Key features include:
-* RP2350 microcontroller chip designed by Raspberry Pi in the United Kingdom
-* Dual Cortex-M33 or Hazard3 processors at up to 150MHz
-* 520KB of SRAM, and 4MB of on-board flash memory
-* USB 1.1 with device and host support
-* Low-power sleep and dormant modes
-* Drag-and-drop programming using mass storage over USB
-* 26x multi-function GPIO pins including 3 that can be used for ADC
-* 2x SPI, 2x I2C, 2x UART, 3x 12-bit 500ksps Analogue to Digital Converter (ADC), 24x controllable PWM channels
-* 2x Timer with 4 alarms, 1x AON Timer
-* Temperature sensor
-* 3 x Programmable IO (PIO) blocks, 12 state machines total for custom peripheral support
-    * Flexible, user-programmable high-speed IO
-    * Can emulate interfaces such as SD Card and VGA
+* Raspberry Pi Pico 2は、低コストかつ高性能なマイコンボードで、柔軟なデジタルインターフェースを備えています。主な特長は以下の通りです：
+* Raspberry Piが英国で設計したRP2350マイクロコントローラーチップ
+* 最大150MHzのデュアルCortex-M33またはHazard3プロセッサ
+* 520KBのSRAM、および4MBのオンボードフラッシュメモリ
+* デバイスおよびホスト対応のUSB 1.1
+* 低消費電力スリープおよびドーマントモード
+* USBマスストレージ経由のドラッグ＆ドロッププログラミング
+* 26本の多機能GPIOピン（うち3本はADCとして利用可能）
+* 2x SPI、2x I2C、2x UART、3x 12-bit 500ksps アナログ-デジタルコンバーター（ADC）、24x PWMチャンネル
+* 2x タイマー（4つのアラーム付き）、1x AONタイマー
+* 温度センサー搭載
+* 3 x プログラマブルIO（PIO）ブロック、合計12のステートマシンでカスタム周辺機能をサポート
+    * 柔軟かつユーザー定義可能な高速IO
+    * SDカードやVGAなどのインターフェースをエミュレート可能
 
-Pico's Pins
-------------
+Picoのピン構成
+----------------
 
 .. image:: img/pico-2-r4-pinout.svg
     :width: 800
 
-**Power Pins**
+**電源ピン**
 
-The Pico 2 pinout has been designed to directly bring out as much of the RP2350 GPIO and internal circuitry function as
-possible, while also providing a suitable number of ground pins to reduce EMI (Electro Magnetic Interference) and
-signal crosstalk. This is important in general but especially for RP2350 which is built on a modern 40nm silicon process
-and hence the digital IO edge rates are very fast.
+Pico 2のピン配置は、RP2350のGPIOおよび内部回路機能を最大限に活用しながら、EMI（電磁干渉）や
+信号クロストークを低減するために十分なグラウンドピンを確保するよう設計されています。
+特にRP2350は40nmプロセスで製造されており、高速なデジタルIOエッジレートを持つため、この設計は
+非常に重要です。
 
-**General purpose I/O**
+**汎用I/O**
 
-The Raspberry Pi Pico 2’s GPIO is powered from the on-board 3.3V rail and is therefore fixed at 3.3V.
-The Pico 2 exposes 26 of the 30 possible RP2350 GPIO pins by routing them straight out to Pico 2 header pins. GPIO0
-to GPIO22 are digital only and GPIO 26-28 are able to be used either as digital GPIO or as ADC inputs (software
-selectable).
-One thing to note is that the ADC capable GPIO26-29 have an internal reverse diode to the VDDIO (3V3) rail and so the
-input voltage must not exceed VDDIO plus about 300mV. Also, if the RP2350 is unpowered, applying a voltage to these
-GPIO pins will 'leak' through the diode into the VDDIO rail. Normal digital GPIO pins 0-25 (and also the debug p
+Raspberry Pi Pico 2のGPIOは、オンボードの3.3Vレールから供給され、3.3Vに固定されています。
+Pico 2は、30本のRP2350 GPIOピンのうち26本をヘッダーピンに直接出力しています。GPIO0〜GPIO22はデジタル専用であり、GPIO26〜28はデジタルGPIOまたはADC入力として利用可能（ソフトウェア設定で選択可）です。
+注意点として、ADC対応のGPIO26〜29にはVDDIO（3.3V）レールへの逆ダイオードが存在するため、入力電圧はVDDIO+約300mVを超えないようにする必要があります。また、RP2350が電源オフの状態でこれらのGPIOピンに電圧を加えると、ダイオードを介してVDDIOレールに電流が漏れる可能性があります。
 
+GPIOおよびグラウンドピンに加えて、メインの40ピンインターフェースには以下の7つのピンがあります：
 
-Apart from GPIO and ground pins, there are 7 other pins on the main 40-pin interface:
+  * **RUN**: RP2350のイネーブルピンで、内部プルアップ抵抗（約50kΩ）を介して3.3Vに接続されています。RP2350をリセットするには、このピンを短絡してください。
+  * **ADC_VREF**: ADCの電源供給（およびリファレンス）電圧で、Pico 2では3.3Vをフィルタリングして生成されます。ADCの精度を向上させるため、外部リファレンスを使用することも可能です。
+  * **AGND**: GPIO26-29用のアナロググラウンドリファレンス。このピンには、これらの信号の下に専用のアナロググラウンドプレーンが走っています。ADCを使用しない場合や、ADCの精度が重要でない場合は、このピンをデジタルグラウンドに接続しても問題ありません。
+  * **3V3(O)**: RP2350とそのI/Oの主な3.3V電源で、オンボードのSMPS（スイッチング電源）によって生成されます。このピンから外部回路への電源供給も可能ですが、RP2350の負荷やVSYS電圧によって供給可能な電流が変動するため、300mA以下に抑えることが推奨されます。
+  * **3V3(E)**: オンボードのSMPSイネーブルピンに接続されており、100kΩ抵抗を介してVSYSにプルアップされています。3.3Vを無効化し（RP2350の電源もオフ）、このピンを短絡することで電源を制御できます。
+  * **VSYS**: メインシステムの入力電圧で、1.8V〜5.5Vの範囲で変動可能です。オンボードSMPSによって3.3Vが生成され、RP2350とそのGPIOに供給されます。
+  * **VBUS**: micro-USBの入力電圧で、micro-USBポートの1ピンに接続されています。通常5Vですが、USBが接続されていない場合は0Vになります。
 
-  * **RUN**: The RP2350 enable pin, and has an internal (on-chip) pull-up resistor to 3.3V of about ~50kΩ. To reset RP2350, short this pin low.
-  * **ADC_VREF**: The ADC power supply (and reference) voltage, and is generated on Pico 2 by filtering the 3.3V supply. This pin can be used with an external reference if better ADC performance is required.
-  * **AGND**: The ground reference for GPIO26-29, there is a separate analog ground plane running under these signals and terminating at this pin. If the ADC is not used or ADC performance is not critical, this pin can be connected to digital ground.
-  * **3V3(O)**: The main 3.3V supply to RP2350 and its I/O, generated by the on-board SMPS. This pin can be used to power external circuitry (maximum output current will depend on RP2350 load and VSYS voltage, it is recommended to keep the load on this pin less than 300mA).
-  * **3v3(E)**: Connects to the on-board SMPS enable pin, and is pulled high (to VSYS) via a 100kΩ resistor. To disable the 3.3V (which also de-powers the RP2350), short this pin low.
-  * **VSYS**: The main system input voltage, which can vary in the allowed range 1.8V to 5.5V, and is used by the on-board SMPS to generate the 3.3V for the RP2350 and its GPIO.
-  * **VBUS**: The micro-USB input voltage, connected to micro-USB port pin 1. This is nominally 5V (or 0V if the USB is not connected or not powered).
+いくつかのRP2350 GPIOピンは内部ボード機能に使用されています：
 
-A few RP2350 GPIO pins are used for internal board functions, these are:
+  * **GPIO29**: ADCモード（ADC3）でVSYS/3を測定
+  * **GPIO25**: ユーザーLEDに接続
+  * **GPIO24**: VBUS検出用（VBUSが接続されている場合はHigh、それ以外はLow）
+  * **GPIO23**: オンボードSMPS Power Saveピンを制御
 
-  * **GPIO29** IP Used in ADC mode (ADC3) to measure VSYS/3
-  * **GPIO25** OP Connected to user LED
-  * **GPIO24** IP VBUS sense - high if VBUS is present, else low
-  * **GPIO23** OP Controls the on-board SMPS Power Save pin
+Raspberry Pi Pico 2のセットアップや使用に必要なすべての情報は、 `こちら <https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html>`_ でご確認いただけます。
 
-The best place to find everything you need to get started with your Raspberry Pi Pico 2 is `here <https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html>`_
+また、以下のリンクからも詳細な資料をダウンロードできます。
 
-Or you can click on the links below: 
-
-* `Raspberry Pi Pico 2 product brief <https://datasheets.raspberrypi.com/pico/pico-2-product-brief.pdf>`_
-* `Raspberry Pi Pico 2 Datasheet <https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf?_gl=1*898c50*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMzI1NS4wLjAuMA..>`_
-* `Getting started with Raspberry Pi Pico 2-series Microcontrollers <https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf?_gl=1*1naoekg*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMzI1NS4wLjAuMA..>`_
+* `Raspberry Pi Pico 2 製品概要 <https://datasheets.raspberrypi.com/pico/pico-2-product-brief.pdf>`_
+* `Raspberry Pi Pico 2 データシート <https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf?_gl=1*898c50*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMzI1NS4wLjAuMA..>`_
+* `Raspberry Pi Pico 2シリーズ マイコンの始め方 <https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf?_gl=1*1naoekg*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMzI1NS4wLjAuMA..>`_
 * `Raspberry Pi Pico 2 C/C++ SDK <https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-c-sdk.pdf>`_
 * `Raspberry Pi Pico 2 MicroPython SDK <https://datasheets.raspberrypi.com/pico/raspberry-pi-pico-python-sdk.pdf>`_
-* `Raspberry Pi RP2350 datasheet <https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf>`_
-* `Raspberry Pi Pico 2 STEP file <https://datasheets.raspberrypi.com/pico/Pico-2-step-20240708.zip?_gl=1*1ol9494*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMjYzMC4wLjAuMA..>`_
-* `Hardware design with RP2350 <https://datasheets.raspberrypi.com/rp2350/hardware-design-with-rp2350.pdf>`_
+* `Raspberry Pi RP2350 データシート <https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf>`_
+* `Raspberry Pi Pico 2 STEPファイル <https://datasheets.raspberrypi.com/pico/Pico-2-step-20240708.zip?_gl=1*1ol9494*_ga*NTA0MDU1Njg3LjE3MjUzMjY4MDE.*_ga_22FD70LWDS*MTcyNjcxMjQ2MS44LjEuMTcyNjcxMjYzMC4wLjAuMA..>`_
+* `RP2350を使用したハードウェア設計 <https://datasheets.raspberrypi.com/rp2350/hardware-design-with-rp2350.pdf>`_

@@ -1,51 +1,50 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookでのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！ラズベリーパイ、アルドゥイーノ、ESP32について、同じ趣味を持つ仲間たちとさらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**: コミュニティやチームからのサポートで、購入後の問題や技術的な課題を解決します。
+    - **学びと共有**: スキルアップのためのヒントやチュートリアルを交換しましょう。
+    - **独占プレビュー**: 新製品の発表や先取り情報に早期アクセスします。
+    - **特別割引**: 最新商品の独占割引をお楽しみいただけます。
+    - **祭りプロモーションとギブアウェイ**: ギブアウェイやホリデープロモーションに参加しましょう。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探求し、創造してみませんか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _install_micropython_on_pico:
 
-1.3 Install MicroPython on Your Pico2
+1.3 ピコ2にマイクロパイソンをインストール
 ==========================================
 
-
-Now come to install MicroPython into Raspberry Pi Pico 2, Thonny IDE provides a very convenient way for you to install it with one click.
+ここでRaspberry Pi Pico 2にMicroPythonをインストールします。Thonny IDEはクリック一つで簡単にインストールできる便利な方法を提供しています。
 
 .. note::
-    If you do not wish to upgrade Thonny, you can use the Raspberry Pi official |link_micropython_method| by dragging and dropping an ``rp2_pico_xxxx.uf2`` file into Raspberry Pi Pico2.
+    Thonnyをアップグレードしたくない場合は、Raspberry Pi公式の |link_micropython_method| を使用して、 ``rp2_pico_xxxx.uf2`` ファイルをRaspberry Pi Pico2にドラッグ＆ドロップすることもできます。
 
 
-#. Open Thonny IDE.
+#. Thonny IDEを開きます。
 
     .. image:: img/new/set_pico1.png
 
-#. Press and hold the **BOOTSEL** button and then connect the Pico2 to computer via a Micro USB cable. Release the **BOOTSEL** button after your Pico2 is mount as a Mass Storage Device called **RPI-RP2040**.
+#. **BOOTSEL** ボタンを押しながら、Micro USBケーブルでPico2をコンピューターに接続します。Pico2が **RPI-RP2040** としてマスストレージデバイスとしてマウントされた後、 **BOOTSEL** ボタンを放します。
 
     .. image:: img/new/bootsel_onboard.png
 
-#. In the bottom right corner, click the interpreter selection button and select **Install Micropython**.
+#. 右下のインタープリタ選択ボタンをクリックし、 **Install Micropython** を選択します。
 
     .. note::
-        If your Thonny does not have this option, please update to the latest version.
+        Thonnyにこのオプションがない場合は、最新バージョンにアップデートしてください。
 
     .. image:: img/new/set_pico2.jpg
 
-#. In the **Target volume**, the volume of the Pico2 you just plugged in will automatically appear, and in the **Micropython variant**, select **Raspberry Pi.Pico 2**.
+#. **Target volume** で、接続したばかりのPico2のボリュームが自動的に表示され、「Micropython variant」で **Micropython variant** を選択します。
 
     .. image:: img/new/set_pico3.jpg
 
-#. Click the **Install** button, wait for the installation to complete and then close this page.
+#. **Install** ボタンをクリックし、インストールが完了するのを待ってから、このページを閉じます。
 
     .. image:: img/new/set_pico4.jpg
 
 
-Congratulations, now your Raspberry Pi Pico2 is ready to go.
+おめでとうございます、これでRaspberry Pi Pico2は使用準備が整いました。

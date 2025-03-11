@@ -1,59 +1,58 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & python & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, python, and ESP32 with fellow enthusiasts.
+    こんにちは、SunFounder Raspberry Pi & Python & ESP32 Enthusiasts Communityへようこそ！Raspberry Pi、Python、ESP32について、仲間と一緒により深く学びましょう。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**：購入後の問題や技術的な課題に対して、コミュニティやチームのサポートを受けられます。
+    - **学びと共有**：スキル向上のためのヒントやチュートリアルを交換しましょう。
+    - **限定プレビュー**：新製品の発表や先行情報をいち早く手に入れることができます。
+    - **特別割引**：最新製品に対する独占的な割引をお楽しみいただけます。
+    - **お祭りプロモーションやプレゼント**：プレゼントや季節限定プロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探索し、創造していきませんか？ [|link_sf_facebook|] をクリックして今すぐ参加しましょう！
 
 .. _py_traffic_light:
 
-7.6 Building a Traffic Light Controller
+7.6 信号機コントローラの作成
 ==============================================================
 
-In this project, we'll create a **Traffic Light Controller** using the Raspberry Pi Pico 2, three LEDs (red, yellow, green), and a 4-digit 7-segment display. This system will simulate a real traffic light sequence, displaying the remaining time for each light on the 7-segment display.
+このプロジェクトでは、Raspberry Pi Pico 2、3つのLED（赤、黄、緑）、および4桁の7セグメントディスプレイを使用して **信号機コントローラ** を作成します。このシステムは、実際の信号機の動作をシミュレートし、各信号の残り時間を7セグメントディスプレイに表示します。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+セットで購入するのが便利です。こちらからご確認ください：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - キット内アイテム
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
-
+また、個別に購入する場合は以下のリンクをご参照ください。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,11 +61,11 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 7(220Ω)
+        - 7（220Ω）
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_4_dit_7_segment`
@@ -81,37 +80,37 @@ You can also buy them separately from the links below.
         - 3
         - |link_led_buy|
 
-**Understanding the Components**
+**コンポーネントの理解**
 
-* **LEDs**: Represent the traffic lights. We'll control them to simulate the standard traffic light sequence.
-* **4-Digit 7-Segment Display**: Shows the countdown timer for each light.
-* **74HC595 Shift Register**: Allow us to control multiple outputs (segments and digits of the display) using fewer GPIO pins on the Pico.
+* **LED**：信号機を表します。これらを制御して、標準的な信号機の動作をシミュレートします。
+* **4桁の7セグメントディスプレイ**：各信号のカウントダウンタイマーを表示します。
+* **74HC595シフトレジスタ**：ピン数を節約しながら、複数の出力（ディスプレイのセグメントや桁）を制御できます。
 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_traffic_light|
 
 
-* This circuit is based on the :ref:`py_74hc_4dig` with the addition of 3 LEDs.
-* The 3 red, yellow and green LEDs are connected to GP7~GP9 respectively.
+* この回路は、 :ref:`py_74hc_4dig` をベースに、3つのLEDを追加したものです。
+* 3つの赤、黄、緑のLEDはそれぞれGP7～GP9に接続されています。
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_traffic_light| 
 
-**Writing the Code**
+**コードを書く**
 
-We'll write a MicroPython script that:
+このプロジェクトでは、次のことを行うMicroPythonスクリプトを書きます：
 
-* Controls the traffic light sequence.
-* Displays the countdown timer on the 7-segment display.
-* Uses shift registers to control the display.
+* 信号機の動作を制御する。
+* 7セグメントディスプレイにカウントダウンタイマーを表示する。
+* シフトレジスタを使ってディスプレイを制御する。
 
 .. note::
 
-    * Open the ``7.6_traffic_light.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
+    * ``7.6_traffic_light.py`` を ``newton-lab-kit/micropython`` から開くか、コードをThonnyにコピーして「実行」ボタンを押すか、F5キーを押して実行してください。
+    * 正しいインタープリター（MicroPython（Raspberry Pi Pico））が選択されていることを確認してください。COMxx。
 
 .. code-block:: python
 
@@ -119,14 +118,14 @@ We'll write a MicroPython script that:
     import utime
     from machine import Timer
 
-    # Initialize LED pins
-    led_pins = [7, 8, 9]  # Green, Yellow, Red LEDs connected to GP7, GP8, GP9
+    # LEDのピンを初期化
+    led_pins = [7, 8, 9]  # 緑、黄、赤のLEDをGP7、GP8、GP9に接続
     leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
 
-    # Define the duration for each traffic light color in seconds [Green, Yellow, Red]
-    light_time = [30, 5, 30]  # [Green, Yellow, Red]
+    # 各信号の色の持続時間（秒）を定義 [緑、黄、赤]
+    light_time = [30, 5, 30]  # [緑、黄、赤]
 
-    # Define the binary codes for each digit (0-9)
+    # 各桁の2進数コード（0～9）
     SEGMENT_CODES = [
         0x3F,  # 0
         0x06,  # 1
@@ -140,20 +139,20 @@ We'll write a MicroPython script that:
         0x6F   # 9
     ]
 
-    # Initialize the control pins for 74HC595
-    SDI = machine.Pin(18, machine.Pin.OUT)   # Serial Data Input (DS)
-    RCLK = machine.Pin(19, machine.Pin.OUT)  # Register Clock (STCP)
-    SRCLK = machine.Pin(20, machine.Pin.OUT) # Shift Register Clock (SHCP)
+    # 74HC595の制御ピンを初期化
+    SDI = machine.Pin(18, machine.Pin.OUT)   # シリアルデータ入力（DS）
+    RCLK = machine.Pin(19, machine.Pin.OUT)  # レジスタクロック（STCP）
+    SRCLK = machine.Pin(20, machine.Pin.OUT) # シフトレジスタクロック（SHCP）
 
-    # Initialize digit select pins (common cathodes)
+    # 桁選択ピン（共通カソード）
     digit_pins = [
-        machine.Pin(10, machine.Pin.OUT),  # Digit 1
-        machine.Pin(11, machine.Pin.OUT),  # Digit 2
-        machine.Pin(12, machine.Pin.OUT),  # Digit 3
-        machine.Pin(13, machine.Pin.OUT)   # Digit 4
+        machine.Pin(10, machine.Pin.OUT),  # 桁1
+        machine.Pin(11, machine.Pin.OUT),  # 桁2
+        machine.Pin(12, machine.Pin.OUT),  # 桁3
+        machine.Pin(13, machine.Pin.OUT)   # 桁4
     ]
 
-    # Function to send data to 74HC595
+    # 74HC595にデータを送信する関数
     def shift_out(data):
         RCLK.low()
         for bit in range(7, -1, -1):
@@ -163,60 +162,60 @@ We'll write a MicroPython script that:
             SRCLK.high()
         RCLK.high()
 
-    # Function to display a digit at a specific position
+    # 特定の位置に桁を表示する関数
     def display_digit(position, digit):
-        # Turn off all digits
+        # すべての桁を消灯
         for dp in digit_pins:
             dp.high()
-        # Send segment data
+        # セグメントデータを送信
         shift_out(SEGMENT_CODES[digit])
-        # Activate the selected digit (common cathode is active low)
+        # 選択された桁をアクティブ化（共通カソードはアクティブロー）
         digit_pins[position].low()
-        # Small delay to allow the digit to be visible
+        # 桁が見えるように小さな遅延を追加
         utime.sleep_ms(5)
-        # Turn off the digit
+        # 桁を消灯
         digit_pins[position].high()
 
-    # Function to display a number on the 4-digit display
+    # 4桁ディスプレイに数字を表示する関数
     def display_number(number):
-        # Extract individual digits
+        # 数字を桁ごとに分解
         digits = [
             (number // 1000) % 10,
             (number // 100) % 10,
             (number // 10) % 10,
             number % 10
         ]
-        # Display each digit rapidly
+        # 各桁を素早く表示
         for i in range(4):
             display_digit(i, digits[i])
 
-    # Function to update the LEDs based on the current state
+    # 現在の状態に基づいてLEDを更新する関数
     def update_leds(state):
-        # States: 0 = Green, 1 = Yellow, 2 = Red
+        # 状態: 0 = 緑、1 = 黄、2 = 赤
         for i in range(3):
             leds[i].value(0)
         leds[state].value(1)
 
-    # Timer variables
-    counter = light_time[0]  # Start with green light duration
-    current_state = 0  # 0 = Green, 1 = Yellow, 2 = Red
+    # タイマー変数
+    counter = light_time[0]  # 緑の信号の時間から開始
+    current_state = 0  # 0 = 緑、1 = 黄、2 = 赤
 
-    # Timer interrupt callback to update the traffic light state and counter
+    # タイマー割り込みコールバック関数（信号機の状態とカウントを更新）
     def timer_callback(t):
         global counter, current_state
         counter -= 1
         if counter <= 0:
-            current_state = (current_state + 1) % 3  # Cycle through the states
-            counter = light_time[current_state]  # Reset counter for the new state
+            current_state = (current_state + 1) % 3  # 状態を循環
+            counter = light_time[current_state]  # 新しい状態に対するカウンタをリセット
             update_leds(current_state)
 
-    # Initialize the timer
+    # タイマーを初期化
     timer = Timer(period=1000, mode=Timer.PERIODIC, callback=timer_callback)
 
-    # Initial LED state
+    # 初期LED状態
     update_leds(current_state)
 
-    # Main loop
+    # メインループ
     try:
         while True:
             display_number(counter)
@@ -224,61 +223,61 @@ We'll write a MicroPython script that:
         timer.deinit()
         print("Program stopped.")
 
+コードが実行されると、最初に緑のLEDが点灯し、ディスプレイに30からのカウントダウンが表示されます。
+30秒後、黄色のLEDが点灯し、ディスプレイに5からのカウントダウンが表示されます。
+その後、赤のLEDが点灯し、ディスプレイに30からのカウントダウンが表示されます。
+このサイクルは無限に繰り返されます。
 
-When the code runs, the green LED will light up first, and the display will show a countdown from 30.
-After 30 seconds, the yellow LED will light up, and the display will count down from 5.
-Then, the red LED will light up, and the display will count down from 30.
-The cycle repeats indefinitely.
 
-**Understanding the Code**
+**コードの理解**
 
-#. Imports and Initialization:
+#. インポートと初期化:
 
-   * ``machine``: Provides access to hardware-related functions.
-   * ``utime``: Offers time-related functions.
-   * ``Timer``: Used for creating hardware timers.
+   * ``machine``: ハードウェア関連の機能にアクセスするためのモジュール。
+   * ``utime``: 時間に関連する関数を提供するモジュール。
+   * ``Timer``: ハードウェアタイマーを作成するために使用される。
 
-#. LED Initialization:
+#. LEDの初期化:
 
-   Defines GPIO pins for the red, yellow, and green LEDs. Initializes each pin as an output.
+   赤、黄、緑のLEDのGPIOピンを定義し、それぞれを出力として初期化します。
 
    .. code-block:: python
 
-        led_pins = [7, 8, 9]  # Green, Yellow, Red LEDs connected to GP7, GP8, GP9
+        led_pins = [7, 8, 9]  # 緑、黄、赤のLEDはそれぞれGP7、GP8、GP9に接続
         leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
 
-#. Traffic Light Timings:
+#. 信号機のタイミング:
 
-   Specifies the duration (in seconds) for each traffic light state.
+   各信号機状態の継続時間（秒単位）を指定します。
 
    .. code-block:: python
 
-        light_time = [30, 5, 30]  # [Green, Yellow, Red]
+        light_time = [30, 5, 30]  # [緑、黄、赤]
 
-#. Display Functions:
+#. ディスプレイ関数:
 
-   * ``display_digit(digit)``: Activates a specific digit on the display.
-   * ``shift_out(data)``: Sends data to the shift register.
-   * ``display_number(num)``: Breaks down the number into digits and displays them using multiplexing.
+   * ``display_digit(digit)``: 特定の桁をディスプレイに表示。
+   * ``shift_out(data)``: シフトレジスタにデータを送信。
+   * ``display_number(num)``: 数字を桁ごとに分解し、マルチプレクシングを使用して表示。
 
-#. ``update_leds(state)`` Function:
+#. ``update_leds(state)`` 関数:
 
-   * Updates the LED states based on the current traffic light state.
-   * Turns off all LEDs and then turns on the LED corresponding to the current state.
+   * 現在の信号機状態に基づいてLEDの状態を更新。
+   * すべてのLEDを消灯した後、現在の状態に対応するLEDを点灯。
 
    .. code-block:: python
 
         def update_leds(state):
-            # States: 0 = Green, 1 = Yellow, 2 = Red
+            # 状態: 0 = 緑、1 = 黄、2 = 赤
             for i in range(3):
                 leds[i].value(0)
             leds[state].value(1)
 
-#. ``timer_callback(t)`` Function:
+#. ``timer_callback(t)`` 関数:
 
-   * Timer interrupt callback function.
-   * Decrements the counter every second.
-   * When the counter reaches zero, it cycles to the next traffic light state and resets the counter.
+   * タイマー割り込みコールバック関数。
+   * カウンタを毎秒減算。
+   * カウンタがゼロになると、次の信号機状態にサイクルし、カウンタをリセット。
 
    .. code-block:: python
 
@@ -286,33 +285,33 @@ The cycle repeats indefinitely.
             global counter, current_state
             counter -= 1
             if counter <= 0:
-                current_state = (current_state + 1) % 3  # Cycle through the states
-                counter = light_time[current_state]  # Reset counter for the new state
+                current_state = (current_state + 1) % 3  # 状態を循環
+                counter = light_time[current_state]  # 新しい状態のためにカウンタをリセット
                 update_leds(current_state)
 
-#. Main Execution:
+#. メインの実行:
 
-   * Initial Variables: Sets the initial state to green and initializes the counter.
+   * 初期変数: 初期状態を緑に設定し、カウンタを初期化。
 
      .. code-block:: python
 
-        counter = light_time[0]  # Start with green light duration
-        current_state = 0  # 0 = Green, 1 = Yellow, 2 = Red
-   
-   * Initialize the Timer: Creates a periodic timer that triggers every 1000 milliseconds (1 second) and calls timer_callback.
+        counter = light_time[0]  # 緑の信号機の継続時間で開始
+        current_state = 0  # 0 = 緑、1 = 黄、2 = 赤
+     
+   * タイマーの初期化: 1000ミリ秒（1秒）ごとにタイマーコールバックを呼び出す周期的タイマーを作成。
 
 
      .. code-block:: python
 
         timer = Timer(period=1000, mode=Timer.PERIODIC, callback=timer_callback)
-   
-   * Set Initial LED State: Ensures the correct LED is lit at the start.
+
+   * 初期LED状態の設定: 最初に正しいLEDが点灯していることを確認。
 
      .. code-block:: python
 
         update_leds(current_state)
 
-   * Main Loop: Enters an infinite loop displaying the countdown timer. Handles a keyboard interrupt (e.g., Ctrl+C) to safely deinitialize the timer and exit.
+   * メインループ: 無限ループでカウントダウンタイマーを表示。キーボード割り込み（例：Ctrl+C）でタイマーを安全に停止し、終了。
 
 
      .. code-block:: python
@@ -324,26 +323,28 @@ The cycle repeats indefinitely.
             timer.deinit()
             print("Program stopped.")
 
-**Experimenting Further**
 
-* Adjust Timing:
+**さらに実験**
 
-  Change the ``light_time`` list to adjust the durations for each light.
 
-* Add Pedestrian Crossing:
+* タイミングの調整:
 
-  Implement buttons and additional LEDs to simulate pedestrian crossing signals.
+  ``light_time`` リストを変更して、各信号機の継続時間を調整します。
 
-* Improve Display:
+* 歩行者信号の追加:
 
-  Modify the code to add features like blinking the LED when time is almost up.
+  ボタンや追加のLEDを実装して、歩行者信号をシミュレートします。
 
-* Simulate Real Traffic Lights:
+* ディスプレイの改善:
 
-  Add more complex sequences, such as left-turn signals or multiple intersections.
+  時間がほぼ終了した際にLEDを点滅させるなどの機能を追加します。
 
-**Conclusion**
+* 実際の信号機のシミュレーション:
 
-You've successfully built a Traffic Light Controller using the Raspberry Pi Pico 2! This project demonstrates how microcontrollers can be used to control hardware components like LEDs and displays, and how timers and interrupts can create real-time applications.
+  左折信号や交差点の複数信号など、より複雑なシーケンスを追加します。
 
-Feel free to expand upon this project, adding new features or integrating it into a larger system.
+**結論**
+
+あなたはRaspberry Pi Pico 2を使用して信号機制御システムを正常に構築しました！このプロジェクトは、マイクロコントローラーを使ってLEDやディスプレイなどのハードウェアを制御し、タイマーと割り込みを使ってリアルタイムのアプリケーションを作成する方法を示しています。
+
+このプロジェクトを拡張し、新しい機能を追加したり、より大きなシステムに統合したりしてみてください。

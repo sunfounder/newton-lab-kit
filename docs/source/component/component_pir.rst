@@ -1,58 +1,60 @@
-.. note::
+.. note:: 
+    FacebookでSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、同好の士と一緒にさらに深く探求しましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **専門家サポート**: コミュニティとチームの助けを借りて、販売後の問題や技術的な課題を解決。
+    - **学びと共有**: ヒントやチュートリアルを交換してスキルを向上させます。
+    - **独占的プレビュー**: 新製品の発表や先取り情報に早期アクセス。
+    - **特別割引**: 最新製品の独占的割引を楽しむ。
+    - **祭りのプロモーションとギフト配布**: ギフト配布やホリデープロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探検し、創造しよう！[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _cpn_pir:
 
-PIR Motion Sensor Module
+PIR動作センサーモジュール
 ==================================
 
 |img_pir|
 
-The PIR sensor detects infrared heat radiation that can be used to detect the presence of organisms that emit infrared heat radiation.
+PIRセンサーは、赤外線熱放射を検出することで、赤外線熱放射を発する生物の存在を検出するのに使われます。
 
-The PIR sensor is split into two slots that are connected to a differential amplifier. Whenever a stationary object is in front of the sensor, the two slots receive the same amount of radiation and the output is zero. Whenever a moving object is in front of the sensor, one of the slots receives more radiation than the other , which makes the output fluctuate high or low. This change in output voltage is a result of detection of motion.
+PIRセンサーは、2つのスロットに分かれており、それぞれが差動増幅器に接続されています。センサーの前に静止物がある場合、2つのスロットは同じ量の放射を受け、出力はゼロです。動く物体がセンサーの前にある場合、一方のスロットが他方よりも多くの放射を受けるため、出力が高くなったり低くなったりします。この出力電圧の変化は、動きの検出結果です。
 
 |img_PIR_working_principle|
 
-After the sensing module is wired, there is a one-minute initialization. During the initialization, module will output for 0~3 times at intervals. Then the module will be in the standby mode. Please keep the interference of light source and other sources away from the surface of the module so as to avoid the misoperation caused by the interfering signal. Even you'd better use the module without too much wind, because the wind can also interfere with the sensor.
+配線後、センサーモジュールは1分間の初期化を行います。初期化中、モジュールは数回にわたって間隔をおいて出力します。その後、モジュールはスタンバイモードになります。モジュールの表面から光源やその他の源を遠ざけて、干渉信号による誤動作を避けてください。また、風がセンサーに干渉することもあるので、あまり風の強い場所で使用しないほうが良いです。
 
 |img_pir_back|
 
-**Distance Adjustment**
+**距離調整**
 
-Turning the knob of the distance adjustment potentiometer clockwise, the range of sensing distance increases, and the maximum sensing distance range is about 0-7 meters. If turn it anticlockwise, the range of sensing distance is reduced, and the minimum sensing distance range is about 0-3 meters.
 
-**Delay adjustment**
+距離調整用ポテンショメータのノブを時計回りに回すと、感知距離の範囲が広がり、最大で約0-7メートルになります。反時計回りに回すと、感知距離の範囲が狭まり、最小で約0-3メートルになります。
 
-Rotate the knob of the delay adjustment potentiometer clockwise, you can also see the sensing delay increasing. The maximum of the sensing delay can reach up to 300s. On the contrary, if rotate it anticlockwise, you can shorten the delay with a minimum of 5s. 
+**遅延調整**
 
-**Two Trigger Modes**
+遅延調整用ポテンショメータのノブを時計回りに回すと、感知遅延が長くなります。最大で300秒になります。逆に反時計回りに回すと、遅延が短くなり、最小で5秒になります。
 
-Choosing different modes by using the jumper cap.
+**トリガーモード2種類**
 
-* **H**: Repeatable trigger mode, after sensing the human body, the module outputs high level. During the subsequent delay period, if somebody enters the sensing range,the output will keep being the high level.
-* **L**: Non-repeatable trigger mode, outputs high level when it senses the human body. After the delay, the output will change from high level into low level automatically.
+ジャンパーキャップを使用して異なるモードを選択します。
 
-.. Example 
+* **H**: 繰り返しトリガーモード、人体を感知した後、モジュールは高レベルを出力します。その後の遅延期間中に誰かが感知範囲に入ると、出力は高レベルのままです。
+* **L**: 非繰り返しトリガーモード、人体を感知すると出力は高レベルになります。遅延後、出力は自動的に高レベルから低レベルに変わります。
+
+
+.. 例
 .. -------------------
+
 
 .. :ref:`Intruder Alarm`
 
 
-**Example**
+**例**
 
-* :ref:`py_pir` (For MicroPython User)
-* :ref:`py_passage_counter` (For MicroPython User)
-* :ref:`ar_pir` (For Arduino User)
-.. * :ref:`per_lucky_cat` (For Piper Make User)
+* :ref:`py_pir` (MicroPythonユーザー向け)
+* :ref:`py_passage_counter` (MicroPythonユーザー向け)
+* :ref:`ar_pir` (Arduinoユーザー向け)
+.. * :ref:`per_lucky_cat` (Piper Makeユーザー向け)

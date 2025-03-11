@@ -1,61 +1,61 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者と共にさらに深く学びましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家のサポート**: 購入後の問題や技術的な課題を、コミュニティやチームのサポートを通じて解決できます。
+    - **学びと共有**: ヒントやチュートリアルを交換し、スキルを向上させましょう。
+    - **独占プレビュー**: 新製品の発表や先行情報にいち早くアクセスできます。
+    - **特別割引**: 最新製品に対する独占的な割引を楽しめます。
+    - **季節限定のプロモーションとギブアウェイ**: ギブアウェイや祝祭のプロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求し、創造しませんか？今すぐ [|link_sf_facebook|] をクリックして参加しましょう！
 
 .. _py_neopixel:
 
-3.3 Controlling an RGB LED Strip
+3.3 RGB LEDストリップの制御
 ===========================================================
 
-In this lesson, we'll learn how to control an **RGB LED strip** (specifically the WS2812 type) using the Raspberry Pi Pico 2 and MicroPython.
+このレッスンでは、Raspberry Pi Pico 2とMicroPythonを使用して**RGB LEDストリップ**（特にWS2812タイプ）を制御する方法を学びます。
 
-The WS2812 is a smart LED that integrates a control circuit and an RGB chip into a 5050-sized LED package. Each LED has its own built-in controller, which allows us to control each LED individually using a single data line. This means we can change the color and brightness of each LED on the strip independently.
+WS2812は、制御回路とRGBチップを5050サイズのLEDパッケージに統合したスマートLEDです。各LEDには独自のコントローラーが内蔵されており、単一のデータラインで個別にLEDを制御できます。これにより、ストリップ上の各LEDの色と明るさを独立して変更することが可能です。
 
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全体キットを購入するのが便利です。リンクはこちら：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名称	
+        - セット内容
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
+個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -64,91 +64,86 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_ws2812`
         - 1
         - |link_ws2812_buy|
 
-**Circuit Diagram**
+**回路図**
 
 |sch_ws2812|
 
-
-**Wiring Diagram**
+**配線図**
 
 |wiring_ws2812|
 
-Be cautious with the current draw. While the Pico's VBUS pin can supply power for a small number of LEDs (like 8), using more LEDs may require an external power supply to prevent overloading the Pico.
+電流の消費に注意してください。PicoのVBUSピンは少数のLED（例えば8個）には電力を供給できますが、より多くのLEDを使用する場合はPicoが過負荷にならないよう、外部電源が必要になることがあります。
 
-**Writing the Code**
+**コードの記述**
 
 .. note::
 
-    * Open the ``3.3_rgb_led_strip.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
+    * ``newton-lab-kit/micropython`` から ``3.3_rgb_led_strip.py`` を開くか、コードをThonnyにコピーして「実行」ボタンをクリック、またはF5キーを押して実行します。
+    * 正しいインタープリタ（MicroPython (Raspberry Pi Pico).COMxx）が選択されていることを確認してください。
 
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-
-     
-    
-    * Here you need to use the library called ``ws2812.py``, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
-
+    * ここでは ``ws2812.py`` ライブラリを使用します。Picoにアップロードされているか確認し、詳細なチュートリアルについては :ref:`add_libraries_py` をご参照ください。
 
 .. code-block:: python
 
     import machine
     from ws2812 import WS2812
 
-    # Initialize the LED strip
-    led_strip = WS2812(machine.Pin(0), 8)  # Using GP0, 8 LEDs
+    # LEDストリップの初期化
+    led_strip = WS2812(machine.Pin(0), 8)  # GP0を使用し、8個のLED
 
-    # Set colors for each LED
-    led_strip[0] = [255, 0, 0]     # Red
-    led_strip[1] = [0, 255, 0]     # Green
-    led_strip[2] = [0, 0, 255]     # Blue
-    led_strip[3] = [255, 255, 0]   # Yellow
-    led_strip[4] = [0, 255, 255]   # Cyan
-    led_strip[5] = [255, 0, 255]   # Magenta
-    led_strip[6] = [255, 255, 255] # White
-    led_strip[7] = [128, 128, 128] # Gray
+    # 各LEDの色を設定
+    led_strip[0] = [255, 0, 0]     # 赤
+    led_strip[1] = [0, 255, 0]     # 緑
+    led_strip[2] = [0, 0, 255]     # 青
+    led_strip[3] = [255, 255, 0]   # 黄
+    led_strip[4] = [0, 255, 255]   # シアン
+    led_strip[5] = [255, 0, 255]   # マゼンタ
+    led_strip[6] = [255, 255, 255] # 白
+    led_strip[7] = [128, 128, 128] # 灰色
 
-    # Update the LED strip to show the colors
+    # LEDストリップを更新して色を表示
     led_strip.write()
 
-When this code is running, the WS2812 LED strip connected to pin GP0 with 8 LEDs will display the following colors:
+このコードが実行されると、GP0ピンに接続された8個のWS2812 LEDストリップが以下の色を表示します：
 
-* **LED 0**: Red (255, 0, 0)
-* **LED 1**: Green (0, 255, 0)
-* **LED 2**: Blue (0, 0, 255)
-* **LED 3**: Yellow (255, 255, 0)
-* **LED 4**: Cyan (0, 255, 255)
-* **LED 5**: Magenta (255, 0, 255)
-* **LED 6**: White (255, 255, 255)
-* **LED 7**: Gray (128, 128, 128)
+* **LED 0**: 赤 (255, 0, 0)
+* **LED 1**: 緑 (0, 255, 0)
+* **LED 2**: 青 (0, 0, 255)
+* **LED 3**: 黄 (255, 255, 0)
+* **LED 4**: シアン (0, 255, 255)
+* **LED 5**: マゼンタ (255, 0, 255)
+* **LED 6**: 白 (255, 255, 255)
+* **LED 7**: 灰色 (128, 128, 128)
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Libraries:
+#. ライブラリのインポート:
 
-   * ``machine``: Provides access to hardware-related functions.
-   * ``WS2812``: The library to control the WS2812 LED strip.
+   * ``machine``: ハードウェア関連の機能を提供
+   * ``WS2812``: WS2812 LEDストリップを制御するライブラリ
 
-#. Initialize the LED Strip:
+#. LEDストリップの初期化:
 
-   * ``led_strip = WS2812(machine.Pin(0), 8)``: Initializes the LED strip connected to pin GP0 with 8 LEDs.
+   * ``led_strip = WS2812(machine.Pin(0), 8)``: GP0ピンに接続された8個のLEDを持つLEDストリップを初期化
 
-#. Set Colors:
+#. 色の設定:
 
-   * ``led_strip[0] = [255, 0, 0]``: Assigns a color to each LED using RGB values (Red, Green, Blue), ranging from 0 to 255.
+   * ``led_strip[0] = [255, 0, 0]``: RGB値（赤、緑、青）を使用して、各LEDの色を設定（0〜255の範囲）
 
-#. Update the LED Strip:
+#. LEDストリップの更新:
 
-   * ``led_strip.write()``: Sends the color data to the LED strip to display the colors.
+   * ``led_strip.write()``: LEDストリップに色データを送信し、色を表示
 
-**Let's Make a Flowing Rainbow Effect!**
+**流れる虹色効果を作ってみよう！**
 
-Now, we'll create a colorful flowing light effect by randomly generating colors and shifting them along the strip.
+次に、ランダムに色を生成し、それをストリップ上でシフトさせて、カラフルな流れる光の効果を作成します。
 
 .. code-block:: python
 
@@ -157,61 +152,58 @@ Now, we'll create a colorful flowing light effect by randomly generating colors 
     import utime
     import urandom
 
-    # Number of LEDs in the strip
+    # LEDストリップのLED数
     NUM_LEDS = 8
 
-    # Initialize the LED strip with 8 LEDs
+    # 8個のLEDを持つLEDストリップの初期化
     led_strip = WS2812(machine.Pin(0), NUM_LEDS)
 
     def flowing_light():
-        # Shift colors along the strip
+        # 色をストリップ上でシフト
         for i in range(NUM_LEDS - 1, 0, -1):
             led_strip[i] = led_strip[i - 1]
-        # Generate a random color for the first LED
+        # 最初のLEDにランダムな色を生成
         led_strip[0] = [urandom.getrandbits(8), urandom.getrandbits(8), urandom.getrandbits(8)]
-        # Update the strip
+        # ストリップを更新
         led_strip.write()
-        # Small delay for smooth animation
+        # スムーズなアニメーションのために少し待機
         utime.sleep_ms(100)
 
-    # Main loop
+    # メインループ
     while True:
         flowing_light()
 
 
-When the code runs, the LED strip displays a flowing dynamic effect with random colors, where a new random color is introduced at the beginning and shifts towards the end with each cycle.
+このコードが実行されると、LEDストリップはランダムな色で流れる動的な効果を表示し、各サイクルで新しいランダムな色がストリップの最初に追加され、最後に向かってシフトします。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Random Color Generation: Generates a random RGB color where each component ranges from 0 to 255.
+#. ランダムカラー生成: 各コンポーネントが0〜255の範囲でランダムなRGB色を生成します。
 
    .. code-block:: python
 
         [urandom.getrandbits(8), urandom.getrandbits(8), urandom.getrandbits(8)]
 
-#. Shifting Colors: Moves each LED's color to the next position, creating a flowing effect.
+#. 色のシフト: 各LEDの色を次の位置に移動させ、流れる効果を作り出します。
 
    .. code-block:: python
 
         for i in range(NUM_LEDS - 1, 0, -1):
             led_strip[i] = led_strip[i - 1]
 
-#. Infinite Loop: Continuously updates the LED strip to keep the animation running.
+#. 無限ループ: LEDストリップを更新し続けて、アニメーションを実行し続けます。
 
    .. code-block:: python
 
         while True:
             flowing_light()
 
-**Experimenting Further**
+**さらに実験してみよう**
 
-* **Adjusting Speed**: Modify ``utime.sleep_ms(100)`` to make the flowing effect faster or slower.
-* **More LEDs**: If you have a longer strip, change the number in ``WS2812(machine.Pin(0), number_of_leds)`` accordingly.
-* **Custom Animations**: Experiment with different patterns and color combinations to create your own animations.
+* **速度調整**: ``utime.sleep_ms(100)`` を変更して、流れる効果の速度を速くしたり遅くしたりできます。
+* **LEDを増やす**: より長いストリップがある場合、 ``WS2812(machine.Pin(0), number_of_leds)`` の数を変更してください。
+* **カスタムアニメーション**: 様々なパターンや色の組み合わせを試して、自分だけのアニメーションを作りましょう。
 
-**Conclusion**
+**結論**
 
-You've successfully learned how to control an RGB LED strip using the Raspberry Pi Pico 2 and MicroPython! This opens up a world of possibilities for creating stunning light displays, mood lighting, or even interactive art projects.
-
-
-
+Raspberry Pi Pico 2とMicroPythonを使用してRGB LEDストリップを制御する方法を学びました！これにより、素晴らしい光のディスプレイやムードライト、さらにはインタラクティブなアートプロジェクトを作成するための可能性が広がります。

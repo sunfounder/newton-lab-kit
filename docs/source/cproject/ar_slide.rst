@@ -1,43 +1,44 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community（Facebook）へようこそ！
+    Raspberry Pi、Arduino、ESP32について、他の愛好家と共にさらに深く探求しましょう。
 
-    **Why Join?**
+    **参加する理由は？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **エキスパートサポート**：コミュニティやチームの支援を受けて、販売後の問題や技術的な課題を解決します。
+    - **学び＆共有**：ヒントやチュートリアルを交換してスキルを高めましょう。
+    - **独占プレビュー**：新製品の発表やプレビューを早期にアクセスできます。
+    - **特別割引**：最新製品を独占的な割引価格で楽しめます。
+    - **祭りのプロモーションとギフト**：ギブアウェイや祝日のプロモーションに参加します。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探索し、創造してみませんか？[|link_sf_facebook|]をクリックして今日から参加しましょう！
 
 .. _ar_slide:
 
-2.7 Toggle Left and Right
+2.7 左右のトグル
 ============================
 
-In this lesson, we'll learn how to use a **slide switch** with the Raspberry Pi Pico 2 to detect its position (left or right) and perform actions based on that. A slide switch is a simple mechanical device that connects the common (middle) pin to one of the two outer pins depending on its position.
+このレッスンでは、Raspberry Pi Pico 2を使用して **スライドスイッチ** の位置（左または右）を検出し、その状態に基づいてアクションを実行する方法を学びます。スライドスイッチは、位置に応じて中央のコモンピンを二つの外側のピンのいずれかに接続する簡単な機械式デバイスです。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。
 
-It's definitely convenient to buy a whole kit, here's the link: 
+全キットを購入するのが便利です。リンクはこちらです：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
-    *   - Newton Lab Kit	
+    *   - 名称
+        - このキットに含まれるアイテム
+        - リンク
+    *   - Newton Lab Kit
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+以下のリンクから個別に購入することもできます。
 
 
 .. list-table::
@@ -45,16 +46,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USB ケーブル
         - 1
         - 
     *   - 3
@@ -63,132 +64,132 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1 (10KΩ)
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_capacitor`
-        - 1(104)
+        - 1 (104)
         - |link_capacitor_buy|
     *   - 7
         - :ref:`cpn_slide_switch`
         - 1
         - 
 
-**Understanding the Slide Switch**
+**スライドスイッチの理解**
 
 |img_slide|
 
-A slide switch has three pins:
+スライドスイッチは3つのピンを持っています：
 
-- **Pin 1**: Connected when the switch is toggled to one side (e.g., left)
-- **Pin 2**: Common pin (middle pin)
-- **Pin 3**: Connected when the switch is toggled to the other side (e.g., right)
+- **ピン1**：スイッチが片側（例：左）に切り替えられたときに接続
+- **ピン2**：コモンピン（中央のピン）
+- **ピン3**：スイッチが他方の側（例：右）に切り替えられたときに接続
 
-By reading the voltage on the common pin, we can determine the position of the switch.
+コモンピンの電圧を読み取ることで、スイッチの位置を判断できます。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_slide|
 
-GP14 will get a different level, when you toggle the slide switch to the right or left.
+スライドスイッチを左右に切り替えると、GP14は異なるレベルの信号を受け取ります。
 
-The purpose of the 10K resistor is to keep the GP14 low during toggling (not toggling to the far left and not toggling to the far right).
+10Kオームの抵抗器は、切り替え中（最も左にも最も右にも切り替えない場合）にGP14を低く保つために使用されます。
 
-When you toggle the switch, the mechanical contacts can cause rapid, noisy signals known as "bounce." The capacitor connected between GP14 and GND helps to filter out these rapid fluctuations, providing a cleaner signal.
+スイッチを切り替えると、機械的な接触が急速なノイズ信号「バウンス」を引き起こすことがあります。GP14とGNDの間に接続されたコンデンサは、これらの急速な変動をフィルタリングして、よりクリーンな信号を提供します。
 
-* Switch Toggled to the Right:
+* スイッチが右に切り替えられた場合：
 
-  * Pin 2 (GP14) is connected to **3.3V** through Pin 1.
-  * The GPIO pin reads **HIGH** (1).
+  * ピン2（GP14）はピン1を通じて **3.3V** に接続されます。
+  * GPIOピンは **HIGH** （1）を読み取ります。
 
-* Switch Toggled to the Left:
+* スイッチが左に切り替えられた場合：
 
-  * Pin 2 (GP14) is connected to **GND** through Pin 3.
-  * The GPIO pin reads **LOW** (0).
+  * ピン2（GP14）はピン3を通じて **GND** に接続されます。
+  * GPIOピンは **LOW** （0）を読み取ります。
 
-* Switch in the Middle Position:
+* スイッチが中間位置にある場合：
 
-  * Pin 2 (GP14) is not connected to either **3.3V** or **GND**.
-  * The pull-down resistor keeps the GPIO pin at **LOW** (0).
-  * The capacitor helps to reduce switch bounce (noise due to mechanical movement).
+  * ピン2（GP14）は **3.3V** または **GND** のいずれにも接続されていません。
+  * プルダウン抵抗器がGPIOピンを **LOW** （0）に保ちます。
+  * コンデンサはスイッチのバウンス（機械的な動きによるノイズ）を軽減します。
 
 
-**Wiring**
+**配線**
 
 |wiring_slide|
 
 
 
-**Writing the Code**
+**コードの書き方**
 
 .. note::
 
-   * You can open the file ``2.7_toggle_left_right.ino`` from ``newton-lab-kit/arduino/2.7_toggle_left_right``. 
-   * Or copy this code into **Arduino IDE**.
-   * Select the **Raspberry Pi Pico 2** board and the correct port, then click "Upload".
+   * ``2.7_toggle_left_right.ino`` を ``newton-lab-kit/arduino/2.7_toggle_left_right`` から開くことができます。
+   * または、このコードを **Arduino IDE** にコピーしてください。
+   * **Raspberry Pi Pico 2** ボードを選択し、適切なポートを設定した後、「Upload」をクリックしてください。
 
 .. code-block:: Arduino
 
-   const int switchPin = 14;   // GPIO pin connected to the slide switch
+   const int switchPin = 14;   // スライドスイッチに接続されたGPIOピン
    int switchState = 0;
 
    void setup() {
-     Serial.begin(115200);       // Initialize Serial Monitor at 115200 baud
-     pinMode(switchPin, INPUT);  // Set the switch pin as input
+     Serial.begin(115200);       // シリアルモニターを115200ボーで初期化
+     pinMode(switchPin, INPUT);  // スイッチピンを入力として設定
    }
 
    void loop() {
-     switchState = digitalRead(switchPin);  // Read the state of the switch
+     switchState = digitalRead(switchPin);  // スイッチの状態を読み取る
 
      if (switchState == HIGH) {
-       Serial.println("ON");   // Switch toggled to the left
+       Serial.println("ON");   // スイッチが左に切り替えられた場合
      } else {
-       Serial.println("OFF");  // Switch toggled to the right
+       Serial.println("OFF");  // スイッチが右に切り替えられた場合
      }
-     delay(200);  // Small delay to avoid flooding the Serial Monitor
+     delay(200);  // シリアルモニターをフラッディングから防ぐための小さな遅延
    }
 
-When the code is running and the Serial Monitor is open:
+コードが実行されてシリアルモニターが開いているとき：
 
-Prints "ON" when the switch is toggled to the left and "OFF" when toggled to the right.
+スイッチが左に切り替えられたときは「ON」と表示され、右に切り替えられたときは「OFF」と表示されます。
 
 
-**Understanding the Code**
+**コードの理解**
 
-#. Initializing Serial Communication:
+#. シリアル通信の初期化：
 
-   Starts serial communication at a baud rate of 115200. This allows us to print messages to the Serial Monitor.
+   115200のボーでシリアル通信を開始します。これにより、シリアルモニターにメッセージを出力できます。
 
    .. code-block:: Arduino
 
         Serial.begin(115200);
 
 
-#. Setting Up the Switch Pin:
+#. スイッチピンの設定：
 
-   Configures switchPin (GP14) as an input to read the switch state.
+   switchPin（GP14）を入力として設定し、スイッチの状態を読み取ります。
 
    .. code-block:: Arduino
 
         pinMode(switchPin, INPUT);
 
 
-#. Reading the Switch State:
+#. スイッチの状態の読み取り：
 
-   Reads the current state of the switch. It will be HIGH when toggled to the right and LOW when toggled to the left or in the middle position due to the pull-down resistor.
+   スイッチの現在の状態を読み取ります。右に切り替えたときはHIGH、左に切り替えたか中間位置の場合はプルダウン抵抗のためLOWになります。
 
    .. code-block:: Arduino
 
         switchState = digitalRead(switchPin);
 
 
-#. Responding to Switch Position:
+#. スイッチ位置への応答：
 
-   Prints "ON" when the switch is toggled to the left (GP14 reads HIGH) and "OFF" when toggled to the right (GP14 reads LOW).
+   スイッチが左に切り替えられたとき（GP14がHIGHを読むとき）は「ON」と出力し、右に切り替えられたとき（GP14がLOWを読むとき）は「OFF」と出力します。
 
    .. code-block:: Arduino
 
@@ -198,48 +199,51 @@ Prints "ON" when the switch is toggled to the left and "OFF" when toggled to the
           Serial.println("OFF");
         }
 
-**Alternative: Using Internal Pull-Up Resistor**
+**内部プルアップ抵抗の利用**
 
-If you prefer to simplify the circuit and reduce the number of components, you can use the internal pull-up resistor of the Pico. However, please note that traditional Arduino boards do not support internal pull-down resistors, only internal pull-up resistors. The Raspberry Pi Pico does support INPUT_PULLDOWN, but in the Arduino environment, its support may vary. For this example, we'll use INPUT_PULLUP.
+回路を簡素化し、部品数を減らしたい場合は、Picoの内部プルアップ抵抗を使用できます。ただし、従来のArduinoボードは内部プルダウン抵抗をサポートしていない点に注意してください。内部プルアップ抵抗のみをサポートしています。Raspberry Pi PicoはINPUT_PULLDOWNをサポートしていますが、Arduino環境ではそのサポートが異なる場合があります。この例では、INPUT_PULLUPを使用します。
 
-* Circuit Modifications:
+* 回路の変更：
 
-  * Remove the External 10KΩ Resistor and Capacitor.
-  * Slide Switch Connections:
+  * 外部の10KΩ抵抗とコンデンサを取り除きます。
+  * スライドスイッチの接続：
 
-    * Pin 1: Connect to GND on the Pico.
-    * Pin 2: Connect to GP14 on the Pico.
-    * Pin 3: Leave unconnected or connect to GND (since we're using the internal pull-up).
+    * ピン1：PicoのGNDに接続。
+    * ピン2：PicoのGP14に接続。
+    * ピン3：未接続またはGNDに接続（内部プルアップを使用するため）。
 
-* Code Modifications:
+* コードの変更：
 
   .. code-block:: Arduino
 
-        const int switchPin = 14;   // GPIO pin connected to the slide switch
+        const int switchPin = 14;   // スライドスイッチに接続されたGPIOピン
         int switchState = 0;
 
         void setup() {
-          Serial.begin(115200);          // Initialize Serial Monitor at 115200 baud
-          pinMode(switchPin, INPUT_PULLUP);  // Enable internal pull-up resistor
+          Serial.begin(115200);          // シリアルモニターを115200ボーで初期化
+          pinMode(switchPin, INPUT_PULLUP);  // 内部プルアップ抵抗を有効にする
         }
 
         void loop() {
-          switchState = digitalRead(switchPin);  // Read the state of the switch
+          switchState = digitalRead(switchPin);  // スイッチの状態を読み取る
 
           if (switchState == LOW) {
-            Serial.println("ON");    // Switch connected to GND, toggled to the right
+            Serial.println("ON");    // スイッチがGNDに接続され、右に切り替えられた
           } else {
-            Serial.println("OFF");   // Switch not connected, reads HIGH due to pull-up
+            Serial.println("OFF");   // スイッチが接続されず、プルアップによりHIGHを読む
           }
-          delay(200);  // Small delay to avoid flooding the Serial Monitor
+          delay(200);  // シリアルモニターを過負荷にしないための小さな遅延
         }
 
-**Conclusion**
 
-In this lesson, you've learned how to use a slide switch with the Raspberry Pi Pico to detect its position and perform actions based on that. You've also seen how to implement a pull-down resistor in the circuit to ensure reliable readings and how to use the internal pull-up resistor to simplify the circuit.
+**まとめ**
 
-**Further Exploration**
+このレッスンでは、Raspberry Pi Picoを使ってスライドスイッチの位置を検出し、それに基づいてアクションを実行する方法を学びました。また、回路内でプルダウン抵抗を実装して信頼性の高い読み取りを確保する方法と、回路を簡素化するために内部プルアップ抵抗を使用する方法を見ました。
 
-* **Control an LED**: Modify the code to turn an LED on or off based on the switch position.
-* **Multiple Switches**: Try adding more switches to control different actions.
-* **Debouncing**: Implement software debouncing to handle any residual switch bounce.
+**さらなる探求**
+
+
+* **LEDの制御**：スイッチの位置に基づいてLEDをオンまたはオフにするようにコードを変更します。
+* **複数のスイッチ**：異なるアクションを制御するために、より多くのスイッチを追加してみてください。
+* **デバウンシング**：スイッチのバウンスを処理するためにソフトウェアデバウンシングを実装します。
+

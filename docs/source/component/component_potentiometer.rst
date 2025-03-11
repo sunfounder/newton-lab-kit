@@ -1,62 +1,59 @@
-.. note::
+.. note:: 
+    FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好家コミュニティへようこそ！Raspberry Pi、Arduino、そしてESP32について、同好の士ともっと深く掘り下げましょう。
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    **参加する理由は？**
 
-    **Why Join?**
+    - **専門家サポート**: コミュニティとチームの助けを借りて、販売後の問題や技術的な挑戦を解決します。
+    - **学びと共有**: ヒントやチュートリアルを交換してスキルアップしましょう。
+    - **独占プレビュー**: 新製品発表や先取り情報への早期アクセス。
+    - **特別割引**: 最新商品の独占割引をお楽しみください。
+    - **フェスティバルプロモーションとギフト配布**: ギフト配布や祭りのプロモーションに参加しましょう。
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
-
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 私たちと一緒に探検し、創造しましょう！[|link_sf_facebook|]をクリックして今すぐ参加！
 
 .. _cpn_potentiometer:
 
-Potentiometer
-===============
+ポテンショメータ
+==================
 
 |img_pot|
 
-Potentiometer is also a resistance component with 3 terminals and its resistance value can be adjusted according to some regular variation. 
+ポテンショメータは3つの端子を持つ可変抵抗器で、一定の規則に従って抵抗値を調整できます。
 
-Potentiometers come in various shapes, sizes, and values, but they all have the following things in common:
+ポテンショメータは形状、サイズ、値が異なりますが、以下の共通点があります：
 
-* They have three terminals (or connection points).
-* They have a knob, screw, or slider that can be moved to vary the resistance between the middle terminal and either one of the outer terminals.
-* The resistance between the middle terminal and either one of the outer terminals varies from 0 Ω to the maximum resistance of the pot as the knob, screw, or slider is moved.
+* 3つの端子（または接続点）があります。
+* 中間端子と外側の端子のどちらか一方との間の抵抗を変化させるためのノブ、ネジ、またはスライダーがあります。
+* ノブ、ネジ、またはスライダーを動かすと、中間端子と外側の端子のどちらか一方との抵抗が0Ωからポテンショメータの最大抵抗値まで変化します。
 
-Here is the circuit symbol of potentiometer. 
+こちらがポテンショメータの回路記号です。
 
 |img_pot_symbol|
 
+回路内でのポテンショメータの機能は次のとおりです：
 
-The functions of the potentiometer in the circuit are as follows: 
+#. 電圧分割器として機能
 
-#. Serving as a voltage divider
+    ポテンショメータは連続的に調整可能な抵抗器です。ポテンショメータの軸またはスライディングハンドルを調整すると、可動接点が抵抗体上を滑るように動きます。この時点で、ポテンショメータに適用された電圧と可動アームが回転した角度または移動した距離に応じて電圧が出力されます。
 
-    Potentiometer is a continuously adjustable resistor. When you adjust the shaft or sliding handle of the potentiometer, the movable contact will slide on the resistor.  At this point, a voltage can be output depending on the voltage applied onto the potentiometer and the angle the movable arm has rotated to or the travel it has made. 
+#. レオスタットとして機能
 
-#. Serving as a rheostat
+    ポテンショメータをレオスタットとして使用する場合、中間ピンと他の2つのピンのうちの1つを回路に接続します。これにより、可動接点の移動範囲内で滑らかかつ連続的に変化する抵抗値を得ることができます。
 
-    When the potentiometer is used as a rheostat, connect the middle pin and one of the other 2 pins in the circuit. Thus you can get a smoothly and continuously changed resistance value within the travel of the moving contact. 
+#. 電流コントローラーとして機能
 
-#. Serving as a current controller
+    ポテンショメータが電流コントローラーとして機能する場合、スライディング接点端子を出力端子の一つとして接続する必要があります。
 
-    When the potentiometer acts as a current controller, the sliding contact terminal must be connected as one of the output terminals.
+ポテンショメータについてもっと知りたい方は、こちらをご参照ください： `Potentiometer - Wikipedia <https://en.wikipedia.org/wiki/Potentiometer.>`_
 
-If you want to know more about potentiometer, refer to: `Potentiometer - Wikipedia <https://en.wikipedia.org/wiki/Potentiometer.>`_
-
-.. Example
-.. -------------------
+.. **例**
 
 .. * :ref:`Turn the Knob` (For MicroPython User)
 .. * :ref:`Table Lamp` (For C/C++(Arduino) User)
 
 
-**Example**
+**例**
 
-* :ref:`py_pot` (For MicroPython User)
-* :ref:`ar_pot` (For Arduino User)
-.. * :ref:`per_swing_servo` (For Piper Make User)
+* :ref:`py_pot` (MicroPythonユーザー向け)
+* :ref:`ar_pot` (Arduinoユーザー向け)
+.. * :ref:`per_swing_servo` (Piper Makeユーザー向け)

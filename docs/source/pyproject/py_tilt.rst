@@ -1,43 +1,43 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Communityへようこそ！Raspberry Pi、Arduino、ESP32をさらに深く学び、仲間と共に楽しんでください。
 
-    **Why Join?**
+    **なぜ参加するのか？**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家によるサポート**：販売後の問題や技術的な課題をコミュニティやチームのサポートで解決できます。
+    - **学びと共有**：スキル向上のためのヒントやチュートリアルを交換しましょう。
+    - **限定プレビュー**：新製品の発表や先行情報をいち早く手に入れましょう。
+    - **特別割引**：最新の製品に対する限定割引をお楽しみいただけます。
+    - **お祭りプロモーションやプレゼントキャンペーン**：プレゼントやキャンペーンに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探索し、創造していきませんか？ [|link_sf_facebook|] をクリックして今すぐ参加しましょう！
 
 .. _py_tilt:
 
-2.6 Tilt It!
+2.6 傾きセンサー
 =======================
 
-In this lesson, we'll learn how to use a tilt switch with the Raspberry Pi Pico 2 to detect changes in orientation. A tilt switch is a simple device that can sense whether it is upright or tilted, making it useful for applications like motion detection, orientation sensing, or as a trigger based on position.
+このレッスンでは、Raspberry Pi Pico 2を使用して、 **傾きスイッチ** を使い、向きの変化を検出する方法を学びます。傾きスイッチは、垂直か傾いているかを感知する単純なデバイスで、動き検出、向きの感知、位置に基づくトリガーとして役立ちます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+一式で購入するのが便利です。こちらのリンクをご確認ください：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - キット内アイテム
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
 
-You can also buy them separately from the links below.
+個別に購入したい場合は、以下のリンクから購入できます。
 
 
 .. list-table::
@@ -45,16 +45,16 @@ You can also buy them separately from the links below.
     :header-rows: 1
 
     *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -63,92 +63,91 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 数本
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_resistor`
-        - 1(10KΩ)
+        - 1（10KΩ）
         - |link_resistor_buy|
     *   - 6
         - :ref:`cpn_tilt`
         - 1
         - 
 
-**Circuit Diagram**
+**回路図**
 
 |sch_tilt|
 
-* **When Upright (Switch Closed)**:
+* **直立時（スイッチ閉）**：
 
-  * The tilt switch connects **3.3V** directly to **GP14**.
-  * The GPIO pin reads **HIGH** (1).
+  * 傾きスイッチが **3.3V** を **GP14** に直接接続します。
+  * GPIOピンは **HIGH** （1）を読み取ります。
 
-* **When Tilted (Switch Open)**:
+* **傾いた時（スイッチ開）**：
 
-  * The tilt switch disconnects **3.3V** from **GP14**.
-  * The pull-down resistor pulls **GP14** to **GND**.
-  * The GPIO pin reads **LOW** (0).
+  * 傾きスイッチが **3.3V** を **GP14** から切り離します。
+  * プルダウン抵抗が **GP14** を **GND** に引き下げます。
+  * GPIOピンは **LOW** （0）を読み取ります。
 
-**Wiring**
+**配線**
 
 |wiring_tilt|
 
-**Writing the Code**
+**コードを書く**
 
-We'll write a simple MicroPython program that detects the state of the tilt switch and prints a message when the switch is tilted.
+傾きスイッチの状態を検出し、スイッチが傾いた際にメッセージを表示する簡単なMicroPythonプログラムを作成します。
 
 .. note::
 
-    * Open the ``2.6_tilt_switch.py`` from ``newton-lab-kit/micropython`` or copy the code into Thonny, then click "Run" or press F5.
-    * Ensure the correct interpreter is selected: MicroPython (Raspberry Pi Pico).COMxx. 
-    
+    * ``2.6_tilt_switch.py`` を ``newton-lab-kit/micropython`` から開くか、コードをThonnyにコピーして、「実行」ボタンを押すか、F5キーを押して実行してください。
+    * 適切なインタープリターが選択されていることを確認してください：MicroPython（Raspberry Pi Pico）。COMxx。
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin
+    # GP14を入力ピンとして初期化
     tilt_switch = machine.Pin(14, machine.Pin.IN)
 
     while True:
         if tilt_switch.value() == 0:
             print("Tilt detected!")
-            utime.sleep(1)  # Delay to avoid multiple rapid detections
+            utime.sleep(1)  # 複数回検出を防ぐために1秒間の遅延を追加
 
-When the code is running, you will observe the following phenomenon:
+コードを実行すると、以下の現象が観察できます：
 
-* Keep the tilt switch upright; no message should appear. 
-* Tilt the breadboard or switch; "Tilt detected!" should appear in the console.
+* 傾きスイッチを直立させておくと、メッセージは表示されません。
+* ブレッドボードやスイッチを傾けると、「傾き検出！」と表示されます。
 
-**Understanding the Code**
+**コードの理解**
 
-#. Import Modules:
+#. モジュールのインポート：
 
-   * ``import machine``: Gives us access to the hardware components.
-   * ``import utime``: Allows us to use time-related functions.
+   * ``import machine``: ハードウェアコンポーネントへのアクセスを提供します。
+   * ``import utime``: 時間に関連する関数を使用できます。
 
-#. Initialize the Tilt Switch Pin:
+#. 傾きスイッチのピンの初期化：
 
-   * ``tilt_switch = machine.Pin(14, machine.Pin.IN)``: Sets up GP14 as an input pin.
+   * ``tilt_switch = machine.Pin(14, machine.Pin.IN)``: GP14を入力ピンとして設定します。
 
-#. Main Loop:
+#. メインループ：
 
-   * ``while True``: Creates an infinite loop to continuously check the tilt switch state.
-   * ``if tilt_switch.value() == 0``: Checks if the GPIO pin reads LOW (0), indicating the switch is tilted.
-   * ``print("Tilt detected!")``: Outputs a message when the tilt is detected.
-   * ``utime.sleep(1)``: Adds a 1-second delay to debounce the switch and prevent multiple detections.
+   * ``while True``: 傾きスイッチの状態を常にチェックする無限ループを作成します。
+   * ``if tilt_switch.value() == 0``: GPIOピンがLOW（0）を読み取っている場合、スイッチが傾いていることを示します。
+   * ``print("Tilt detected!")``: 傾きが検出された際にメッセージを表示します。
+   * ``utime.sleep(1)``: スイッチのチャタリングを防ぐため、1秒間の遅延を追加します。
 
-**Alternative Wiring: Using Internal Pull-Down Resistor**
+**内部プルダウン抵抗を使用した代替配線**
 
-The Raspberry Pi Pico 2 allows us to enable internal pull-up or pull-down resistors, eliminating the need for an external resistor.
+Raspberry Pi Pico 2では、内部プルアップまたはプルダウン抵抗を有効にすることで、外部抵抗を使用せずに済みます。
 
 .. code-block:: python
 
     import machine
     import utime
 
-    # Initialize GP14 as an input pin with internal pull-down resistor
+    # GP14を内部プルダウン抵抗付きの入力ピンとして初期化
     tilt_switch = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
     while True:
@@ -156,20 +155,20 @@ The Raspberry Pi Pico 2 allows us to enable internal pull-up or pull-down resist
             print("Tilt detected!")
             utime.sleep(1)
 
-By enabling the internal pull-down resistor (``machine.Pin.PULL_DOWN``), the GPIO pin defaults to LOW when no voltage is applied.
-When the tilt switch is upright (closed), it connects 3.3V to GP14, and the pin reads HIGH (1).
+内部プルダウン抵抗（ ``machine.Pin.PULL_DOWN`` ）を有効にすることで、GPIOピンは電圧がかかっていないときにデフォルトでLOWになります。
+傾きスイッチが直立していると（閉じていると）、3.3VをGP14に接続し、ピンはHIGH（1）を読み取ります。
 
-**Practical Applications**
+**実践的な応用**
 
-* **Orientation Detection**: Determine if a device is upright or tilted.
-* **Motion-Triggered Events**: Activate alarms, notifications, or actions when movement is detected.
-* **Interactive Projects**: Use as an input to control games or installations that respond to tilting.
+* **向き検出**：デバイスが直立しているか、傾いているかを判定できます。
+* **動き検出によるイベント発生**：動きが検出されたときにアラームや通知、アクションを起動できます。
+* **インタラクティブプロジェクト**：傾きに反応するゲームやインタラクションを制御するための入力として使用できます。
 
-**Experimenting Further**
+**さらに実験してみよう**
 
-* Add an LED Indicator:
+* LEDインジケーターを追加：
 
-Connect an LED to another GPIO pin (e.g., GP15) with a suitable resistor. Modify the code to light up the LED when a tilt is detected.
+別のGPIOピン（例：GP15）にLEDを接続し、適切な抵抗を挟んで、傾きが検出された際にLEDを点灯させるコードを変更しましょう。
 
 .. code-block:: python
 
@@ -182,15 +181,15 @@ Connect an LED to another GPIO pin (e.g., GP15) with a suitable resistor. Modify
     while True:
         if tilt_switch.value() == 1:
             print("Tilt detected!")
-            led.value(1)  # Turn on the LED
+            led.value(1)  # LEDを点灯
             utime.sleep(1)
         else:
-            led.value(0)  # Turn off the LED
+            led.value(0)  # LEDを消灯
 
-* Use with Other Sensors:
+* 他のセンサーとの組み合わせ：
 
-  Combine the tilt switch with other sensors like buttons or light sensors for more complex interactions.
+  傾きスイッチを他のセンサー（例：ボタンや光センサー）と組み合わせて、より複雑なインタラクションを実現しましょう。
 
-**Conclusion**
+**結論**
 
-By incorporating a tilt switch into your Raspberry Pi Pico 2 projects, you can add a new dimension of interactivity based on orientation and movement. Understanding how to read digital inputs from sensors like the tilt switch expands your ability to create dynamic and responsive electronics.
+傾きスイッチをRaspberry Pi Pico 2のプロジェクトに組み込むことで、向きや動きに基づいた新たなインタラクションを追加できます。傾きスイッチのようなデジタル入力センサーを読み取る方法を理解することで、動的で反応的な電子機器を作成する能力が広がります。

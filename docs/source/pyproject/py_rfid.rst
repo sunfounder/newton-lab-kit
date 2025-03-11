@@ -1,59 +1,59 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは、FacebookのSunFounder Raspberry Pi & Arduino & ESP32愛好者コミュニティへようこそ！Raspberry Pi、Arduino、ESP32について、他の愛好者と一緒に深く学びましょう。
 
-    **Why Join?**
+    **参加する理由**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門家のサポート**: 購入後の問題や技術的な課題を、コミュニティやチームのサポートを受けて解決できます。
+    - **学び・共有**: ヒントやチュートリアルを交換して、スキルを向上させましょう。
+    - **限定プレビュー**: 新製品の発表や先行公開情報をいち早く手に入れましょう。
+    - **特別割引**: 新製品に対する特別割引を楽しめます。
+    - **祝祭キャンペーンやプレゼント**: プレゼントキャンペーンやシーズンプロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に探求し、創造的な活動をしてみませんか？[|link_sf_facebook|]をクリックして、今すぐ参加しましょう！
 
 .. _py_rfid:
 
-6.5 Interfacing RFID
+6.5 RFIDインターフェース
 ===========================================
 
-In this lesson, we'll explore how to use **Radio Frequency Identification (RFID)** technology with the Raspberry Pi Pico 2. RFID allows for wireless communication between a reader and tags, which can be used for identification, authentication, and data storage.
+このレッスンでは、 **Radio Frequency Identification (RFID)** 技術をRaspberry Pi Pico 2でどのように使用するかを学びます。RFIDは、リーダーとタグの間で無線通信を可能にし、識別、認証、データの保存に利用できます。
 
-**What You'll Need**
+**必要なもの**
 
-In this project, we need the following components. 
+このプロジェクトには、以下のコンポーネントが必要です。 
 
-It's definitely convenient to buy a whole kit, here's the link: 
+キットを購入するのが便利です。こちらのリンクからご覧いただけます：
 
 .. list-table::
     :widths: 20 20 20
     :header-rows: 1
 
-    *   - Name	
-        - ITEMS IN THIS KIT
-        - LINK
+    *   - 名前	
+        - このキットに含まれるアイテム
+        - リンク
     *   - Newton Lab Kit	
         - 450+
         - |link_newton_lab_kit|
 
-You can also buy them separately from the links below.
 
+また、以下のリンクから個別に購入することもできます。
 
 .. list-table::
     :widths: 5 20 5 20
     :header-rows: 1
 
-    *   - SN
-        - COMPONENT	
-        - QUANTITY
-        - LINK
+    *   - 番号
+        - コンポーネント	
+        - 数量
+        - リンク
 
     *   - 1
         - :ref:`cpn_pico_2`
         - 1
         - |link_pico2_buy|
     *   - 2
-        - Micro USB Cable
+        - Micro USBケーブル
         - 1
         - 
     *   - 3
@@ -62,55 +62,55 @@ You can also buy them separately from the links below.
         - |link_breadboard_buy|
     *   - 4
         - :ref:`cpn_wire`
-        - Several
+        - 複数
         - |link_wires_buy|
     *   - 5
         - :ref:`cpn_mfrc522`
         - 1
         - |link_rfid_buy|
 
-**Understanding RFID**
+**RFIDの理解**
 
-RFID technology uses electromagnetic fields to automatically identify and track tags attached to objects. The tags contain electronically stored information, which can be read from a distance without direct line-of-sight.
+RFID技術は、物体に取り付けられたタグを自動的に識別・追跡するために、電磁場を利用します。タグには電子的に保存された情報が含まれており、視線を合わせることなく遠隔で読み取ることができます。
 
-* **RFID Reader (MFRC522):** A device that emits radio waves to communicate with RFID tags.
-* **RFID Tag:** A small object, such as a card or key fob, that contains a microchip and antenna. It can be passive (no battery) or active (battery-powered).
+* **RFIDリーダー（MFRC522）**: RFIDタグと通信するためにラジオ波を発信するデバイスです。
+* **RFIDタグ**: 小さなカードやキーフォブなどの物で、マイクロチップとアンテナを内蔵しています。パッシブ（バッテリーなし）またはアクティブ（バッテリー駆動）があります。
 
-**Circuit Diagram**
+**回路図**
 
 |sch_rfid|
 
-**Wiring Diagram**
+**配線図**
 
 |wiring_rfid|
 
 
-**Writing the Code**
+**コードの作成**
 
-We'll write two separate scripts:
+以下の2つのスクリプトを作成します：
 
 .. note::
 
-    Here you need to use the libraries in ``mfrc522`` folder, please check if it has been uploaded to Pico, for a detailed tutorial refer to :ref:`add_libraries_py`.
+    ここでは、 ``mfrc522`` フォルダ内のライブラリを使用する必要があります。Picoにアップロードされているか確認し、詳細なチュートリアルについては :ref:`add_libraries_py` を参照してください。
 
-1. Writing Data to an RFID Tag:
+1. RFIDタグへのデータ書き込み：
 
-   * ``SimpleMFRC522`` class from the ``mfrc522`` library simplifies interactions with the RFID reader.
-   * The reader is initialized with the specified SPI pins.
-   * Prompts the user to input data to write.
-   * Instructs the user to place the tag near the reader.
-   * Writes the data to the tag using ``reader.write(data)``.
+   * ``mfrc522`` ライブラリの ``SimpleMFRC522`` クラスを使用して、RFIDリーダーとのやり取りを簡素化します。
+   * リーダーは指定されたSPIピンで初期化されます。
+   * ユーザーに書き込むデータの入力を促します。
+   * ユーザーにタグをリーダーの近くに置くよう指示します。
+   * ``reader.write(data)`` を使用して、データをタグに書き込みます。
 
    .. note::
 
-       Open the ``6.5_rfid_write.py`` file from ``newton-lab-kit/micropython`` or copy this code into Thonny, then click “Run Current Script” or simply press F5 to run it.
+       ``newton-lab-kit/micropython`` から ``6.5_rfid_write.py`` ファイルを開くか、このコードをThonnyにコピーして、「実行」ボタンをクリックするか、F5キーを押して実行します。
 
    .. code-block:: python
 
         from mfrc522 import SimpleMFRC522
         from machine import Pin, SPI
 
-        # Initialize the RFID reader
+        # RFIDリーダーの初期化
         reader = SimpleMFRC522(spi_id=0, sck=18, mosi=19, miso=16, cs=17, rst=9)
 
         def write_to_tag():
@@ -120,49 +120,48 @@ We'll write two separate scripts:
                 reader.write(data)
                 print("Data written successfully!")
             finally:
-                pass  # Cleanup actions if necessary
+                pass  # 必要ならクリーンアップ処理
 
         write_to_tag()
 
-   After running, the following occurs:
-   
-   * The program displays: 
-   
+   実行後、次のようになります：
+
+   * プログラムが次のメッセージを表示します：
+
      .. code-block::
-   
+
        Enter data to write to the tag:"
-   
+
    * You input the text you want to write to the RFID tag and press Enter.
    * The program then shows:
-   
+
      .. code-block::
-       
+
        Place your tag near the reader...
-   
+
    * You place the RFID tag near the reader module.
    * After successfully writing the data, it displays:
-   
+
      .. code-block::
-   
+
        Data written successfully!
 
-2. Reading Data from an RFID Tag:
+2. RFIDタグからのデータ読み取り：
 
-   * Instructs the user to place the tag near the reader.
-   * Reads the tag's ID and stored text using ``reader.read()``.
-   * Prints out the tag's ID and the data read from the tag.
+   * ユーザーにタグをリーダーの近くに置くよう指示します。
+   * ``reader.read()`` を使用して、タグのIDと保存されているテキストを読み取ります。
+   * タグのIDと読み取ったデータを表示します。
 
    .. note::
 
-       Open the ``6.5_rfid_read.py`` file from ``newton-lab-kit/micropython`` or copy this code into Thonny, then click “Run Current Script” or simply press F5 to run it.
-
+       ``newton-lab-kit/micropython`` から ``6.5_rfid_read.py`` ファイルを開くか、このコードをThonnyにコピーして、「実行」ボタンをクリックするか、F5キーを押して実行します。
 
    .. code-block:: python
    
        from mfrc522 import SimpleMFRC522
        from machine import Pin, SPI
    
-       # Initialize the RFID reader
+       # RFIDリーダーの初期化
        reader = SimpleMFRC522(spi_id=0, sck=18, mosi=19, miso=16, cs=17, rst=9)
    
        def read_from_tag():
@@ -172,37 +171,36 @@ We'll write two separate scripts:
                print("Tag ID: {}".format(id))
                print("Data: {}".format(text.strip()))
            finally:
-               pass  # Cleanup actions if necessary
+               pass  # 必要ならクリーンアップ処理
    
        read_from_tag()
-   
-   After running, the program prints the message "Place your tag near the reader...".
-   You need to place an RFID tag near the MFRC522 reader module, then program prints the retrieved information to the console. The output will look something like:
-   
+
+   実行後、プログラムが「タグをリーダーの近くに置いてください...」というメッセージを表示します。 
+   RFIDタグをMFRC522リーダーモジュールに近づけると、プログラムはコンソールに取得した情報を表示します。出力は次のようになります：
+
    .. code-block:: 
-   
+
        Tag ID: 1234567890
        Data: Your stored message
 
-**Understanding the Code**
+**コードの理解**
 
-* **RFID Communication**: The MFRC522 module communicates with the RFID tag using radio waves. When the tag is within range, the reader can read or write data to the tag's memory.
-* **SPI Interface**: The module communicates with the Pico via the SPI protocol, allowing for fast data transfer.
-* **Data Storage**: RFID tags have limited storage capacity, suitable for storing small amounts of data like IDs or short text.
+* **RFID通信**: MFRC522モジュールは、ラジオ波を使用してRFIDタグと通信します。タグが範囲内にあると、リーダーはタグのメモリにデータを読み取ったり書き込んだりできます。
+* **SPIインターフェース**: このモジュールは、SPIプロトコルを介してPicoと通信し、高速なデータ転送を可能にします。
+* **データ保存**: RFIDタグには限られた容量の保存領域があり、IDや短いテキストなどの小さなデータの保存に適しています。
 
-**Applications**
+**用途**
 
-* **Access Control Systems**: Use RFID tags as keys to unlock doors or devices.
-* **Inventory Management**: Track items in a warehouse or store by tagging them with RFID tags.
-* **Attendance Systems**: Record attendance by scanning RFID tags assigned to individuals.
+* **アクセス制御システム**: RFIDタグをキーとして、ドアやデバイスのロックを解除します。
+* **在庫管理**: RFIDタグを使って、倉庫や店舗でのアイテムの追跡を行います。
+* **出席管理システム**: RFIDタグを使って、個人の出席を記録します。
 
-**Experimenting Further**
+**さらなる実験**
 
-* **Multiple Tags**: Try writing different data to multiple tags and reading them back.
-* **Security Measures**: Implement basic authentication to prevent unauthorized access.
-* **Data Formatting**: Store structured data, such as JSON or CSV, for more complex applications.
+* **複数タグ**: 複数のタグに異なるデータを書き込み、それを読み取ってみましょう。
+* **セキュリティ対策**: 不正アクセスを防ぐための基本的な認証を実装しましょう。
+* **データフォーマット**: JSONやCSVなど、より複雑なアプリケーションのために構造化データを保存しましょう。
 
-**Conclusion**
+**結論**
 
-In this lesson, you've learned how to interface an RFID reader with the Raspberry Pi Pico 2 to read and write data to RFID tags. This technology opens up possibilities for numerous applications in identification, tracking, and automation.
-
+このレッスンでは、Raspberry Pi Pico 2とRFIDリーダーを接続し、RFIDタグにデータを読み書きする方法を学びました。この技術は、識別、追跡、そして自動化におけるさまざまな用途に広がりを見せています。
